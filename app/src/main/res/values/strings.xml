@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">TFG</string>
+    <string name="book_cover">Portada del libro </string>
+    <string name="notifications">Notificaciones</string>
+    <string name="home_recommended_books">Libros Recomendados</string>
+    <string name="home_reading_books">Continuar Leyendo</string>
+    <string name="home_imageDescNoBooks">Imagen sin libros inicio</string>
+    <string name="home_no_books">No estas leyendo ningún libro ahora mismo \n ¡Añade algún libro a tu lista!</string>
+    <string name="home_search_books">Buscar Libros</string>
+    <string name="search_placeholder_imput">Busca tu libro</string>
+    <string name="search_filters_filterFor">Filtrar por género:</string>
+    <string name="search_filters_button_tittle">Título</string>
+    <string name="search_filters_button_author">Autor</string>
+    <string name="search_filters_button_list">Listas</string>
+    <string name="search_filters_pagesFilter">Número de páginas:</string>
+    <string name="search_filters_placeholder_min_pages">Min Pags</string>
+    <string name="search_filters_placeholder_max_pages">Max Pags</string>
+    <string name="search_filters_orederBy">Ordenar por:</string>
+    <string name="friends_search_placeholder_imput">Buscar usuarios</string>
+    <string name="back_arrow">Flecha de retorno</string>
+    <string name="read_less">Leer menos</string>
+    <string name="read_more">Leer más</string>
+    <string name="profile_joined">"Se unió en "</string>
+    <string name="profile_edit_button">Editar</string>
+    <string name="profile_rating_text">Valoraciones</string>
+    <string name="profile_review_text">Reseñas</string>
+    <string name="profile_following_text">Siguiendo</string>
+    <string name="profile_followers_text">Seguidores</string>
+    <string name="profile_default_lists">Listas por defecto</string>
+    <string name="profile_own_lists">Mis listas</string>
+    <string-array name="list_of_search_for">
+        <item>Título</item>
+        <item>Autor</item>
+        <item>Listas</item>
+    </string-array>
+    <string-array name="list_of_subjects">
+        <item>Todos</item>
+        <item>Fantasía</item>
+        <item>Romance</item>
+        <item>Misterio</item>
+        <item>Ciencia Ficción</item>
+        <item>Terror</item>
+        <item>Cine</item>
+        <item>Arte</item>
+    </string-array>
+    <string-array name="list_of_order_by">
+        <item>Titulo</item>
+        <item>Valoraciones</item>
+        <item>Autor</item>
+        <item>Fecha</item>
+        <item>Número de páginas</item>
+    </string-array>
+    <string-array name="list_of_lists_tabs">
+        <item>Mis Listas</item>
+        <item>Listas por defecto</item>
+    </string-array>
+    <string-array name="list_of_default_lists">
+        <item>Leyendo</item>
+        <item>Leídos</item>
+        <item>En espera</item>
+        <item>Abandonados</item>
+        <item>En plan para leer</item>
+    </string-array>
+</resources>
