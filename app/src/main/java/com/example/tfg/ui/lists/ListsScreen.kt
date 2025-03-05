@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.tfg.ui.lists.components.searchBarListScreen
+import com.example.tfg.ui.lists.components.tabsLists
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
@@ -18,7 +19,7 @@ fun listScreen(navController: NavHostController){
         Scaffold() { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 searchBarListScreen()
-                //tabsLists(navController)
+                tabsLists(navController)
             }
         }
     }

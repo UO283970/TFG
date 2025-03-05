@@ -38,7 +38,7 @@ fun homeScreen(navController: NavHostController) {
                 HorizontalDivider(thickness = 1.dp)
                 Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
                     basicButton("Todo")
-                    Column() {
+                    Column {
                         booksCarousel(stringResource(id = R.string.home_recommended_books), items, Modifier.weight(1f))
                         noBooksMainScreen(Modifier.weight(1f).fillMaxWidth(),navController)
                     }

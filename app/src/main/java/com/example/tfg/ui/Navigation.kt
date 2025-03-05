@@ -19,12 +19,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.navigation
 import com.example.tfg.ui.friends.friendsScreen
 import com.example.tfg.ui.home.homeScreen
+import com.example.tfg.ui.lists.ListNavigationItems
+import com.example.tfg.ui.lists.listDetails.ListDetails
 import com.example.tfg.ui.lists.listScreen
 import com.example.tfg.ui.profile.profileScreen
 import com.example.tfg.ui.search.searchScreen
@@ -57,11 +63,21 @@ fun mainAppNavigation(navController: NavHostController) {
         composable(Routes.FriendsScreen.route) {
             friendsScreen()
         }
-        composable(Routes.ListsScreen.route) {
-            listScreen(navController)
-        }
+        loginGraph(navController)
         composable(Routes.Profile.route) {
             profileScreen()
+        }
+    }
+}
+
+fun NavGraphBuilder.loginGraph(navController: NavHostController) {
+    navigation(startDestination = ListNavigationItems.ListsScreen.route, route = Routes.ListsScreen.route) {
+        composable(ListNavigationItems.ListsScreen.route) {
+            listScreen(navController)
+        }
+        composable(ListNavigationItems.ListDetails.route + "/{tittle}") {
+            val tittle: String? = navController.currentBackStackEntry?.arguments?.getString("tittle")
+            ListDetails(navController, tittle)
         }
     }
 }
@@ -81,22 +97,18 @@ fun MyComponents(navController: NavHostController) {
             NavigationBar(
 
             ) {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
+
                 items.forEachIndexed { index, screen ->
                     NavigationBarItem(
                         icon = {
                             Icon(imageVector = screen.icon, contentDescription = null)
                         },
-                        selected = index == selectedIndex,
+                        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
                             selectedIndex = index
-                            navController.navigate(screen.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    //saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-
-                            }
+                            navController.switchTabs(screen.route)
                         }
                     )
                 }
@@ -106,5 +118,23 @@ fun MyComponents(navController: NavHostController) {
         Box (modifier = Modifier.padding(innerPadding)){
             mainAppNavigation(navController)
         }
+    }
+}
+
+fun NavHostController.switchTabs(route: String) {
+    navigate(route) {
+        // Pop up to the start destination of the graph to
+        // avoid building up a large stack of destinations
+        // on the back stack as users select items
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+        }
+
+        // Avoid multiple copies of the same destination when
+        // reselecting the same item
+        launchSingleTop = true
+
+        // Restore state when reselecting a previously selected item
+        restoreState = true
     }
 }

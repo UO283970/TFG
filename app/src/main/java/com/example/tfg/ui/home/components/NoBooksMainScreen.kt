@@ -26,6 +26,7 @@ import androidx.navigation.NavHostController
 import com.example.tfg.R
 import com.example.tfg.ui.Routes
 import com.example.tfg.ui.common.tittleBigText
+import com.example.tfg.ui.switchTabs
 
 @Composable
 fun noBooksMainScreen(modifier: Modifier, navController: NavHostController) {
@@ -50,7 +51,7 @@ fun noBooksMainScreen(modifier: Modifier, navController: NavHostController) {
                 fontWeight = FontWeight.Bold
             )
             OutlinedButton(onClick = {
-                navController.navigate(Routes.SearchScreen.route)
+                navController.switchTabs(Routes.SearchScreen.route)
             }) {
                 Icon(Icons.Outlined.Search, contentDescription = "", tint = MaterialTheme.colorScheme.onBackground)
                 Text(
