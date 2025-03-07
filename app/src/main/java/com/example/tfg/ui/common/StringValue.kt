@@ -1,4 +1,4 @@
-package com.example.tfg
+package com.example.tfg.ui.common
 
 import android.content.Context
 import androidx.annotation.StringRes

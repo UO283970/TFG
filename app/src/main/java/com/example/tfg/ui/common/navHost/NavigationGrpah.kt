@@ -13,7 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.tfg.StringResourcesProvider
+import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.friends.friendsScreen
 import com.example.tfg.ui.home.homeScreen
 import com.example.tfg.ui.lists.ListNavigationItems

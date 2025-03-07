@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.tfg.R
-import com.example.tfg.StringResourcesProvider
+import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.LoginRoutesItems
 import com.example.tfg.ui.common.navHost.Routes
 

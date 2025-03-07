@@ -16,7 +16,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.tfg.StringResourcesProvider
+import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.common.navHost.mainAppNavigation
 
