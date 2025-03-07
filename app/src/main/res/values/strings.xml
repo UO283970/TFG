@@ -28,6 +28,22 @@
     <string name="profile_followers_text">Seguidores</string>
     <string name="profile_default_lists">Listas por defecto</string>
     <string name="profile_own_lists">Mis listas</string>
+    <string name="login_user_placeholder">Email o nombre de usuario</string>
+    <string name="text_field_delete">Botón para borrar todo</string>
+    <string name="login_pass_placeholder">Contraseña</string>
+    <string name="login_welcome">Bienvenido/a</string>
+    <string name="login_button">Iniciar Sesión</string>
+    <string name="new_user_question">¿Usuario nuevo?</string>
+    <string name="regiter_here_button">Regístrate aquí</string>
+    <string name="login_register">Crea tu cuenta</string>
+    <string name="new_already_registered">¿Ya registrado?</string>
+    <string name="login_here_button">Inicia sesión aquí</string>
+    <string name="register_user_name_placeholder">Nombre de usuario</string>
+    <string name="register_user_email_placeholder">Email</string>
+    <string name="register_button">Registrarse</string>
+    <string name="error_email_empty">El email no puede estar vacío</string>
+    <string name="error_email_not_email">Este email no es valido</string>
+    <string name="error_password_empty">La contraseña no puede estar vacía</string>
     <string-array name="list_of_search_for">
         <item>Título</item>
         <item>Autor</item>

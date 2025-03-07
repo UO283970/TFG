@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.tfg.R
-import com.example.tfg.ui.Routes
+import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.common.tittleBigText
 import com.example.tfg.ui.switchTabs
 

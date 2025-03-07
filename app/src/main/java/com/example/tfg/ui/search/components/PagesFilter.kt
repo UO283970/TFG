@@ -33,9 +33,11 @@ fun pagesFilter() {
             label = { Text(stringResource(id = R.string.search_filters_placeholder_min_pages)) },
             singleLine = true,
             trailingIcon = {
-                IconButton(onClick = { minPags = "" }
-                ) {
-                    Icon(Icons.Default.Clear, contentDescription = "")
+                if (minPags != ""){
+                    IconButton(onClick = { minPags = "" }
+                    ) {
+                        Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.text_field_delete))
+                    }
                 }
             }
         )
@@ -46,8 +48,11 @@ fun pagesFilter() {
             label = { Text(stringResource(id = R.string.search_filters_placeholder_max_pages)) },
             singleLine = true,
             trailingIcon = {
-                IconButton(onClick = { maxPags = "" }) {
-                    Icon(Icons.Default.Clear, contentDescription = "")
+                if (maxPags != ""){
+                    IconButton(onClick = { maxPags = "" }
+                    ) {
+                        Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.text_field_delete))
+                    }
                 }
             }
         )
