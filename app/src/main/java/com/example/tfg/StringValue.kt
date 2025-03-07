@@ -9,4 +9,8 @@ class StringResourcesProvider(
     fun getString(@StringRes stringResId: Int): String {
         return context.getString(stringResId)
     }
+
+    fun getStringWithParameters(@StringRes stringResId: Int, vararg args: Any): String {
+        return context.getString(stringResId,*args)
+    }
 }

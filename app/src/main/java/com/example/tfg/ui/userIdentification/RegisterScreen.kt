@@ -1,4 +1,4 @@
-package com.example.tfg.ui.login
+package com.example.tfg.ui.userIdentification
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,26 +10,20 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.tfg.R
-import com.example.tfg.ui.common.navHost.LoginRoutesItems
-import com.example.tfg.ui.login.components.loginMainText
-import com.example.tfg.ui.login.components.passwordTextField
-import com.example.tfg.ui.login.components.textFieldUserEmail
 import com.example.tfg.ui.theme.TFGTheme
+import com.example.tfg.ui.userIdentification.components.loginMainText
+import com.example.tfg.ui.userIdentification.components.passwordRegisterTextField
+import com.example.tfg.ui.userIdentification.components.passwordRepeatRegisterTextField
+import com.example.tfg.ui.userIdentification.components.textFieldUserEmail
+import com.example.tfg.ui.userIdentification.components.textFieldUserName
 
 @Composable
-fun loginScreen(navController: NavHostController, loginViewModel: LoginViewModel) {
-    var checkErrors by remember { mutableStateOf(false) }
-
+fun registerScreen(registerViewModel: RegisterViewModel) {
     TFGTheme(dynamicColor = false) {
         Scaffold { innerPadding ->
             Column(
@@ -37,32 +31,28 @@ fun loginScreen(navController: NavHostController, loginViewModel: LoginViewModel
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                loginMainText(stringResource(R.string.login_welcome))
+                loginMainText(stringResource(R.string.login_register))
                 Column(
                     Modifier.padding(start = 10.dp, end = 10.dp),
                     verticalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
-                    textFieldUserEmail(loginViewModel)
-                    passwordTextField(loginViewModel)
+                    textFieldUserName(registerViewModel)
+                    textFieldUserEmail(registerViewModel)
+                    passwordRegisterTextField(registerViewModel)
+                    passwordRepeatRegisterTextField(registerViewModel)
                     Column(
                         verticalArrangement = Arrangement.spacedBy(5.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Button(
-                            onClick = {
-                                      loginViewModel.onEvent(MainEvent.Submit)
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(stringResource(R.string.login_button))
-                        }
+                        registerButton(registerViewModel)
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(2.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(stringResource(R.string.new_user_question))
-                            Text(stringResource(R.string.regiter_here_button),
-                                Modifier.clickable { navController.navigate(LoginRoutesItems.RegisterScreen.route) })
+                            Text(stringResource(R.string.new_already_registered))
+                            Text(
+                                stringResource(R.string.login_here_button),
+                                Modifier.clickable { registerViewModel.onEvent(RegisterMainEvent.NavigateToLogin) })
                         }
                     }
 
@@ -71,3 +61,11 @@ fun loginScreen(navController: NavHostController, loginViewModel: LoginViewModel
         }
     }
 }
+
+@Composable
+fun registerButton(registerViewModel: RegisterViewModel) {
+    Button(onClick = { registerViewModel.onEvent(RegisterMainEvent.Submit) }, modifier = Modifier.fillMaxWidth()) {
+        Text(stringResource(R.string.register_button))
+    }
+}
+

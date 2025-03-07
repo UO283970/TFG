@@ -19,11 +19,12 @@ import com.example.tfg.ui.home.homeScreen
 import com.example.tfg.ui.lists.ListNavigationItems
 import com.example.tfg.ui.lists.listDetails.ListDetails
 import com.example.tfg.ui.lists.listScreen
-import com.example.tfg.ui.login.LoginViewModel
-import com.example.tfg.ui.login.loginScreen
-import com.example.tfg.ui.login.registerScreen
 import com.example.tfg.ui.profile.profileScreen
 import com.example.tfg.ui.search.searchScreen
+import com.example.tfg.ui.userIdentification.LoginViewModel
+import com.example.tfg.ui.userIdentification.RegisterViewModel
+import com.example.tfg.ui.userIdentification.loginScreen
+import com.example.tfg.ui.userIdentification.registerScreen
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
@@ -72,10 +73,10 @@ fun NavGraphBuilder.loginGraph(navController: NavHostController, stringResources
 
     navigation(startDestination = startDestination, route = LoginRoutesItems.LoginNav.route) {
         composable(LoginRoutesItems.LoginScreen.route) {
-            loginScreen(navController,LoginViewModel(navController,stringResourcesProvider))
+            loginScreen(LoginViewModel(navController,stringResourcesProvider))
         }
         composable(LoginRoutesItems.RegisterScreen.route) {
-            registerScreen(navController,LoginViewModel(navController,stringResourcesProvider))
+            registerScreen(RegisterViewModel(navController,stringResourcesProvider))
         }
         composable(Routes.Home.route) {
             homeScreen(navController)

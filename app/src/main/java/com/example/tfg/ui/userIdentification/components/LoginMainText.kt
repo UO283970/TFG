@@ -1,4 +1,4 @@
-package com.example.tfg.ui.login.components
+package com.example.tfg.ui.userIdentification.components
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

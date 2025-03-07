@@ -1,4 +1,4 @@
-package com.example.tfg.ui.login
+package com.example.tfg.ui.userIdentification
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,16 +7,18 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.tfg.R
 import com.example.tfg.StringResourcesProvider
+import com.example.tfg.ui.common.navHost.LoginRoutesItems
 import com.example.tfg.ui.common.navHost.Routes
 
-sealed class MainEvent {
-    data class EmailChanged(val email: String) : MainEvent()
-    data class PasswordChanged(val password: String) : MainEvent()
-    data class VisiblePassword(val isVisiblePassword: Boolean) : MainEvent()
-    object Submit : MainEvent()
+sealed class LoginMainEvent {
+    data class EmailChanged(val email: String) : LoginMainEvent()
+    data class PasswordChanged(val password: String) : LoginMainEvent()
+    data class VisiblePassword(val isVisiblePassword: Boolean) : LoginMainEvent()
+    object Submit : LoginMainEvent()
+    object NavigateToRegister : LoginMainEvent()
 }
 
-data class MainState(
+data class LoginMainState(
     var email: String = "",
     var emailError: String? = null,
     var password: String = "",
@@ -29,25 +31,28 @@ class LoginViewModel(
     private val stringResourcesProvider: StringResourcesProvider
 ) : ViewModel() {
 
-    var formState by mutableStateOf(MainState())
+    var formState by mutableStateOf(LoginMainState())
 
-    fun onEvent(event: MainEvent) {
+    fun onEvent(event: LoginMainEvent) {
         when (event) {
-            is MainEvent.EmailChanged -> {
+            is LoginMainEvent.NavigateToRegister -> {
+                navController.navigate(LoginRoutesItems.RegisterScreen.route)
+            }
+            is LoginMainEvent.EmailChanged -> {
                 formState = formState.copy(email = event.email)
             }
 
-            is MainEvent.PasswordChanged -> {
+            is LoginMainEvent.PasswordChanged -> {
                 formState = formState.copy(password = event.password)
             }
 
-            is MainEvent.VisiblePassword -> {
+            is LoginMainEvent.VisiblePassword -> {
                 formState = formState.copy(isVisiblePassword = event.isVisiblePassword)
             }
 
-            is MainEvent.Submit -> {
-                var correctEmail = validateEmail()
-                var correctUser = validatePasswordAndUsers()
+            is LoginMainEvent.Submit -> {
+                val correctEmail = validateEmail()
+                val correctUser = validatePasswordAndUsers()
                 if (correctEmail && correctUser) {
                     navController.navigate(Routes.Home.route)
                 }
@@ -57,10 +62,11 @@ class LoginViewModel(
 
     private fun validatePasswordAndUsers(): Boolean {
         if (formState.password.isBlank()) {
-            formState = formState.copy(password = stringResourcesProvider.getString(R.string.error_password_empty))
+            formState = formState.copy(passwordError = stringResourcesProvider.getString(R.string.error_password_empty))
             return false
         }
 
+        formState = formState.copy(passwordError = null)
         return true
     }
 
@@ -76,6 +82,8 @@ class LoginViewModel(
             return false
         }
 
+
+        formState = formState.copy(emailError = null)
         return true
     }
 
