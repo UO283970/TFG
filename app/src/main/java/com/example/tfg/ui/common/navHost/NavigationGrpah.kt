@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.friends.friendsScreen
+import com.example.tfg.ui.home.HomeViewModel
 import com.example.tfg.ui.home.homeScreen
 import com.example.tfg.ui.lists.ListNavigationItems
 import com.example.tfg.ui.lists.listDetails.ListDetails
@@ -79,7 +80,7 @@ fun NavGraphBuilder.loginGraph(navController: NavHostController, stringResources
             registerScreen(RegisterViewModel(navController,stringResourcesProvider))
         }
         composable(Routes.Home.route) {
-            homeScreen(navController)
+            homeScreen(HomeViewModel(navController))
         }
 
     }

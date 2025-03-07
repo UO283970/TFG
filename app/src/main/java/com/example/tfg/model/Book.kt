@@ -1,10 +1,9 @@
 package com.example.tfg.model
 
-import androidx.compose.ui.graphics.painter.Painter
 import java.time.LocalDate
 
 class Book(
-    tittle: String, author: String, var coverImage: Painter, var publicationDate: LocalDate = LocalDate.MIN, pages: Int = 0,
+    tittle: String, author: String, var coverImage: Int, var publicationDate: LocalDate = LocalDate.MIN, pages: Int = 0,
     meanScore: Double = -1.0, userScore: Int = -1, var subjects: List<String> = arrayListOf(),
     var details: String = ""
 ) {

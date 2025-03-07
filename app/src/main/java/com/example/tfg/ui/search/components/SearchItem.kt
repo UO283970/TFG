@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
@@ -37,7 +38,7 @@ fun searchItem(book: Book) {
 
             Row(modifier = Modifier.padding(start = 20.dp, bottom = 10.dp)) {
                 Image(
-                    book.coverImage,
+                    painterResource(book.coverImage),
                     contentDescription = stringResource(id = R.string.home_imageDescNoBooks),
                     modifier = Modifier
                         .clip(RoundedCornerShape(10.dp))

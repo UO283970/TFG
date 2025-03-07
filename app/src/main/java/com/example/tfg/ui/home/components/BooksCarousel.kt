@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,7 +42,8 @@ fun booksCarousel(mainTittle: String, bookList: List<Book>, modifier: Modifier) 
         Row(
             modifier = Modifier
                 .horizontalScroll(rememberScrollState())
-                .padding(top = 5.dp).wrapContentSize(),
+                .padding(top = 5.dp)
+                .wrapContentSize(),
             horizontalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             for (book in bookList) {
@@ -72,10 +74,11 @@ fun bookMainItems(book: Book) {
             .padding(bottom = 10.dp)
     ) {
         Image(
-            book.coverImage,
+            painterResource(book.coverImage),
             contentDescription = stringResource(R.string.book_cover) + book.tittle,
             modifier = Modifier
-                .clip(RoundedCornerShape(15.dp)).weight(1f)
+                .clip(RoundedCornerShape(15.dp))
+                .weight(1f)
                 .width(130.dp),
             contentScale = ContentScale.FillBounds
         )

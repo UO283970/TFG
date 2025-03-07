@@ -33,16 +33,81 @@ import java.time.LocalDate
 @Composable
 fun listDetailsItemList() {
     Column(
-        Modifier.verticalScroll(rememberScrollState()).padding(top = 10.dp),
+        Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(top = 10.dp),
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        listDetailsItem(Book("Words of Radiance", "Brandon Sanderson", painterResource(R.drawable.prueba), LocalDate.ofYearDay(2017, 15), 986, userScore = 9))
-        listDetailsItem(Book("Words of Radiance", "Brandon Sanderson", painterResource(R.drawable.prueba), LocalDate.ofYearDay(2017, 15), 986, userScore = 8))
-        listDetailsItem(Book("Words of Radiance", "Brandon Sanderson", painterResource(R.drawable.prueba), LocalDate.ofYearDay(2017, 15), 986, userScore = 7))
-        listDetailsItem(Book("Words of Radiance", "Brandon Sanderson", painterResource(R.drawable.prueba), LocalDate.ofYearDay(2017, 15), 986, userScore = 6))
-        listDetailsItem(Book("Words of Radiance", "Brandon Sanderson", painterResource(R.drawable.prueba), LocalDate.ofYearDay(2017, 15), 986, userScore = 9))
-        listDetailsItem(Book("Words of Radiance", "Brandon Sanderson", painterResource(R.drawable.prueba), LocalDate.ofYearDay(2017, 15), 986, userScore = 4))
-        listDetailsItem(Book("Words of Radiance", "Brandon Sanderson", painterResource(R.drawable.prueba), LocalDate.ofYearDay(2017, 15), 986, userScore = 5))
+        listDetailsItem(
+            Book(
+                "Words of Radiance",
+                "Brandon Sanderson",
+                R.drawable.prueba,
+                LocalDate.ofYearDay(2017, 15),
+                986,
+                userScore = 9
+            )
+        )
+        listDetailsItem(
+            Book(
+                "Words of Radiance",
+                "Brandon Sanderson",
+                R.drawable.prueba,
+                LocalDate.ofYearDay(2017, 15),
+                986,
+                userScore = 8
+            )
+        )
+        listDetailsItem(
+            Book(
+                "Words of Radiance",
+                "Brandon Sanderson",
+                R.drawable.prueba,
+                LocalDate.ofYearDay(2017, 15),
+                986,
+                userScore = 7
+            )
+        )
+        listDetailsItem(
+            Book(
+                "Words of Radiance",
+                "Brandon Sanderson",
+                R.drawable.prueba,
+                LocalDate.ofYearDay(2017, 15),
+                986,
+                userScore = 6
+            )
+        )
+        listDetailsItem(
+            Book(
+                "Words of Radiance",
+                "Brandon Sanderson",
+                R.drawable.prueba,
+                LocalDate.ofYearDay(2017, 15),
+                986,
+                userScore = 9
+            )
+        )
+        listDetailsItem(
+            Book(
+                "Words of Radiance",
+                "Brandon Sanderson",
+                R.drawable.prueba,
+                LocalDate.ofYearDay(2017, 15),
+                986,
+                userScore = 4
+            )
+        )
+        listDetailsItem(
+            Book(
+                "Words of Radiance",
+                "Brandon Sanderson",
+                R.drawable.prueba,
+                LocalDate.ofYearDay(2017, 15),
+                986,
+                userScore = 5
+            )
+        )
     }
 }
 
