@@ -21,6 +21,7 @@ import com.example.tfg.ui.lists.ListNavigationItems
 import com.example.tfg.ui.lists.listDetails.ListDetails
 import com.example.tfg.ui.lists.listScreen
 import com.example.tfg.ui.profile.profileScreen
+import com.example.tfg.ui.search.SearchViewModel
 import com.example.tfg.ui.search.searchScreen
 import com.example.tfg.ui.userIdentification.LoginViewModel
 import com.example.tfg.ui.userIdentification.RegisterViewModel
@@ -50,11 +51,11 @@ sealed class LoginRoutesItems(val route: String) {
 fun mainAppNavigation(navController: NavHostController, stringResourcesProvider: StringResourcesProvider) {
     NavHost(
         navController = navController,
-        startDestination = LoginRoutesItems.LoginNav.route
+        startDestination = /*LoginRoutesItems.LoginNav.route*/Routes.SearchScreen.route
     ) {
         loginGraph(navController,stringResourcesProvider)
         composable(Routes.SearchScreen.route) {
-            searchScreen()
+            searchScreen(SearchViewModel())
         }
         composable(Routes.FriendsScreen.route) {
             friendsScreen()

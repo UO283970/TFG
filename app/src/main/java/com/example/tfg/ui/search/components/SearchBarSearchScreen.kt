@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -24,22 +23,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import com.example.tfg.R
+import com.example.tfg.ui.search.SearchScreenEvent
+import com.example.tfg.ui.search.SearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun searchBarSearchScreen(onClick: () -> Unit) {
-    var text by remember { mutableStateOf("") }
+fun searchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
     var expanded by rememberSaveable {
         mutableStateOf(false)
     }
+
     SearchBar(
         modifier = Modifier
             .semantics { traversalIndex = 0f }
             .fillMaxWidth(),
         inputField = {
             SearchBarDefaults.InputField(
-                onSearch = { expanded = false },
-                expanded = expanded,
+                onSearch = { viewModel.onEvent(SearchScreenEvent.GetResultsFromQuery) },
+                expanded = viewModel.searchInfo.expandedSearchBar,
                 onExpandedChange = { expanded = it },
                 placeholder = { Text(stringResource(id = R.string.search_placeholder_imput)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
@@ -48,8 +49,8 @@ fun searchBarSearchScreen(onClick: () -> Unit) {
                         Icon(Icons.Default.MoreVert, contentDescription = "")
                     }
                 },
-                query = text,
-                onQueryChange = { text = it }
+                query = viewModel.searchInfo.userQuery,
+                onQueryChange = {viewModel.onEvent(SearchScreenEvent.UserQueryChange(it))  }
             )
         },
         expanded = false,

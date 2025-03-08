@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.tfg.R
 import com.example.tfg.model.Book
+import java.time.LocalDate
 
 sealed class SearchScreenEvent {
     data class UserQueryChange(val userQuery: String) : SearchScreenEvent()
@@ -14,7 +15,8 @@ sealed class SearchScreenEvent {
 
 data class SearchMainState(
     var userQuery: String = "",
-    var queryResult: List<Book> = emptyList()
+    var queryResult: List<Book> = emptyList(),
+    var expandedSearchBar: Boolean = false
 
 )
 
@@ -33,10 +35,10 @@ class SearchViewModel : ViewModel() {
 
     private fun getResultsFromQuery() {
         val items = listOf(
-            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba),
-            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba),
-            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba),
-            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba)
+            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba, pages = 789, publicationDate = LocalDate.ofYearDay(2017,12)),
+            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba, pages = 789, publicationDate = LocalDate.ofYearDay(2017,12)),
+            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba, pages = 789, publicationDate = LocalDate.ofYearDay(2017,12)),
+            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba, pages = 789, publicationDate = LocalDate.ofYearDay(2017,12)),
         )
 
 //        TODO:Se ejecuta la query con los parámetros correspondientes

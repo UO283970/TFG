@@ -48,6 +48,7 @@
     <string name="error_passwordRepeat">Las contraseñas no coinciden</string>
     <string name="error_password_length">La contraseña tiene que tener mas de %d caracteres</string>
     <string name="error_password_rules">La contraseña debe contener letras mayúsculas, minúsculas, números y un caracter especial</string>
+    <string name="search_start_message">Busca los libros más te gustan\nTu género favorito o tu autor preferido</string>
     <string-array name="list_of_search_for">
         <item>Título</item>
         <item>Autor</item>
