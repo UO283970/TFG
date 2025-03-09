@@ -57,6 +57,7 @@
     <string name="user_follow_not_follow">Seguir</string>
     <string name="user_follow_requested">Erforderlich</string>
     <string name="user_follow_own">Editar</string>
+    <string name="list_search_placeholder_imput">Busca tu lista</string>
     <string-array name="list_of_search_for">
         <item>Título</item>
         <item>Autor</item>

@@ -26,7 +26,7 @@ fun profileScreen() {
             Column(Modifier.padding(innerPadding).verticalScroll(rememberScrollState())) {
                 Column(Modifier.padding(start = 10.dp, top = 10.dp, end = 5.dp)) {
                     mainUserProfileInfo()
-                    descText(3)
+                    descText(3,"")
                     editButton()
                     statistics()
                     profileLists()

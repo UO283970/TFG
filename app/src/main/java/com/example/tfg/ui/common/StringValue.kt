@@ -1,6 +1,7 @@
 package com.example.tfg.ui.common
 
 import android.content.Context
+import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 
 class StringResourcesProvider(
@@ -12,5 +13,9 @@ class StringResourcesProvider(
 
     fun getStringWithParameters(@StringRes stringResId: Int, vararg args: Any): String {
         return context.getString(stringResId,*args)
+    }
+
+    fun getStringArray(@ArrayRes stringArrayId: Int): List<String> {
+        return context.resources.getStringArray(stringArrayId).asList()
     }
 }

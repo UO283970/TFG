@@ -12,44 +12,33 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import com.example.tfg.R
+import com.example.tfg.ui.lists.listDetails.ListDetailsScreenEvent
+import com.example.tfg.ui.lists.listDetails.ListDetailsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun searchBarListDetailsScreen() {
-    var text by remember { mutableStateOf("") }
-    var expanded by rememberSaveable {
-        mutableStateOf(false)
-    }
+fun searchBarListDetailsScreen(viewModel: ListDetailsViewModel) {
     SearchBar(
         modifier = Modifier
             .semantics { traversalIndex = 0f }
             .fillMaxWidth(),
         inputField = {
             SearchBarDefaults.InputField(
-                onSearch = { expanded = false },
-                expanded = expanded,
-                onExpandedChange = { expanded = it },
+                onSearch = { },
+                expanded = false,
+                onExpandedChange = { },
                 placeholder = { Text(stringResource(id = R.string.search_placeholder_imput)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
-                query = text,
-                onQueryChange = { text = it }
+                query = viewModel.listDetailsInfo.userQuery,
+                onQueryChange = { viewModel.onEvent(ListDetailsScreenEvent.UserQueryChange(it)) }
             )
         },
         expanded = false,
-        onExpandedChange = { expanded = it },
-    ) {
-        Column(Modifier.verticalScroll(rememberScrollState())) {
-
-        }
-    }
+        onExpandedChange = { },
+    ) {}
 }

@@ -1,4 +1,4 @@
-package com.example.tfg.ui.lists.listDetails
+package com.example.tfg.ui.lists.listDetails.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,86 +28,18 @@ import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.ui.common.bigTittleText
 import com.example.tfg.ui.common.smallTittleText
-import java.time.LocalDate
 
 @Composable
-fun listDetailsItemList() {
+fun listDetailsItemList(books: ArrayList<Book>) {
     Column(
         Modifier
             .verticalScroll(rememberScrollState())
             .padding(top = 10.dp),
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        listDetailsItem(
-            Book(
-                "Words of Radiance",
-                "Brandon Sanderson",
-                R.drawable.prueba,
-                LocalDate.ofYearDay(2017, 15),
-                986,
-                userScore = 9
-            )
-        )
-        listDetailsItem(
-            Book(
-                "Words of Radiance",
-                "Brandon Sanderson",
-                R.drawable.prueba,
-                LocalDate.ofYearDay(2017, 15),
-                986,
-                userScore = 8
-            )
-        )
-        listDetailsItem(
-            Book(
-                "Words of Radiance",
-                "Brandon Sanderson",
-                R.drawable.prueba,
-                LocalDate.ofYearDay(2017, 15),
-                986,
-                userScore = 7
-            )
-        )
-        listDetailsItem(
-            Book(
-                "Words of Radiance",
-                "Brandon Sanderson",
-                R.drawable.prueba,
-                LocalDate.ofYearDay(2017, 15),
-                986,
-                userScore = 6
-            )
-        )
-        listDetailsItem(
-            Book(
-                "Words of Radiance",
-                "Brandon Sanderson",
-                R.drawable.prueba,
-                LocalDate.ofYearDay(2017, 15),
-                986,
-                userScore = 9
-            )
-        )
-        listDetailsItem(
-            Book(
-                "Words of Radiance",
-                "Brandon Sanderson",
-                R.drawable.prueba,
-                LocalDate.ofYearDay(2017, 15),
-                986,
-                userScore = 4
-            )
-        )
-        listDetailsItem(
-            Book(
-                "Words of Radiance",
-                "Brandon Sanderson",
-                R.drawable.prueba,
-                LocalDate.ofYearDay(2017, 15),
-                986,
-                userScore = 5
-            )
-        )
+        for(book in books){
+            listDetailsItem(book)
+        }
     }
 }
 
@@ -127,7 +59,7 @@ fun listDetailsItem(book: Book) {
             Row(modifier = Modifier.padding(start = 20.dp, bottom = 10.dp)) {
                 Box(contentAlignment = Alignment.TopEnd) {
                     Image(
-                        painterResource(R.drawable.prueba),
+                        painterResource(book.coverImage),
                         contentDescription = stringResource(id = R.string.home_imageDescNoBooks),
                         modifier = Modifier
                             .clip(RoundedCornerShape(10.dp))
@@ -152,7 +84,7 @@ fun listDetailsItem(book: Book) {
                     bigTittleText(book.tittle)
                     Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
                         smallTittleText(book.publicationDate.year.toString())
-                        smallTittleText(book.pages.toString() + "pg")
+                        smallTittleText(if (book.pages != 0) book.pages.toString() + "pg" else "-pg")
                     }
                     bigTittleText(book.author)
                 }

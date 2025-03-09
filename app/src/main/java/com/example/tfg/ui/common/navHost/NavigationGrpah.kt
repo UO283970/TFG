@@ -13,13 +13,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.example.tfg.model.BookList
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.friends.FriendsViewModel
 import com.example.tfg.ui.friends.friendsScreen
 import com.example.tfg.ui.home.HomeViewModel
 import com.example.tfg.ui.home.homeScreen
-import com.example.tfg.ui.lists.ListNavigationItems
-import com.example.tfg.ui.lists.listDetails.ListDetails
+import com.example.tfg.ui.lists.ListViewModel
+import com.example.tfg.ui.lists.listDetails.ListDetailsScreen
+import com.example.tfg.ui.lists.listDetails.ListDetailsViewModel
 import com.example.tfg.ui.lists.listScreen
 import com.example.tfg.ui.profile.profileScreen
 import com.example.tfg.ui.search.SearchViewModel
@@ -28,6 +30,8 @@ import com.example.tfg.ui.userIdentification.LoginViewModel
 import com.example.tfg.ui.userIdentification.RegisterViewModel
 import com.example.tfg.ui.userIdentification.loginScreen
 import com.example.tfg.ui.userIdentification.registerScreen
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
@@ -47,12 +51,17 @@ sealed class LoginRoutesItems(val route: String) {
     object RegisterScreen : LoginRoutesItems("register")
 }
 
+sealed class ListNavigationItems(val route: String) {
+    object ListsScreen : ListNavigationItems("listScreen")
+    object ListDetails : ListNavigationItems("listDetails/{list}")
+}
+
 
 @Composable
 fun mainAppNavigation(navController: NavHostController, stringResourcesProvider: StringResourcesProvider) {
     NavHost(
         navController = navController,
-        startDestination = /*LoginRoutesItems.LoginNav.route*/Routes.FriendsScreen.route
+        startDestination = /*LoginRoutesItems.LoginNav.route*/Routes.ListsScreen.route
     ) {
         loginGraph(navController,stringResourcesProvider)
         composable(Routes.SearchScreen.route) {
@@ -61,7 +70,7 @@ fun mainAppNavigation(navController: NavHostController, stringResourcesProvider:
         composable(Routes.FriendsScreen.route) {
             friendsScreen(FriendsViewModel())
         }
-        listsGraph(navController)
+        listsGraph(navController,stringResourcesProvider)
         composable(Routes.Profile.route) {
             profileScreen()
         }
@@ -88,14 +97,18 @@ fun NavGraphBuilder.loginGraph(navController: NavHostController, stringResources
     }
 }
 
-fun NavGraphBuilder.listsGraph(navController: NavHostController) {
+fun NavGraphBuilder.listsGraph(navController: NavHostController, stringResourcesProvider: StringResourcesProvider) {
     navigation(startDestination = ListNavigationItems.ListsScreen.route, route = Routes.ListsScreen.route) {
         composable(ListNavigationItems.ListsScreen.route) {
-            listScreen(navController)
+            listScreen(ListViewModel(navController,stringResourcesProvider))
         }
-        composable(ListNavigationItems.ListDetails.route + "/{tittle}") {
-            val tittle: String? = navController.currentBackStackEntry?.arguments?.getString("tittle")
-            ListDetails(navController, tittle)
+        composable(ListNavigationItems.ListDetails.route) {
+            val gson: Gson = GsonBuilder().create()
+            val bookListJson: String? = navController.currentBackStackEntry?.arguments?.getString("list")
+            val bookList = gson.fromJson(bookListJson, BookList::class.java)
+            if(bookList != null){
+                ListDetailsScreen(ListDetailsViewModel(navController,bookList))
+            }
         }
     }
 }

@@ -47,13 +47,13 @@ fun tittleBigText(mainTittle: String) {
 }
 
 @Composable
-fun descText(minLinesLength : Int) {
+fun descText(minLinesLength : Int,text: String) {
     var expandedState by remember { mutableStateOf(false) }
     var showReadMoreButtonState by remember { mutableStateOf(false) }
     val maxLines = if (expandedState) 200 else minLinesLength
 
     Column(modifier = Modifier.padding(10.dp)) {
-        Text(text = "En esta lista se pueden ver los libros que se están leyendo actualmente En esta lista se pueden ver los libros que se están leyendo actualmente En esta lista se pueden ver los libros que se están leyendo actualmente En esta lista se pueden ver los libros que se están leyendo actualmente",
+        Text(text = text,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f),
             fontWeight = FontWeight.SemiBold,
             overflow = TextOverflow.Ellipsis,

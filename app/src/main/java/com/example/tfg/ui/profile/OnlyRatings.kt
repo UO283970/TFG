@@ -25,7 +25,7 @@ fun onlyRatings(navController: NavController) {
     {
         Scaffold(
             topBar = {
-                topDetailsListBar(navController = navController, tittle = stringResource(R.string.profile_rating_text))
+                //topDetailsListBar(navController = navController, tittle = stringResource(R.string.profile_rating_text))
             }
         ) { innerPadding ->
             Column(
@@ -40,10 +40,3 @@ fun onlyRatings(navController: NavController) {
     }
 }
 
-
-@Preview(name = "LightMode", showBackground = true, showSystemUi = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, name = "Dark Mode", showSystemUi = true)
-@Composable
-fun previewCompsOnlyRatings() {
-    onlyRatings(rememberNavController())
-}
