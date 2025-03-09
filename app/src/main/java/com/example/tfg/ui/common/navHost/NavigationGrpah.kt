@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.tfg.ui.common.StringResourcesProvider
+import com.example.tfg.ui.friends.FriendsViewModel
 import com.example.tfg.ui.friends.friendsScreen
 import com.example.tfg.ui.home.HomeViewModel
 import com.example.tfg.ui.home.homeScreen
@@ -51,14 +52,14 @@ sealed class LoginRoutesItems(val route: String) {
 fun mainAppNavigation(navController: NavHostController, stringResourcesProvider: StringResourcesProvider) {
     NavHost(
         navController = navController,
-        startDestination = /*LoginRoutesItems.LoginNav.route*/Routes.SearchScreen.route
+        startDestination = /*LoginRoutesItems.LoginNav.route*/Routes.FriendsScreen.route
     ) {
         loginGraph(navController,stringResourcesProvider)
         composable(Routes.SearchScreen.route) {
             searchScreen(SearchViewModel())
         }
         composable(Routes.FriendsScreen.route) {
-            friendsScreen()
+            friendsScreen(FriendsViewModel())
         }
         listsGraph(navController)
         composable(Routes.Profile.route) {

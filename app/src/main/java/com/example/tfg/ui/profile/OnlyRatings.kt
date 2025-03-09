@@ -34,7 +34,7 @@ fun onlyRatings(navController: NavController) {
                     .verticalScroll(rememberScrollState())
             ) {
                 HorizontalDivider(Modifier.padding(bottom = 10.dp))
-                friendActivityItem()
+                friendActivityItem(arrayListOf())
             }
         }
     }

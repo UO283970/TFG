@@ -49,6 +49,14 @@
     <string name="error_password_length">La contraseña tiene que tener mas de %d caracteres</string>
     <string name="error_password_rules">La contraseña debe contener letras mayúsculas, minúsculas, números y un caracter especial</string>
     <string name="search_start_message">Busca los libros más te gustan\nTu género favorito o tu autor preferido</string>
+    <string name="review_text_info">Ha realizado una resña a:</string>
+    <string name="review_text_info_with_valoration">Ha realizado una reseña y a puntuado con un %d:</string>
+    <string name="rating_text_info_with_valoration">Ha valorado con un %d:</string>
+    <string name="book_image">Portada del libro</string>
+    <string name="user_follow_follow">Seguido</string>
+    <string name="user_follow_not_follow">Seguir</string>
+    <string name="user_follow_requested">Erforderlich</string>
+    <string name="user_follow_own">Editar</string>
     <string-array name="list_of_search_for">
         <item>Título</item>
         <item>Autor</item>

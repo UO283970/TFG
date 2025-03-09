@@ -60,7 +60,7 @@ private fun basicBookInfo(book: Book) {
         Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
             smallTittleText(book.publicationDate.year.toString())
             var pagesToUI = "-"
-            if(book.pages == 0){
+            if(book.pages != 0){
                 pagesToUI = book.pages.toString()
             }
             smallTittleText(pagesToUI + "pg")

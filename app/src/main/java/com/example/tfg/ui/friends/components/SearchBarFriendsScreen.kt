@@ -23,11 +23,6 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,25 +36,23 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
+import com.example.tfg.model.User
+import com.example.tfg.ui.friends.FriendScreenEvent
+import com.example.tfg.ui.friends.FriendsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun searchBarFriendsScreen() {
-    var text by remember { mutableStateOf("") }
-    var expanded by rememberSaveable {
-        mutableStateOf(false)
-    }
-
+fun searchBarFriendsScreen(viewModel: FriendsViewModel) {
     SearchBar(
         modifier = Modifier
             .semantics { traversalIndex = 0f }
             .fillMaxWidth(),
         inputField = {
             Row() {
-                if (expanded) {
+                if (viewModel.friendsInfo.expandedSearchBar) {
                     IconButton(onClick = {
-                        expanded = false
-                        text = ""
+                        viewModel.onEvent(FriendScreenEvent.ChangeExpandedSearchBar(false))
+                        viewModel.onEvent(FriendScreenEvent.UserFriendQueryChange(""))
                     }) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
@@ -68,34 +61,37 @@ fun searchBarFriendsScreen() {
                     }
                 }
                 SearchBarDefaults.InputField(
-                    onSearch = { /*TODO: Buscar Usuarios*/ },
-                    expanded = expanded,
-                    onExpandedChange = { expanded = it },
+                    onSearch = { viewModel.onEvent(FriendScreenEvent.SearchUsers) },
+                    expanded = viewModel.friendsInfo.expandedSearchBar,
+                    onExpandedChange = { viewModel.onEvent(FriendScreenEvent.ChangeExpandedSearchBar(it))  },
                     placeholder = { Text(stringResource(id = R.string.friends_search_placeholder_imput)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
-                    query = text,
-                    onQueryChange = { text = it }
+                    query = viewModel.friendsInfo.userQuery,
+                    onQueryChange = { viewModel.onEvent(FriendScreenEvent.UserFriendQueryChange(it)) }
                 )
             }
         },
-        expanded = expanded,
-        onExpandedChange = { expanded = it },
+        expanded = viewModel.friendsInfo.expandedSearchBar,
+        onExpandedChange = { viewModel.onEvent(FriendScreenEvent.ChangeExpandedSearchBar(it)) },
     ) {
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            friendsRow(name = "Nombre de usuario", state = "Seguir")
+            for (user in viewModel.friendsInfo.queryResult){
+                friendsRow(user)
+            }
         }
     }
 }
 
 @Composable
-fun friendsRow(photo: String? = null, name: String, state: String) {
+fun friendsRow(user: User) {
     Row(Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp)) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(5.dp),
             verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.weight(1f)
         ) {
             Image(
-                painterResource(R.drawable.prueba),
+                painterResource(user.profilePicture),
                 contentDescription = "",
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
@@ -103,21 +99,22 @@ fun friendsRow(photo: String? = null, name: String, state: String) {
                     .clip(CircleShape)
             )
             Text(
-                "Nombre de usuario ",
+                user.userName,
                 maxLines = 1,
-                modifier = Modifier.width(190.dp),
+                modifier = Modifier,
                 overflow = TextOverflow.Ellipsis,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp
+                fontSize = 16.sp,
             )
         }
         Row(
             horizontalArrangement = Arrangement.End,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
         ) {
-            Button(onClick = { /*TODO*/ }) {
+            Button(modifier = Modifier.width(140.dp),onClick = { /*TODO: Añadir, cancelar o mandar solicitud dependiendo de estado del usuario*/ }) {
                 Icon(Icons.Default.Add, contentDescription = "")
-                Text(state)
+                Text(stringResource(user.getUserFollow()),
+                    maxLines = 1)
             }
         }
     }

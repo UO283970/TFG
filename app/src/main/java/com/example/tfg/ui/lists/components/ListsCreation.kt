@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -30,7 +29,7 @@ import com.example.tfg.ui.lists.ListNavigationItems
 @Composable
 fun creteOwnLists(navController: NavHostController, ownLists: List<BookList>) {
     for (o in ownLists) {
-        listItem(navController, o.listName, 333)
+        listItem(navController, o.listName, 999)
     }
 }
 
@@ -64,7 +63,7 @@ fun listItem(navController: NavHostController, listName: String, listTotal: Int)
             )
             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                 Text(
-                    modifier = Modifier.widthIn(0.dp, 240.dp),
+                    modifier = Modifier.weight(1f),
                     text = listName,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -72,7 +71,7 @@ fun listItem(navController: NavHostController, listName: String, listTotal: Int)
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "($listTotal)",
+                    text = "(999+)",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,

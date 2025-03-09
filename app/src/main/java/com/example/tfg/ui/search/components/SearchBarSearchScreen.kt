@@ -14,10 +14,6 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -29,10 +25,6 @@ import com.example.tfg.ui.search.SearchViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun searchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
-    var expanded by rememberSaveable {
-        mutableStateOf(false)
-    }
-
     SearchBar(
         modifier = Modifier
             .semantics { traversalIndex = 0f }
@@ -41,7 +33,7 @@ fun searchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
             SearchBarDefaults.InputField(
                 onSearch = { viewModel.onEvent(SearchScreenEvent.GetResultsFromQuery) },
                 expanded = viewModel.searchInfo.expandedSearchBar,
-                onExpandedChange = { expanded = it },
+                onExpandedChange = {  },
                 placeholder = { Text(stringResource(id = R.string.search_placeholder_imput)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
                 trailingIcon = {
@@ -54,7 +46,7 @@ fun searchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
             )
         },
         expanded = false,
-        onExpandedChange = { expanded = it },
+        onExpandedChange = { },
     ) {
         Column(Modifier.verticalScroll(rememberScrollState())) {
 
