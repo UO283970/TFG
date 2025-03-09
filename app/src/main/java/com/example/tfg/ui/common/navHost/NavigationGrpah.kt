@@ -23,6 +23,7 @@ import com.example.tfg.ui.lists.ListViewModel
 import com.example.tfg.ui.lists.listDetails.ListDetailsScreen
 import com.example.tfg.ui.lists.listDetails.ListDetailsViewModel
 import com.example.tfg.ui.lists.listScreen
+import com.example.tfg.ui.profile.ProfileViewModel
 import com.example.tfg.ui.profile.profileScreen
 import com.example.tfg.ui.search.SearchViewModel
 import com.example.tfg.ui.search.searchScreen
@@ -72,7 +73,7 @@ fun mainAppNavigation(navController: NavHostController, stringResourcesProvider:
         }
         listsGraph(navController,stringResourcesProvider)
         composable(Routes.Profile.route) {
-            profileScreen()
+            profileScreen(ProfileViewModel(navController,stringResourcesProvider))
         }
     }
 }

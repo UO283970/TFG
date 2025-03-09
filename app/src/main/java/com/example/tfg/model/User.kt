@@ -17,9 +17,9 @@ enum class UserPrivacy {
 
 class User(
     var userName: String,
-    var profilePicture: Int,
-    var userFollow: UserFollow,
-    var privacy: UserPrivacy,
+    var profilePicture: Int = 0,
+    var userFollow: UserFollow = UserFollow.`NOT-FOLLOW`,
+    var privacy: UserPrivacy = UserPrivacy.PRIVATE,
     var joinYear: LocalDate = LocalDate.MIN,
     var description: String = "",
     numRatings: Int = 0,

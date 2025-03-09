@@ -8,10 +8,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.example.tfg.R
+import com.example.tfg.ui.profile.ProfileScreenEvent
+import com.example.tfg.ui.profile.ProfileViewModel
 
 @Composable
-fun editButton() {
-    Button(onClick = { /*TODO*/ }) {
+fun editButton(viewModel: ProfileViewModel) {
+    Button(onClick = { viewModel.onEvent(ProfileScreenEvent.EditButtonClick) }) {
         Icon(Icons.Outlined.Edit, contentDescription = "")
         Text(stringResource(R.string.profile_edit_button))
     }
