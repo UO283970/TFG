@@ -32,9 +32,7 @@ fun navigationBar(navController: NavHostController, stringResourcesProvider: Str
 
     Scaffold(
         bottomBar = {
-            NavigationBar(
-
-            ) {
+            NavigationBar{
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 

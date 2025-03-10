@@ -36,7 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
-import com.example.tfg.model.User
+import com.example.tfg.model.user.User
 import com.example.tfg.ui.friends.FriendScreenEvent
 import com.example.tfg.ui.friends.FriendsViewModel
 
@@ -48,7 +48,7 @@ fun searchBarFriendsScreen(viewModel: FriendsViewModel) {
             .semantics { traversalIndex = 0f }
             .fillMaxWidth(),
         inputField = {
-            Row() {
+            Row{
                 if (viewModel.friendsInfo.expandedSearchBar) {
                     IconButton(onClick = {
                         viewModel.onEvent(FriendScreenEvent.ChangeExpandedSearchBar(false))
@@ -64,7 +64,7 @@ fun searchBarFriendsScreen(viewModel: FriendsViewModel) {
                     onSearch = { viewModel.onEvent(FriendScreenEvent.SearchUsers) },
                     expanded = viewModel.friendsInfo.expandedSearchBar,
                     onExpandedChange = { viewModel.onEvent(FriendScreenEvent.ChangeExpandedSearchBar(it))  },
-                    placeholder = { Text(stringResource(id = R.string.friends_search_placeholder_imput)) },
+                    placeholder = { Text(stringResource(id = R.string.friends_search_placeholder_input)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
                     query = viewModel.friendsInfo.userQuery,
                     onQueryChange = { viewModel.onEvent(FriendScreenEvent.UserFriendQueryChange(it)) }
@@ -111,9 +111,10 @@ fun friendsRow(user: User) {
             horizontalArrangement = Arrangement.End,
             modifier = Modifier
         ) {
-            Button(modifier = Modifier.width(140.dp),onClick = { /*TODO: Añadir, cancelar o mandar solicitud dependiendo de estado del usuario*/ }) {
-                Icon(Icons.Default.Add, contentDescription = "")
-                Text(stringResource(user.getUserFollow()),
+            val userButtonInfo = user.getFollowStateInfo()
+            Button(modifier = Modifier.width(140.dp),onClick = { userButtonInfo.buttonOnClick }) {
+                Icon(userButtonInfo.buttonIcon, contentDescription = "")
+                Text(stringResource(userButtonInfo.buttonTittle),
                     maxLines = 1)
             }
         }

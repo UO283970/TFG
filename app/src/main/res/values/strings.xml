@@ -7,7 +7,7 @@
     <string name="home_imageDescNoBooks">Imagen sin libros inicio</string>
     <string name="home_no_books">No estas leyendo ningún libro ahora mismo \n ¡Añade algún libro a tu lista!</string>
     <string name="home_search_books">Buscar Libros</string>
-    <string name="search_placeholder_imput">Busca tu libro</string>
+    <string name="search_placeholder_input">Busca tu libro</string>
     <string name="search_filters_filterFor">Filtrar por género:</string>
     <string name="search_filters_button_tittle">Título</string>
     <string name="search_filters_button_author">Autor</string>
@@ -15,8 +15,8 @@
     <string name="search_filters_pagesFilter">Número de páginas:</string>
     <string name="search_filters_placeholder_min_pages">Min Pags</string>
     <string name="search_filters_placeholder_max_pages">Max Pags</string>
-    <string name="search_filters_orederBy">Ordenar por:</string>
-    <string name="friends_search_placeholder_imput">Buscar usuarios</string>
+    <string name="search_filters_orderBy">Ordenar por:</string>
+    <string name="friends_search_placeholder_input">Buscar usuarios</string>
     <string name="back_arrow">Flecha de retorno</string>
     <string name="read_less">Leer menos</string>
     <string name="read_more">Leer más</string>
@@ -57,7 +57,7 @@
     <string name="user_follow_not_follow">Seguir</string>
     <string name="user_follow_requested">Erforderlich</string>
     <string name="user_follow_own">Editar</string>
-    <string name="list_search_placeholder_imput">Busca tu lista</string>
+    <string name="list_search_placeholder_input">Busca tu lista</string>
     <string-array name="list_of_search_for">
         <item>Título</item>
         <item>Autor</item>

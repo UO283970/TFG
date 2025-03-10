@@ -27,7 +27,7 @@ import com.example.tfg.ui.common.smallTittleText
 fun orderByRow() {
     val orderByList: Array<String> = stringArrayResource(id = R.array.list_of_order_by)
 
-    smallTittleText(stringResource(id = R.string.search_filters_orederBy))
+    smallTittleText(stringResource(id = R.string.search_filters_orderBy))
     Row(
         horizontalArrangement = Arrangement.spacedBy(3.dp),
         modifier = Modifier.horizontalScroll(rememberScrollState())

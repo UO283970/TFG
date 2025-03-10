@@ -1,15 +1,15 @@
-package com.example.tfg.model.userActivities
+package com.example.tfg.model.user.userActivities
 
 import com.example.tfg.R
-import com.example.tfg.model.Activity
 import com.example.tfg.model.Book
-import com.example.tfg.model.User
+import com.example.tfg.model.user.Activity
+import com.example.tfg.model.user.User
 import java.time.LocalDate
 
 class ReviewActivity(
     private var user: User, private var creationDate: LocalDate,
     var book: Book, var reviewText: String, private var rating: Int = -1
-): Activity{
+): Activity {
     override fun infoForUI(): Int{
         if(rating == -1){
             return R.string.review_text_info

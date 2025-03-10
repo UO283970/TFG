@@ -1,5 +1,6 @@
-package com.example.tfg.model
+package com.example.tfg.model.user
 
+import com.example.tfg.model.Book
 import java.time.LocalDate
 
 interface Activity {

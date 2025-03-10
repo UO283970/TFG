@@ -26,12 +26,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
-import com.example.tfg.model.User
+import com.example.tfg.model.user.User
 import java.time.LocalDate
 
 @Composable
 fun mainUserProfileInfo(user: User) {
-    Row() {
+    Row {
         Row(
             horizontalArrangement = Arrangement.spacedBy(5.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -73,7 +73,7 @@ fun userNameAndDate(userName: String, joinYear: LocalDate) {
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-        Row() {
+        Row {
             Icon(
                 Icons.Outlined.DateRange,
                 contentDescription = "",

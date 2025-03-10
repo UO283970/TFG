@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.example.tfg.model.Activity
+import com.example.tfg.model.user.Activity
 
 @Composable
 fun friendActivityItem(activityList: ArrayList<Activity>) {
@@ -32,10 +32,15 @@ fun friendActivityItem(activityList: ArrayList<Activity>) {
                 for (activity in activityList) {
                     bookImageBig(activity.relatedBook().coverImage,Modifier.weight(0.5f))
                     Column(
-                        Modifier.padding(start = 10.dp, top = 20.dp).weight(1f),
+                        Modifier
+                            .padding(start = 10.dp, top = 20.dp)
+                            .weight(1f),
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         userInfoAndDate(activity)
+                        Column(Modifier.weight(1f)) {
+
+                        }
                         activityAndBookInfo(activity)
                     }
                 }

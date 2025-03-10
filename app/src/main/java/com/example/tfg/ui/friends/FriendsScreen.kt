@@ -18,7 +18,7 @@ import com.example.tfg.ui.theme.TFGTheme
 fun friendsScreen(viewModel: FriendsViewModel) {
     TFGTheme(dynamicColor = false)
     {
-        Scaffold() { innerPadding ->
+        Scaffold { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 searchBarFriendsScreen(viewModel)
                 Box() {

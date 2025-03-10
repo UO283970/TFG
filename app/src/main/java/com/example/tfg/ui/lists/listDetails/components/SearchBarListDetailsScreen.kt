@@ -1,9 +1,6 @@
 package com.example.tfg.ui.lists.listDetails.components
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +29,7 @@ fun searchBarListDetailsScreen(viewModel: ListDetailsViewModel) {
                 onSearch = { },
                 expanded = false,
                 onExpandedChange = { },
-                placeholder = { Text(stringResource(id = R.string.search_placeholder_imput)) },
+                placeholder = { Text(stringResource(id = R.string.search_placeholder_input)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
                 query = viewModel.listDetailsInfo.userQuery,
                 onQueryChange = { viewModel.onEvent(ListDetailsScreenEvent.UserQueryChange(it)) }

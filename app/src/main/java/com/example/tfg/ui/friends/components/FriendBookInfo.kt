@@ -2,6 +2,7 @@ package com.example.tfg.ui.friends.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,11 +15,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
-import com.example.tfg.model.Activity
+import com.example.tfg.model.user.Activity
 
 @Composable
 fun activityAndBookInfo(activity: Activity) {
-    Column() {
+    Column {
         Text(
             stringResource(activity.infoForUI()),
             maxLines = 2,
@@ -40,7 +41,8 @@ fun bookImageBig(coverImage: Int, weight: Modifier) {
     Image(
         painterResource(coverImage),
         contentDescription = stringResource(id = R.string.book_image),
-        modifier = Modifier.then(weight)
+        modifier = Modifier.height(150.dp)
             .clip(RoundedCornerShape(10.dp))
+
     )
 }

@@ -19,8 +19,7 @@ import com.example.tfg.ui.theme.TFGTheme
 fun profileScreen(viewModel: ProfileViewModel) {
     TFGTheme(dynamicColor = false)
     {
-        Scaffold(
-        ) { innerPadding ->
+        Scaffold{ innerPadding ->
             Column(Modifier.padding(innerPadding).verticalScroll(rememberScrollState())) {
                 Column(Modifier.padding(start = 10.dp, top = 10.dp, end = 5.dp)) {
                     mainUserProfileInfo(viewModel.profileInfo.user)

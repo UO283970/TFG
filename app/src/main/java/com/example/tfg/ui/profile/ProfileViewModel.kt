@@ -8,9 +8,9 @@ import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.BookList
-import com.example.tfg.model.User
-import com.example.tfg.model.UserFollow
-import com.example.tfg.model.UserPrivacy
+import com.example.tfg.model.user.User
+import com.example.tfg.model.user.userFollowStates.UserFollowStateUnfollow
+import com.example.tfg.model.user.userPrivacy.UserPrivacyPublic
 import com.example.tfg.ui.common.StringResourcesProvider
 import java.time.LocalDate
 
@@ -28,9 +28,7 @@ data class ProfileMainState(
     var profileBookLists: ArrayList<BookList> = arrayListOf(),
 
     var profileDefaultLists: ArrayList<BookList> = arrayListOf()
-) {
-
-}
+)
 
 class ProfileViewModel(
     private val navController: NavController,
@@ -70,7 +68,7 @@ class ProfileViewModel(
     }
 
     private fun obtainUserInfo(): User {
-        return User("Nombre de Usuario2", R.drawable.prueba, UserFollow.`NOT-FOLLOW`, UserPrivacy.PUBLIC)
+        return User("Nombre de Usuario2", R.drawable.prueba, UserPrivacyPublic(), UserFollowStateUnfollow())
     }
 
 

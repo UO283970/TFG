@@ -38,7 +38,7 @@ fun searchScreen(viewModel: SearchViewModel) {
 
 
     TFGTheme(dynamicColor = false) {
-        Scaffold() { innerPadding ->
+        Scaffold{ innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 searchBarSearchScreen (viewModel){
                     showBottomSheet = true
@@ -52,7 +52,7 @@ fun searchScreen(viewModel: SearchViewModel) {
                     }
                 }
                 else{
-                    Box() {
+                    Box{
                         Column(
                             Modifier
                                 .verticalScroll(rememberScrollState()),

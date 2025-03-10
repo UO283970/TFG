@@ -12,7 +12,7 @@ import com.example.tfg.ui.theme.TFGTheme
 @Composable
 fun listScreen(viewModel: ListViewModel){
     TFGTheme {
-        Scaffold() { innerPadding ->
+        Scaffold { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 searchBarListScreen(viewModel)
                 tabsLists(viewModel)

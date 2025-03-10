@@ -34,7 +34,7 @@ fun searchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
                 onSearch = { viewModel.onEvent(SearchScreenEvent.GetResultsFromQuery) },
                 expanded = viewModel.searchInfo.expandedSearchBar,
                 onExpandedChange = {  },
-                placeholder = { Text(stringResource(id = R.string.search_placeholder_imput)) },
+                placeholder = { Text(stringResource(id = R.string.search_placeholder_input)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
                 trailingIcon = {
                     IconButton(onClick = onClick) {
