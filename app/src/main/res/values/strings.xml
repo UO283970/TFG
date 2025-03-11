@@ -58,6 +58,8 @@
     <string name="user_follow_requested">Erforderlich</string>
     <string name="user_follow_own">Editar</string>
     <string name="list_search_placeholder_input">Busca tu lista</string>
+    <string name="settings_button">Ajustes</string>
+    <string name="edit_change_profile_image">Cambiar foto</string>
     <string-array name="list_of_search_for">
         <item>Título</item>
         <item>Autor</item>

@@ -66,7 +66,7 @@ fun listItem(viewModel: ListViewModel, list: BookList) {
             )
             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                 Text(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f,false),
                     text = list.listName,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,

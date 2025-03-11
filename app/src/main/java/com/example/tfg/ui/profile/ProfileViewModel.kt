@@ -8,40 +8,65 @@ import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.BookList
+import com.example.tfg.model.user.Activity
 import com.example.tfg.model.user.User
+import com.example.tfg.model.user.userActivities.ReviewActivity
+import com.example.tfg.model.user.userFollowStates.UserFollowStateFollowed
 import com.example.tfg.model.user.userFollowStates.UserFollowStateUnfollow
 import com.example.tfg.model.user.userPrivacy.UserPrivacyPublic
+import com.example.tfg.ui.common.CommonEventHandler
 import com.example.tfg.ui.common.StringResourcesProvider
+import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 import java.time.LocalDate
 
 sealed class ProfileScreenEvent {
     object EditButtonClick : ProfileScreenEvent()
+    object FollowButtonClick : ProfileScreenEvent()
+    object PendingButtonClick : ProfileScreenEvent()
+    object UnFollowButtonClick : ProfileScreenEvent()
     object ReviewsButtonClick : ProfileScreenEvent()
-    object RatingButtonClick : ProfileScreenEvent()
     object FollowedButtonClick : ProfileScreenEvent()
     object FollowersButtonClick : ProfileScreenEvent()
+    data class ChangeUserName(val userName: String) : ProfileScreenEvent()
+    data class ChangeUserDescription(val userDescription: String) : ProfileScreenEvent()
+    data class ChangeUserAlias(val userAlias: String) : ProfileScreenEvent()
 
 }
 
 data class ProfileMainState(
-    val user: User = User(""),
-    var profileBookLists: ArrayList<BookList> = arrayListOf(),
+    val commonEventHandler: CommonEventHandler,
+    val user: User,
+    var profileBookLists: ArrayList<BookList>,
+    var profileDefaultLists: ArrayList<BookList>,
+    var profileReviews: ArrayList<Activity> = arrayListOf()
+)
 
-    var profileDefaultLists: ArrayList<BookList> = arrayListOf()
+data class EditProfileMainState(
+    var userName: String,
+    var userNameError: String? = "",
+    var userAlias: String,
+    var userAliasError: String? = "",
+    var userDescription: String,
+    var userDescriptionError: String? = ""
+
 )
 
 class ProfileViewModel(
     private val navController: NavController,
-    private val stringResourcesProvider: StringResourcesProvider
+    private val stringResourcesProvider: StringResourcesProvider,
+    commonEventHandler: CommonEventHandler
 ) : ViewModel() {
     var profileInfo by mutableStateOf(
-        ProfileMainState().copy(
-            profileDefaultLists = profileDefaultLists(),
-            profileBookLists = getUsersProfileLists(),
-            user = obtainUserInfo()
-        )
+        ProfileMainState(commonEventHandler, obtainUserInfo(), profileDefaultLists(), getUsersProfileLists())
     )
 
+    var profileEditState by mutableStateOf(
+        EditProfileMainState(
+            userName = profileInfo.user.userName,
+            userAlias = profileInfo.user.userAlias,
+            userDescription = profileInfo.user.description
+        )
+    )
 
     fun onEvent(event: ProfileScreenEvent) {
         when (event) {
@@ -49,12 +74,21 @@ class ProfileViewModel(
                 navController.navigate(""/*Navegar a la pantalla de editar perfil*/)
             }
 
-            is ProfileScreenEvent.RatingButtonClick -> {
-                navController.navigate(""/*Navegar a la pantalla de ratings perfil*/)
+            is ProfileScreenEvent.FollowButtonClick -> {
+                navController.navigate("")
+            }
+
+            is ProfileScreenEvent.PendingButtonClick -> {
+                navController.navigate("")
+            }
+
+            is ProfileScreenEvent.UnFollowButtonClick -> {
+                navController.navigate("")
             }
 
             is ProfileScreenEvent.ReviewsButtonClick -> {
-                navController.navigate(""/*Navegar a la pantalla de reviews perfil*/)
+                getUserReviews()
+                navController.navigate(ProfileNavigationItems.UserReviews.route)
             }
 
             is ProfileScreenEvent.FollowedButtonClick -> {
@@ -64,11 +98,26 @@ class ProfileViewModel(
             is ProfileScreenEvent.FollowersButtonClick -> {
                 navController.navigate(""/*Navegar a la pantalla de seguidores perfil*/)
             }
+            is ProfileScreenEvent.ChangeUserName ->{
+                profileEditState = profileEditState.copy(userName = event.userName)
+            }
+            is ProfileScreenEvent.ChangeUserDescription ->{
+                profileEditState = profileEditState.copy(userDescription = event.userDescription)
+            }
+            is ProfileScreenEvent.ChangeUserAlias ->{
+                profileEditState = profileEditState.copy(userAlias = event.userAlias)
+            }
         }
     }
 
     private fun obtainUserInfo(): User {
-        return User("Nombre de Usuario2", R.drawable.prueba, UserPrivacyPublic(), UserFollowStateUnfollow())
+        return User(
+            "",
+            R.drawable.prueba,
+            UserPrivacyPublic(),
+            UserFollowStateUnfollow(),
+            userName = "Nombre de Usuario2"
+        )
     }
 
 
@@ -102,5 +151,22 @@ class ProfileViewModel(
         }
 
         return listOfBooks
+    }
+
+    private fun getUserReviews() {
+        val followedActivity: ArrayList<Activity> = arrayListOf()
+        //TODO: Obtener la actividad de las reviews del usuario seleccionado
+        val libroTest = Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba)
+        val userForTesting =
+            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyPublic(), UserFollowStateFollowed())
+        val reviewForTest = ReviewActivity(
+            userForTesting,
+            LocalDate.now(),
+            libroTest,
+            "Muy guapo el libro"
+        )
+
+        followedActivity.add(reviewForTest)
+        profileInfo = profileInfo.copy(profileReviews = followedActivity)
     }
 }

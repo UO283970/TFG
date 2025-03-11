@@ -3,15 +3,17 @@ package com.example.tfg.model.user
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.tfg.model.user.userFollowStates.UserFollowStateUnfollow
 import com.example.tfg.model.user.userPrivacy.UserPrivacyPrivate
+import com.example.tfg.ui.profile.ProfileScreenEvent
 import java.time.LocalDate
 
 class User(
-    var userName: String,
+    var userAlias: String,
     var profilePicture: Int = 0,
     var privacy: UserPrivacy = UserPrivacyPrivate(),
     var followState: UserFollowState = UserFollowStateUnfollow(),
     var joinYear: LocalDate = LocalDate.MIN,
     var description: String = "",
+    var userName: String = "",
     numRatings: Int = 0,
     numReviews: Int = 0,
     followers: Int = 0,
@@ -29,5 +31,5 @@ class User(
     fun getShowMoreInfo():Boolean{
         return privacy.getShowMainInfo() || followState.getCanShowMoreInfo()
     }
-    data class UserButtonConfig(val buttonTittle: Int, val buttonIcon: ImageVector, val buttonOnClick: () -> Unit)
+    data class UserButtonConfig(val buttonTittle: Int, val buttonIcon: ImageVector, val buttonEvent: ProfileScreenEvent)
 }

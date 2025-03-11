@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.tfg.model.BookList
+import com.example.tfg.ui.common.CommonEventHandler
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.friends.FriendsViewModel
 import com.example.tfg.ui.friends.friendsScreen
@@ -24,6 +25,7 @@ import com.example.tfg.ui.lists.listDetails.ListDetailsScreen
 import com.example.tfg.ui.lists.listDetails.ListDetailsViewModel
 import com.example.tfg.ui.lists.listScreen
 import com.example.tfg.ui.profile.ProfileViewModel
+import com.example.tfg.ui.profile.components.onlyReviews
 import com.example.tfg.ui.profile.profileScreen
 import com.example.tfg.ui.search.SearchViewModel
 import com.example.tfg.ui.search.searchScreen
@@ -57,39 +59,43 @@ sealed class ListNavigationItems(val route: String) {
     object ListDetails : ListNavigationItems("listDetails/{list}")
 }
 
+sealed class ProfileNavigationItems(val route: String) {
+    object ProfileScreen : ProfileNavigationItems("profileScreen")
+    object UserReviews : ProfileNavigationItems("userReviews")
+}
+
 
 @Composable
 fun mainAppNavigation(navController: NavHostController, stringResourcesProvider: StringResourcesProvider) {
     NavHost(
         navController = navController,
-        startDestination = /*LoginRoutesItems.LoginNav.route*/Routes.ListsScreen.route
+        startDestination = /*LoginRoutesItems.LoginNav.route*/Routes.Profile.route
     ) {
-        loginGraph(navController,stringResourcesProvider)
+        val commonEventHandler = CommonEventHandler(navController)
+        loginGraph(navController, stringResourcesProvider)
         composable(Routes.SearchScreen.route) {
             searchScreen(SearchViewModel())
         }
         composable(Routes.FriendsScreen.route) {
             friendsScreen(FriendsViewModel())
         }
-        listsGraph(navController,stringResourcesProvider)
-        composable(Routes.Profile.route) {
-            profileScreen(ProfileViewModel(navController,stringResourcesProvider))
-        }
+        listsGraph(navController, stringResourcesProvider, commonEventHandler)
+        profileGraph(navController, stringResourcesProvider, commonEventHandler)
     }
 }
 
 fun NavGraphBuilder.loginGraph(navController: NavHostController, stringResourcesProvider: StringResourcesProvider) {
-    var startDestination :String = Routes.Home.route
-    if(/*TODO: Cuando el usuario no inico sesion antes*/true){
+    var startDestination: String = Routes.Home.route
+    if (/*TODO: Cuando el usuario no inico sesion antes*/true) {
         startDestination = LoginRoutesItems.LoginScreen.route
     }
 
     navigation(startDestination = startDestination, route = LoginRoutesItems.LoginNav.route) {
         composable(LoginRoutesItems.LoginScreen.route) {
-            loginScreen(LoginViewModel(navController,stringResourcesProvider))
+            loginScreen(LoginViewModel(navController, stringResourcesProvider))
         }
         composable(LoginRoutesItems.RegisterScreen.route) {
-            registerScreen(RegisterViewModel(navController,stringResourcesProvider))
+            registerScreen(RegisterViewModel(navController, stringResourcesProvider))
         }
         composable(Routes.Home.route) {
             homeScreen(HomeViewModel(navController))
@@ -98,18 +104,38 @@ fun NavGraphBuilder.loginGraph(navController: NavHostController, stringResources
     }
 }
 
-fun NavGraphBuilder.listsGraph(navController: NavHostController, stringResourcesProvider: StringResourcesProvider) {
+fun NavGraphBuilder.listsGraph(
+    navController: NavHostController,
+    stringResourcesProvider: StringResourcesProvider,
+    commonEventHandler: CommonEventHandler
+) {
     navigation(startDestination = ListNavigationItems.ListsScreen.route, route = Routes.ListsScreen.route) {
         composable(ListNavigationItems.ListsScreen.route) {
-            listScreen(ListViewModel(navController,stringResourcesProvider))
+            listScreen(ListViewModel(navController, stringResourcesProvider))
         }
         composable(ListNavigationItems.ListDetails.route) {
             val gson: Gson = GsonBuilder().create()
             val bookListJson: String? = navController.currentBackStackEntry?.arguments?.getString("list")
             val bookList = gson.fromJson(bookListJson, BookList::class.java)
-            if(bookList != null){
-                ListDetailsScreen(ListDetailsViewModel(navController,bookList))
+            if (bookList != null) {
+                ListDetailsScreen(ListDetailsViewModel(navController, bookList, commonEventHandler))
             }
+        }
+    }
+}
+
+fun NavGraphBuilder.profileGraph(
+    navController: NavHostController,
+    stringResourcesProvider: StringResourcesProvider,
+    commonEventHandler: CommonEventHandler
+) {
+    navigation(startDestination = ProfileNavigationItems.ProfileScreen.route, route = Routes.Profile.route) {
+        val profileViewModel = ProfileViewModel(navController, stringResourcesProvider, commonEventHandler)
+        composable(ProfileNavigationItems.ProfileScreen.route) {
+            profileScreen(profileViewModel)
+        }
+        composable(ProfileNavigationItems.UserReviews.route) {
+            onlyReviews(commonEventHandler, profileViewModel)
         }
     }
 }

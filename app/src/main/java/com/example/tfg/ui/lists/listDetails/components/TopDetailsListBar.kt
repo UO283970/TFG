@@ -15,12 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.tfg.R
+import com.example.tfg.ui.common.CommonEventHandler
+import com.example.tfg.ui.common.CommonEvents
 import com.example.tfg.ui.lists.listDetails.ListDetailsScreenEvent
 import com.example.tfg.ui.lists.listDetails.ListDetailsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun topDetailsListBar(viewModel: ListDetailsViewModel, tittle: String) {
+fun topDetailsListBar(commonEvents: CommonEventHandler, tittle: String) {
     TopAppBar(
         windowInsets = TopAppBarDefaults.windowInsets,
         title = {
@@ -32,7 +34,7 @@ fun topDetailsListBar(viewModel: ListDetailsViewModel, tittle: String) {
         },
         navigationIcon = {
             IconButton(
-                onClick = { viewModel.onEvent(ListDetailsScreenEvent.GoBackEvent) },
+                onClick = { commonEvents.onEvent(CommonEvents.GoBackEvent)},
                 modifier = Modifier.wrapContentSize()
             ) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.back_arrow))

@@ -19,14 +19,17 @@ fun ListDetailsScreen(viewModel: ListDetailsViewModel) {
     {
         Scaffold(
             topBar = {
-                 topDetailsListBar(viewModel,viewModel.listDetailsInfo.bookList.listName)
+                topDetailsListBar(
+                    viewModel.listDetailsInfo.commonEventHandler,
+                    viewModel.listDetailsInfo.bookList.listName
+                )
             }
         ) { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 HorizontalDivider(thickness = 1.dp)
                 Column {
                     searchBarListDetailsScreen(viewModel)
-                    if(viewModel.listDetailsInfo.bookList.listDescription != ""){
+                    if (viewModel.listDetailsInfo.bookList.listDescription != "") {
                         descText(3, viewModel.listDetailsInfo.bookList.listDescription)
                         HorizontalDivider(Modifier.padding(top = 5.dp))
                     }

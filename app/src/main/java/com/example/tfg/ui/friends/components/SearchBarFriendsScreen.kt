@@ -112,7 +112,7 @@ fun friendsRow(user: User) {
             modifier = Modifier
         ) {
             val userButtonInfo = user.getFollowStateInfo()
-            Button(modifier = Modifier.width(140.dp),onClick = { userButtonInfo.buttonOnClick }) {
+            Button(modifier = Modifier.width(140.dp),onClick = { userButtonInfo.buttonEvent }) {
                 Icon(userButtonInfo.buttonIcon, contentDescription = "")
                 Text(stringResource(userButtonInfo.buttonTittle),
                     maxLines = 1)
