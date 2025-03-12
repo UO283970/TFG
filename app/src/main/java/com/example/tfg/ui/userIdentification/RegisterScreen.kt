@@ -31,32 +31,39 @@ fun registerScreen(registerViewModel: RegisterViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                loginMainText(stringResource(R.string.login_register))
                 Column(
-                    Modifier.padding(start = 10.dp, end = 10.dp),
+                    Modifier.padding(top = 15.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
-                    textFieldUserName(registerViewModel)
-                    textFieldUserEmail(registerViewModel)
-                    passwordRegisterTextField(registerViewModel)
-                    passwordRepeatRegisterTextField(registerViewModel)
+                    loginMainText(stringResource(R.string.login_register))
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(5.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        Modifier.padding(start = 10.dp, end = 10.dp),
+                        verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        registerButton(registerViewModel)
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(2.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                        textFieldUserName(registerViewModel)
+                        textFieldUserEmail(registerViewModel)
+                        passwordRegisterTextField(registerViewModel)
+                        passwordRepeatRegisterTextField(registerViewModel)
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(5.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(stringResource(R.string.new_already_registered))
-                            Text(
-                                stringResource(R.string.login_here_button),
-                                Modifier.clickable { registerViewModel.onEvent(RegisterMainEvent.NavigateToLogin) })
+                            registerButton(registerViewModel)
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(stringResource(R.string.new_already_registered))
+                                Text(
+                                    stringResource(R.string.login_here_button),
+                                    Modifier.clickable { registerViewModel.onEvent(RegisterMainEvent.NavigateToLogin) })
+                            }
                         }
-                    }
 
+                    }
                 }
+
             }
         }
     }

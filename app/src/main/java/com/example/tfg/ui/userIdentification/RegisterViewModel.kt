@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
 import com.example.tfg.ui.common.StringResourcesProvider
-import com.example.tfg.ui.common.navHost.LoginRoutesItems
+import com.example.tfg.ui.common.navHost.HomeRoutesItems
 import com.example.tfg.ui.common.navHost.Routes
 
 sealed class RegisterMainEvent {
@@ -45,7 +45,7 @@ class RegisterViewModel(
     fun onEvent(event: RegisterMainEvent) {
         when (event) {
             is RegisterMainEvent.NavigateToLogin -> {
-                navController.navigate(LoginRoutesItems.LoginScreen.route)
+                navController.navigate(HomeRoutesItems.HomeScreen.route)
             }
 
             is RegisterMainEvent.UserNameChanged -> {
@@ -78,7 +78,9 @@ class RegisterViewModel(
                 val correctPassword: Boolean = validatePassword()
                 val correctRepeatPassword: Boolean = validateRepeatPassword()
                 if (correctEmail && correctUser && correctPassword && correctRepeatPassword) {
-                    navController.navigate(Routes.Home.route)
+                    navController.navigate(Routes.Home.route){
+                        popUpTo(HomeRoutesItems.RegisterScreen.route) { inclusive = true }
+                    }
                 }
             }
         }

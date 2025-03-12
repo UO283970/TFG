@@ -1,0 +1,83 @@
+package com.example.tfg.ui.home
+
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.tfg.R
+import com.example.tfg.ui.lists.listDetails.components.topDetailsListBar
+import com.example.tfg.ui.theme.TFGTheme
+
+@Composable
+fun notificationScreen(notificationsViewModel: NotificationsViewModel) {
+    TFGTheme {
+        Scaffold(
+            topBar = {
+                topDetailsListBar(
+                    commonEvents = notificationsViewModel.notificationsMainState.commonEventHandler,
+                    tittle = stringResource(R.string.home_notifications)
+                )
+            }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .then(Modifier.padding(start = 10.dp, end = 10.dp))
+            ) {
+                friendRequestAccessRow()
+                HorizontalDivider()
+                Row {
+                    //Image(p, contentDescription = )
+                }
+            }
+
+        }
+    }
+}
+
+@Composable
+private fun friendRequestAccessRow() {
+    Row(modifier = Modifier.clickable { /*TODO: Va la pantalla de solicitudes*/ }) {
+        Box(modifier = Modifier.border(2.dp, MaterialTheme.colorScheme.onBackground, CircleShape)) {
+            Icon(
+                painterResource(R.drawable.friend_requests),
+                stringResource(R.string.home_notifications_friend_requests_icon),
+                modifier = Modifier
+                    .size(50.dp)
+                    .padding(5.dp)
+            )
+        }
+        Column(Modifier.padding(start = 5.dp)) {
+            Text(
+                stringResource(R.string.notifications_friend_requests),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                fontSize = 22.sp
+            )
+            Text(
+                stringResource(R.string.notifications_friend_small_text),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f)
+            )
+        }
+    }
+}

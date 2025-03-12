@@ -7,36 +7,38 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.tfg.R
 import com.example.tfg.model.Book
+import com.example.tfg.ui.common.navHost.HomeRoutesItems
 import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.switchTabs
 
 sealed class HomeScreenEvent {
     object NavigateToSearch : HomeScreenEvent()
+    object NavigateToNotifications : HomeScreenEvent()
 }
 
 data class HomeMainState(
-    var listOfBooks : List<Book> = emptyList(),
-    var listOfReadingBooks : List<Book> = emptyList()
+    var listOfBooks : ArrayList<Book>,
+    var listOfReadingBooks : ArrayList<Book>
 )
 
-class HomeViewModel(val navController: NavHostController): ViewModel(){
+class HomeViewModel(val navController: NavHostController
+    ): ViewModel(){
 
-    var homeState by mutableStateOf(HomeMainState())
-    init {
-        getListOfRecommendedBooks()
-        getReadingBooks()
-    }
+    var homeState by mutableStateOf(HomeMainState(getListOfRecommendedBooks(),getReadingBooks()))
 
     fun onEvent(event: HomeScreenEvent){
         when(event){
             is HomeScreenEvent.NavigateToSearch -> {
                 navController.switchTabs(Routes.SearchScreen.route)
             }
+            is HomeScreenEvent.NavigateToNotifications -> {
+                navController.navigate(HomeRoutesItems.NotificationScreen.route)
+            }
         }
     }
 
-    private fun getListOfRecommendedBooks() {
-        val items = listOf(
+    private fun getListOfRecommendedBooks(): ArrayList<Book> {
+        val items = arrayListOf<Book>(
             Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba),
             Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba),
             Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba),
@@ -46,11 +48,12 @@ class HomeViewModel(val navController: NavHostController): ViewModel(){
         //viewModelScope.launch {  }
         //TODO : Obtener unos libros recomendados
 
-        homeState = homeState.copy(listOfBooks = items)
+        return items
     }
 
-    private fun getReadingBooks() {
+    private fun getReadingBooks() : ArrayList<Book>{
         //TODO : Obtener libros que se están leyendo, es decir, libros en la lista leyendo
+        return arrayListOf()
     }
 
 }

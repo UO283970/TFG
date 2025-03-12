@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.tfg.R
 import com.example.tfg.ui.common.StringResourcesProvider
-import com.example.tfg.ui.common.navHost.LoginRoutesItems
+import com.example.tfg.ui.common.navHost.HomeRoutesItems
 import com.example.tfg.ui.common.navHost.Routes
 
 sealed class LoginMainEvent {
@@ -36,7 +36,7 @@ class LoginViewModel(
     fun onEvent(event: LoginMainEvent) {
         when (event) {
             is LoginMainEvent.NavigateToRegister -> {
-                navController.navigate(LoginRoutesItems.RegisterScreen.route)
+                navController.navigate(HomeRoutesItems.RegisterScreen.route)
             }
             is LoginMainEvent.EmailChanged -> {
                 formState = formState.copy(email = event.email)
@@ -54,7 +54,9 @@ class LoginViewModel(
                 val correctEmail = validateEmail()
                 val correctUser = validatePasswordAndUsers()
                 if (correctEmail && correctUser) {
-                    navController.navigate(Routes.Home.route)
+                    navController.navigate(Routes.Home.route,){
+                        popUpTo(HomeRoutesItems.HomeScreen.route) { inclusive = true }
+                    }
                 }
             }
         }

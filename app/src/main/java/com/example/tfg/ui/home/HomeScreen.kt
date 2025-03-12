@@ -23,7 +23,7 @@ import com.example.tfg.ui.theme.TFGTheme
 fun homeScreen(viewModel: HomeViewModel) {
     TFGTheme(dynamicColor = false) {
         Scaffold(
-            topBar = { topNotifications() }) { innerPadding ->
+            topBar = { topNotifications(viewModel) }) { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 HorizontalDivider(thickness = 1.dp)
                 Column(Modifier.padding(start = 10.dp, end = 5.dp)) {

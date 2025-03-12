@@ -25,39 +25,40 @@ fun loginScreen(loginViewModel: LoginViewModel) {
     TFGTheme(dynamicColor = false) {
         Scaffold { innerPadding ->
             Column(
-                Modifier.padding(innerPadding),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(15.dp)
+                Modifier.padding(innerPadding)
             ) {
-                loginMainText(stringResource(R.string.login_welcome))
-                Column(
-                    Modifier.padding(start = 10.dp, end = 10.dp),
-                    verticalArrangement = Arrangement.spacedBy(15.dp)
-                ) {
-                    textFieldUserEmail(loginViewModel)
-                    passwordTextField(loginViewModel)
+                Column (modifier = Modifier.padding(top = 15.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(15.dp)){
+                    loginMainText(stringResource(R.string.login_welcome))
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(5.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        Modifier.padding(start = 10.dp, end = 10.dp),
+                        verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        Button(
-                            onClick = {
-                                      loginViewModel.onEvent(LoginMainEvent.Submit)
-                            },
-                            modifier = Modifier.fillMaxWidth()
+                        textFieldUserEmail(loginViewModel)
+                        passwordTextField(loginViewModel)
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(5.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(stringResource(R.string.login_button))
-                        }
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(2.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(stringResource(R.string.new_user_question))
-                            Text(stringResource(R.string.regiter_here_button),
-                                Modifier.clickable { loginViewModel.onEvent(LoginMainEvent.NavigateToRegister) })
+                            Button(
+                                onClick = {
+                                    loginViewModel.onEvent(LoginMainEvent.Submit)
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(stringResource(R.string.login_button))
+                            }
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(stringResource(R.string.new_user_question))
+                                Text(stringResource(R.string.regiter_here_button),
+                                    Modifier.clickable { loginViewModel.onEvent(LoginMainEvent.NavigateToRegister) })
+                            }
                         }
                     }
-
                 }
             }
         }

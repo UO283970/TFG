@@ -52,6 +52,7 @@ class ListViewModel(
 
             is ListScreenEvent.ListDetails -> {
                 /*TODO: Cambiar por pasar la lista completa y poner detalles de esa*/
+                listState = listState.copy(tabIndex = listState.tabIndex)
                 val gson: Gson = GsonBuilder().create()
                 val listJson = gson.toJson(event.list)
                 navController.navigate(

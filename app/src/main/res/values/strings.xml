@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">TFG</string>
+    <string name="edit_activity">Edit</string>
     <string name="book_cover">Portada del libro </string>
     <string name="notifications">Notificaciones</string>
     <string name="home_recommended_books">Libros Recomendados</string>
@@ -60,6 +61,17 @@
     <string name="list_search_placeholder_input">Busca tu lista</string>
     <string name="settings_button">Ajustes</string>
     <string name="edit_change_profile_image">Cambiar foto</string>
+    <string name="profile_edit_desc_characters">de %d caracteres</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="profile_edit_privacy">Perfil privado</string>
+    <string name="edit_profile_save_button">Guardar</string>
+    <string name="edit_user_name_placeholder">Nombre</string>
+    <string name="edit_user_alias_placeholder">Nombre de usuario</string>
+    <string name="edit_user_description_placeholder">Descripcion</string>
+    <string name="home_notifications">Notificaciones</string>
+    <string name="home_notifications_friend_requests_icon">Icono de solicitudes de seguimiento</string>
+    <string name="notifications_friend_requests">Solicitudes de seguimiento</string>
+    <string name="notifications_friend_small_text">Acepta o deniega solicitudes</string>
     <string-array name="list_of_search_for">
         <item>Título</item>
         <item>Autor</item>
