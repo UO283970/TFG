@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,13 +22,14 @@ fun friendsScreen(viewModel: FriendsViewModel) {
             Column(Modifier.padding(innerPadding)) {
                 searchBarFriendsScreen(viewModel)
                 Box() {
-                    Column(
+                    LazyColumn(
                         Modifier
-                            .verticalScroll(rememberScrollState())
                             .padding(top = 10.dp, start = 10.dp, end = 10.dp),
                         verticalArrangement = Arrangement.spacedBy((10).dp)
                     ) {
-                        friendActivityItem(viewModel.friendsInfo.followedActivity)
+                        items(viewModel.friendsInfo.followedActivity){
+                            friendActivityItem(it)
+                        }
                     }
                 }
             }

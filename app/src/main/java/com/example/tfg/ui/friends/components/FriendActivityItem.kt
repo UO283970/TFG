@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.tfg.model.user.Activity
 
 @Composable
-fun friendActivityItem(activityList: ArrayList<Activity>) {
+fun friendActivityItem(activity: Activity) {
     Box(
         modifier = Modifier
             .clip(AlertDialogDefaults.shape)
@@ -27,22 +27,19 @@ fun friendActivityItem(activityList: ArrayList<Activity>) {
             modifier = Modifier
                 .padding(top = 10.dp)
         ) {
-
             Row(modifier = Modifier.padding(start = 20.dp, bottom = 10.dp)) {
-                for (activity in activityList) {
-                    bookImageBig(activity.relatedBook().coverImage,Modifier.weight(0.5f))
-                    Column(
-                        Modifier
-                            .padding(start = 10.dp, top = 20.dp)
-                            .weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        userInfoAndDate(activity)
-                        Column(Modifier.weight(1f)) {
+                bookImageBig(activity.relatedBook().coverImage, Modifier.weight(0.5f))
+                Column(
+                    Modifier
+                        .padding(start = 10.dp, top = 20.dp)
+                        .weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    userInfoAndDate(activity)
+                    Column(Modifier.weight(1f)) {
 
-                        }
-                        activityAndBookInfo(activity)
                     }
+                    activityAndBookInfo(activity)
                 }
             }
         }

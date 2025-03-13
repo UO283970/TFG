@@ -56,7 +56,7 @@
     <string name="book_image">Portada del libro</string>
     <string name="user_follow_follow">Seguido</string>
     <string name="user_follow_not_follow">Seguir</string>
-    <string name="user_follow_requested">Erforderlich</string>
+    <string name="user_follow_requested">Solicitado</string>
     <string name="user_follow_own">Editar</string>
     <string name="list_search_placeholder_input">Busca tu lista</string>
     <string name="settings_button">Ajustes</string>
@@ -67,11 +67,20 @@
     <string name="edit_profile_save_button">Guardar</string>
     <string name="edit_user_name_placeholder">Nombre</string>
     <string name="edit_user_alias_placeholder">Nombre de usuario</string>
-    <string name="edit_user_description_placeholder">Descripcion</string>
+    <string name="edit_user_description_placeholder">Descripción</string>
     <string name="home_notifications">Notificaciones</string>
     <string name="home_notifications_friend_requests_icon">Icono de solicitudes de seguimiento</string>
     <string name="notifications_friend_requests">Solicitudes de seguimiento</string>
     <string name="notifications_friend_small_text">Acepta o deniega solicitudes</string>
+    <string name="notifications_follow_notification_text">Has comenzado a seguir a:</string>
+    <string name="notifications_followed_notification_text">Ha comenzado a seguirte</string>
+    <string name="notifications_followed_notification_button_text">Seguir</string>
+    <string name="notifications_image_text">Imagen de notificación</string>
+    <string name="notifications_delete_button">Eliminar notificación</string>
+    <string name="home_notifications_friend_requests">Solicitudes de Seguimiento</string>
+    <string name="accept_button">Aceptar</string>
+    <string name="view_more_icon">Icono de ver más</string>
+    <string name="view_more_text">Ver más</string>
     <string-array name="list_of_search_for">
         <item>Título</item>
         <item>Autor</item>

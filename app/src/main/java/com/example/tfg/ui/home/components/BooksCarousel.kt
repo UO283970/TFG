@@ -2,20 +2,20 @@ package com.example.tfg.ui.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,29 +36,39 @@ import com.example.tfg.ui.common.tittleBigText
 @Composable
 fun booksCarousel(mainTittle: String, bookList: List<Book>, modifier: Modifier) {
 
-    Column (modifier = modifier,
-        ){
+    Column(
+        modifier = modifier,
+    ) {
         tittleBigText(mainTittle)
-        Row(
-            modifier = Modifier
-                .horizontalScroll(rememberScrollState())
-                .padding(top = 5.dp)
-                .wrapContentSize(),
-            horizontalArrangement = Arrangement.spacedBy(20.dp),
-        ) {
-            for (book in bookList) {
-                bookMainItems(book)
-            }
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+        Row {
+            LazyRow(
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .wrapContentSize(),
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        Icons.Outlined.AddCircle, stringResource(R.string.notifications),
-                    )
+                items(bookList) {
+                    bookMainItems(it)
                 }
-                Text("Ver más")
+                item {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(start = 20.dp, end = 20.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier.clickable { },
+                            verticalArrangement = Arrangement.spacedBy(10.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                Icons.Outlined.AddCircle, stringResource(R.string.view_more_icon),
+                            )
+                            Text(stringResource(R.string.view_more_text))
+                        }
+                    }
+                }
             }
         }
     }

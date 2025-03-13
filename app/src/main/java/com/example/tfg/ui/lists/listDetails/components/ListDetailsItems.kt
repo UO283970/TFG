@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,14 +33,13 @@ import com.example.tfg.ui.common.smallTittleText
 
 @Composable
 fun listDetailsItemList(books: ArrayList<Book>) {
-    Column(
+    LazyColumn(
         Modifier
-            .verticalScroll(rememberScrollState())
             .padding(top = 10.dp),
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        for(book in books){
-            listDetailsItem(book)
+        items(books){
+            listDetailsItem(it)
         }
     }
 }

@@ -14,9 +14,10 @@ import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.friends.FriendsViewModel
 import com.example.tfg.ui.friends.friendsScreen
 import com.example.tfg.ui.home.HomeViewModel
-import com.example.tfg.ui.home.NotificationsViewModel
 import com.example.tfg.ui.home.homeScreen
-import com.example.tfg.ui.home.notificationScreen
+import com.example.tfg.ui.home.notifications.NotificationsViewModel
+import com.example.tfg.ui.home.notifications.friendsRequestScreen
+import com.example.tfg.ui.home.notifications.notificationScreen
 import com.example.tfg.ui.lists.ListViewModel
 import com.example.tfg.ui.lists.listDetails.ListDetailsScreen
 import com.example.tfg.ui.lists.listDetails.ListDetailsViewModel
@@ -51,6 +52,7 @@ sealed class HomeRoutesItems(val route: String) {
     object HomeScreen : HomeRoutesItems("login")
     object RegisterScreen : HomeRoutesItems("register")
     object NotificationScreen: HomeRoutesItems("notifications")
+    object FriendRequestsScreen: HomeRoutesItems("requests")
 }
 
 sealed class ListNavigationItems(val route: String) {
@@ -73,7 +75,7 @@ fun mainAppNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HomeRoutesItems.HomeNav.route
+        startDestination = Routes.ListsScreen.route
     ) {
         val commonEventHandler = CommonEventHandler(navController)
         homeGraph(navController, stringResourcesProvider,bottomBarState,commonEventHandler)
@@ -112,9 +114,15 @@ fun NavGraphBuilder.homeGraph(
             bottomBarState.value = true
             homeScreen(HomeViewModel(navController))
         }
+
+        val viewModel = NotificationsViewModel(navController,commonEventHandler,stringResourcesProvider)
         composable(HomeRoutesItems.NotificationScreen.route) {
             bottomBarState.value = false
-            notificationScreen(NotificationsViewModel(navController,commonEventHandler))
+            notificationScreen(viewModel)
+        }
+        composable(HomeRoutesItems.FriendRequestsScreen.route) {
+            bottomBarState.value = false
+            friendsRequestScreen(viewModel)
         }
 
     }

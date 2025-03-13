@@ -18,6 +18,7 @@ sealed class ListScreenEvent {
     data class UserQueryChange(val query: String) : ListScreenEvent()
     data class TabChange(val tabIndex: Int) : ListScreenEvent()
     data class ListDetails(val list: BookList) : ListScreenEvent()
+    object NavigationToCreationListScreen: ListScreenEvent()
 }
 
 data class ListMainState(
@@ -45,13 +46,10 @@ class ListViewModel(
             is ListScreenEvent.UserQueryChange -> {
                 listState = listState.copy(userQuery = event.query)
             }
-
             is ListScreenEvent.TabChange -> {
                 listState = listState.copy(tabIndex = event.tabIndex)
             }
-
             is ListScreenEvent.ListDetails -> {
-                /*TODO: Cambiar por pasar la lista completa y poner detalles de esa*/
                 listState = listState.copy(tabIndex = listState.tabIndex)
                 val gson: Gson = GsonBuilder().create()
                 val listJson = gson.toJson(event.list)
@@ -61,6 +59,9 @@ class ListViewModel(
                         newValue = listJson
                     )
                 )
+            }
+            is ListScreenEvent.NavigationToCreationListScreen -> {
+
             }
         }
     }

@@ -34,10 +34,18 @@ fun homeScreen(viewModel: HomeViewModel) {
                             viewModel.homeState.listOfBooks,
                             Modifier.weight(1f)
                         )
-                        noBooksMainScreen(
-                            Modifier
-                                .weight(1f)
-                                .fillMaxWidth(), viewModel)
+                        if(viewModel.homeState.listOfReadingBooks.isEmpty()){
+                            noBooksMainScreen(
+                                Modifier
+                                    .weight(1f)
+                                    .fillMaxWidth(), viewModel)
+                        }else{
+                            booksCarousel(
+                                stringResource(id = R.string.home_reading_books),
+                                viewModel.homeState.listOfReadingBooks,
+                                Modifier.weight(1f)
+                            )
+                        }
                     }
                 }
             }

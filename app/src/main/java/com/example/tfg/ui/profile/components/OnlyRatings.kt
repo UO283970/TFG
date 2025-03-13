@@ -1,9 +1,8 @@
 package com.example.tfg.ui.profile.components
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,12 +26,13 @@ fun onlyReviews(commonEventHandler: CommonEventHandler, viewModel: ProfileViewMo
                 )
             }
         ) { innerPadding ->
-            Column(
+            LazyColumn(
                 Modifier
                     .padding(innerPadding)
-                    .verticalScroll(rememberScrollState())
             ) {
-                friendActivityItem(viewModel.profileInfo.profileReviews)
+                items(viewModel.profileInfo.profileReviews) {
+                    friendActivityItem(it)
+                }
             }
         }
     }
