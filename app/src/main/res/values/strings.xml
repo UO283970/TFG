@@ -64,7 +64,7 @@
     <string name="profile_edit_desc_characters">de %d caracteres</string>
     <string name="edit_profile">Editar perfil</string>
     <string name="profile_edit_privacy">Perfil privado</string>
-    <string name="edit_profile_save_button">Guardar</string>
+    <string name="save_button">Guardar</string>
     <string name="edit_user_name_placeholder">Nombre</string>
     <string name="edit_user_alias_placeholder">Nombre de usuario</string>
     <string name="edit_user_description_placeholder">Descripción</string>
@@ -81,6 +81,16 @@
     <string name="accept_button">Aceptar</string>
     <string name="view_more_icon">Icono de ver más</string>
     <string name="view_more_text">Ver más</string>
+    <string name="list_privacy_public">Pública</string>
+    <string name="list_privacy_private">Privada</string>
+    <string name="list_privacy_only_friends">Solo amigos</string>
+    <string name="list_creation_new_list">Nueva lista</string>
+    <string name="list_creation_list_name">Nombre de la lista</string>
+    <string name="list_creation_list_desccription">Descripción de la lista</string>
+    <string name="list_creation_list_privacy">Privacidad:</string>
+    <string name="list_creation_dropdown_menu_down_arrow">Flecha del desplegable de la elección de privacidad</string>
+    <string name="list_creation_list_desccription_char_count">%d de %d caracteres</string>
+    <string name="list_creation_list_empty_name_error">El nombre de la lista no puede estar vacío</string>
     <string-array name="list_of_search_for">
         <item>Título</item>
         <item>Autor</item>

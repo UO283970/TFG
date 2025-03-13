@@ -25,18 +25,17 @@ sealed class NotificationsScreenEvent {
 }
 
 data class NotificationsMainState(
-    val commonEventHandler: CommonEventHandler,
     val notificationList: List<Notification>,
     val friendRequests: List<User> = arrayListOf()
 )
 
 class NotificationsViewModel(
     val navController: NavHostController,
-    commonEventHandler: CommonEventHandler,
+    val commonEventHandler: CommonEventHandler,
     private val stringResourcesProvider: StringResourcesProvider
 ) :
     ViewModel() {
-    var notificationsMainState by mutableStateOf(NotificationsMainState(commonEventHandler, getUserNotifications()))
+    var notificationsMainState by mutableStateOf(NotificationsMainState(getUserNotifications()))
 
     fun onEvent(event: NotificationsScreenEvent) {
         when (event) {

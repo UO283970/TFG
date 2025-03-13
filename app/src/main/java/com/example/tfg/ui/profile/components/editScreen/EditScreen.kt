@@ -69,7 +69,7 @@ fun EditScreen(profileViewModel: ProfileViewModel) {
                         profileEditSwitch(profileViewModel)
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                             Button(onClick = { profileViewModel.onEvent(ProfileScreenEvent.SaveButtonOnClick)}) {
-                                Text(stringResource(R.string.edit_profile_save_button))
+                                Text(stringResource(R.string.save_button))
                             }
                         }
                     }

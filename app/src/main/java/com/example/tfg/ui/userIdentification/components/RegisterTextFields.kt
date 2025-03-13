@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
+import com.example.tfg.ui.common.errorText
 import com.example.tfg.ui.userIdentification.RegisterMainEvent
 import com.example.tfg.ui.userIdentification.RegisterViewModel
 
@@ -41,11 +42,7 @@ fun textFieldUserName(registerViewModel: RegisterViewModel) {
             isError = registerViewModel.formState.userNameError != null
         )
         if (registerViewModel.formState.userNameError != null)
-            Text(
-                text = registerViewModel.formState.userNameError!!,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall
-            )
+            errorText(registerViewModel.formState.userNameError!!)
     }
 
 }
@@ -69,11 +66,7 @@ fun textFieldUserEmail(registerViewModel: RegisterViewModel) {
             isError = registerViewModel.formState.emailError != null
         )
         if (registerViewModel.formState.emailError != null)
-            Text(
-                text = registerViewModel.formState.emailError!!,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall
-            )
+            errorText(registerViewModel.formState.emailError!!)
     }
 
 }
@@ -109,11 +102,7 @@ fun passwordRegisterTextField(registerViewModel: RegisterViewModel) {
             isError = registerViewModel.formState.passwordError != null
         )
         if (registerViewModel.formState.passwordError != null)
-            Text(
-                text = registerViewModel.formState.passwordError!!,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall
-            )
+            errorText(registerViewModel.formState.passwordError!!)
     }
 }
 
@@ -150,10 +139,6 @@ fun passwordRepeatRegisterTextField(registerViewModel: RegisterViewModel) {
             isError = registerViewModel.formState.passwordRepeatError != null
         )
         if (registerViewModel.formState.passwordRepeatError != null)
-            Text(
-                text = registerViewModel.formState.passwordRepeatError!!,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodySmall
-            )
+            errorText(registerViewModel.formState.passwordRepeatError!!)
     }
 }

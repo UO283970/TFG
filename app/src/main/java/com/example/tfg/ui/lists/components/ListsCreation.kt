@@ -30,14 +30,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
-import com.example.tfg.model.BookList
+import com.example.tfg.model.booklist.BookList
 import com.example.tfg.ui.lists.ListScreenEvent
 import com.example.tfg.ui.lists.ListViewModel
 
 @Composable
 fun creteOwnLists(viewModel: ListViewModel) {
     Column {
-        Box{
+        Box {
             LazyColumn {
                 items(viewModel.listState.ownLists) {
                     listItem(viewModel, it)
@@ -50,7 +50,10 @@ fun creteOwnLists(viewModel: ListViewModel) {
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.Bottom
             ) {
-                FloatingActionButton(onClick = { /*TODO*/ }, modifier = Modifier.clip(CircleShape)) {
+                FloatingActionButton(
+                    onClick = { viewModel.onEvent(ListScreenEvent.NavigationToCreationListScreen) },
+                    modifier = Modifier.clip(CircleShape)
+                ) {
                     Icon(Icons.Filled.Add, contentDescription = "")
                 }
             }

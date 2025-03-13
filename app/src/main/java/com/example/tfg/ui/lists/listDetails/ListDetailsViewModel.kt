@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.example.tfg.model.BookList
+import com.example.tfg.model.booklist.BookList
 import com.example.tfg.ui.common.CommonEventHandler
 
 sealed class ListDetailsScreenEvent {

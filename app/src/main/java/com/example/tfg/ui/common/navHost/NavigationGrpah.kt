@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.tfg.R
-import com.example.tfg.model.BookList
+import com.example.tfg.model.booklist.BookList
 import com.example.tfg.ui.common.CommonEventHandler
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.friends.FriendsViewModel
@@ -18,10 +18,12 @@ import com.example.tfg.ui.home.homeScreen
 import com.example.tfg.ui.home.notifications.NotificationsViewModel
 import com.example.tfg.ui.home.notifications.friendsRequestScreen
 import com.example.tfg.ui.home.notifications.notificationScreen
+import com.example.tfg.ui.lists.ListCreationViewModel
 import com.example.tfg.ui.lists.ListViewModel
 import com.example.tfg.ui.lists.listDetails.ListDetailsScreen
 import com.example.tfg.ui.lists.listDetails.ListDetailsViewModel
 import com.example.tfg.ui.lists.listScreen
+import com.example.tfg.ui.lists.newListCreationScreen
 import com.example.tfg.ui.profile.ProfileViewModel
 import com.example.tfg.ui.profile.components.editScreen.EditScreen
 import com.example.tfg.ui.profile.components.onlyReviews
@@ -58,6 +60,7 @@ sealed class HomeRoutesItems(val route: String) {
 sealed class ListNavigationItems(val route: String) {
     object ListsScreen : ListNavigationItems("listScreen")
     object ListDetails : ListNavigationItems("listDetails/{list}")
+    object ListCreation : ListNavigationItems("listCreation")
 }
 
 sealed class ProfileNavigationItems(val route: String) {
@@ -145,6 +148,9 @@ fun NavGraphBuilder.listsGraph(
             if (bookList != null) {
                 ListDetailsScreen(ListDetailsViewModel(navController, bookList, commonEventHandler))
             }
+        }
+        composable(ListNavigationItems.ListCreation.route) {
+            newListCreationScreen(ListCreationViewModel(commonEventHandler,stringResourcesProvider))
         }
     }
 }

@@ -36,7 +36,7 @@ fun friendsRequestScreen(notificationsViewModel: NotificationsViewModel){
         Scaffold(
             topBar = {
                 topDetailsListBar(
-                    commonEvents = notificationsViewModel.notificationsMainState.commonEventHandler,
+                    commonEvents = notificationsViewModel.commonEventHandler,
                     tittle = stringResource(R.string.home_notifications_friend_requests)
                 )
             }

@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
+import com.example.tfg.ui.lists.ListCreationViewModel
 
 @Composable
 fun bigTittleText(text: String) {
@@ -76,3 +77,11 @@ fun descText(minLinesLength : Int,text: String) {
 
 }
 
+@Composable
+fun errorText(errorText : String) {
+    Text(
+        text = errorText,
+        color = MaterialTheme.colorScheme.error,
+        style = MaterialTheme.typography.bodySmall
+    )
+}

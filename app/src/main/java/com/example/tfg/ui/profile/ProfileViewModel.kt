@@ -8,7 +8,7 @@ import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
 import com.example.tfg.model.Book
-import com.example.tfg.model.BookList
+import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.user.Activity
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.ReviewActivity

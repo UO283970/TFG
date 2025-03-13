@@ -51,7 +51,7 @@ val composeMaterial3Version by extra("1.3.0")
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.activity:activity-compose:1.10.0")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
@@ -61,7 +61,6 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.navigation:navigation-compose:2.8.7")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3")
-    implementation("androidx.core:core-ktx:+")
     implementation("com.google.code.gson:gson:2.8.5")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
