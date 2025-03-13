@@ -14,13 +14,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.time.LocalDate
 
-sealed class ListScreenEvent {
-    data class UserQueryChange(val query: String) : ListScreenEvent()
-    data class TabChange(val tabIndex: Int) : ListScreenEvent()
-    data class ListDetails(val list: BookList) : ListScreenEvent()
-    object NavigationToCreationListScreen: ListScreenEvent()
-}
-
 data class ListMainState(
     var userQuery: String = "",
     var tabIndex: Int = 0,
@@ -41,29 +34,28 @@ class ListViewModel(
             )
     )
 
-    fun onEvent(event: ListScreenEvent) {
-        when (event) {
-            is ListScreenEvent.UserQueryChange -> {
-                listState = listState.copy(userQuery = event.query)
-            }
-            is ListScreenEvent.TabChange -> {
-                listState = listState.copy(tabIndex = event.tabIndex)
-            }
-            is ListScreenEvent.ListDetails -> {
-                listState = listState.copy(tabIndex = listState.tabIndex)
-                val gson: Gson = GsonBuilder().create()
-                val listJson = gson.toJson(event.list)
-                navController.navigate(
-                    ListNavigationItems.ListDetails.route.replace(
-                        oldValue = "{list}",
-                        newValue = listJson
-                    )
-                )
-            }
-            is ListScreenEvent.NavigationToCreationListScreen -> {
-                navController.navigate(ListNavigationItems.ListCreation.route)
-            }
-        }
+    fun userQueryChange(query: String) {
+        listState = listState.copy(userQuery = query)
+    }
+
+    fun tabChange(tabIndex: Int) {
+        listState = listState.copy(tabIndex = tabIndex)
+    }
+
+    fun listDetails(list:BookList) {
+        listState = listState.copy(tabIndex = listState.tabIndex)
+        val gson: Gson = GsonBuilder().create()
+        val listJson = gson.toJson(list)
+        navController.navigate(
+            ListNavigationItems.ListDetails.route.replace(
+                oldValue = "{list}",
+                newValue = listJson
+            )
+        )
+    }
+
+    fun navigationToCreationListScreen() {
+        navController.navigate(ListNavigationItems.ListCreation.route)
     }
 
     private fun getOwnLists(): List<BookList> {

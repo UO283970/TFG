@@ -20,7 +20,7 @@ fun ListDetailsScreen(viewModel: ListDetailsViewModel) {
         Scaffold(
             topBar = {
                 topDetailsListBar(
-                    viewModel.listDetailsInfo.commonEventHandler,
+                    viewModel.commonEventHandler,
                     viewModel.listDetailsInfo.bookList.listName
                 )
             }

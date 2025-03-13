@@ -23,7 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.ui.lists.listDetails.components.topDetailsListBar
-import com.example.tfg.ui.profile.ProfileScreenEvent
 import com.example.tfg.ui.profile.ProfileViewModel
 import com.example.tfg.ui.theme.TFGTheme
 
@@ -68,7 +67,7 @@ fun EditScreen(profileViewModel: ProfileViewModel) {
                         editProfileUserDescriptionTextField(profileViewModel, Modifier.weight(1f))
                         profileEditSwitch(profileViewModel)
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                            Button(onClick = { profileViewModel.onEvent(ProfileScreenEvent.SaveButtonOnClick)}) {
+                            Button(onClick = { profileViewModel.saveButtonOnClick()}) {
                                 Text(stringResource(R.string.save_button))
                             }
                         }

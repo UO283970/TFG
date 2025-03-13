@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
-import com.example.tfg.ui.userIdentification.LoginMainEvent
 import com.example.tfg.ui.userIdentification.LoginViewModel
 
 @Composable
@@ -24,7 +23,7 @@ fun submitOrRegisterScreenButtons(loginViewModel: LoginViewModel) {
     ) {
         Button(
             onClick = {
-                loginViewModel.onEvent(LoginMainEvent.Submit)
+                loginViewModel.submit()
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -36,7 +35,7 @@ fun submitOrRegisterScreenButtons(loginViewModel: LoginViewModel) {
         ) {
             Text(stringResource(R.string.new_user_question))
             Text(stringResource(R.string.regiter_here_button),
-                Modifier.clickable { loginViewModel.onEvent(LoginMainEvent.NavigateToRegister) })
+                Modifier.clickable { loginViewModel.navigateToRegister() })
         }
     }
 }

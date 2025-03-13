@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +19,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.ui.common.errorText
-import com.example.tfg.ui.userIdentification.RegisterMainEvent
 import com.example.tfg.ui.userIdentification.RegisterViewModel
 
 @Composable
@@ -28,7 +26,7 @@ fun textFieldUserName(registerViewModel: RegisterViewModel) {
     Column {
         OutlinedTextField(
             value = registerViewModel.formState.userName,
-            onValueChange = { registerViewModel.onEvent(RegisterMainEvent.UserNameChanged(it)) },
+            onValueChange = { registerViewModel.userNameChanged(it) },
             singleLine = true,
             label = { Text(stringResource(R.string.register_user_name_placeholder)) },
             trailingIcon = {
@@ -52,7 +50,7 @@ fun textFieldUserEmail(registerViewModel: RegisterViewModel) {
     Column {
         OutlinedTextField(
             value = registerViewModel.formState.email,
-            onValueChange = { registerViewModel.onEvent(RegisterMainEvent.EmailChanged(it)) },
+            onValueChange = { registerViewModel.emailChanged(it) },
             singleLine = true,
             label = { Text(stringResource(R.string.register_user_email_placeholder)) },
             trailingIcon = {
@@ -76,7 +74,7 @@ fun passwordRegisterTextField(registerViewModel: RegisterViewModel) {
     Column {
         OutlinedTextField(
             value = registerViewModel.formState.password,
-            onValueChange = { registerViewModel.onEvent(RegisterMainEvent.PasswordChanged(it)) },
+            onValueChange = { registerViewModel.passwordChanged(it) },
             singleLine = true,
             label = { Text(stringResource(R.string.login_pass_placeholder)) },
             trailingIcon = {
@@ -89,7 +87,7 @@ fun passwordRegisterTextField(registerViewModel: RegisterViewModel) {
                     contentDescription = "Toggle password visibility",
                     modifier = Modifier
                         .requiredSize(24.dp)
-                        .clickable { registerViewModel.onEvent(RegisterMainEvent.VisiblePassword(!registerViewModel.formState.isVisiblePassword)) }
+                        .clickable { registerViewModel.visiblePassword(!registerViewModel.formState.isVisiblePassword) }
                 )
             },
             modifier = Modifier.fillMaxWidth(),
@@ -111,7 +109,7 @@ fun passwordRepeatRegisterTextField(registerViewModel: RegisterViewModel) {
     Column {
         OutlinedTextField(
             value = registerViewModel.formState.passwordRepeat,
-            onValueChange = { registerViewModel.onEvent(RegisterMainEvent.PasswordRepeatChanged(it)) },
+            onValueChange = { registerViewModel.passwordRepeatChanged(it) },
             singleLine = true,
             label = { Text(stringResource(R.string.login_pass_placeholder)) },
             trailingIcon = {
@@ -125,7 +123,7 @@ fun passwordRepeatRegisterTextField(registerViewModel: RegisterViewModel) {
                     modifier = Modifier
                         .requiredSize(24.dp)
                         .clickable {
-                            registerViewModel.onEvent(RegisterMainEvent.VisiblePasswordRepeat(!registerViewModel.formState.isVisiblePasswordRepeat))
+                            registerViewModel.visiblePasswordRepeat(!registerViewModel.formState.isVisiblePasswordRepeat)
                         }
                 )
             },

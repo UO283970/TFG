@@ -57,7 +57,7 @@ fun registerScreen(registerViewModel: RegisterViewModel) {
                                 Text(stringResource(R.string.new_already_registered))
                                 Text(
                                     stringResource(R.string.login_here_button),
-                                    Modifier.clickable { registerViewModel.onEvent(RegisterMainEvent.NavigateToLogin) })
+                                    Modifier.clickable { registerViewModel.navigateToLogin() })
                             }
                         }
 
@@ -71,7 +71,7 @@ fun registerScreen(registerViewModel: RegisterViewModel) {
 
 @Composable
 fun registerButton(registerViewModel: RegisterViewModel) {
-    Button(onClick = { registerViewModel.onEvent(RegisterMainEvent.Submit) }, modifier = Modifier.fillMaxWidth()) {
+    Button(onClick = { registerViewModel.submit() }, modifier = Modifier.fillMaxWidth()) {
         Text(stringResource(R.string.register_button))
     }
 }

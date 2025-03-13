@@ -16,12 +16,6 @@ import com.example.tfg.model.user.userPrivacy.UserPrivacyPrivate
 import com.example.tfg.model.user.userPrivacy.UserPrivacyPublic
 import java.time.LocalDate
 
-sealed class FriendScreenEvent {
-    data class UserFriendQueryChange(val userQuery: String) : FriendScreenEvent()
-    data class ChangeExpandedSearchBar(val change: Boolean) : FriendScreenEvent()
-    object SearchUsers : FriendScreenEvent()
-}
-
 data class FriendsMainState(
     var userQuery: String = "",
     var queryResult: ArrayList<User> = arrayListOf(),
@@ -31,24 +25,15 @@ data class FriendsMainState(
 
 class FriendsViewModel : ViewModel() {
     var friendsInfo by mutableStateOf(FriendsMainState().copy(followedActivity = getFollowedActivity()))
-
-    fun onEvent(event: FriendScreenEvent) {
-        when (event) {
-            is FriendScreenEvent.ChangeExpandedSearchBar -> {
-                friendsInfo = friendsInfo.copy(expandedSearchBar = event.change)
-            }
-
-            is FriendScreenEvent.UserFriendQueryChange -> {
-                friendsInfo = friendsInfo.copy(userQuery = event.userQuery)
-            }
-
-            is FriendScreenEvent.SearchUsers -> {
-                searchUsers()
-            }
-        }
+    fun changeExpandedSearchBar(change:Boolean) {
+        friendsInfo = friendsInfo.copy(expandedSearchBar = change)
     }
 
-    private fun searchUsers() {
+    fun userFriendQueryChange(userQuery: String) {
+        friendsInfo = friendsInfo.copy(userQuery = userQuery)
+    }
+
+    fun searchUsers() {
         val foundUsers: ArrayList<User> = arrayListOf()
         /*TODO: Buscar los usuarios en la base de datos*/
         foundUsers.add(

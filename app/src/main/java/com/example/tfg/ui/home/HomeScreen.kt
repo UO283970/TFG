@@ -54,7 +54,7 @@ fun homeScreen(viewModel: HomeViewModel) {
 }
 
 @Composable
-fun basicButton(title: String, selectedOpt: Boolean = false) {
+fun basicButton(title: String) {
     OutlinedButton(
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = MaterialTheme.colorScheme.onBackground

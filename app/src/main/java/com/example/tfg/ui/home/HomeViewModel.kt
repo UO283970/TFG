@@ -11,11 +11,6 @@ import com.example.tfg.ui.common.navHost.HomeRoutesItems
 import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.switchTabs
 
-sealed class HomeScreenEvent {
-    object NavigateToSearch : HomeScreenEvent()
-    object NavigateToNotifications : HomeScreenEvent()
-}
-
 data class HomeMainState(
     var listOfBooks : ArrayList<Book>,
     var listOfReadingBooks : ArrayList<Book>
@@ -26,15 +21,12 @@ class HomeViewModel(val navController: NavHostController
 
     var homeState by mutableStateOf(HomeMainState(getListOfRecommendedBooks(),getReadingBooks()))
 
-    fun onEvent(event: HomeScreenEvent){
-        when(event){
-            is HomeScreenEvent.NavigateToSearch -> {
-                navController.switchTabs(Routes.SearchScreen.route)
-            }
-            is HomeScreenEvent.NavigateToNotifications -> {
-                navController.navigate(HomeRoutesItems.NotificationScreen.route)
-            }
-        }
+    fun navigateToSearch() {
+        navController.switchTabs(Routes.SearchScreen.route)
+    }
+
+    fun navigateToNotifications() {
+        navController.navigate(HomeRoutesItems.NotificationScreen.route)
     }
 
     private fun getListOfRecommendedBooks(): ArrayList<Book> {

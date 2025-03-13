@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
-import com.example.tfg.ui.home.notifications.NotificationsScreenEvent
 import com.example.tfg.ui.home.notifications.NotificationsViewModel
 
 @Composable
@@ -61,7 +60,7 @@ fun notificationRowItem(notificationsViewModel: NotificationsViewModel) {
                         Text(it.getButtonInfo()!!.tittle)
                     }
                 }
-                IconButton(onClick = { notificationsViewModel.onEvent(NotificationsScreenEvent.DeleteNotification(it)) }) {
+                IconButton(onClick = { notificationsViewModel.deleteNotification(it) }) {
                     Icon(Icons.Filled.Clear, stringResource(id = R.string.notifications_delete_button))
                 }
             }

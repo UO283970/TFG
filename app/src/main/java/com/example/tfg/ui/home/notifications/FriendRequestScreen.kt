@@ -52,7 +52,7 @@ fun friendsRequestScreen(notificationsViewModel: NotificationsViewModel){
                                 .padding(top = 10.dp)) {
                             Row (Modifier
                                 .weight(1f).clickable {
-                                    notificationsViewModel.onEvent(NotificationsScreenEvent.ProfileUser(it))
+                                    notificationsViewModel.profileUser(it)
                                 }, verticalAlignment = Alignment.CenterVertically){
                                 Image(
                                     painterResource(it.profilePicture),
@@ -71,10 +71,10 @@ fun friendsRequestScreen(notificationsViewModel: NotificationsViewModel){
                                     fontWeight = FontWeight.SemiBold
                                 )
                             }
-                            Button(onClick = { notificationsViewModel.onEvent(NotificationsScreenEvent.AcceptFriendRequest(it)) }) {
+                            Button(onClick = { notificationsViewModel.acceptFriendRequest(it) }) {
                                 Text(stringResource(R.string.accept_button))
                             }
-                            IconButton(onClick = { notificationsViewModel.onEvent(NotificationsScreenEvent.DeleteFriendRequest(it)) }) {
+                            IconButton(onClick = { notificationsViewModel.deleteFriendRequest(it) }) {
                                 Icon(Icons.Filled.Clear, stringResource(id = R.string.notifications_delete_button))
                             }
                         }

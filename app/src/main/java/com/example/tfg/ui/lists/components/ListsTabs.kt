@@ -5,7 +5,6 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.example.tfg.ui.lists.ListScreenEvent
 import com.example.tfg.ui.lists.ListViewModel
 
 @Composable
@@ -18,7 +17,7 @@ fun tabsLists(viewModel: ListViewModel) {
         viewModel.listState.tabs.forEachIndexed { index, title ->
             Tab(text = { Text(title)},
                 selected = viewModel.listState.tabIndex == index,
-                onClick = { viewModel.onEvent(ListScreenEvent.TabChange(index)) })
+                onClick = { viewModel.tabChange(index) })
         }
     }
     when (viewModel.listState.tabIndex) {

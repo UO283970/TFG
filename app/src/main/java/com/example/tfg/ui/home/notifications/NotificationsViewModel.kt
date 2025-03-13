@@ -16,14 +16,6 @@ import com.example.tfg.ui.common.CommonEventHandler
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.HomeRoutesItems
 
-sealed class NotificationsScreenEvent {
-    data class DeleteNotification(val notification: Notification) : NotificationsScreenEvent()
-    data class DeleteFriendRequest(val user: User) : NotificationsScreenEvent()
-    data class AcceptFriendRequest(val user: User) : NotificationsScreenEvent()
-    data class ProfileUser(val user: User) : NotificationsScreenEvent()
-    object NavigateToFriendRequests: NotificationsScreenEvent()
-}
-
 data class NotificationsMainState(
     val notificationList: List<Notification>,
     val friendRequests: List<User> = arrayListOf()
@@ -36,32 +28,31 @@ class NotificationsViewModel(
 ) :
     ViewModel() {
     var notificationsMainState by mutableStateOf(NotificationsMainState(getUserNotifications()))
+    fun deleteNotification(notification: Notification) {
+        notificationsMainState =
+            notificationsMainState.copy(notificationList = notificationsMainState.notificationList - notification)
+    }
 
-    fun onEvent(event: NotificationsScreenEvent) {
-        when (event) {
-            is NotificationsScreenEvent.DeleteNotification -> {
-                notificationsMainState =
-                    notificationsMainState.copy(notificationList = notificationsMainState.notificationList - event.notification)
-            }
-            is NotificationsScreenEvent.NavigateToFriendRequests -> {
-                notificationsMainState =
-                    notificationsMainState.copy(friendRequests = getFriendRequests())
-                navController.navigate(HomeRoutesItems.FriendRequestsScreen.route)
-            }
-            is NotificationsScreenEvent.DeleteFriendRequest -> {
-                notificationsMainState =
-                    notificationsMainState.copy(friendRequests = notificationsMainState.friendRequests - event.user)
-            }
-            is NotificationsScreenEvent.AcceptFriendRequest -> {
-                val user = event.user
-                addUserToFollowers(user)
-                notificationsMainState =
-                    notificationsMainState.copy(friendRequests = notificationsMainState.friendRequests - user)
-            }
-            is NotificationsScreenEvent.ProfileUser -> {
-                /*TODO: Navegar a el usuario que clicas */
-            }
-        }
+    fun navigateToFriendRequests() {
+        notificationsMainState =
+            notificationsMainState.copy(friendRequests = getFriendRequests())
+        navController.navigate(HomeRoutesItems.FriendRequestsScreen.route)
+    }
+
+    fun deleteFriendRequest(user: User) {
+        notificationsMainState =
+            notificationsMainState.copy(friendRequests = notificationsMainState.friendRequests - user)
+    }
+
+    fun acceptFriendRequest(user: User) {
+        val user = user
+        addUserToFollowers(user)
+        notificationsMainState =
+            notificationsMainState.copy(friendRequests = notificationsMainState.friendRequests - user)
+    }
+
+    fun profileUser(user: User){
+        /*TODO: Navegar a el usuario que clicas */
     }
 
     private fun getUserNotifications(): ArrayList<Notification> {

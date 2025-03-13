@@ -19,7 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import com.example.tfg.R
-import com.example.tfg.ui.search.SearchScreenEvent
 import com.example.tfg.ui.search.SearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,7 +30,7 @@ fun searchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
             .fillMaxWidth(),
         inputField = {
             SearchBarDefaults.InputField(
-                onSearch = { viewModel.onEvent(SearchScreenEvent.GetResultsFromQuery) },
+                onSearch = { viewModel.getResultsFromQuery() },
                 expanded = viewModel.searchInfo.expandedSearchBar,
                 onExpandedChange = {  },
                 placeholder = { Text(stringResource(id = R.string.search_placeholder_input)) },
@@ -42,7 +41,7 @@ fun searchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
                     }
                 },
                 query = viewModel.searchInfo.userQuery,
-                onQueryChange = {viewModel.onEvent(SearchScreenEvent.UserQueryChange(it))  }
+                onQueryChange = {viewModel.userQueryChange(it)  }
             )
         },
         expanded = false,

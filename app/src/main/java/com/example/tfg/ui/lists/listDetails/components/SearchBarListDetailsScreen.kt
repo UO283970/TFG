@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import com.example.tfg.R
-import com.example.tfg.ui.lists.listDetails.ListDetailsScreenEvent
 import com.example.tfg.ui.lists.listDetails.ListDetailsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +31,7 @@ fun searchBarListDetailsScreen(viewModel: ListDetailsViewModel) {
                 placeholder = { Text(stringResource(id = R.string.search_placeholder_input)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
                 query = viewModel.listDetailsInfo.userQuery,
-                onQueryChange = { viewModel.onEvent(ListDetailsScreenEvent.UserQueryChange(it)) }
+                onQueryChange = { viewModel.userQueryChange(it) }
             )
         },
         expanded = false,

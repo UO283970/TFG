@@ -3,7 +3,6 @@ package com.example.tfg.model.user
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.tfg.model.user.userFollowStates.UserFollowStateUnfollow
 import com.example.tfg.model.user.userPrivacy.UserPrivacyPrivate
-import com.example.tfg.ui.profile.ProfileScreenEvent
 import java.time.LocalDate
 
 
@@ -27,5 +26,5 @@ class User(
     fun getShowMoreInfo():Boolean{
         return privacy.getShowMainInfo() || followState.getCanShowMoreInfo()
     }
-    data class UserButtonConfig(val buttonTittle: Int, val buttonIcon: ImageVector, val buttonEvent: ProfileScreenEvent)
+    data class UserButtonConfig(val buttonTittle: Int, val buttonIcon: ImageVector, val buttonEvent: () -> Unit)
 }

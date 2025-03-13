@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -37,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.user.User
-import com.example.tfg.ui.friends.FriendScreenEvent
 import com.example.tfg.ui.friends.FriendsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,8 +49,8 @@ fun searchBarFriendsScreen(viewModel: FriendsViewModel) {
             Row{
                 if (viewModel.friendsInfo.expandedSearchBar) {
                     IconButton(onClick = {
-                        viewModel.onEvent(FriendScreenEvent.ChangeExpandedSearchBar(false))
-                        viewModel.onEvent(FriendScreenEvent.UserFriendQueryChange(""))
+                        viewModel.changeExpandedSearchBar(false)
+                        viewModel.userFriendQueryChange("")
                     }) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
@@ -61,18 +59,18 @@ fun searchBarFriendsScreen(viewModel: FriendsViewModel) {
                     }
                 }
                 SearchBarDefaults.InputField(
-                    onSearch = { viewModel.onEvent(FriendScreenEvent.SearchUsers) },
+                    onSearch = { viewModel.searchUsers() },
                     expanded = viewModel.friendsInfo.expandedSearchBar,
-                    onExpandedChange = { viewModel.onEvent(FriendScreenEvent.ChangeExpandedSearchBar(it))  },
+                    onExpandedChange = { viewModel.changeExpandedSearchBar(it)  },
                     placeholder = { Text(stringResource(id = R.string.friends_search_placeholder_input)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
                     query = viewModel.friendsInfo.userQuery,
-                    onQueryChange = { viewModel.onEvent(FriendScreenEvent.UserFriendQueryChange(it)) }
+                    onQueryChange = { viewModel.userFriendQueryChange(it)}
                 )
             }
         },
         expanded = viewModel.friendsInfo.expandedSearchBar,
-        onExpandedChange = { viewModel.onEvent(FriendScreenEvent.ChangeExpandedSearchBar(it)) },
+        onExpandedChange = { viewModel.changeExpandedSearchBar(it)},
     ) {
         Column(Modifier.verticalScroll(rememberScrollState())) {
             for (user in viewModel.friendsInfo.queryResult){

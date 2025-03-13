@@ -21,22 +21,6 @@ import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 import java.time.LocalDate
 
-sealed class ProfileScreenEvent {
-    object EditButtonClick : ProfileScreenEvent()
-    object FollowButtonClick : ProfileScreenEvent()
-    object PendingButtonClick : ProfileScreenEvent()
-    object UnFollowButtonClick : ProfileScreenEvent()
-    object ReviewsButtonClick : ProfileScreenEvent()
-    object FollowedButtonClick : ProfileScreenEvent()
-    object FollowersButtonClick : ProfileScreenEvent()
-    data class ChangeUserName(val userName: String) : ProfileScreenEvent()
-    data class ChangeUserDescription(val userDescription: String) : ProfileScreenEvent()
-    data class ChangeUserAlias(val userAlias: String) : ProfileScreenEvent()
-    object ChangeSwitch: ProfileScreenEvent()
-    object SaveButtonOnClick: ProfileScreenEvent()
-
-}
-
 data class ProfileMainState(
     val commonEventHandler: CommonEventHandler,
     val user: User,
@@ -51,7 +35,6 @@ data class EditProfileMainState(
     var userNameError: String? = null,
     var userAlias: String,
     var userDescription: String,
-    var userDescriptionLongitude: Int,
     var switchState:Boolean
 
 )
@@ -71,66 +54,48 @@ class ProfileViewModel(
             userName = profileInfo.user.userName,
             userAlias = profileInfo.user.userAlias,
             userDescription = profileInfo.user.description,
-            userDescriptionLongitude = profileInfo.user.description.length,
             switchState = profileInfo.user.privacy.getPrivacyLevel() == UserPrivacyLevel.PRIVATE
         )
     )
 
-    fun onEvent(event: ProfileScreenEvent) {
-        when (event) {
-            is ProfileScreenEvent.EditButtonClick -> {
-                navController.navigate(ProfileNavigationItems.EditProfile.route)
-            }
+    private fun editButtonClick() {
+        navController.navigate(ProfileNavigationItems.EditProfile.route)
+    }
 
-            is ProfileScreenEvent.FollowButtonClick -> {
-                navController.navigate("")
-            }
+    fun reviewsButtonClick(){
+        navController.navigate(""/*Navegar a la pantalla de seguidores perfil*/)
+    }
+    fun followedButtonClick(){
+        navController.navigate(""/*Navegar a la pantalla de seguidores perfil*/)
+    }
+    fun followersButtonClick(){
+        navController.navigate(""/*Navegar a la pantalla de seguidores perfil*/)
+    }
 
-            is ProfileScreenEvent.PendingButtonClick -> {
-                navController.navigate("")
-            }
+    fun changeUserName(userName: String) {
+        profileEditState = profileEditState.copy(userName = userName)
+    }
 
-            is ProfileScreenEvent.UnFollowButtonClick -> {
-                navController.navigate("")
-            }
+    fun changeUserDescription(userDescription: String) {
+        if (profileEditState.userDescription.length <= AppConstants.DESC_MAX_CHARACTERS) {
+            profileEditState = profileEditState.copy(
+                userDescription = userDescription
+            )
+        }
+    }
 
-            is ProfileScreenEvent.ReviewsButtonClick -> {
-                getUserReviews()
-                navController.navigate(ProfileNavigationItems.UserReviews.route)
-            }
+    fun changeUserAlias(userAlias: String) {
+        profileEditState = profileEditState.copy(userAlias = userAlias)
+    }
 
-            is ProfileScreenEvent.FollowedButtonClick -> {
-                navController.navigate(""/*Navegar a la pantalla de seguidos perfil*/)
-            }
+    fun changeSwitch() {
+        profileEditState = profileEditState.copy(switchState = !profileEditState.switchState)
+    }
 
-            is ProfileScreenEvent.FollowersButtonClick -> {
-                navController.navigate(""/*Navegar a la pantalla de seguidores perfil*/)
-            }
-
-            is ProfileScreenEvent.ChangeUserName -> {
-                profileEditState = profileEditState.copy(userName = event.userName)
-            }
-
-            is ProfileScreenEvent.ChangeUserDescription -> {
-                if(event.userDescription.length <= AppConstants.DESC_MAX_CHARACTERS){
-                    profileEditState = profileEditState.copy(
-                        userDescription = event.userDescription,
-                        userDescriptionLongitude = event.userDescription.length
-                    )
-                }
-            }
-            is ProfileScreenEvent.ChangeUserAlias -> {
-                profileEditState = profileEditState.copy(userAlias = event.userAlias)
-            }
-            is ProfileScreenEvent.ChangeSwitch -> {
-                profileEditState = profileEditState.copy(switchState = !profileEditState.switchState)
-            }
-            is ProfileScreenEvent.SaveButtonOnClick -> {
-                /*TODO: Guardar los cambios del usuario en la base de datos*/
-                if(userNameCheck()){
-                    navController.popBackStack()
-                }
-            }
+    fun saveButtonOnClick(){
+        /*TODO: Guardar los cambios del usuario en la base de datos*/
+        if(userNameCheck()){
+            navController.popBackStack()
         }
     }
 

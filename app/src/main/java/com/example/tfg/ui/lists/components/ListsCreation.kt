@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.booklist.BookList
-import com.example.tfg.ui.lists.ListScreenEvent
 import com.example.tfg.ui.lists.ListViewModel
 
 @Composable
@@ -51,7 +50,7 @@ fun creteOwnLists(viewModel: ListViewModel) {
                 verticalArrangement = Arrangement.Bottom
             ) {
                 FloatingActionButton(
-                    onClick = { viewModel.onEvent(ListScreenEvent.NavigationToCreationListScreen) },
+                    onClick = { viewModel.navigationToCreationListScreen() },
                     modifier = Modifier.clip(CircleShape)
                 ) {
                     Icon(Icons.Filled.Add, contentDescription = "")
@@ -73,7 +72,7 @@ fun creteDefaultLists(viewModel: ListViewModel) {
 @Composable
 fun listItem(viewModel: ListViewModel, list: BookList) {
     Column(modifier = Modifier.clickable {
-        viewModel.onEvent(ListScreenEvent.ListDetails(list))
+        viewModel.listDetails(list)
     }) {
         HorizontalDivider()
         Row(

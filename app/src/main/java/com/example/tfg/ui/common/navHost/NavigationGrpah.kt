@@ -137,16 +137,15 @@ fun NavGraphBuilder.listsGraph(
     commonEventHandler: CommonEventHandler
 ) {
     navigation(startDestination = ListNavigationItems.ListsScreen.route, route = Routes.ListsScreen.route) {
-        val listViewModel = ListViewModel(navController, stringResourcesProvider)
         composable(ListNavigationItems.ListsScreen.route) {
-            listScreen(listViewModel)
+            listScreen(ListViewModel(navController, stringResourcesProvider))
         }
         composable(ListNavigationItems.ListDetails.route) {
             val gson: Gson = GsonBuilder().create()
             val bookListJson: String? = navController.currentBackStackEntry?.arguments?.getString("list")
             val bookList = gson.fromJson(bookListJson, BookList::class.java)
             if (bookList != null) {
-                ListDetailsScreen(ListDetailsViewModel(navController, bookList, commonEventHandler))
+                ListDetailsScreen(ListDetailsViewModel(bookList, commonEventHandler))
             }
         }
         composable(ListNavigationItems.ListCreation.route) {

@@ -11,17 +11,6 @@ import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.HomeRoutesItems
 import com.example.tfg.ui.common.navHost.Routes
 
-sealed class RegisterMainEvent {
-    object NavigateToLogin : RegisterMainEvent()
-    data class UserNameChanged(val userName: String) : RegisterMainEvent()
-    data class EmailChanged(val email: String) : RegisterMainEvent()
-    data class PasswordChanged(val password: String) : RegisterMainEvent()
-    data class PasswordRepeatChanged(val repeatPassword: String) : RegisterMainEvent()
-    data class VisiblePasswordRepeat(val isVisibleRepeatPassword: Boolean) : RegisterMainEvent()
-    data class VisiblePassword(val isVisiblePassword: Boolean) : RegisterMainEvent()
-    object Submit : RegisterMainEvent()
-}
-
 data class RegisterMainState(
     var userName: String = "",
     var userNameError: String? = null,
@@ -41,49 +30,44 @@ class RegisterViewModel(
 ) : ViewModel() {
 
     var formState by mutableStateOf(RegisterMainState())
+    fun emailChanged(email: String) {
+        formState = formState.copy(email = email)
+    }
 
-    fun onEvent(event: RegisterMainEvent) {
-        when (event) {
-            is RegisterMainEvent.NavigateToLogin -> {
-                navController.navigate(HomeRoutesItems.HomeScreen.route)
-            }
+    fun passwordChanged(password: String) {
+        formState = formState.copy(password = password)
+    }
 
-            is RegisterMainEvent.UserNameChanged -> {
-                formState = formState.copy(userName = event.userName)
-            }
+    fun visiblePassword(isVisiblePassword: Boolean) {
+        formState = formState.copy(isVisiblePassword = isVisiblePassword)
+    }
 
-            is RegisterMainEvent.EmailChanged -> {
-                formState = formState.copy(email = event.email)
-            }
+    fun passwordRepeatChanged(repeatPassword: String) {
+        formState = formState.copy(passwordRepeat = repeatPassword)
+    }
 
-            is RegisterMainEvent.PasswordChanged -> {
-                formState = formState.copy(password = event.password)
-            }
+    fun visiblePasswordRepeat(isVisibleRepeatPassword: Boolean) {
+        formState = formState.copy(isVisiblePasswordRepeat = isVisibleRepeatPassword)
+    }
 
-            is RegisterMainEvent.VisiblePassword -> {
-                formState = formState.copy(isVisiblePassword = event.isVisiblePassword)
-            }
-
-            is RegisterMainEvent.PasswordRepeatChanged -> {
-                formState = formState.copy(passwordRepeat = event.repeatPassword)
-            }
-
-            is RegisterMainEvent.VisiblePasswordRepeat -> {
-                formState = formState.copy(isVisiblePasswordRepeat = event.isVisibleRepeatPassword)
-            }
-
-            is RegisterMainEvent.Submit -> {
-                val correctEmail: Boolean = validateEmailRegister()
-                val correctUser: Boolean = validateUsers()
-                val correctPassword: Boolean = validatePassword()
-                val correctRepeatPassword: Boolean = validateRepeatPassword()
-                if (correctEmail && correctUser && correctPassword && correctRepeatPassword) {
-                    navController.navigate(Routes.Home.route){
-                        popUpTo(HomeRoutesItems.RegisterScreen.route) { inclusive = true }
-                    }
-                }
+    fun submit() {
+        val correctEmail: Boolean = validateEmailRegister()
+        val correctUser: Boolean = validateUsers()
+        val correctPassword: Boolean = validatePassword()
+        val correctRepeatPassword: Boolean = validateRepeatPassword()
+        if (correctEmail && correctUser && correctPassword && correctRepeatPassword) {
+            navController.navigate(Routes.Home.route) {
+                popUpTo(HomeRoutesItems.RegisterScreen.route) { inclusive = true }
             }
         }
+    }
+
+    fun navigateToLogin() {
+        navController.navigate(HomeRoutesItems.HomeScreen.route)
+    }
+
+    fun userNameChanged(userName: String) {
+        formState = formState.copy(userName = userName)
     }
 
     private fun validateRepeatPassword(): Boolean {

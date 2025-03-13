@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +19,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.ui.common.errorText
-import com.example.tfg.ui.userIdentification.LoginMainEvent
 import com.example.tfg.ui.userIdentification.LoginViewModel
 
 @Composable
@@ -28,12 +26,12 @@ fun textFieldUserEmail(viewModel: LoginViewModel){
     Column {
         OutlinedTextField(
             value = viewModel.formState.email,
-            onValueChange = { viewModel.onEvent(LoginMainEvent.EmailChanged(it)) },
+            onValueChange = { viewModel.emailChanged(it) },
             singleLine = true,
             label = { Text(stringResource(R.string.login_user_placeholder)) },
             trailingIcon = {
                 if (viewModel.formState.email != "") {
-                    IconButton(onClick = { viewModel.onEvent(LoginMainEvent.EmailChanged("")) }) {
+                    IconButton(onClick = { viewModel.emailChanged("") }) {
                         Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.text_field_delete))
                     }
                 }
@@ -53,7 +51,7 @@ fun passwordTextField(viewModel: LoginViewModel): Boolean {
     Column {
         OutlinedTextField(
             value = viewModel.formState.password,
-            onValueChange = { viewModel.onEvent(LoginMainEvent.PasswordChanged(it)) },
+            onValueChange = { viewModel.passwordChanged(it) },
             singleLine = true,
             label = { Text(stringResource(R.string.login_pass_placeholder)) },
             trailingIcon = {
@@ -66,7 +64,7 @@ fun passwordTextField(viewModel: LoginViewModel): Boolean {
                     contentDescription = "Toggle password visibility",
                     modifier = Modifier
                         .requiredSize(24.dp)
-                        .clickable { viewModel.onEvent(LoginMainEvent.VisiblePassword(!viewModel.formState.isVisiblePassword)) }
+                        .clickable { viewModel.visiblePassword(!viewModel.formState.isVisiblePassword) }
                 )
             },
             modifier = Modifier.fillMaxWidth(),

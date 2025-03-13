@@ -10,14 +10,6 @@ import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.HomeRoutesItems
 import com.example.tfg.ui.common.navHost.Routes
 
-sealed class LoginMainEvent {
-    data class EmailChanged(val email: String) : LoginMainEvent()
-    data class PasswordChanged(val password: String) : LoginMainEvent()
-    data class VisiblePassword(val isVisiblePassword: Boolean) : LoginMainEvent()
-    object Submit : LoginMainEvent()
-    object NavigateToRegister : LoginMainEvent()
-}
-
 data class LoginMainState(
     var email: String = "",
     var emailError: String? = null,
@@ -33,33 +25,29 @@ class LoginViewModel(
 
     var formState by mutableStateOf(LoginMainState())
 
-    fun onEvent(event: LoginMainEvent) {
-        when (event) {
-            is LoginMainEvent.NavigateToRegister -> {
-                navController.navigate(HomeRoutesItems.RegisterScreen.route)
-            }
-            is LoginMainEvent.EmailChanged -> {
-                formState = formState.copy(email = event.email)
-            }
-
-            is LoginMainEvent.PasswordChanged -> {
-                formState = formState.copy(password = event.password)
-            }
-
-            is LoginMainEvent.VisiblePassword -> {
-                formState = formState.copy(isVisiblePassword = event.isVisiblePassword)
-            }
-
-            is LoginMainEvent.Submit -> {
-                val correctEmail = validateEmail()
-                val correctUser = validatePasswordAndUsers()
-                if (correctEmail && correctUser) {
-                    navController.navigate(Routes.Home.route,){
-                        popUpTo(HomeRoutesItems.HomeScreen.route) { inclusive = true }
-                    }
-                }
+    fun submit() {
+        val correctEmail = validateEmail()
+        val correctUser = validatePasswordAndUsers()
+        if (correctEmail && correctUser) {
+            navController.navigate(Routes.Home.route) {
+                popUpTo(HomeRoutesItems.HomeScreen.route) { inclusive = true }
             }
         }
+    }
+    fun visiblePassword(isVisiblePassword: Boolean) {
+        formState = formState.copy(isVisiblePassword = isVisiblePassword)
+    }
+
+    fun passwordChanged(password: String) {
+        formState = formState.copy(password = password)
+    }
+
+    fun emailChanged(email: String) {
+        formState = formState.copy(email = email)
+    }
+
+    fun navigateToRegister() {
+        navController.navigate(HomeRoutesItems.RegisterScreen.route)
     }
 
     private fun validatePasswordAndUsers(): Boolean {
