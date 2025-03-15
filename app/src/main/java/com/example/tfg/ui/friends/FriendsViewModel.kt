@@ -1,24 +1,22 @@
 package com.example.tfg.ui.friends
 
 import android.os.Parcelable
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.Activity
 import com.example.tfg.model.user.userActivities.ReviewActivity
 import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
-import com.example.tfg.model.user.userFollowStates.UserFollowStateInstanceCreator
 import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
-import com.example.tfg.ui.common.navHost.ProfileNavigationItems
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
+import javax.inject.Inject
 
 @Parcelize
 data class FriendsMainState(
@@ -28,20 +26,20 @@ data class FriendsMainState(
     var followedActivity: ArrayList<Activity>
 ) : Parcelable
 
-class FriendsViewModel (val navController: NavController) : ViewModel() {
-    private var savedStateHandle = navController.currentBackStackEntry?.savedStateHandle
-
+@HiltViewModel
+class FriendsViewModel @Inject constructor(private var savedStateHandle: SavedStateHandle) : ViewModel() {
     private val _friendsInfo = MutableStateFlow(
-        savedStateHandle?.get<FriendsMainState>("friendsInfo") ?: FriendsMainState(
+        savedStateHandle.get<FriendsMainState>("friendsInfo") ?: FriendsMainState(
             followedActivity = getFollowedActivity()
         )
     )
     val friendsInfo: StateFlow<FriendsMainState> = _friendsInfo
 
+
     fun changeExpandedSearchBar(change: Boolean) {
         _friendsInfo.update {
             val newState = it.copy(expandedSearchBar = change,queryResult = arrayListOf(), userQuery = "")
-            savedStateHandle?.set("friendsInfo", newState)
+            savedStateHandle["friendsInfo"] = newState
             newState
         }
     }
@@ -49,7 +47,7 @@ class FriendsViewModel (val navController: NavController) : ViewModel() {
     fun onlyChangeExpandedSearchBar(change: Boolean) {
         _friendsInfo.update {
             val newState = it.copy(expandedSearchBar = change)
-            savedStateHandle?.set("friendsInfo", newState)
+            savedStateHandle["friendsInfo"] = newState
             newState
         }
     }
@@ -58,21 +56,9 @@ class FriendsViewModel (val navController: NavController) : ViewModel() {
         _friendsInfo.value = _friendsInfo.value.copy(userQuery = userQuery)
     }
 
-    fun navigateToUserProfile(user: User) {
-        savedStateHandle = navController.currentBackStackEntry?.savedStateHandle
-        val gson: Gson =
-            GsonBuilder().registerTypeAdapter(UserFollowStateEnum::class.java, UserFollowStateInstanceCreator())
-                .create()
+    fun saveState() {
         val newState = _friendsInfo.value.copy()
-        savedStateHandle?.set("friendsInfo", newState)
-
-        val userJson = gson.toJson(user)
-        navController.navigate(
-            ProfileNavigationItems.ProfileScreen.route.replace(
-                oldValue = "{user}",
-                newValue = userJson
-            )
-        )
+        savedStateHandle["friendsInfo"] = newState
     }
 
     fun searchUsers() {

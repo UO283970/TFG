@@ -16,7 +16,6 @@ import com.example.tfg.model.user.userFollowStates.UserFollowStateInstanceCreato
 import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
 import com.example.tfg.ui.common.CommonEventHandler
 import com.example.tfg.ui.common.StringResourcesProvider
-import com.example.tfg.ui.friends.FriendsViewModel
 import com.example.tfg.ui.friends.friendsScreen
 import com.example.tfg.ui.home.HomeViewModel
 import com.example.tfg.ui.home.homeScreen
@@ -78,24 +77,23 @@ sealed class ProfileNavigationItems(val route: String) {
 fun mainAppNavigation(
     navController: NavHostController,
     stringResourcesProvider: StringResourcesProvider,
-    bottomBarState: MutableState<Boolean>
+    bottomBarState: MutableState<Boolean>,
+    commonEventHandler: CommonEventHandler
 ) {
     NavHost(
         navController = navController,
         startDestination = Routes.ListsScreen.route
     ) {
-        val commonEventHandler = CommonEventHandler(navController)
         homeGraph(navController, stringResourcesProvider, bottomBarState, commonEventHandler)
         composable(Routes.SearchScreen.route) {
             searchScreen(SearchViewModel())
         }
 
-        val friendsViewModel = FriendsViewModel(navController)
         composable(Routes.FriendsScreen.route) {
-            friendsScreen(friendsViewModel)
+            friendsScreen({ user: User, _: String -> navigateToProfileWithUser(user,navController)})
         }
         listsGraph(navController, stringResourcesProvider, commonEventHandler)
-        var userConnected = User(
+        val userConnected = User(
             /*TODO: Le pasas el usuario que esta conectado porque se accede desde el menú*/
             "Nombre de Usuario2",
             R.drawable.prueba,
@@ -105,6 +103,19 @@ fun mainAppNavigation(
         )
         profileGraph(navController, stringResourcesProvider, commonEventHandler, bottomBarState,userConnected)
     }
+}
+
+fun navigateToProfileWithUser(user: User,navController: NavHostController){
+    val gson: Gson =
+        GsonBuilder().registerTypeAdapter(UserFollowStateEnum::class.java, UserFollowStateInstanceCreator())
+            .create()
+    val userJson = gson.toJson(user)
+    navController.navigate(
+        ProfileNavigationItems.ProfileScreen.route.replace(
+            oldValue = "{user}",
+            newValue = userJson
+        )
+    )
 }
 
 fun NavGraphBuilder.homeGraph(

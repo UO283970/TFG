@@ -34,12 +34,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.user.User
+import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 import com.example.tfg.ui.friends.FriendsMainState
 import com.example.tfg.ui.friends.FriendsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun searchBarFriendsScreen(viewModel: FriendsViewModel, state: FriendsMainState) {
+fun searchBarFriendsScreen(
+    viewModel: FriendsViewModel,
+    state: FriendsMainState,
+    navigateToProfile: (user: User, route: String) -> Unit
+) {
     SearchBar(
         modifier = Modifier
             .semantics { traversalIndex = 0f }
@@ -73,16 +78,17 @@ fun searchBarFriendsScreen(viewModel: FriendsViewModel, state: FriendsMainState)
     ) {
         LazyColumn{
             items(state.queryResult){
-                friendsRow(it,viewModel)
+                friendsRow(it,viewModel,navigateToProfile)
             }
         }
     }
 }
 
 @Composable
-fun friendsRow(user: User, viewModel: FriendsViewModel) {
+fun friendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user: User, route: String) -> Unit) {
     Row(Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp).clickable {
-        viewModel.navigateToUserProfile(user)
+        viewModel.saveState()
+        navigateToProfile(user,ProfileNavigationItems.ProfileScreen.route)
     }) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(5.dp),

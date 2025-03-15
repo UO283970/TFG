@@ -12,19 +12,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.tfg.model.user.User
 import com.example.tfg.ui.friends.components.friendActivityItem
 import com.example.tfg.ui.friends.components.searchBarFriendsScreen
 import com.example.tfg.ui.theme.TFGTheme
 
+
 @Composable
-fun friendsScreen(viewModel: FriendsViewModel) {
+fun friendsScreen(navigateToProfile: (user: User,route: String) -> Unit, viewModel: FriendsViewModel = hiltViewModel()) {
     val state by viewModel.friendsInfo.collectAsState()
 
     TFGTheme(dynamicColor = false)
     {
         Scaffold { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
-                searchBarFriendsScreen(viewModel,state)
+                searchBarFriendsScreen(viewModel,state,navigateToProfile)
                 Box() {
                     LazyColumn(
                         Modifier

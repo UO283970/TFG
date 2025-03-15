@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.tfg.ui.common.CommonEventHandler
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.common.navHost.mainAppNavigation
@@ -66,7 +67,8 @@ fun navigationBar(navController: NavHostController, stringResourcesProvider: Str
         })
     { innerPadding ->
         Box (modifier = Modifier.padding(innerPadding)){
-            mainAppNavigation(navController,stringResourcesProvider,bottomBarState)
+            val commonEventHandler = CommonEventHandler(navController)
+            mainAppNavigation(navController,stringResourcesProvider,bottomBarState,commonEventHandler)
         }
     }
 }
