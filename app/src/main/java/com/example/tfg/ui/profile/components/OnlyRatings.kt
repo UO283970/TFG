@@ -20,10 +20,10 @@ fun onlyReviews(commonEventHandler: CommonEventHandler, viewModel: ProfileViewMo
     {
         Scaffold(
             topBar = {
-                topDetailsListBar(
-                    commonEventHandler,
-                    tittle = stringResource(R.string.profile_rating_text)
-                )
+                    topDetailsListBar(
+                        commonEventHandler,
+                        tittle = stringResource(R.string.profile_rating_text)
+                    )
             }
         ) { innerPadding ->
             LazyColumn(

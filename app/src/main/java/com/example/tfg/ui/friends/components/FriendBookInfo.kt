@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
-import com.example.tfg.model.user.Activity
+import com.example.tfg.model.user.userActivities.Activity
 
 @Composable
 fun activityAndBookInfo(activity: Activity) {
@@ -27,7 +27,7 @@ fun activityAndBookInfo(activity: Activity) {
             fontSize = 16.sp
         )
         Text(
-            text = activity.relatedBook().tittle,
+            text = activity.book.tittle,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
             fontWeight = FontWeight.SemiBold,

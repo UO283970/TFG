@@ -33,7 +33,7 @@ fun EditScreen(profileViewModel: ProfileViewModel) {
         Scaffold(
             topBar = {
                 topDetailsListBar(
-                    profileViewModel.profileInfo.commonEventHandler,
+                    profileViewModel.commonEventHandler,
                     stringResource(R.string.edit_profile)
                 )
             }

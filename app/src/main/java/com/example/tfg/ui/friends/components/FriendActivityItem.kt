@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.example.tfg.model.user.Activity
+import com.example.tfg.model.user.userActivities.Activity
 
 @Composable
 fun friendActivityItem(activity: Activity) {
@@ -28,7 +28,7 @@ fun friendActivityItem(activity: Activity) {
                 .padding(top = 10.dp)
         ) {
             Row(modifier = Modifier.padding(start = 20.dp, bottom = 10.dp)) {
-                bookImageBig(activity.relatedBook().coverImage, Modifier.weight(0.5f))
+                bookImageBig(activity.book.coverImage, Modifier.weight(0.5f))
                 Column(
                     Modifier
                         .padding(start = 10.dp, top = 20.dp)

@@ -1,20 +1,18 @@
 package com.example.tfg.ui.friends.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,18 +34,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.user.User
+import com.example.tfg.ui.friends.FriendsMainState
 import com.example.tfg.ui.friends.FriendsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun searchBarFriendsScreen(viewModel: FriendsViewModel) {
+fun searchBarFriendsScreen(viewModel: FriendsViewModel, state: FriendsMainState) {
     SearchBar(
         modifier = Modifier
             .semantics { traversalIndex = 0f }
             .fillMaxWidth(),
         inputField = {
             Row{
-                if (viewModel.friendsInfo.expandedSearchBar) {
+                if (state.expandedSearchBar) {
                     IconButton(onClick = {
                         viewModel.changeExpandedSearchBar(false)
                         viewModel.userFriendQueryChange("")
@@ -60,29 +59,31 @@ fun searchBarFriendsScreen(viewModel: FriendsViewModel) {
                 }
                 SearchBarDefaults.InputField(
                     onSearch = { viewModel.searchUsers() },
-                    expanded = viewModel.friendsInfo.expandedSearchBar,
-                    onExpandedChange = { viewModel.changeExpandedSearchBar(it)  },
+                    expanded = state.expandedSearchBar,
+                    onExpandedChange = { viewModel.onlyChangeExpandedSearchBar(it)  },
                     placeholder = { Text(stringResource(id = R.string.friends_search_placeholder_input)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
-                    query = viewModel.friendsInfo.userQuery,
+                    query = state.userQuery,
                     onQueryChange = { viewModel.userFriendQueryChange(it)}
                 )
             }
         },
-        expanded = viewModel.friendsInfo.expandedSearchBar,
+        expanded = state.expandedSearchBar,
         onExpandedChange = { viewModel.changeExpandedSearchBar(it)},
     ) {
-        Column(Modifier.verticalScroll(rememberScrollState())) {
-            for (user in viewModel.friendsInfo.queryResult){
-                friendsRow(user)
+        LazyColumn{
+            items(state.queryResult){
+                friendsRow(it,viewModel)
             }
         }
     }
 }
 
 @Composable
-fun friendsRow(user: User) {
-    Row(Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp)) {
+fun friendsRow(user: User, viewModel: FriendsViewModel) {
+    Row(Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp).clickable {
+        viewModel.navigateToUserProfile(user)
+    }) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(5.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -104,17 +105,6 @@ fun friendsRow(user: User) {
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp,
             )
-        }
-        Row(
-            horizontalArrangement = Arrangement.End,
-            modifier = Modifier
-        ) {
-            val userButtonInfo = user.getFollowStateInfo()
-            Button(modifier = Modifier.width(140.dp),onClick = { userButtonInfo.buttonEvent }) {
-                Icon(userButtonInfo.buttonIcon, contentDescription = "")
-                Text(stringResource(userButtonInfo.buttonTittle),
-                    maxLines = 1)
-            }
         }
     }
 }

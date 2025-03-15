@@ -9,20 +9,16 @@ import com.example.tfg.R
 import com.example.tfg.model.AppConstants
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookList
-import com.example.tfg.model.user.Activity
 import com.example.tfg.model.user.User
+import com.example.tfg.model.user.userActivities.Activity
 import com.example.tfg.model.user.userActivities.ReviewActivity
-import com.example.tfg.model.user.userFollowStates.UserFollowStateFollowed
-import com.example.tfg.model.user.userFollowStates.UserFollowStateUnfollow
+import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
 import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
-import com.example.tfg.model.user.userPrivacy.UserPrivacyPublic
 import com.example.tfg.ui.common.CommonEventHandler
 import com.example.tfg.ui.common.StringResourcesProvider
-import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 import java.time.LocalDate
 
 data class ProfileMainState(
-    val commonEventHandler: CommonEventHandler,
     val user: User,
     var profileDefaultLists: ArrayList<BookList>,
     var profileBookLists: ArrayList<BookList>,
@@ -40,12 +36,13 @@ data class EditProfileMainState(
 )
 
 class ProfileViewModel(
-    private val navController: NavController,
+    val navController: NavController,
     private val stringResourcesProvider: StringResourcesProvider,
-    commonEventHandler: CommonEventHandler
+    val commonEventHandler: CommonEventHandler,
+    val user: User
 ) : ViewModel() {
     var profileInfo by mutableStateOf(
-        ProfileMainState(commonEventHandler, obtainUserInfo(), profileDefaultLists(), getUsersProfileLists())
+        ProfileMainState(obtainUserInfo(user), profileDefaultLists(user), getUsersProfileLists(user))
     )
 
     var profileEditState by mutableStateOf(
@@ -54,13 +51,9 @@ class ProfileViewModel(
             userName = profileInfo.user.userName,
             userAlias = profileInfo.user.userAlias,
             userDescription = profileInfo.user.description,
-            switchState = profileInfo.user.privacy.getPrivacyLevel() == UserPrivacyLevel.PRIVATE
+            switchState = profileInfo.user.privacy == UserPrivacyLevel.PRIVATE
         )
     )
-
-    private fun editButtonClick() {
-        navController.navigate(ProfileNavigationItems.EditProfile.route)
-    }
 
     fun reviewsButtonClick(){
         navController.navigate(""/*Navegar a la pantalla de seguidores perfil*/)
@@ -99,18 +92,12 @@ class ProfileViewModel(
         }
     }
 
-    private fun obtainUserInfo(): User {
-        return User(
-            "",
-            R.drawable.prueba,
-            UserPrivacyPublic(),
-            UserFollowStateUnfollow(),
-            userName = "Nombre de Usuario2"
-        )
+    private fun obtainUserInfo(user: User): User {
+        return user
     }
 
 
-    private fun getUsersProfileLists(): ArrayList<BookList> {
+    private fun getUsersProfileLists(user: User): ArrayList<BookList> {
         /*TODO: Conseguir las listas del usuario*/
         val forTest = Book(
             "Words Of Radiance",
@@ -123,7 +110,7 @@ class ProfileViewModel(
         return arrayListOf(BookList("Fantasia interesante", arrayListOf(forTest)))
     }
 
-    private fun profileDefaultLists(): ArrayList<BookList> {
+    private fun profileDefaultLists(user: User): ArrayList<BookList> {
         /*TODO: Conseguir las listas por defecto del usuario*/
         val listNames = stringResourcesProvider.getStringArray(R.array.list_of_default_lists)
         val listOfBooks: ArrayList<BookList> = arrayListOf()
@@ -147,7 +134,7 @@ class ProfileViewModel(
         //TODO: Obtener la actividad de las reviews del usuario seleccionado
         val libroTest = Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba)
         val userForTesting =
-            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyPublic(), UserFollowStateFollowed())
+            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.REQUESTED)
         val reviewForTest = ReviewActivity(
             userForTesting,
             LocalDate.now(),
@@ -169,5 +156,9 @@ class ProfileViewModel(
 
         profileEditState = profileEditState.copy(userNameError = null)
         return true
+    }
+
+    fun checkConnectedUser(): Boolean {
+        return user.followState == UserFollowStateEnum.OWN
     }
 }

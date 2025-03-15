@@ -3,4 +3,5 @@ plugins {
     id("com.android.application") version "8.1.4" apply false
     id("org.jetbrains.kotlin.android") version "1.8.10" apply false
     id ("org.jetbrains.kotlin.plugin.serialization") version "1.6.21"
+    id ("com.google.dagger.hilt.android") version "2.51.1" apply false
 }

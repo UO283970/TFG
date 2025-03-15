@@ -10,8 +10,8 @@ import com.example.tfg.model.notifications.FollowNotification
 import com.example.tfg.model.notifications.FollowedNotification
 import com.example.tfg.model.notifications.Notification
 import com.example.tfg.model.user.User
-import com.example.tfg.model.user.userFollowStates.UserFollowStateFollowed
-import com.example.tfg.model.user.userPrivacy.UserPrivacyPublic
+import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
+import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
 import com.example.tfg.ui.common.CommonEventHandler
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.HomeRoutesItems
@@ -58,16 +58,16 @@ class NotificationsViewModel(
     private fun getUserNotifications(): ArrayList<Notification> {
 
         val userForTesting =
-            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyPublic(), UserFollowStateFollowed())
+            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWED)
         val followNot = FollowNotification(userForTesting, stringResourcesProvider, R.drawable.prueba)
-        val followedNoti = FollowedNotification(userForTesting, stringResourcesProvider, R.drawable.prueba)
+        val followedNoti = FollowedNotification(userForTesting, stringResourcesProvider,navController, R.drawable.prueba,)
         return arrayListOf(followNot, followedNoti)
     }
 
 
     private fun getFriendRequests(): ArrayList<User> {
         val userForTesting =
-            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyPublic(), UserFollowStateFollowed())
+            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWED)
         return arrayListOf(userForTesting,userForTesting)
     }
 

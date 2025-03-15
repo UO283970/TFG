@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.ui.common.descText
+import com.example.tfg.ui.lists.listDetails.components.topDetailsListBar
 import com.example.tfg.ui.profile.components.editButton
 import com.example.tfg.ui.profile.components.mainUserProfileInfo
 import com.example.tfg.ui.profile.components.profileLists
@@ -33,25 +34,38 @@ fun profileScreen(viewModel: ProfileViewModel) {
     {
         Scaffold(
             topBar = {
-                TopAppBar(title = {Text(viewModel.profileInfo.user.userName.trim(),
-                    overflow = TextOverflow.Ellipsis,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold)},
-                    actions = {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(Icons.Outlined.Settings, stringResource(R.string.settings_button))
+                if (viewModel.checkConnectedUser()) {
+                    TopAppBar(title = {
+                        Text(
+                            viewModel.profileInfo.user.userAlias.trim(),
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    },
+                        actions = {
+                            IconButton(onClick = { /*TODO*/ }) {
+                                Icon(Icons.Outlined.Settings, stringResource(R.string.settings_button))
+                            }
                         }
-                    }
-                )
-            }){ innerPadding ->
+                    )
+                } else {
+                    topDetailsListBar(
+                        viewModel.commonEventHandler,
+                        tittle = viewModel.profileInfo.user.userAlias.trim()
+                    )
+                }
+            }) { innerPadding ->
             Column(
                 Modifier
                     .padding(innerPadding)
-                    .verticalScroll(rememberScrollState())) {
+                    .verticalScroll(rememberScrollState())
+            ) {
                 Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
                     mainUserProfileInfo(viewModel)
-                    if(viewModel.profileInfo.user.description.trim() != ""){
-                        descText(3,viewModel.profileInfo.user.description.trim())
+                    if (viewModel.profileInfo.user.description.trim() != "") {
+                        descText(3, viewModel.profileInfo.user.description.trim())
                     }
                     editButton(viewModel)
                     profileLists(viewModel)

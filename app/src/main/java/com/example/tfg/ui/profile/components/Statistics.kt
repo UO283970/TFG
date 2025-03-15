@@ -17,7 +17,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
-import com.example.tfg.ui.profile.ProfileScreenEvent
 import com.example.tfg.ui.profile.ProfileViewModel
 
 @Composable
@@ -29,16 +28,16 @@ fun statistics(viewModel: ProfileViewModel) {
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         statisticTexts(stringResource(R.string.profile_review_text),viewModel.profileInfo.user.numReviews) {
-            viewModel.onEvent(ProfileScreenEvent.ReviewsButtonClick)
+            viewModel.reviewsButtonClick()
         }
         Spacer(modifier = Modifier.weight(1.0f))
         statisticTexts(stringResource(R.string.profile_followers_text),viewModel.profileInfo.user.followers) {
-            viewModel.onEvent(ProfileScreenEvent.FollowersButtonClick)
+            viewModel.followersButtonClick()
         }
 
         Spacer(modifier = Modifier.weight(1.0f))
         statisticTexts(stringResource(R.string.profile_following_text),viewModel.profileInfo.user.followed){
-            viewModel.onEvent(ProfileScreenEvent.FollowedButtonClick)
+            viewModel.followedButtonClick()
         }
         Spacer(modifier = Modifier.weight(1.0f))
     }
