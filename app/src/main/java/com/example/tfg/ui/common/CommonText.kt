@@ -18,7 +18,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
-import com.example.tfg.ui.lists.ListCreationViewModel
 
 @Composable
 fun bigTittleText(text: String) {

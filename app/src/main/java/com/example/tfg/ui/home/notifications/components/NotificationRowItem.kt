@@ -27,16 +27,14 @@ import com.example.tfg.R
 import com.example.tfg.ui.home.notifications.NotificationsViewModel
 
 @Composable
-fun notificationRowItem(notificationsViewModel: NotificationsViewModel) {
+fun NotificationRowItem(notificationsViewModel: NotificationsViewModel, navigateTo: (String) -> Unit) {
     LazyColumn {
         items(notificationsViewModel.notificationsMainState.notificationList) {
             Row(
                 Modifier
                     .padding(top = 10.dp, start = 10.dp, end = 10.dp)
                     .clickable {
-                        if (it.getRowOnClick() != { }) {
-                            it.getRowOnClick()
-                        }
+                        navigateTo(it.getRowOnClickRoute())
                     }) {
                 Image(
                     painterResource(it.getNotificationImage()),
@@ -47,7 +45,7 @@ fun notificationRowItem(notificationsViewModel: NotificationsViewModel) {
                     contentScale = ContentScale.FillBounds
                 )
                 Text(
-                    it.getMainNotificationInfo(),
+                    stringResource(it.getMainNotificationInfoResource(),it.getExtraInfo()),
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 5.dp),
@@ -57,7 +55,7 @@ fun notificationRowItem(notificationsViewModel: NotificationsViewModel) {
                 )
                 if (it.getButtonInfo() != null) {
                     Button(onClick = { it.getButtonInfo()!!.action }) {
-                        Text(it.getButtonInfo()!!.tittle)
+                        Text(stringResource(it.getButtonInfo()!!.tittleResource))
                     }
                 }
                 IconButton(onClick = { notificationsViewModel.deleteNotification(it) }) {

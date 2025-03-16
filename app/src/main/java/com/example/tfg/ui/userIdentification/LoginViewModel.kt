@@ -1,38 +1,36 @@
 package com.example.tfg.ui.userIdentification
 
+import android.os.Parcelable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavHostController
 import com.example.tfg.R
 import com.example.tfg.ui.common.StringResourcesProvider
-import com.example.tfg.ui.common.navHost.HomeRoutesItems
-import com.example.tfg.ui.common.navHost.Routes
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.parcelize.Parcelize
+import javax.inject.Inject
 
+@Parcelize
 data class LoginMainState(
     var email: String = "",
     var emailError: String? = null,
     var password: String = "",
     var passwordError: String? = null,
     var isVisiblePassword: Boolean = false
-)
+) : Parcelable
 
-class LoginViewModel(
-    val navController: NavHostController,
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider
 ) : ViewModel() {
 
     var formState by mutableStateOf(LoginMainState())
 
-    fun submit() {
+    fun submit() : Boolean{
         val correctEmail = validateEmail()
         val correctUser = validatePasswordAndUsers()
-        if (correctEmail && correctUser) {
-            navController.navigate(Routes.Home.route) {
-                popUpTo(HomeRoutesItems.HomeScreen.route) { inclusive = true }
-            }
-        }
+        return correctEmail && correctUser
     }
     fun visiblePassword(isVisiblePassword: Boolean) {
         formState = formState.copy(isVisiblePassword = isVisiblePassword)
@@ -44,10 +42,6 @@ class LoginViewModel(
 
     fun emailChanged(email: String) {
         formState = formState.copy(email = email)
-    }
-
-    fun navigateToRegister() {
-        navController.navigate(HomeRoutesItems.RegisterScreen.route)
     }
 
     private fun validatePasswordAndUsers(): Boolean {

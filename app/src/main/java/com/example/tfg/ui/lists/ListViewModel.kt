@@ -3,35 +3,37 @@ package com.example.tfg.ui.lists
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.ListNavigationItems
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
+import javax.inject.Inject
 
 data class ListMainState(
     var userQuery: String = "",
     var tabIndex: Int = 0,
-    val tabs: List<String> = emptyList(),
-    var ownLists: List<BookList> = arrayListOf(),
-    var defaultLists: List<BookList> = arrayListOf()
+    val tabs: List<String>,
+    var ownLists: List<BookList>,
+    var defaultLists: List<BookList>
 )
 
-class ListViewModel(
-    private val navController: NavController,
-    private val stringResourcesProvider: StringResourcesProvider
+@HiltViewModel
+class ListViewModel @Inject constructor(
+    private val stringResourcesProvider: StringResourcesProvider,
+    private var savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
     var listState by mutableStateOf(
-        ListMainState()
-            .copy(
-                tabs = stringResourcesProvider.getStringArray(R.array.list_of_lists_tabs),
-                defaultLists = getDefaultLists(), ownLists = getOwnLists()
-            )
+        ListMainState(
+            tabs = stringResourcesProvider.getStringArray(R.array.list_of_lists_tabs),
+            defaultLists = getDefaultLists(),
+            ownLists = getOwnLists()
+        )
     )
 
     fun userQueryChange(query: String) {
@@ -42,20 +44,10 @@ class ListViewModel(
         listState = listState.copy(tabIndex = tabIndex)
     }
 
-    fun listDetails(list:BookList) {
+    fun listDetails(list: BookList): String {
         listState = listState.copy(tabIndex = listState.tabIndex)
-        val gson: Gson = GsonBuilder().create()
-        val listJson = gson.toJson(list)
-        navController.navigate(
-            ListNavigationItems.ListDetails.route.replace(
-                oldValue = "{list}",
-                newValue = listJson
-            )
-        )
-    }
-
-    fun navigationToCreationListScreen() {
-        navController.navigate(ListNavigationItems.ListCreation.route)
+        savedStateHandle["bookList"] = list
+        return ListNavigationItems.ListDetails.route
     }
 
     private fun getOwnLists(): List<BookList> {

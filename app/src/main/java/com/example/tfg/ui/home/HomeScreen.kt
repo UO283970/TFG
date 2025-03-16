@@ -13,34 +13,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
-import com.example.tfg.ui.home.components.booksCarousel
-import com.example.tfg.ui.home.components.noBooksMainScreen
-import com.example.tfg.ui.home.components.topNotifications
+import com.example.tfg.ui.home.components.BooksCarousel
+import com.example.tfg.ui.home.components.NoBooksMainScreen
+import com.example.tfg.ui.home.components.TopNotifications
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
-fun homeScreen(viewModel: HomeViewModel) {
+fun HomeScreen(navigateTo: (route: String) -> Unit,viewModel: HomeViewModel = hiltViewModel()) {
     TFGTheme(dynamicColor = false) {
         Scaffold(
-            topBar = { topNotifications(viewModel) }) { innerPadding ->
+            topBar = { TopNotifications(navigateTo) }) { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 HorizontalDivider(thickness = 1.dp)
                 Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
-                    basicButton("Todo")
+                    BasicButton("Todo")
                     Column {
-                        booksCarousel(
+                        BooksCarousel(
                             stringResource(id = R.string.home_recommended_books),
                             viewModel.homeState.listOfBooks,
                             Modifier.weight(1f)
                         )
                         if(viewModel.homeState.listOfReadingBooks.isEmpty()){
-                            noBooksMainScreen(
+                            NoBooksMainScreen(
                                 Modifier
                                     .weight(1f)
-                                    .fillMaxWidth(), viewModel)
+                                    .fillMaxWidth(), navigateTo)
                         }else{
-                            booksCarousel(
+                            BooksCarousel(
                                 stringResource(id = R.string.home_reading_books),
                                 viewModel.homeState.listOfReadingBooks,
                                 Modifier.weight(1f)
@@ -54,7 +55,7 @@ fun homeScreen(viewModel: HomeViewModel) {
 }
 
 @Composable
-fun basicButton(title: String) {
+fun BasicButton(title: String) {
     OutlinedButton(
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = MaterialTheme.colorScheme.onBackground

@@ -31,15 +31,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.booklist.BookList
+import com.example.tfg.ui.common.navHost.ListNavigationItems
 import com.example.tfg.ui.lists.ListViewModel
 
 @Composable
-fun creteOwnLists(viewModel: ListViewModel) {
+fun CreteOwnLists(
+    viewModel: ListViewModel,
+    navigateTo: (route: String) -> Unit,
+    navigateToListDetails: (bookList: BookList) -> Unit
+) {
     Column {
         Box {
             LazyColumn {
                 items(viewModel.listState.ownLists) {
-                    listItem(viewModel, it)
+                    ListItem(it, navigateToListDetails)
                 }
             }
             Column(
@@ -50,7 +55,7 @@ fun creteOwnLists(viewModel: ListViewModel) {
                 verticalArrangement = Arrangement.Bottom
             ) {
                 FloatingActionButton(
-                    onClick = { viewModel.navigationToCreationListScreen() },
+                    onClick = { navigateTo(ListNavigationItems.ListCreation.route) },
                     modifier = Modifier.clip(CircleShape)
                 ) {
                     Icon(Icons.Filled.Add, contentDescription = "")
@@ -61,18 +66,18 @@ fun creteOwnLists(viewModel: ListViewModel) {
 }
 
 @Composable
-fun creteDefaultLists(viewModel: ListViewModel) {
+fun CreteDefaultLists(viewModel: ListViewModel, navigateToListDetails: (bookList: BookList) -> Unit) {
     LazyColumn {
         items(viewModel.listState.defaultLists) {
-            listItem(viewModel, it)
+            ListItem(it, navigateToListDetails)
         }
     }
 }
 
 @Composable
-fun listItem(viewModel: ListViewModel, list: BookList) {
+fun ListItem( list: BookList, navigateToListDetails: (bookList: BookList) -> Unit) {
     Column(modifier = Modifier.clickable {
-        viewModel.listDetails(list)
+        navigateToListDetails(list)
     }) {
         HorizontalDivider()
         Row(

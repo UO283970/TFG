@@ -7,31 +7,33 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
-import com.example.tfg.ui.common.CommonEventHandler
-import com.example.tfg.ui.friends.components.friendActivityItem
-import com.example.tfg.ui.lists.listDetails.components.topDetailsListBar
-import com.example.tfg.ui.profile.ProfileViewModel
+import com.example.tfg.ui.friends.components.FriendActivityItem
+import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
+import com.example.tfg.ui.profile.components.statistics.ReviewsScreenViewModel
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
-fun onlyReviews(commonEventHandler: CommonEventHandler, viewModel: ProfileViewModel) {
+fun OnlyReviews(
+    returnToLastScreen: () -> Unit, viewModel: ReviewsScreenViewModel = hiltViewModel()
+) {
     TFGTheme(dynamicColor = false)
     {
         Scaffold(
             topBar = {
-                    topDetailsListBar(
-                        commonEventHandler,
-                        tittle = stringResource(R.string.profile_rating_text)
-                    )
+                TopDetailsListBar(
+                    returnToLastScreen,
+                    tittle = stringResource(R.string.profile_rating_text)
+                )
             }
         ) { innerPadding ->
             LazyColumn(
                 Modifier
                     .padding(innerPadding)
             ) {
-                items(viewModel.profileInfo.profileReviews) {
-                    friendActivityItem(it)
+                items(viewModel.profileReviewsInfo.profileReviews) {
+                    FriendActivityItem(it)
                 }
             }
         }

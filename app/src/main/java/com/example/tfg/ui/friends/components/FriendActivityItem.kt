@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.tfg.model.user.userActivities.Activity
 
 @Composable
-fun friendActivityItem(activity: Activity) {
+fun FriendActivityItem(activity: Activity) {
     Box(
         modifier = Modifier
             .clip(AlertDialogDefaults.shape)

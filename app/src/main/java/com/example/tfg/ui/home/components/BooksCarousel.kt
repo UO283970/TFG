@@ -34,7 +34,7 @@ import com.example.tfg.model.Book
 import com.example.tfg.ui.common.tittleBigText
 
 @Composable
-fun booksCarousel(mainTittle: String, bookList: List<Book>, modifier: Modifier) {
+fun BooksCarousel(mainTittle: String, bookList: List<Book>, modifier: Modifier) {
 
     Column(
         modifier = modifier,
@@ -48,7 +48,7 @@ fun booksCarousel(mainTittle: String, bookList: List<Book>, modifier: Modifier) 
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
             ) {
                 items(bookList) {
-                    bookMainItems(it)
+                    BookMainItems(it)
                 }
                 item {
                     Column(
@@ -75,7 +75,7 @@ fun booksCarousel(mainTittle: String, bookList: List<Book>, modifier: Modifier) 
 }
 
 @Composable
-fun bookMainItems(book: Book) {
+fun BookMainItems(book: Book) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.Start,
@@ -92,13 +92,13 @@ fun bookMainItems(book: Book) {
                 .width(130.dp),
             contentScale = ContentScale.FillBounds
         )
-        bookMainScreenText(book.tittle)
-        bookMainScreenText(book.author)
+        BookMainScreenText(book.tittle)
+        BookMainScreenText(book.author)
     }
 }
 
 @Composable
-private fun bookMainScreenText(titulo: String) {
+private fun BookMainScreenText(titulo: String) {
     Text(
         text = titulo,
         textAlign = TextAlign.Center,

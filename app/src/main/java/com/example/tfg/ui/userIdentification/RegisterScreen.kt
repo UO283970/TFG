@@ -14,16 +14,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
+import com.example.tfg.ui.common.navHost.HomeRoutesItems
+import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.theme.TFGTheme
+import com.example.tfg.ui.userIdentification.components.PasswordRegisterTextField
+import com.example.tfg.ui.userIdentification.components.PasswordRepeatRegisterTextField
+import com.example.tfg.ui.userIdentification.components.TextFieldUserEmail
+import com.example.tfg.ui.userIdentification.components.TextFieldUserName
 import com.example.tfg.ui.userIdentification.components.loginMainText
-import com.example.tfg.ui.userIdentification.components.passwordRegisterTextField
-import com.example.tfg.ui.userIdentification.components.passwordRepeatRegisterTextField
-import com.example.tfg.ui.userIdentification.components.textFieldUserEmail
-import com.example.tfg.ui.userIdentification.components.textFieldUserName
 
 @Composable
-fun registerScreen(registerViewModel: RegisterViewModel) {
+fun RegisterScreen(
+    navigateTo: (route: String) -> Unit,
+    navigateToWithoutSave: (route: String) -> Unit,
+    registerViewModel: RegisterViewModel = hiltViewModel()
+) {
     TFGTheme(dynamicColor = false) {
         Scaffold { innerPadding ->
             Column(
@@ -41,15 +48,15 @@ fun registerScreen(registerViewModel: RegisterViewModel) {
                         Modifier.padding(start = 10.dp, end = 10.dp),
                         verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        textFieldUserName(registerViewModel)
-                        textFieldUserEmail(registerViewModel)
-                        passwordRegisterTextField(registerViewModel)
-                        passwordRepeatRegisterTextField(registerViewModel)
+                        TextFieldUserName(registerViewModel)
+                        TextFieldUserEmail(registerViewModel)
+                        PasswordRegisterTextField(registerViewModel)
+                        PasswordRepeatRegisterTextField(registerViewModel)
                         Column(
                             verticalArrangement = Arrangement.spacedBy(5.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            registerButton(registerViewModel)
+                            RegisterButton(registerViewModel,navigateToWithoutSave)
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(2.dp),
                                 verticalAlignment = Alignment.CenterVertically
@@ -57,7 +64,7 @@ fun registerScreen(registerViewModel: RegisterViewModel) {
                                 Text(stringResource(R.string.new_already_registered))
                                 Text(
                                     stringResource(R.string.login_here_button),
-                                    Modifier.clickable { registerViewModel.navigateToLogin() })
+                                    Modifier.clickable { navigateTo(HomeRoutesItems.LoginScreen.route) })
                             }
                         }
 
@@ -70,8 +77,12 @@ fun registerScreen(registerViewModel: RegisterViewModel) {
 }
 
 @Composable
-fun registerButton(registerViewModel: RegisterViewModel) {
-    Button(onClick = { registerViewModel.submit() }, modifier = Modifier.fillMaxWidth()) {
+fun RegisterButton(registerViewModel: RegisterViewModel, navigateToWithoutSave: (String) -> Unit) {
+    Button(onClick = {
+        if (registerViewModel.submit()) {
+            navigateToWithoutSave(Routes.Home.route)
+        }
+    }, modifier = Modifier.fillMaxWidth()) {
         Text(stringResource(R.string.register_button))
     }
 }

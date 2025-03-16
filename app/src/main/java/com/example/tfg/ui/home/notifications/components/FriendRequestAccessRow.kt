@@ -21,12 +21,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
+import com.example.tfg.ui.common.navHost.HomeRoutesItems
 import com.example.tfg.ui.home.notifications.NotificationsViewModel
 
 @Composable
-fun friendRequestAccessRow(viewModel: NotificationsViewModel) {
+fun FriendRequestAccessRow(viewModel: NotificationsViewModel, navigateTo: (String) -> Unit) {
     Row(modifier = Modifier
-        .clickable { viewModel.navigateToFriendRequests()}
+        .clickable {
+            viewModel.obtainFriendRequests()
+            navigateTo(HomeRoutesItems.FriendRequestsScreen.route)
+        }
         .padding(start = 10.dp, end = 10.dp)
         .fillMaxWidth()) {
         Box(modifier = Modifier.border(2.dp, MaterialTheme.colorScheme.onBackground, CircleShape)) {

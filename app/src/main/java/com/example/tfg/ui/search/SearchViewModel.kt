@@ -6,7 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.tfg.R
 import com.example.tfg.model.Book
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
+import javax.inject.Inject
 
 data class SearchMainState(
     var userQuery: String = "",
@@ -15,7 +17,8 @@ data class SearchMainState(
 
 )
 
-class SearchViewModel : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor() : ViewModel() {
     var searchInfo by mutableStateOf(SearchMainState())
     fun userQueryChange(userQuery: String) {
         searchInfo = searchInfo.copy(userQuery = userQuery)

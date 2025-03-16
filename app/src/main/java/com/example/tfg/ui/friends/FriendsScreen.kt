@@ -14,28 +14,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.model.user.User
-import com.example.tfg.ui.friends.components.friendActivityItem
-import com.example.tfg.ui.friends.components.searchBarFriendsScreen
+import com.example.tfg.ui.friends.components.FriendActivityItem
+import com.example.tfg.ui.friends.components.SearchBarFriendsScreen
 import com.example.tfg.ui.theme.TFGTheme
 
 
 @Composable
-fun friendsScreen(navigateToProfile: (user: User,route: String) -> Unit, viewModel: FriendsViewModel = hiltViewModel()) {
+fun FriendsScreen(
+    navigateToProfile: (user: User) -> Unit,
+    viewModel: FriendsViewModel = hiltViewModel()
+) {
     val state by viewModel.friendsInfo.collectAsState()
 
     TFGTheme(dynamicColor = false)
     {
         Scaffold { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
-                searchBarFriendsScreen(viewModel,state,navigateToProfile)
-                Box() {
+                SearchBarFriendsScreen(viewModel, state, navigateToProfile)
+                Box {
                     LazyColumn(
                         Modifier
                             .padding(top = 10.dp, start = 10.dp, end = 10.dp),
                         verticalArrangement = Arrangement.spacedBy((10).dp)
                     ) {
-                        items(state.followedActivity){
-                            friendActivityItem(it)
+                        items(state.followedActivity) {
+                            FriendActivityItem(it)
                         }
                     }
                 }

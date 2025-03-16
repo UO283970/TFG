@@ -8,19 +8,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
-import com.example.tfg.ui.home.notifications.components.friendRequestAccessRow
-import com.example.tfg.ui.home.notifications.components.notificationRowItem
-import com.example.tfg.ui.lists.listDetails.components.topDetailsListBar
+import com.example.tfg.ui.home.notifications.components.FriendRequestAccessRow
+import com.example.tfg.ui.home.notifications.components.NotificationRowItem
+import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
-fun notificationScreen(notificationsViewModel: NotificationsViewModel) {
+fun NotificationScreen(
+    navigateTo: (route: String) -> Unit, returnToLastScreen: () -> Unit,
+    notificationsViewModel: NotificationsViewModel = hiltViewModel()
+) {
     TFGTheme {
         Scaffold(
             topBar = {
-                topDetailsListBar(
-                    commonEvents = notificationsViewModel.commonEventHandler,
+                TopDetailsListBar(
+                    returnToLastScreen = returnToLastScreen,
                     tittle = stringResource(R.string.home_notifications)
                 )
             }
@@ -29,9 +33,9 @@ fun notificationScreen(notificationsViewModel: NotificationsViewModel) {
                 modifier = Modifier
                     .padding(innerPadding)
             ) {
-                friendRequestAccessRow(notificationsViewModel)
+                FriendRequestAccessRow(notificationsViewModel, navigateTo)
                 HorizontalDivider(modifier = Modifier.padding(top = 5.dp))
-                notificationRowItem(notificationsViewModel)
+                NotificationRowItem(notificationsViewModel, navigateTo)
             }
         }
     }

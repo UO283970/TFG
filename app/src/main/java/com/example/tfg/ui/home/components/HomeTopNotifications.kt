@@ -13,18 +13,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
-import com.example.tfg.ui.home.HomeViewModel
+import com.example.tfg.ui.common.navHost.HomeRoutesItems
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun topNotifications(viewModel: HomeViewModel) {
+fun TopNotifications(navigateTo: (String) -> Unit) {
     TopAppBar(
         windowInsets = TopAppBarDefaults.windowInsets,
         title = { Text(text = "") },
         expandedHeight = 50.dp,
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
         actions = {
-            IconButton(onClick = { viewModel.navigateToNotifications() }) {
+            IconButton(onClick = {navigateTo(HomeRoutesItems.NotificationScreen.route) }) {
                 Icon(Icons.Outlined.Notifications, stringResource(R.string.notifications))
             }
         }

@@ -72,8 +72,8 @@
     <string name="home_notifications_friend_requests_icon">Icono de solicitudes de seguimiento</string>
     <string name="notifications_friend_requests">Solicitudes de seguimiento</string>
     <string name="notifications_friend_small_text">Acepta o deniega solicitudes</string>
-    <string name="notifications_follow_notification_text">Has comenzado a seguir a:</string>
-    <string name="notifications_followed_notification_text">Ha comenzado a seguirte</string>
+    <string name="notifications_follow_notification_text">Has comenzado a seguir a:\n%s</string>
+    <string name="notifications_followed_notification_text">%s\nHa comenzado a seguirte</string>
     <string name="notifications_followed_notification_button_text">Seguir</string>
     <string name="notifications_image_text">Imagen de notificación</string>
     <string name="notifications_delete_button">Eliminar notificación</string>

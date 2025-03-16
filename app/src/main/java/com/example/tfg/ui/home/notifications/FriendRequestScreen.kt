@@ -26,17 +26,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
-import com.example.tfg.ui.lists.listDetails.components.topDetailsListBar
+import com.example.tfg.model.user.User
+import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
-fun friendsRequestScreen(notificationsViewModel: NotificationsViewModel){
+fun FriendsRequestScreen(
+    returnToLastScreen: () -> Unit,
+    navigateToProfile: (user: User) -> Unit,
+    notificationsViewModel: NotificationsViewModel = hiltViewModel()
+) {
     TFGTheme {
         Scaffold(
             topBar = {
-                topDetailsListBar(
-                    commonEvents = notificationsViewModel.commonEventHandler,
+                TopDetailsListBar(
+                    returnToLastScreen = returnToLastScreen,
                     tittle = stringResource(R.string.home_notifications_friend_requests)
                 )
             }
@@ -45,15 +51,19 @@ fun friendsRequestScreen(notificationsViewModel: NotificationsViewModel){
                 modifier = Modifier
                     .padding(innerPadding)
             ) {
-                LazyColumn(modifier = Modifier.padding(start = 10.dp, end = 10.dp)){
-                    items(notificationsViewModel.notificationsMainState.friendRequests){
+                LazyColumn(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
+                    items(notificationsViewModel.notificationsMainState.friendRequests) {
                         Row(
                             Modifier
-                                .padding(top = 10.dp)) {
-                            Row (Modifier
-                                .weight(1f).clickable {
-                                    notificationsViewModel.profileUser(it)
-                                }, verticalAlignment = Alignment.CenterVertically){
+                                .padding(top = 10.dp)
+                        ) {
+                            Row(
+                                Modifier
+                                    .weight(1f)
+                                    .clickable {
+                                        navigateToProfile(it)
+                                    }, verticalAlignment = Alignment.CenterVertically
+                            ) {
                                 Image(
                                     painterResource(it.profilePicture),
                                     stringResource(R.string.notifications_image_text),

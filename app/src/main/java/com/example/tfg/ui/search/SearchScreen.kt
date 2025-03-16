@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.ui.search.components.filterButtonsSearchForRow
 import com.example.tfg.ui.search.components.filters
@@ -32,7 +33,7 @@ import com.example.tfg.ui.theme.TFGTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun searchScreen(viewModel: SearchViewModel) {
+fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
 

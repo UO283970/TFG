@@ -21,19 +21,22 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
-import com.example.tfg.ui.lists.listDetails.components.topDetailsListBar
-import com.example.tfg.ui.profile.ProfileViewModel
+import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
-fun EditScreen(profileViewModel: ProfileViewModel) {
+fun EditScreen(
+    returnToLastScreen: () -> Unit,
+    editProfileViewModel: EditProfileViewModel = hiltViewModel()
+) {
     TFGTheme(dynamicColor = false)
     {
         Scaffold(
             topBar = {
-                topDetailsListBar(
-                    profileViewModel.commonEventHandler,
+                TopDetailsListBar(
+                    returnToLastScreen,
                     stringResource(R.string.edit_profile)
                 )
             }
@@ -49,7 +52,7 @@ fun EditScreen(profileViewModel: ProfileViewModel) {
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Image(
-                            painterResource(profileViewModel.profileEditState.userProfilePicture),
+                            painterResource(editProfileViewModel.profileEditState.userProfilePicture),
                             contentDescription = "",
                             contentScale = ContentScale.FillBounds,
                             modifier = Modifier
@@ -62,12 +65,16 @@ fun EditScreen(profileViewModel: ProfileViewModel) {
                             modifier = Modifier.clickable { /*TODO: Se cambia la foto de perfil*/ })
                     }
                     Column(modifier = Modifier.padding(start = 5.dp)) {
-                        editProfileUserNameTextField(profileViewModel)
-                        editProfileUserAliasTextField(profileViewModel)
-                        editProfileUserDescriptionTextField(profileViewModel, Modifier.weight(1f))
-                        profileEditSwitch(profileViewModel)
+                        EditProfileUserNameTextField(editProfileViewModel)
+                        EditProfileUserAliasTextField(editProfileViewModel)
+                        EditProfileUserDescriptionTextField(editProfileViewModel, Modifier.weight(1f))
+                        ProfileEditSwitch(editProfileViewModel)
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                            Button(onClick = { profileViewModel.saveButtonOnClick()}) {
+                            Button(onClick = {
+                                if (editProfileViewModel.saveButtonOnClick()) {
+                                    returnToLastScreen()
+                                }
+                            }) {
                                 Text(stringResource(R.string.save_button))
                             }
                         }

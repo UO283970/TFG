@@ -13,17 +13,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
+import com.example.tfg.ui.common.navHost.HomeRoutesItems
+import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.userIdentification.LoginViewModel
 
 @Composable
-fun submitOrRegisterScreenButtons(loginViewModel: LoginViewModel) {
+fun submitOrRegisterScreenButtons(
+    loginViewModel: LoginViewModel,
+    navigateTo: (route: String) -> Unit,
+    navigateToWithoutSave: (route: String) -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(5.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
             onClick = {
-                loginViewModel.submit()
+                if(loginViewModel.submit()){
+                    navigateToWithoutSave(Routes.Home.route)
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -35,7 +43,7 @@ fun submitOrRegisterScreenButtons(loginViewModel: LoginViewModel) {
         ) {
             Text(stringResource(R.string.new_user_question))
             Text(stringResource(R.string.regiter_here_button),
-                Modifier.clickable { loginViewModel.navigateToRegister() })
+                Modifier.clickable { navigateTo(HomeRoutesItems.RegisterScreen.route) })
         }
     }
 }

@@ -1,39 +1,36 @@
 package com.example.tfg.model.notifications
 
-import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.model.user.User
-import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 class FollowedNotification(
-    val user: User,
-    private val stringResourcesProvider: StringResourcesProvider,
-    private val navController: NavController,
-    notificationImage: Int
+    val user: User
 ) :
-    Notification(notificationImage) {
-    override fun getNotificationImage(): Int {
-        return user.profilePicture
+    Notification(user.profilePicture) {
+    override fun getMainNotificationInfoResource(): Int {
+        return R.string.notifications_followed_notification_text
     }
 
-    override fun getMainNotificationInfo(): String {
-        return user.userAlias + "\n" + stringResourcesProvider.getString(R.string.notifications_followed_notification_text)
+    override fun getExtraInfo(): String {
+        return user.userAlias
     }
 
     override fun getButtonInfo(): NotificationButtonInfo {
-        return NotificationButtonInfo(stringResourcesProvider.getString(R.string.notifications_followed_notification_button_text)) {
-            val gson: Gson = GsonBuilder().create()
-            val user = gson.toJson(user)
-            navController.navigate(
-                ProfileNavigationItems.ProfileScreen.route.replace(
-                    oldValue = "{user}",
-                    newValue = user
-                )
-            )
+        return NotificationButtonInfo(R.string.notifications_followed_notification_button_text) {
+            /*TODO: Se envía una solicitud de seguimiento, si es publico se sigue y si no solicitud*/
         }
+    }
+
+    override fun getRowOnClickRoute(): String {
+        val gson: Gson = GsonBuilder().create()
+        val user = gson.toJson(user)
+        return ProfileNavigationItems.ProfileScreen.route.replace(
+            oldValue = "{user}",
+            newValue = user
+        )
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.tfg.ui.lists
+package com.example.tfg.ui.lists.listCreation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,21 +24,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
 import com.example.tfg.model.booklist.ListPrivacy
 import com.example.tfg.ui.common.errorText
-import com.example.tfg.ui.lists.listDetails.components.topDetailsListBar
+import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
-fun newListCreationScreen(viewModel: ListCreationViewModel) {
+fun NewListCreationScreen(
+    returnToLastScreen: () -> Unit,
+    viewModel: ListCreationViewModel = hiltViewModel()
+) {
     TFGTheme(dynamicColor = false)
     {
         Scaffold(
             topBar = {
-                topDetailsListBar(
-                    viewModel.commonEventHandler,
+                TopDetailsListBar(
+                    returnToLastScreen,
                     stringResource(R.string.list_creation_new_list)
                 )
             }
@@ -48,11 +52,15 @@ fun newListCreationScreen(viewModel: ListCreationViewModel) {
                     .padding(innerPadding)
                     .then(Modifier.padding(start = 10.dp, end = 10.dp))
             ) {
-                listNameTextField(viewModel)
-                listDescriptionTextField(viewModel, Modifier.weight(0.5f))
-                dropDownMenu(viewModel)
+                ListNameTextField(viewModel)
+                ListDescriptionTextField(viewModel, Modifier.weight(0.5f))
+                DropDownMenu(viewModel)
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    Button(onClick = { viewModel.saveNewList() }) {
+                    Button(onClick = {
+                        if(viewModel.saveNewList()){
+                            returnToLastScreen()
+                        }
+                    }) {
                         Text(stringResource(R.string.save_button))
                     }
                 }
@@ -63,12 +71,13 @@ fun newListCreationScreen(viewModel: ListCreationViewModel) {
 }
 
 @Composable
-private fun dropDownMenu(viewModel: ListCreationViewModel) {
-    Row(modifier = Modifier
-        .clickable {
-            viewModel.changeDropDownState(!viewModel.listCreationState.dropDawnExpanded)
-        }
-        .padding(top = 10.dp)) {
+private fun DropDownMenu(viewModel: ListCreationViewModel) {
+    Row(
+        modifier = Modifier
+            .clickable {
+                viewModel.changeDropDownState(!viewModel.listCreationState.dropDawnExpanded)
+            }
+            .padding(top = 10.dp)) {
         Text(
             stringResource(R.string.list_creation_list_privacy) + " "
         )
@@ -90,7 +99,7 @@ private fun dropDownMenu(viewModel: ListCreationViewModel) {
             DropdownMenu(
                 viewModel.listCreationState.dropDawnExpanded,
                 onDismissRequest = { viewModel.changeDropDownState(false) }) {
-                for (privacy in ListPrivacy.values().asList()) {
+                for (privacy in ListPrivacy.entries) {
                     DropdownMenuItem(
                         text = { Text(privacy.getListPrivacyString(viewModel.stringResourcesProvider)) },
                         onClick = {
@@ -104,7 +113,7 @@ private fun dropDownMenu(viewModel: ListCreationViewModel) {
 }
 
 @Composable
-private fun listNameTextField(viewModel: ListCreationViewModel) {
+private fun ListNameTextField(viewModel: ListCreationViewModel) {
     OutlinedTextField(
         value = viewModel.listCreationState.listName,
         onValueChange = { viewModel.changeListName(it) },
@@ -128,14 +137,14 @@ private fun listNameTextField(viewModel: ListCreationViewModel) {
 }
 
 @Composable
-private fun listDescriptionTextField(viewModel: ListCreationViewModel, weight: Modifier) {
+private fun ListDescriptionTextField(viewModel: ListCreationViewModel, modifier: Modifier) {
     OutlinedTextField(
         value = viewModel.listCreationState.listDescription,
         onValueChange = { viewModel.changeListDesc(it) },
         label = { Text(stringResource(R.string.list_creation_list_desccription)) },
         modifier = Modifier
             .fillMaxWidth()
-            .then(weight)
+            .then(modifier)
     )
     Text(
         text = stringResource(

@@ -18,7 +18,7 @@ import com.example.tfg.ui.lists.listDetails.ListDetailsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun searchBarListDetailsScreen(viewModel: ListDetailsViewModel) {
+fun SearchBarListDetailsScreen(viewModel: ListDetailsViewModel) {
     SearchBar(
         modifier = Modifier
             .semantics { traversalIndex = 0f }

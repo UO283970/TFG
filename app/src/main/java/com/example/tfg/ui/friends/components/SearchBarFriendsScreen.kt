@@ -34,16 +34,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.user.User
-import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 import com.example.tfg.ui.friends.FriendsMainState
 import com.example.tfg.ui.friends.FriendsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun searchBarFriendsScreen(
+fun SearchBarFriendsScreen(
     viewModel: FriendsViewModel,
     state: FriendsMainState,
-    navigateToProfile: (user: User, route: String) -> Unit
+    navigateToProfile: (user: User) -> Unit
 ) {
     SearchBar(
         modifier = Modifier
@@ -85,10 +84,10 @@ fun searchBarFriendsScreen(
 }
 
 @Composable
-fun friendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user: User, route: String) -> Unit) {
+fun friendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user: User) -> Unit) {
     Row(Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp).clickable {
         viewModel.saveState()
-        navigateToProfile(user,ProfileNavigationItems.ProfileScreen.route)
+        navigateToProfile(user)
     }) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(5.dp),

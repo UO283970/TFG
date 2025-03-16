@@ -4,12 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavHostController
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
 import com.example.tfg.ui.common.StringResourcesProvider
-import com.example.tfg.ui.common.navHost.HomeRoutesItems
-import com.example.tfg.ui.common.navHost.Routes
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 data class RegisterMainState(
     var userName: String = "",
@@ -24,8 +23,8 @@ data class RegisterMainState(
     var isVisiblePasswordRepeat: Boolean = false
 )
 
-class RegisterViewModel(
-    val navController: NavHostController,
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider
 ) : ViewModel() {
 
@@ -50,20 +49,12 @@ class RegisterViewModel(
         formState = formState.copy(isVisiblePasswordRepeat = isVisibleRepeatPassword)
     }
 
-    fun submit() {
+    fun submit(): Boolean {
         val correctEmail: Boolean = validateEmailRegister()
         val correctUser: Boolean = validateUsers()
         val correctPassword: Boolean = validatePassword()
         val correctRepeatPassword: Boolean = validateRepeatPassword()
-        if (correctEmail && correctUser && correctPassword && correctRepeatPassword) {
-            navController.navigate(Routes.Home.route) {
-                popUpTo(HomeRoutesItems.RegisterScreen.route) { inclusive = true }
-            }
-        }
-    }
-
-    fun navigateToLogin() {
-        navController.navigate(HomeRoutesItems.HomeScreen.route)
+        return correctEmail && correctUser && correctPassword && correctRepeatPassword
     }
 
     fun userNameChanged(userName: String) {

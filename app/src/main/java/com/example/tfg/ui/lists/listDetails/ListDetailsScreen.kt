@@ -7,33 +7,34 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.ui.common.descText
+import com.example.tfg.ui.lists.listDetails.components.SearchBarListDetailsScreen
+import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.lists.listDetails.components.listDetailsItemList
-import com.example.tfg.ui.lists.listDetails.components.searchBarListDetailsScreen
-import com.example.tfg.ui.lists.listDetails.components.topDetailsListBar
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
-fun ListDetailsScreen(viewModel: ListDetailsViewModel) {
+fun ListDetailsScreen(returnToLastScreen: () -> Unit, viewModel: ListDetailsViewModel = hiltViewModel()) {
     TFGTheme(dynamicColor = false)
     {
         Scaffold(
             topBar = {
-                topDetailsListBar(
-                    viewModel.commonEventHandler,
-                    viewModel.listDetailsInfo.bookList.listName
+                TopDetailsListBar(
+                    returnToLastScreen,
+                    viewModel.listDetailsInfo.bookList?.listName ?: ""
                 )
             }
         ) { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 HorizontalDivider(thickness = 1.dp)
                 Column {
-                    searchBarListDetailsScreen(viewModel)
-                    if (viewModel.listDetailsInfo.bookList.listDescription != "") {
-                        descText(3, viewModel.listDetailsInfo.bookList.listDescription)
+                    SearchBarListDetailsScreen(viewModel)
+                    if (viewModel.listDetailsInfo.bookList?.listDescription != "") {
+                        descText(3, viewModel.listDetailsInfo.bookList?.listDescription ?: "")
                         HorizontalDivider(Modifier.padding(top = 5.dp))
                     }
-                    listDetailsItemList(viewModel.listDetailsInfo.bookList.books)
+                    listDetailsItemList(viewModel.listDetailsInfo.bookList?.books ?: arrayListOf())
                 }
             }
         }

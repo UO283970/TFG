@@ -23,11 +23,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
+import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.common.tittleBigText
-import com.example.tfg.ui.home.HomeViewModel
 
 @Composable
-fun noBooksMainScreen(modifier: Modifier, viewController: HomeViewModel) {
+fun NoBooksMainScreen(modifier: Modifier, navigateTo: (String) -> Unit) {
     Column(modifier) {
         tittleBigText(stringResource(id = R.string.home_reading_books))
         Column(
@@ -49,7 +49,7 @@ fun noBooksMainScreen(modifier: Modifier, viewController: HomeViewModel) {
                 fontWeight = FontWeight.Bold
             )
             OutlinedButton(onClick = {
-                viewController.navigateToSearch()
+                navigateTo(Routes.ListsScreen.route)
             }) {
                 Icon(Icons.Outlined.Search, contentDescription = "", tint = MaterialTheme.colorScheme.onBackground)
                 Text(

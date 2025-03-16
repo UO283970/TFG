@@ -5,17 +5,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
+import com.example.tfg.ui.NavigationBar
 import com.example.tfg.ui.common.StringResourcesProvider
-import com.example.tfg.ui.navigationBar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var stringResourcesProvider: StringResourcesProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            navigationBar(navController = rememberNavController(), StringResourcesProvider(applicationContext))
+            NavigationBar(navController = rememberNavController())
         }
     }
 }

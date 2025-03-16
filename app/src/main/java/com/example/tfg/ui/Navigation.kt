@@ -23,13 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.tfg.ui.common.CommonEventHandler
-import com.example.tfg.ui.common.StringResourcesProvider
+import com.example.tfg.ui.common.navHost.MainAppNavigation
 import com.example.tfg.ui.common.navHost.Routes
-import com.example.tfg.ui.common.navHost.mainAppNavigation
 
 @Composable
-fun navigationBar(navController: NavHostController, stringResourcesProvider: StringResourcesProvider) {
+fun NavigationBar(navController: NavHostController) {
     val items = listOf(
         Routes.Home, Routes.SearchScreen, Routes.FriendsScreen, Routes.ListsScreen, Routes.Profile
     )
@@ -67,8 +65,7 @@ fun navigationBar(navController: NavHostController, stringResourcesProvider: Str
         })
     { innerPadding ->
         Box (modifier = Modifier.padding(innerPadding)){
-            val commonEventHandler = CommonEventHandler(navController)
-            mainAppNavigation(navController,stringResourcesProvider,bottomBarState,commonEventHandler)
+            MainAppNavigation(navController,bottomBarState)
         }
     }
 }

@@ -18,10 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tfg.ui.profile.ProfileViewModel
+import com.example.tfg.model.user.User
 
 @Composable
-fun mainUserProfileInfo(viewModel: ProfileViewModel) {
+fun MainUserProfileInfo(user: User?, navigateTo: (String) -> Unit) {
     Row {
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -30,14 +30,14 @@ fun mainUserProfileInfo(viewModel: ProfileViewModel) {
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            profileImage(viewModel.profileInfo.user.profilePicture)
-            userNameAndDate(viewModel)
+            ProfileImage(user?.profilePicture ?: 0)
+            UserNameAndDate(user, navigateTo)
         }
     }
 }
 
 @Composable
-fun profileImage(profilePicture: Int) {
+fun ProfileImage(profilePicture: Int) {
     Image(
         painterResource(profilePicture),
         contentDescription = "",
@@ -49,21 +49,21 @@ fun profileImage(profilePicture: Int) {
 }
 
 @Composable
-fun userNameAndDate(viewModel: ProfileViewModel) {
+fun UserNameAndDate(user: User?, navigateTo: (route: String) -> Unit) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
-        if(viewModel.profileInfo.user.userName != ""){
+        if(user?.userName != ""){
             Text(
-                viewModel.profileInfo.user.userName,
+                user?.userName ?: "",
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 18.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         }
-        statistics(viewModel)
+        Statistics(user, navigateTo)
     }
 }
 

@@ -22,7 +22,7 @@ import com.example.tfg.ui.common.errorText
 import com.example.tfg.ui.userIdentification.RegisterViewModel
 
 @Composable
-fun textFieldUserName(registerViewModel: RegisterViewModel) {
+fun TextFieldUserName(registerViewModel: RegisterViewModel) {
     Column {
         OutlinedTextField(
             value = registerViewModel.formState.userName,
@@ -46,7 +46,7 @@ fun textFieldUserName(registerViewModel: RegisterViewModel) {
 }
 
 @Composable
-fun textFieldUserEmail(registerViewModel: RegisterViewModel) {
+fun TextFieldUserEmail(registerViewModel: RegisterViewModel) {
     Column {
         OutlinedTextField(
             value = registerViewModel.formState.email,
@@ -70,7 +70,7 @@ fun textFieldUserEmail(registerViewModel: RegisterViewModel) {
 }
 
 @Composable
-fun passwordRegisterTextField(registerViewModel: RegisterViewModel) {
+fun PasswordRegisterTextField(registerViewModel: RegisterViewModel) {
     Column {
         OutlinedTextField(
             value = registerViewModel.formState.password,
@@ -105,7 +105,7 @@ fun passwordRegisterTextField(registerViewModel: RegisterViewModel) {
 }
 
 @Composable
-fun passwordRepeatRegisterTextField(registerViewModel: RegisterViewModel) {
+fun PasswordRepeatRegisterTextField(registerViewModel: RegisterViewModel) {
     Column {
         OutlinedTextField(
             value = registerViewModel.formState.passwordRepeat,

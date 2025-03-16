@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavHostController
 import com.example.tfg.R
 import com.example.tfg.model.notifications.FollowNotification
 import com.example.tfg.model.notifications.FollowedNotification
@@ -12,20 +11,16 @@ import com.example.tfg.model.notifications.Notification
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
 import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
-import com.example.tfg.ui.common.CommonEventHandler
-import com.example.tfg.ui.common.StringResourcesProvider
-import com.example.tfg.ui.common.navHost.HomeRoutesItems
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 data class NotificationsMainState(
     val notificationList: List<Notification>,
     val friendRequests: List<User> = arrayListOf()
 )
 
-class NotificationsViewModel(
-    val navController: NavHostController,
-    val commonEventHandler: CommonEventHandler,
-    private val stringResourcesProvider: StringResourcesProvider
-) :
+@HiltViewModel
+class NotificationsViewModel @Inject constructor() :
     ViewModel() {
     var notificationsMainState by mutableStateOf(NotificationsMainState(getUserNotifications()))
     fun deleteNotification(notification: Notification) {
@@ -33,10 +28,9 @@ class NotificationsViewModel(
             notificationsMainState.copy(notificationList = notificationsMainState.notificationList - notification)
     }
 
-    fun navigateToFriendRequests() {
+    fun obtainFriendRequests() {
         notificationsMainState =
             notificationsMainState.copy(friendRequests = getFriendRequests())
-        navController.navigate(HomeRoutesItems.FriendRequestsScreen.route)
     }
 
     fun deleteFriendRequest(user: User) {
@@ -51,16 +45,12 @@ class NotificationsViewModel(
             notificationsMainState.copy(friendRequests = notificationsMainState.friendRequests - user)
     }
 
-    fun profileUser(user: User){
-        /*TODO: Navegar a el usuario que clicas */
-    }
-
     private fun getUserNotifications(): ArrayList<Notification> {
 
         val userForTesting =
             User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWED)
-        val followNot = FollowNotification(userForTesting, stringResourcesProvider, R.drawable.prueba)
-        val followedNoti = FollowedNotification(userForTesting, stringResourcesProvider,navController, R.drawable.prueba,)
+        val followNot = FollowNotification(userForTesting)
+        val followedNoti = FollowedNotification(userForTesting)
         return arrayListOf(followNot, followedNoti)
     }
 

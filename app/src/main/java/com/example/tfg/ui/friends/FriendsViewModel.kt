@@ -27,7 +27,7 @@ data class FriendsMainState(
 ) : Parcelable
 
 @HiltViewModel
-class FriendsViewModel @Inject constructor(private var savedStateHandle: SavedStateHandle) : ViewModel() {
+class FriendsViewModel @Inject constructor(private val savedStateHandle: SavedStateHandle) : ViewModel() {
     private val _friendsInfo = MutableStateFlow(
         savedStateHandle.get<FriendsMainState>("friendsInfo") ?: FriendsMainState(
             followedActivity = getFollowedActivity()

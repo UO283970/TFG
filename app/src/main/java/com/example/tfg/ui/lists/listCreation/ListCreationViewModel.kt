@@ -1,4 +1,4 @@
-package com.example.tfg.ui.lists
+package com.example.tfg.ui.lists.listCreation
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,8 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
 import com.example.tfg.model.booklist.ListPrivacy
-import com.example.tfg.ui.common.CommonEventHandler
 import com.example.tfg.ui.common.StringResourcesProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 data class ListCreationMainState(
     var listName: String = "",
@@ -18,11 +19,12 @@ data class ListCreationMainState(
     var dropDawnExpanded: Boolean = false
 )
 
-class ListCreationViewModel(
-    val commonEventHandler: CommonEventHandler,
+@HiltViewModel
+class ListCreationViewModel @Inject constructor(
     val stringResourcesProvider: StringResourcesProvider
 ) : ViewModel() {
     var listCreationState by mutableStateOf(ListCreationMainState())
+
     fun changeListName(listName: String) {
         listCreationState = listCreationState.copy(listName = listName)
     }
@@ -40,11 +42,9 @@ class ListCreationViewModel(
         listCreationState = listCreationState.copy(dropDawnExpanded = expandedState)
     }
 
-    fun saveNewList() {
-        if (checkListName()) {
-            /*TODO: Guardar la lista creada*/
-            commonEventHandler.backEvent()
-        }
+    fun saveNewList(): Boolean {
+        return checkListName()
+        /*TODO: Guardar la lista creada*/
     }
 
     private fun checkListName(): Boolean {

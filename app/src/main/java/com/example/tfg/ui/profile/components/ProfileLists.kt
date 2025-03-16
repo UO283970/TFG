@@ -1,7 +1,6 @@
 package com.example.tfg.ui.profile.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,36 +24,34 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
+import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.ui.common.tittleBigText
-import com.example.tfg.ui.profile.ProfileViewModel
 
 @Composable
-fun profileLists(viewModel: ProfileViewModel) {
-
+fun ProfileLists(defaultList: ArrayList<BookList>,userLists: ArrayList<BookList>) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        profileLists(viewModel.profileInfo.profileDefaultLists, stringResource(R.string.profile_default_lists))
-        profileLists(viewModel.profileInfo.profileBookLists, stringResource(R.string.profile_own_lists))
+        ProfileLists(defaultList, stringResource(R.string.profile_default_lists))
+        ProfileLists(userLists, stringResource(R.string.profile_own_lists))
     }
 }
 
 @Composable
-fun profileLists(lists: ArrayList<BookList>, tittle: String) {
+fun ProfileLists(lists: ArrayList<BookList>, tittle: String) {
 
     Column {
         tittleBigText(tittle)
-        Row(
-            modifier = Modifier.horizontalScroll(rememberScrollState()),
+        LazyRow(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            for (d in lists) {
+            items(lists){
                 Column(
                     modifier = Modifier
                         .padding(top = 5.dp)
                         .wrapContentWidth(),
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    profileNameList(d)
+                    ProfileNameList(it)
                 }
             }
         }
@@ -61,13 +59,13 @@ fun profileLists(lists: ArrayList<BookList>, tittle: String) {
 }
 
 @Composable
-fun profileNameList(bookList: BookList) {
-    profileListImage(/*TODO: Aquí y en todas las listas es necesario obtener la imagen del primer libro sino se pondrá una por defecto*/)
+fun ProfileNameList(bookList: BookList) {
+    ProfileListImage(bookList.books[0]/*TODO: Aquí y en todas las listas es necesario obtener la imagen del primer libro sino se pondrá una por defecto*/)
     Row(
         Modifier.widthIn(0.dp, 120.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        profileListText(
+        ProfileListText(
             bookList.listName,
             Modifier
                 .wrapContentWidth()
@@ -83,9 +81,9 @@ fun profileNameList(bookList: BookList) {
 }
 
 @Composable
-fun profileListImage() {
+fun ProfileListImage(firstBook: Book) {
     Image(
-        painterResource(R.drawable.prueba),
+        painterResource(firstBook.coverImage),
         contentDescription = stringResource(id = R.string.home_imageDescNoBooks),
         modifier = Modifier
             .clip(RoundedCornerShape(15.dp))
@@ -97,7 +95,7 @@ fun profileListImage() {
 }
 
 @Composable
-fun profileListText(text: String, modifier: Modifier) {
+fun ProfileListText(text: String, modifier: Modifier) {
     Text(
         text = text,
         fontSize = 14.sp,

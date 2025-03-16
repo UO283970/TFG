@@ -17,34 +17,35 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
-import com.example.tfg.ui.profile.ProfileViewModel
+import com.example.tfg.model.user.User
+import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 
 @Composable
-fun statistics(viewModel: ProfileViewModel) {
+fun Statistics(user: User?, navigateTo: (route: String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 5.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        statisticTexts(stringResource(R.string.profile_review_text),viewModel.profileInfo.user.numReviews) {
-            viewModel.reviewsButtonClick()
+        StatisticTexts(stringResource(R.string.profile_review_text), user?.numReviews ?: 0) {
+            navigateTo(ProfileNavigationItems.UserReviews.route)
         }
         Spacer(modifier = Modifier.weight(1.0f))
-        statisticTexts(stringResource(R.string.profile_followers_text),viewModel.profileInfo.user.followers) {
-            viewModel.followersButtonClick()
+        StatisticTexts(stringResource(R.string.profile_followers_text), user?.followers ?: 0) {
+            navigateTo(ProfileNavigationItems.UserFollowers.route)
         }
 
         Spacer(modifier = Modifier.weight(1.0f))
-        statisticTexts(stringResource(R.string.profile_following_text),viewModel.profileInfo.user.followed){
-            viewModel.followedButtonClick()
+        StatisticTexts(stringResource(R.string.profile_following_text), user?.followed ?: 0){
+            navigateTo(ProfileNavigationItems.UserFollows.route)
         }
         Spacer(modifier = Modifier.weight(1.0f))
     }
 }
 
 @Composable
-private fun statisticTexts(mainText: String,total: Int, onClick: () -> Unit) {
+private fun StatisticTexts(mainText: String, total: Int, onClick: () -> Unit) {
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.clickable(onClick = onClick) )
     {

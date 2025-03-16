@@ -22,7 +22,7 @@ import com.example.tfg.ui.common.errorText
 import com.example.tfg.ui.userIdentification.LoginViewModel
 
 @Composable
-fun textFieldUserEmail(viewModel: LoginViewModel){
+fun TextFieldUserEmail(viewModel: LoginViewModel){
     Column {
         OutlinedTextField(
             value = viewModel.formState.email,

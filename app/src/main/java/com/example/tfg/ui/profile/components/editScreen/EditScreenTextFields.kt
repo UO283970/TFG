@@ -13,19 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
-import com.example.tfg.ui.profile.ProfileViewModel
 
 @Composable
-fun editProfileUserNameTextField(profileViewModel: ProfileViewModel) {
+fun EditProfileUserNameTextField(editProfileViewModel: EditProfileViewModel) {
     OutlinedTextField(
-        value = profileViewModel.profileEditState.userName,
-        onValueChange = { profileViewModel.changeUserName(it) },
+        value = editProfileViewModel.profileEditState.userName,
+        onValueChange = { editProfileViewModel.changeUserName(it) },
         singleLine = true,
         label = { Text(stringResource(R.string.edit_user_name_placeholder)) },
         trailingIcon = {
-            if (profileViewModel.profileEditState.userName != "") {
+            if (editProfileViewModel.profileEditState.userName != "") {
                 IconButton(onClick = {
-                    profileViewModel.changeUserName(
+                    editProfileViewModel.changeUserName(
                         ""
                     )
                 }) {
@@ -37,27 +36,27 @@ fun editProfileUserNameTextField(profileViewModel: ProfileViewModel) {
             }
         },
         modifier = Modifier.fillMaxWidth(),
-        isError = profileViewModel.profileEditState.userNameError != null,
+        isError = editProfileViewModel.profileEditState.userNameError != null,
     )
-    if (profileViewModel.profileEditState.userNameError != null)
+    if (editProfileViewModel.profileEditState.userNameError != null)
         Text(
-            text = profileViewModel.profileEditState.userNameError!!,
+            text = editProfileViewModel.profileEditState.userNameError!!,
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.bodySmall
         )
 }
 
 @Composable
-fun editProfileUserAliasTextField(profileViewModel: ProfileViewModel) {
+fun EditProfileUserAliasTextField(editProfileViewModel: EditProfileViewModel) {
     OutlinedTextField(
-        value = profileViewModel.profileEditState.userAlias,
-        onValueChange = { profileViewModel.changeUserAlias(it) },
+        value = editProfileViewModel.profileEditState.userAlias,
+        onValueChange = { editProfileViewModel.changeUserAlias(it) },
         singleLine = true,
         label = { Text(stringResource(R.string.edit_user_alias_placeholder)) },
         trailingIcon = {
-            if (profileViewModel.profileEditState.userAlias != "") {
+            if (editProfileViewModel.profileEditState.userAlias != "") {
                 IconButton(onClick = {
-                    profileViewModel.changeUserAlias(
+                    editProfileViewModel.changeUserAlias(
                         ""
                     )
                 }) {
@@ -73,18 +72,18 @@ fun editProfileUserAliasTextField(profileViewModel: ProfileViewModel) {
 }
 
 @Composable
-fun editProfileUserDescriptionTextField(profileViewModel: ProfileViewModel, weight: Modifier) {
+fun EditProfileUserDescriptionTextField(editProfileViewModel: EditProfileViewModel, modifier: Modifier) {
     OutlinedTextField(
-        value = profileViewModel.profileEditState.userDescription,
-        onValueChange = { profileViewModel.changeUserDescription(it) },
+        value = editProfileViewModel.profileEditState.userDescription,
+        onValueChange = { editProfileViewModel.changeUserDescription(it) },
         singleLine = false,
         label = { Text(stringResource(R.string.edit_user_description_placeholder)) },
         modifier = Modifier
             .fillMaxWidth()
-            .then(weight)
+            .then(modifier)
     )
     Text(
-        text = profileViewModel.profileEditState.userDescription.length.toString() + " " + stringResource(
+        text = editProfileViewModel.profileEditState.userDescription.length.toString() + " " + stringResource(
             R.string.profile_edit_desc_characters,
             AppConstants.DESC_MAX_CHARACTERS
         ),
