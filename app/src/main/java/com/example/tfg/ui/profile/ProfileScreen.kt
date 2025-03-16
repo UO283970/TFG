@@ -21,8 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
-import com.example.tfg.ui.common.descText
-import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
+import com.example.tfg.ui.common.DescText
 import com.example.tfg.ui.profile.components.EditButton
 import com.example.tfg.ui.profile.components.MainUserProfileInfo
 import com.example.tfg.ui.profile.components.ProfileLists
@@ -32,36 +31,28 @@ import com.example.tfg.ui.theme.TFGTheme
 @Composable
 fun ProfileScreen(
     navigateTo: (route: String) -> Unit,
-    returnToLastScreen: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     TFGTheme(dynamicColor = false)
     {
         Scaffold(
             topBar = {
-                if (viewModel.checkConnectedUser()) {
-                    TopAppBar(
-                        title = {
-                            Text(
-                                viewModel.profileInfo.user?.userAlias?.trim() ?: "",
-                                overflow = TextOverflow.Ellipsis,
-                                maxLines = 1,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        },
-                        actions = {
-                            IconButton(onClick = { /*TODO*/ }) {
-                                Icon(Icons.Outlined.Settings, stringResource(R.string.settings_button))
-                            }
+                TopAppBar(
+                    title = {
+                        Text(
+                            viewModel.profileInfo.user?.userAlias?.trim() ?: "",
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    },
+                    actions = {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(Icons.Outlined.Settings, stringResource(R.string.settings_button))
                         }
-                    )
-                } else {
-                    TopDetailsListBar(
-                        returnToLastScreen,
-                        tittle = viewModel.profileInfo.user?.userAlias?.trim() ?: ""
-                    )
-                }
+                    }
+                )
             }) { innerPadding ->
             Column(
                 Modifier
@@ -71,7 +62,7 @@ fun ProfileScreen(
                 Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
                     MainUserProfileInfo(viewModel.profileInfo.user, navigateTo)
                     if (viewModel.profileInfo.user?.description?.trim() != "") {
-                        descText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
+                        DescText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
                     }
                     EditButton(viewModel.profileInfo.user, navigateTo)
                     ProfileLists(viewModel.profileInfo.profileDefaultLists,viewModel.profileInfo.profileBookLists)

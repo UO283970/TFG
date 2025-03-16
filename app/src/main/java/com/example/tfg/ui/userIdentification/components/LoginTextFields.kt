@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
-import com.example.tfg.ui.common.errorText
+import com.example.tfg.ui.common.ErrorText
 import com.example.tfg.ui.userIdentification.LoginMainState
 import com.example.tfg.ui.userIdentification.LoginViewModel
 
@@ -41,7 +41,7 @@ fun TextFieldUserEmail(viewModel: LoginViewModel, state: LoginMainState){
             isError = state.emailError != null,
         )
         if(state.emailError != null)
-            errorText(state.emailError!!)
+            ErrorText(state.emailError!!)
     }
 
 
@@ -78,6 +78,6 @@ fun PasswordTextField(viewModel: LoginViewModel, state: LoginMainState) {
             isError = state.passwordError != null,
         )
         if(state.passwordError != null)
-            errorText(state.passwordError!!)
+            ErrorText(state.passwordError!!)
     }
 }

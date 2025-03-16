@@ -21,13 +21,13 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
-import com.example.tfg.ui.common.smallTittleText
+import com.example.tfg.ui.common.SmallTittleText
 
 @Composable
 fun orderByRow() {
     val orderByList: Array<String> = stringArrayResource(id = R.array.list_of_order_by)
 
-    smallTittleText(stringResource(id = R.string.search_filters_orderBy))
+    SmallTittleText(stringResource(id = R.string.search_filters_orderBy))
     Row(
         horizontalArrangement = Arrangement.spacedBy(3.dp),
         modifier = Modifier.horizontalScroll(rememberScrollState())

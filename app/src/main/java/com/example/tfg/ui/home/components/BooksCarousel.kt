@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.Book
-import com.example.tfg.ui.common.tittleBigText
+import com.example.tfg.ui.common.TittleBigText
 
 @Composable
 fun BooksCarousel(mainTittle: String, bookList: List<Book>, modifier: Modifier) {
@@ -39,7 +39,7 @@ fun BooksCarousel(mainTittle: String, bookList: List<Book>, modifier: Modifier) 
     Column(
         modifier = modifier,
     ) {
-        tittleBigText(mainTittle)
+        TittleBigText(mainTittle)
         Row {
             LazyRow(
                 modifier = Modifier

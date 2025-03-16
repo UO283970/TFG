@@ -18,8 +18,10 @@ import com.example.tfg.ui.lists.ListScreen
 import com.example.tfg.ui.lists.listCreation.NewListCreationScreen
 import com.example.tfg.ui.lists.listDetails.ListDetailsScreen
 import com.example.tfg.ui.profile.ProfileScreen
-import com.example.tfg.ui.profile.components.OnlyReviews
 import com.example.tfg.ui.profile.components.editScreen.EditScreen
+import com.example.tfg.ui.profile.components.statistics.followers.FollowersScreen
+import com.example.tfg.ui.profile.components.statistics.follows.FollowsScreen
+import com.example.tfg.ui.profile.components.statistics.reviews.OnlyReviews
 import com.example.tfg.ui.profile.othersProfile.OthersProfileScreen
 import com.example.tfg.ui.search.SearchScreen
 import com.example.tfg.ui.userIdentification.LoginScreen
@@ -110,11 +112,12 @@ private fun NavGraphBuilder.homeGraph(
 
         composable(HomeRoutesItems.NotificationScreen.route) {
             bottomBarState.value = false
-            NotificationScreen({navigateToRoute(it, navController) }, { returnToLastScreen(navController)})
+            NotificationScreen({ navigateToRoute(it, navController) }, { returnToLastScreen(navController) })
         }
         composable(HomeRoutesItems.FriendRequestsScreen.route) {
             bottomBarState.value = false
-            FriendsRequestScreen({ returnToLastScreen(navController) },
+            FriendsRequestScreen(
+                { returnToLastScreen(navController) },
                 { user: User -> navigateToProfileWithUser(user, navController) })
         }
 
@@ -126,13 +129,13 @@ private fun NavGraphBuilder.listsGraph(
 ) {
     navigation(startDestination = ListNavigationItems.ListsScreen.route, route = Routes.ListsScreen.route) {
         composable(ListNavigationItems.ListsScreen.route) {
-            ListScreen({navigateToRoute(it, navController)}, {navigateToDetailList(navController,it)})
+            ListScreen({ navigateToRoute(it, navController) }, { navigateToDetailList(navController, it) })
         }
         composable(ListNavigationItems.ListDetails.route) {
-            ListDetailsScreen({returnToLastScreen(navController)})
+            ListDetailsScreen({ returnToLastScreen(navController) })
         }
         composable(ListNavigationItems.ListCreation.route) {
-            NewListCreationScreen({returnToLastScreen(navController)})
+            NewListCreationScreen({ returnToLastScreen(navController) })
         }
     }
 }
@@ -144,17 +147,27 @@ private fun NavGraphBuilder.profileGraph(
     navigation(startDestination = ProfileNavigationItems.ProfileScreen.route, route = Routes.Profile.route) {
         composable(ProfileNavigationItems.ProfileScreen.route) {
             bottomBarState.value = true
-            ProfileScreen({navigateToRoute(it, navController)}, {returnToLastScreen(navController)})
+            ProfileScreen({ navigateToRoute(it, navController) })
         }
         composable(ProfileNavigationItems.OthersProfileScreen.route) {
-            OthersProfileScreen({navigateToRoute(it, navController)}, {returnToLastScreen(navController)})
+            OthersProfileScreen({ navigateToRoute(it, navController) }, { returnToLastScreen(navController) })
         }
         composable(ProfileNavigationItems.UserReviews.route) {
-            OnlyReviews({returnToLastScreen(navController)})
+            OnlyReviews({ returnToLastScreen(navController) })
         }
         composable(ProfileNavigationItems.EditProfile.route) {
             bottomBarState.value = false
-            EditScreen({returnToLastScreen(navController)})
+            EditScreen({ returnToLastScreen(navController) })
+        }
+        composable(ProfileNavigationItems.UserFollowers.route) {
+            bottomBarState.value = false
+            FollowersScreen({ returnToLastScreen(navController) },
+                { user: User -> navigateToProfileWithUser(user, navController) })
+        }
+        composable(ProfileNavigationItems.UserFollows.route) {
+            bottomBarState.value = false
+            FollowsScreen({ returnToLastScreen(navController) },
+                { user: User -> navigateToProfileWithUser(user, navController) })
         }
     }
 }
@@ -173,8 +186,8 @@ private fun navigateToProfileWithUser(user: User, navController: NavHostControll
 }
 
 
-private fun navigateToDetailList(navController: NavHostController,bookList: BookList) {
-    val gson: Gson =GsonBuilder().create()
+private fun navigateToDetailList(navController: NavHostController, bookList: BookList) {
+    val gson: Gson = GsonBuilder().create()
     val listJson = gson.toJson(bookList)
     navController.navigate(
         ListNavigationItems.ListDetails.route.replace(

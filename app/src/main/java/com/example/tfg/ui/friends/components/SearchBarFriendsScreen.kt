@@ -77,14 +77,14 @@ fun SearchBarFriendsScreen(
     ) {
         LazyColumn{
             items(state.queryResult){
-                friendsRow(it,viewModel,navigateToProfile)
+                FriendsRow(it,viewModel,navigateToProfile)
             }
         }
     }
 }
 
 @Composable
-fun friendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user: User) -> Unit) {
+fun FriendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user: User) -> Unit) {
     Row(Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp).clickable {
         viewModel.saveState()
         navigateToProfile(user)
@@ -94,22 +94,32 @@ fun friendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.weight(1f)
         ) {
-            Image(
-                painterResource(user.profilePicture),
-                contentDescription = "",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .size(50.dp)
-                    .clip(CircleShape)
-            )
-            Text(
-                user.userName,
-                maxLines = 1,
-                modifier = Modifier,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp,
-            )
+            ProfileUserImage(user.profilePicture)
+            UserRowText(user.userAlias)
         }
     }
+}
+
+@Composable
+fun UserRowText(text: String) {
+    Text(
+        text,
+        maxLines = 1,
+        modifier = Modifier,
+        overflow = TextOverflow.Ellipsis,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp,
+    )
+}
+
+@Composable
+fun ProfileUserImage(user: Int) {
+    Image(
+        painterResource(user),
+        contentDescription = "",
+        contentScale = ContentScale.FillBounds,
+        modifier = Modifier
+            .size(50.dp)
+            .clip(CircleShape)
+    )
 }

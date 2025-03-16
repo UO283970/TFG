@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.tfg.ui.common.descText
+import com.example.tfg.ui.common.DescText
 import com.example.tfg.ui.lists.listDetails.components.SearchBarListDetailsScreen
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.lists.listDetails.components.listDetailsItemList
@@ -31,7 +31,7 @@ fun ListDetailsScreen(returnToLastScreen: () -> Unit, viewModel: ListDetailsView
                 Column {
                     SearchBarListDetailsScreen(viewModel)
                     if (viewModel.listDetailsInfo.bookList?.listDescription != "") {
-                        descText(3, viewModel.listDetailsInfo.bookList?.listDescription ?: "")
+                        DescText(3, viewModel.listDetailsInfo.bookList?.listDescription ?: "")
                         HorizontalDivider(Modifier.padding(top = 5.dp))
                     }
                     listDetailsItemList(viewModel.listDetailsInfo.bookList?.books ?: arrayListOf())

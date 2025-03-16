@@ -20,8 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.model.Book
-import com.example.tfg.ui.common.bigTittleText
-import com.example.tfg.ui.common.smallTittleText
+import com.example.tfg.ui.common.BigTittleText
+import com.example.tfg.ui.common.SmallTittleText
 
 @Composable
 fun searchItem(book: Book) {
@@ -56,15 +56,15 @@ private fun basicBookInfo(book: Book) {
         Modifier.padding(start = 10.dp, top = 20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        bigTittleText(book.tittle)
+        BigTittleText(book.tittle)
         Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-            smallTittleText(book.publicationDate.year.toString())
+            SmallTittleText(book.publicationDate.year.toString())
             var pagesToUI = "-"
             if(book.pages != 0){
                 pagesToUI = book.pages.toString()
             }
-            smallTittleText(pagesToUI + "pg")
+            SmallTittleText(pagesToUI + "pg")
         }
-        bigTittleText(book.author)
+        BigTittleText(book.author)
     }
 }

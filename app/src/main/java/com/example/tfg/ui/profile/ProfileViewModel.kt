@@ -80,8 +80,4 @@ class ProfileViewModel @Inject constructor(
 
         return listOfBooks
     }
-
-    fun checkConnectedUser(): Boolean {
-        return user?.followState == UserFollowStateEnum.OWN
-    }
 }

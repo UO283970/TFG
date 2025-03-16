@@ -18,14 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
-import com.example.tfg.ui.common.smallTittleText
+import com.example.tfg.ui.common.SmallTittleText
 
 @Composable
 fun pagesFilter() {
     var minPags by remember { mutableStateOf("") }
     var maxPags by remember { mutableStateOf("") }
 
-    smallTittleText(stringResource(id = R.string.search_filters_pagesFilter))
+    SmallTittleText(stringResource(id = R.string.search_filters_pagesFilter))
     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
         OutlinedTextField(value = minPags,
             onValueChange = { minPags = it },

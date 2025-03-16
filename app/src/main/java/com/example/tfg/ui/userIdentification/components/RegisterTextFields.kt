@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
-import com.example.tfg.ui.common.errorText
+import com.example.tfg.ui.common.ErrorText
 import com.example.tfg.ui.userIdentification.RegisterViewModel
 
 @Composable
@@ -40,7 +40,7 @@ fun TextFieldUserName(registerViewModel: RegisterViewModel) {
             isError = registerViewModel.formState.userNameError != null
         )
         if (registerViewModel.formState.userNameError != null)
-            errorText(registerViewModel.formState.userNameError!!)
+            ErrorText(registerViewModel.formState.userNameError!!)
     }
 
 }
@@ -64,7 +64,7 @@ fun TextFieldUserEmail(registerViewModel: RegisterViewModel) {
             isError = registerViewModel.formState.emailError != null
         )
         if (registerViewModel.formState.emailError != null)
-            errorText(registerViewModel.formState.emailError!!)
+            ErrorText(registerViewModel.formState.emailError!!)
     }
 
 }
@@ -100,7 +100,7 @@ fun PasswordRegisterTextField(registerViewModel: RegisterViewModel) {
             isError = registerViewModel.formState.passwordError != null
         )
         if (registerViewModel.formState.passwordError != null)
-            errorText(registerViewModel.formState.passwordError!!)
+            ErrorText(registerViewModel.formState.passwordError!!)
     }
 }
 
@@ -137,6 +137,6 @@ fun PasswordRepeatRegisterTextField(registerViewModel: RegisterViewModel) {
             isError = registerViewModel.formState.passwordRepeatError != null
         )
         if (registerViewModel.formState.passwordRepeatError != null)
-            errorText(registerViewModel.formState.passwordRepeatError!!)
+            ErrorText(registerViewModel.formState.passwordRepeatError!!)
     }
 }

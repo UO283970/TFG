@@ -1,4 +1,4 @@
-package com.example.tfg.ui.profile.components.statistics
+package com.example.tfg.ui.profile.components.statistics.reviews
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

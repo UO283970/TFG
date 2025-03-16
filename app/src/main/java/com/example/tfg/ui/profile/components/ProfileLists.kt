@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookList
-import com.example.tfg.ui.common.tittleBigText
+import com.example.tfg.ui.common.TittleBigText
 
 @Composable
 fun ProfileLists(defaultList: ArrayList<BookList>,userLists: ArrayList<BookList>) {
@@ -40,7 +40,7 @@ fun ProfileLists(defaultList: ArrayList<BookList>,userLists: ArrayList<BookList>
 fun ProfileLists(lists: ArrayList<BookList>, tittle: String) {
 
     Column {
-        tittleBigText(tittle)
+        TittleBigText(tittle)
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 
 @Composable
-fun bigTittleText(text: String) {
+fun BigTittleText(text: String) {
     Text(
         text = text,
         fontSize = 20.sp,
@@ -29,7 +29,7 @@ fun bigTittleText(text: String) {
 }
 
 @Composable
-fun smallTittleText(text: String) {
+fun SmallTittleText(text: String) {
     Text(
         text = text,
         fontSize = 16.sp,
@@ -39,7 +39,7 @@ fun smallTittleText(text: String) {
 
 
 @Composable
-fun tittleBigText(mainTittle: String) {
+fun TittleBigText(mainTittle: String) {
     Text(
         text = mainTittle,
         fontSize = 24.sp
@@ -47,7 +47,7 @@ fun tittleBigText(mainTittle: String) {
 }
 
 @Composable
-fun descText(minLinesLength : Int,text: String) {
+fun DescText(minLinesLength : Int, text: String) {
     var expandedState by remember { mutableStateOf(false) }
     var showReadMoreButtonState by remember { mutableStateOf(false) }
     val maxLines = if (expandedState) 200 else minLinesLength
@@ -77,7 +77,7 @@ fun descText(minLinesLength : Int,text: String) {
 }
 
 @Composable
-fun errorText(errorText : String) {
+fun ErrorText(errorText : String) {
     Text(
         text = errorText,
         color = MaterialTheme.colorScheme.error,

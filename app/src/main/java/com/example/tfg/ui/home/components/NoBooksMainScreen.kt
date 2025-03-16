@@ -23,13 +23,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
+import com.example.tfg.ui.common.TittleBigText
 import com.example.tfg.ui.common.navHost.Routes
-import com.example.tfg.ui.common.tittleBigText
 
 @Composable
 fun NoBooksMainScreen(modifier: Modifier, navigateTo: (String) -> Unit) {
     Column(modifier) {
-        tittleBigText(stringResource(id = R.string.home_reading_books))
+        TittleBigText(stringResource(id = R.string.home_reading_books))
         Column(
             Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center,

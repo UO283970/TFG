@@ -12,10 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,8 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.model.Book
-import com.example.tfg.ui.common.bigTittleText
-import com.example.tfg.ui.common.smallTittleText
+import com.example.tfg.ui.common.BigTittleText
+import com.example.tfg.ui.common.SmallTittleText
 
 @Composable
 fun listDetailsItemList(books: ArrayList<Book>) {
@@ -82,12 +80,12 @@ fun listDetailsItem(book: Book) {
                     Modifier.padding(start = 10.dp, top = 20.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    bigTittleText(book.tittle)
+                    BigTittleText(book.tittle)
                     Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-                        smallTittleText(book.publicationDate.year.toString())
-                        smallTittleText(if (book.pages != 0) book.pages.toString() + "pg" else "-pg")
+                        SmallTittleText(book.publicationDate.year.toString())
+                        SmallTittleText(if (book.pages != 0) book.pages.toString() + "pg" else "-pg")
                     }
-                    bigTittleText(book.author)
+                    BigTittleText(book.author)
                 }
             }
         }

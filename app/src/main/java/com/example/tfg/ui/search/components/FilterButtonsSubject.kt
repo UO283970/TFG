@@ -14,13 +14,13 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
-import com.example.tfg.ui.common.smallTittleText
+import com.example.tfg.ui.common.SmallTittleText
 
 @Composable
 fun filterButtonsSubjectRow() {
     val subjectFilters: Array<String> = stringArrayResource(id = R.array.list_of_subjects)
 
-    smallTittleText(stringResource(id = R.string.search_filters_filterFor))
+    SmallTittleText(stringResource(id = R.string.search_filters_filterFor))
     Row(
         horizontalArrangement = Arrangement.spacedBy(3.dp),
         modifier = Modifier

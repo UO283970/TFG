@@ -28,7 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
 import com.example.tfg.model.booklist.ListPrivacy
-import com.example.tfg.ui.common.errorText
+import com.example.tfg.ui.common.ErrorText
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.theme.TFGTheme
 
@@ -133,7 +133,7 @@ private fun ListNameTextField(viewModel: ListCreationViewModel) {
         isError = viewModel.listCreationState.listNameError != null
     )
     if (viewModel.listCreationState.listNameError != null)
-        errorText(viewModel.listCreationState.listNameError!!)
+        ErrorText(viewModel.listCreationState.listNameError!!)
 }
 
 @Composable

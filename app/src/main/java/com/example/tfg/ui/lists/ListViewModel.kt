@@ -1,5 +1,6 @@
 package com.example.tfg.ui.lists
 
+import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.tfg.R
@@ -10,16 +11,18 @@ import com.example.tfg.ui.common.navHost.ListNavigationItems
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 import javax.inject.Inject
 
+@Parcelize
 data class ListMainState(
     var userQuery: String = "",
     var tabIndex: Int = 0,
     val tabs: List<String>,
     var ownLists: List<BookList>,
     var defaultLists: List<BookList>
-)
+) : Parcelable
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
@@ -46,7 +49,7 @@ class ListViewModel @Inject constructor(
     }
 
     fun listDetails(): String {
-        savedStateHandle["listScreenInfo"] = listState
+        savedStateHandle["listScreenInfo"] = listState.value
         return ListNavigationItems.ListDetails.route
     }
 

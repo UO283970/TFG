@@ -1,4 +1,4 @@
-package com.example.tfg.ui.profile.components
+package com.example.tfg.ui.profile.components.statistics.reviews
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,7 +11,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.ui.friends.components.FriendActivityItem
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
-import com.example.tfg.ui.profile.components.statistics.ReviewsScreenViewModel
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable

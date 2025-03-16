@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.tfg.ui.common.descText
+import com.example.tfg.ui.common.DescText
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.profile.components.EditButton
 import com.example.tfg.ui.profile.components.MainUserProfileInfo
@@ -41,7 +41,7 @@ fun OthersProfileScreen(
                 Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
                     MainUserProfileInfo(viewModel.profileInfo.user, navigateTo)
                     if (viewModel.profileInfo.user?.description?.trim() != "") {
-                        descText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
+                        DescText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
                     }
                     EditButton(viewModel.profileInfo.user, navigateTo)
                     ProfileLists(viewModel.profileInfo.profileDefaultLists,viewModel.profileInfo.profileBookLists)
