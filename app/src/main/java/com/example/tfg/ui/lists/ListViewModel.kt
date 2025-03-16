@@ -1,8 +1,5 @@
 package com.example.tfg.ui.lists
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.tfg.R
@@ -11,6 +8,8 @@ import com.example.tfg.model.booklist.BookList
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.ListNavigationItems
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -28,25 +27,26 @@ class ListViewModel @Inject constructor(
     private var savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    var listState by mutableStateOf(
-        ListMainState(
+    private val _listState = MutableStateFlow(
+        savedStateHandle.get<ListMainState>("listScreenInfo") ?: ListMainState(
             tabs = stringResourcesProvider.getStringArray(R.array.list_of_lists_tabs),
             defaultLists = getDefaultLists(),
             ownLists = getOwnLists()
         )
     )
 
+    var listState: StateFlow<ListMainState> = _listState
+
     fun userQueryChange(query: String) {
-        listState = listState.copy(userQuery = query)
+        _listState.value = _listState.value.copy(userQuery = query)
     }
 
     fun tabChange(tabIndex: Int) {
-        listState = listState.copy(tabIndex = tabIndex)
+        _listState.value = _listState.value.copy(tabIndex = tabIndex)
     }
 
-    fun listDetails(list: BookList): String {
-        listState = listState.copy(tabIndex = listState.tabIndex)
-        savedStateHandle["bookList"] = list
+    fun listDetails(): String {
+        savedStateHandle["listScreenInfo"] = listState
         return ListNavigationItems.ListDetails.route
     }
 

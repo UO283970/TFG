@@ -18,7 +18,7 @@ import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.userIdentification.LoginViewModel
 
 @Composable
-fun submitOrRegisterScreenButtons(
+fun SubmitOrRegisterScreenButtons(
     loginViewModel: LoginViewModel,
     navigateTo: (route: String) -> Unit,
     navigateToWithoutSave: (route: String) -> Unit

@@ -17,11 +17,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import com.example.tfg.R
+import com.example.tfg.ui.lists.ListMainState
 import com.example.tfg.ui.lists.ListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBarListScreen(viewModel: ListViewModel) {
+fun SearchBarListScreen(viewModel: ListViewModel, state: ListMainState) {
     SearchBar(
         modifier = Modifier
             .semantics { traversalIndex = 0f }
@@ -33,7 +34,7 @@ fun SearchBarListScreen(viewModel: ListViewModel) {
                 onExpandedChange = { },
                 placeholder = { Text(stringResource(id = R.string.list_search_placeholder_input)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
-                query = viewModel.listState.userQuery,
+                query = state.userQuery,
                 onQueryChange = { viewModel.userQueryChange(it) }
             )
         },

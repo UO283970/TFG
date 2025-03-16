@@ -19,44 +19,45 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.ui.common.errorText
+import com.example.tfg.ui.userIdentification.LoginMainState
 import com.example.tfg.ui.userIdentification.LoginViewModel
 
 @Composable
-fun TextFieldUserEmail(viewModel: LoginViewModel){
+fun TextFieldUserEmail(viewModel: LoginViewModel, state: LoginMainState){
     Column {
         OutlinedTextField(
-            value = viewModel.formState.email,
+            value = state.email,
             onValueChange = { viewModel.emailChanged(it) },
             singleLine = true,
             label = { Text(stringResource(R.string.login_user_placeholder)) },
             trailingIcon = {
-                if (viewModel.formState.email != "") {
+                if (state.email != "") {
                     IconButton(onClick = { viewModel.emailChanged("") }) {
                         Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.text_field_delete))
                     }
                 }
             },
             modifier = Modifier.fillMaxWidth(),
-            isError = viewModel.formState.emailError != null,
+            isError = state.emailError != null,
         )
-        if(viewModel.formState.emailError != null)
-            errorText(viewModel.formState.emailError!!)
+        if(state.emailError != null)
+            errorText(state.emailError!!)
     }
 
 
 }
 
 @Composable
-fun passwordTextField(viewModel: LoginViewModel): Boolean {
+fun PasswordTextField(viewModel: LoginViewModel, state: LoginMainState) {
     Column {
         OutlinedTextField(
-            value = viewModel.formState.password,
+            value = state.password,
             onValueChange = { viewModel.passwordChanged(it) },
             singleLine = true,
             label = { Text(stringResource(R.string.login_pass_placeholder)) },
             trailingIcon = {
                 Icon(
-                    if (viewModel.formState.isVisiblePassword) {
+                    if (state.isVisiblePassword) {
                         painterResource(R.drawable.visibility_icon)
                     } else {
                         painterResource(R.drawable.visibility_off_icon)
@@ -64,21 +65,19 @@ fun passwordTextField(viewModel: LoginViewModel): Boolean {
                     contentDescription = "Toggle password visibility",
                     modifier = Modifier
                         .requiredSize(24.dp)
-                        .clickable { viewModel.visiblePassword(!viewModel.formState.isVisiblePassword) }
+                        .clickable { viewModel.visiblePassword(!state.isVisiblePassword) }
                 )
             },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation =
-            if (viewModel.formState.isVisiblePassword) {
+            if (state.isVisiblePassword) {
                 VisualTransformation.None
             } else {
                 PasswordVisualTransformation()
             },
-            isError = viewModel.formState.passwordError != null,
+            isError = state.passwordError != null,
         )
-        if(viewModel.formState.passwordError != null)
-            errorText(viewModel.formState.passwordError!!)
+        if(state.passwordError != null)
+            errorText(state.passwordError!!)
     }
-
-    return false
 }

@@ -10,6 +10,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,6 +24,8 @@ import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
 fun HomeScreen(navigateTo: (route: String) -> Unit,viewModel: HomeViewModel = hiltViewModel()) {
+    val state by viewModel.homeState.collectAsState()
+
     TFGTheme(dynamicColor = false) {
         Scaffold(
             topBar = { TopNotifications(navigateTo) }) { innerPadding ->
@@ -32,10 +36,10 @@ fun HomeScreen(navigateTo: (route: String) -> Unit,viewModel: HomeViewModel = hi
                     Column {
                         BooksCarousel(
                             stringResource(id = R.string.home_recommended_books),
-                            viewModel.homeState.listOfBooks,
+                            state.listOfBooks,
                             Modifier.weight(1f)
                         )
-                        if(viewModel.homeState.listOfReadingBooks.isEmpty()){
+                        if(state.listOfReadingBooks.isEmpty()){
                             NoBooksMainScreen(
                                 Modifier
                                     .weight(1f)
@@ -43,7 +47,7 @@ fun HomeScreen(navigateTo: (route: String) -> Unit,viewModel: HomeViewModel = hi
                         }else{
                             BooksCarousel(
                                 stringResource(id = R.string.home_reading_books),
-                                viewModel.homeState.listOfReadingBooks,
+                                state.listOfReadingBooks,
                                 Modifier.weight(1f)
                             )
                         }

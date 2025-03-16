@@ -6,28 +6,30 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.example.tfg.model.booklist.BookList
+import com.example.tfg.ui.lists.ListMainState
 import com.example.tfg.ui.lists.ListViewModel
 
 @Composable
 fun TabsLists(
     viewModel: ListViewModel,
     navigateTo: (route: String) -> Unit,
-    navigateToListDetails: (bookList: BookList) -> Unit
+    navigateToListDetails: (bookList: BookList) -> Unit,
+    state: ListMainState
 ) {
     TabRow(
-        selectedTabIndex = viewModel.listState.tabIndex,
+        selectedTabIndex = state.tabIndex,
         containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground
     ) {
-        viewModel.listState.tabs.forEachIndexed { index, title ->
+        state.tabs.forEachIndexed { index, title ->
             Tab(
                 text = { Text(title) },
-                selected = viewModel.listState.tabIndex == index,
+                selected = state.tabIndex == index,
                 onClick = { viewModel.tabChange(index) })
         }
     }
-    when (viewModel.listState.tabIndex) {
-        0 -> CreteOwnLists(viewModel, navigateTo, navigateToListDetails)
-        1 -> CreteDefaultLists(viewModel, navigateToListDetails)
+    when (state.tabIndex) {
+        0 -> CreteOwnLists(viewModel, navigateTo, navigateToListDetails, state)
+        1 -> CreteDefaultLists(viewModel, state, navigateToListDetails)
     }
 }

@@ -32,19 +32,21 @@ import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.ui.common.navHost.ListNavigationItems
+import com.example.tfg.ui.lists.ListMainState
 import com.example.tfg.ui.lists.ListViewModel
 
 @Composable
 fun CreteOwnLists(
     viewModel: ListViewModel,
     navigateTo: (route: String) -> Unit,
-    navigateToListDetails: (bookList: BookList) -> Unit
+    navigateToListDetails: (bookList: BookList) -> Unit,
+    state: ListMainState
 ) {
     Column {
         Box {
             LazyColumn {
-                items(viewModel.listState.ownLists) {
-                    ListItem(it, navigateToListDetails)
+                items(state.ownLists) {
+                    ListItem(viewModel, it, navigateToListDetails)
                 }
             }
             Column(
@@ -66,17 +68,18 @@ fun CreteOwnLists(
 }
 
 @Composable
-fun CreteDefaultLists(viewModel: ListViewModel, navigateToListDetails: (bookList: BookList) -> Unit) {
+fun CreteDefaultLists(viewModel: ListViewModel,state: ListMainState, navigateToListDetails: (bookList: BookList) -> Unit) {
     LazyColumn {
-        items(viewModel.listState.defaultLists) {
-            ListItem(it, navigateToListDetails)
+        items(state.defaultLists) {
+            ListItem(viewModel,it, navigateToListDetails)
         }
     }
 }
 
 @Composable
-fun ListItem( list: BookList, navigateToListDetails: (bookList: BookList) -> Unit) {
+fun ListItem(viewModel: ListViewModel,list: BookList, navigateToListDetails: (bookList: BookList) -> Unit) {
     Column(modifier = Modifier.clickable {
+        viewModel.listDetails()
         navigateToListDetails(list)
     }) {
         HorizontalDivider()
