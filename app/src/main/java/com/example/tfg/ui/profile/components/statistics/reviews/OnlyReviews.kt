@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -62,7 +63,10 @@ fun OnlyReviews(
 
 @Composable
 fun ReviewItem(review: Activity) {
-    Row(modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 5.dp, bottom = 5.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+    Row(
+        modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 5.dp, bottom = 5.dp),
+        horizontalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
         Image(
             painterResource(review.user.profilePicture),
             contentDescription = stringResource(R.string.user_profile_image),
@@ -88,16 +92,22 @@ fun ReviewItem(review: Activity) {
                     painterResource(review.book.coverImage),
                     contentDescription = stringResource(id = R.string.book_image),
                     modifier = Modifier
-                        .weight(1f)
+                        .fillMaxWidth(fraction = 0.3f)
                         .clip(RoundedCornerShape(10.dp))
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 5.dp)) {
-                    Text(review.book.tittle, overflow = TextOverflow.Ellipsis, fontSize = 24.sp)
+                    Text(
+                        review.book.tittle,
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 24.sp,
+                        maxLines = 3
+                    )
                     Text(
                         review.book.author,
                         overflow = TextOverflow.Ellipsis,
                         fontSize = 16.sp,
-                        textDecoration = TextDecoration.Underline
+                        textDecoration = TextDecoration.Underline,
+                        maxLines = 1
                     )
                     Text(review.rating.toString())
                 }

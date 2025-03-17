@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -104,7 +103,7 @@ fun NewListItem(viewModel: ListViewModel, list: BookList, navigateToListDetails:
                 painterResource(list.books[0].coverImage),
                 contentDescription = stringResource(id = R.string.book_image),
                 modifier = Modifier
-                    .height(100.dp)
+                    .fillMaxWidth(fraction = 0.17f)
                     .clip(RoundedCornerShape(10.dp))
             )
             Column(Modifier.fillMaxWidth()) {
@@ -112,7 +111,7 @@ fun NewListItem(viewModel: ListViewModel, list: BookList, navigateToListDetails:
                     text = list.listName,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
