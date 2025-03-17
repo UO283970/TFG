@@ -18,6 +18,7 @@ import com.example.tfg.ui.lists.ListScreen
 import com.example.tfg.ui.lists.listCreation.NewListCreationScreen
 import com.example.tfg.ui.lists.listDetails.ListDetailsScreen
 import com.example.tfg.ui.profile.ProfileScreen
+import com.example.tfg.ui.profile.components.configuration.ConfigurationScreen
 import com.example.tfg.ui.profile.components.editScreen.EditScreen
 import com.example.tfg.ui.profile.components.statistics.followers.FollowersScreen
 import com.example.tfg.ui.profile.components.statistics.follows.FollowsScreen
@@ -62,6 +63,7 @@ sealed class ProfileNavigationItems(val route: String) {
     object UserFollowers : ProfileNavigationItems("userFollowers")
     object UserFollows : ProfileNavigationItems("userFollows")
     object EditProfile : ProfileNavigationItems("editProfile")
+    object ProfileConfiguration : ProfileNavigationItems("configureProfile")
 }
 
 @Composable
@@ -168,6 +170,11 @@ private fun NavGraphBuilder.profileGraph(
             bottomBarState.value = false
             FollowsScreen({ returnToLastScreen(navController) },
                 { user: User -> navigateToProfileWithUser(user, navController) })
+        }
+        composable(ProfileNavigationItems.ProfileConfiguration.route) {
+            bottomBarState.value = false
+            ConfigurationScreen({ returnToLastScreen(navController) },
+                { navigateToRoute(it, navController)})
         }
     }
 }

@@ -91,6 +91,15 @@
     <string name="list_creation_dropdown_menu_down_arrow">Flecha del desplegable de la elección de privacidad</string>
     <string name="list_creation_list_desccription_char_count">%d de %d caracteres</string>
     <string name="list_creation_list_empty_name_error">El nombre de la lista no puede estar vacío</string>
+    <string name="profile_configuration">Configuración</string>
+    <string name="profile_configuration_security">Seguridad</string>
+    <string name="profile_configuration_go_to">Icono de flecha para avanzar</string>
+    <string name="profile_configuration_notifications">Administrar Norificaciones</string>
+    <string name="profile_configuration_delete_account">Eliminar cuenta</string>
+    <string name="profile_configuration_logout">Cerrar sesión</string>
+    <string name="user_profile_image">Foto de perfil del usuario</string>
+    <string name="has_reviewed">" reseñó "</string>
+    <string name="list_text_books">Libros</string>
     <string-array name="list_of_search_for">
         <item>Título</item>
         <item>Autor</item>

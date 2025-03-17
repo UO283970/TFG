@@ -17,4 +17,7 @@ data class RatingActivity(
     override fun infoForUI(): Int {
         return R.string.rating_text_info_with_valoration
     }
+    override fun extraInfo(): String {
+        return rating.toString()
+    }
 }

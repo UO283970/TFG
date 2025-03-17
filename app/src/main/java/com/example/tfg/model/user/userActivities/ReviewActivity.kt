@@ -21,4 +21,8 @@ data class ReviewActivity(
         }
         return R.string.review_text_info_with_valoration
     }
+
+    override fun extraInfo(): String {
+        return reviewText
+    }
 }

@@ -43,7 +43,7 @@ fun OthersProfileScreen(
                     if (viewModel.profileInfo.user?.description?.trim() != "") {
                         DescText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
                     }
-                    EditButton(viewModel.profileInfo.user, navigateTo)
+                    EditButton(navigateTo)
                     ProfileLists(viewModel.profileInfo.profileDefaultLists,viewModel.profileInfo.profileBookLists)
                 }
 

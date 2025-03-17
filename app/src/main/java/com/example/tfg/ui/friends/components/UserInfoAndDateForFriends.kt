@@ -23,7 +23,7 @@ import com.example.tfg.model.user.userActivities.Activity
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun userInfoAndDate(activity: Activity) {
+fun UserInfoAndDate(activity: Activity) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(5.dp),
         verticalAlignment = Alignment.CenterVertically

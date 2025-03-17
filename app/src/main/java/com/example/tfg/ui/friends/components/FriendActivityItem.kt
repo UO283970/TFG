@@ -28,18 +28,18 @@ fun FriendActivityItem(activity: Activity) {
                 .padding(top = 10.dp)
         ) {
             Row(modifier = Modifier.padding(start = 20.dp, bottom = 10.dp)) {
-                bookImageBig(activity.book.coverImage, Modifier.weight(0.5f))
+                BookImageBig(activity.book.coverImage)
                 Column(
                     Modifier
                         .padding(start = 10.dp, top = 20.dp)
                         .weight(1f),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    userInfoAndDate(activity)
+                    UserInfoAndDate(activity)
                     Column(Modifier.weight(1f)) {
 
                     }
-                    activityAndBookInfo(activity)
+                    ActivityAndBookInfo(activity)
                 }
             }
         }

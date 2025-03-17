@@ -18,7 +18,7 @@ import com.example.tfg.R
 import com.example.tfg.model.user.userActivities.Activity
 
 @Composable
-fun activityAndBookInfo(activity: Activity) {
+fun ActivityAndBookInfo(activity: Activity) {
     Column {
         Text(
             stringResource(activity.infoForUI()),
@@ -37,7 +37,7 @@ fun activityAndBookInfo(activity: Activity) {
 }
 
 @Composable
-fun bookImageBig(coverImage: Int, weight: Modifier) {
+fun BookImageBig(coverImage: Int) {
     Image(
         painterResource(coverImage),
         contentDescription = stringResource(id = R.string.book_image),

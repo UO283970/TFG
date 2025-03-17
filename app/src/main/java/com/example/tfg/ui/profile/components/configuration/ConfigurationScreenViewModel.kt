@@ -1,0 +1,12 @@
+package com.example.tfg.ui.profile.components.configuration
+
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class ConfigurationScreenViewModel @Inject constructor(): ViewModel() {
+
+
+
+}

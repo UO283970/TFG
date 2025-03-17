@@ -21,7 +21,7 @@ fun ListScreen(
 ) {
     val state by viewModel.listState.collectAsState()
 
-    TFGTheme {
+    TFGTheme (dynamicColor = false){
         Scaffold { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 SearchBarListScreen(viewModel, state)

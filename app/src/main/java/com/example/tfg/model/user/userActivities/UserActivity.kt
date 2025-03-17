@@ -11,10 +11,12 @@ import java.time.LocalDate
 @Parcelize
 sealed class Activity : Parcelable {
     abstract val user: User
+
     @Serializable(LocalDateSerializer::class)
     abstract val creationDate: LocalDate
     abstract val book: Book
-    abstract val rating:Int
+    abstract val rating: Int
 
-    abstract fun infoForUI() :Int
+    abstract fun infoForUI(): Int
+    abstract fun extraInfo(): String
 }

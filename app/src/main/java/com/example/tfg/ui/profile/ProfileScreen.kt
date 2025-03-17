@@ -15,13 +15,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.ui.common.DescText
+import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 import com.example.tfg.ui.profile.components.EditButton
 import com.example.tfg.ui.profile.components.MainUserProfileInfo
 import com.example.tfg.ui.profile.components.ProfileLists
@@ -43,12 +43,11 @@ fun ProfileScreen(
                             viewModel.profileInfo.user?.userAlias?.trim() ?: "",
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.SemiBold
+                            fontSize = 22.sp
                         )
                     },
                     actions = {
-                        IconButton(onClick = { /*TODO*/ }) {
+                        IconButton(onClick = { navigateTo(ProfileNavigationItems.ProfileConfiguration.route) }) {
                             Icon(Icons.Outlined.Settings, stringResource(R.string.settings_button))
                         }
                     }
@@ -64,7 +63,7 @@ fun ProfileScreen(
                     if (viewModel.profileInfo.user?.description?.trim() != "") {
                         DescText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
                     }
-                    EditButton(viewModel.profileInfo.user, navigateTo)
+                    EditButton(navigateTo)
                     ProfileLists(viewModel.profileInfo.profileDefaultLists,viewModel.profileInfo.profileBookLists)
                 }
 

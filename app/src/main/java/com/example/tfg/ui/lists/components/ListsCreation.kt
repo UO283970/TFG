@@ -1,12 +1,14 @@
 package com.example.tfg.ui.lists.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,8 +18,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -46,7 +48,7 @@ fun CreteOwnLists(
         Box {
             LazyColumn {
                 items(state.ownLists) {
-                    ListItem(viewModel, it, navigateToListDetails)
+                    NewListItem(viewModel, it, navigateToListDetails)
                 }
             }
             Column(
@@ -68,36 +70,45 @@ fun CreteOwnLists(
 }
 
 @Composable
-fun CreteDefaultLists(viewModel: ListViewModel,state: ListMainState, navigateToListDetails: (bookList: BookList) -> Unit) {
+fun CreteDefaultLists(
+    viewModel: ListViewModel,
+    state: ListMainState,
+    navigateToListDetails: (bookList: BookList) -> Unit
+) {
     LazyColumn {
         items(state.defaultLists) {
-            ListItem(viewModel,it, navigateToListDetails)
+            NewListItem(viewModel, it, navigateToListDetails)
         }
     }
 }
 
 @Composable
-fun ListItem(viewModel: ListViewModel,list: BookList, navigateToListDetails: (bookList: BookList) -> Unit) {
-    Column(modifier = Modifier.clickable {
-        viewModel.listDetails()
-        navigateToListDetails(list)
-    }) {
-        HorizontalDivider()
+fun NewListItem(viewModel: ListViewModel, list: BookList, navigateToListDetails: (bookList: BookList) -> Unit) {
+    Box(
+        Modifier
+            .padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 5.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.onPrimary)
+            .clickable {
+                viewModel.listDetails()
+                navigateToListDetails(list)
+            }
+    ) {
         Row(
-            modifier = Modifier.padding(start = 20.dp, bottom = 10.dp, top = 10.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically
+            Modifier
+                .padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Image(
-                painterResource(R.drawable.prueba),
-                contentDescription = stringResource(id = R.string.home_imageDescNoBooks),
+                painterResource(list.books[0].coverImage),
+                contentDescription = stringResource(id = R.string.book_image),
                 modifier = Modifier
-                    .clip(RoundedCornerShape(20.dp))
                     .height(100.dp)
+                    .clip(RoundedCornerShape(10.dp))
             )
-            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+            Column(Modifier.fillMaxWidth()) {
                 Text(
-                    modifier = Modifier.weight(1f, false),
                     text = list.listName,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -105,7 +116,7 @@ fun ListItem(viewModel: ListViewModel,list: BookList, navigateToListDetails: (bo
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "(" + list.books.size + ")",
+                    text = list.books.size.toString() + " " + stringResource(R.string.list_text_books),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
