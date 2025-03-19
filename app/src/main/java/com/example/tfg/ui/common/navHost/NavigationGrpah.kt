@@ -10,6 +10,7 @@ import androidx.navigation.compose.navigation
 import com.example.tfg.R
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.user.User
+import com.example.tfg.ui.bookDetails.BookDetailsScreen
 import com.example.tfg.ui.friends.FriendsScreen
 import com.example.tfg.ui.home.HomeScreen
 import com.example.tfg.ui.home.notifications.FriendsRequestScreen
@@ -65,6 +66,9 @@ sealed class ProfileNavigationItems(val route: String) {
     object EditProfile : ProfileNavigationItems("editProfile")
     object ProfileConfiguration : ProfileNavigationItems("configureProfile")
 }
+sealed class BookNavigationItems(val route: String) {
+    object BookScreen : BookNavigationItems("bookScreen")
+}
 
 @Composable
 fun MainAppNavigation(
@@ -78,7 +82,7 @@ fun MainAppNavigation(
         homeGraph(navController, bottomBarState)
         composable(Routes.SearchScreen.route) {
             bottomBarState.value = true
-            SearchScreen()
+            SearchScreen({ navigateToRoute(it, navController) })
         }
         composable(Routes.FriendsScreen.route) {
             bottomBarState.value = true
@@ -86,6 +90,10 @@ fun MainAppNavigation(
         }
         listsGraph(navController)
         profileGraph(navController, bottomBarState)
+        composable(BookNavigationItems.BookScreen.route){
+            bottomBarState.value = false
+            BookDetailsScreen({ navigateToRoute(it, navController) })
+        }
     }
 }
 

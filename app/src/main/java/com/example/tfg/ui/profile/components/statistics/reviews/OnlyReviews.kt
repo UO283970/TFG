@@ -96,23 +96,33 @@ fun ReviewItem(review: Activity) {
                         .clip(RoundedCornerShape(10.dp))
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(top = 5.dp)) {
-                    Text(
-                        review.book.tittle,
-                        overflow = TextOverflow.Ellipsis,
-                        fontSize = 24.sp,
-                        maxLines = 3
-                    )
-                    Text(
-                        review.book.author,
-                        overflow = TextOverflow.Ellipsis,
-                        fontSize = 16.sp,
-                        textDecoration = TextDecoration.Underline,
-                        maxLines = 1
-                    )
+                    BookTittleText(review.book.tittle)
+                    BookAuthorText(review.book.author)
                     Text(review.rating.toString())
                 }
             }
         }
     }
+}
+
+@Composable
+fun BookAuthorText(author: String) {
+    Text(
+        author,
+        overflow = TextOverflow.Ellipsis,
+        fontSize = 16.sp,
+        textDecoration = TextDecoration.Underline,
+        maxLines = 1
+    )
+}
+
+@Composable
+fun BookTittleText(tittle: String) {
+    Text(
+        tittle,
+        overflow = TextOverflow.Ellipsis,
+        fontSize = 24.sp,
+        maxLines = 3
+    )
 }
 

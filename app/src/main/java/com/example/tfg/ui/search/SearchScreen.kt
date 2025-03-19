@@ -25,15 +25,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
+import com.example.tfg.ui.search.components.SearchBarSearchScreen
+import com.example.tfg.ui.search.components.SearchItem
 import com.example.tfg.ui.search.components.filterButtonsSearchForRow
 import com.example.tfg.ui.search.components.filters
-import com.example.tfg.ui.search.components.searchBarSearchScreen
-import com.example.tfg.ui.search.components.searchItem
 import com.example.tfg.ui.theme.TFGTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
+fun SearchScreen(navigateTo: (route: String) -> Unit,viewModel: SearchViewModel = hiltViewModel()) {
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -41,7 +41,7 @@ fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
     TFGTheme(dynamicColor = false) {
         Scaffold{ innerPadding ->
             Column(Modifier.padding(innerPadding)) {
-                searchBarSearchScreen (viewModel){
+                SearchBarSearchScreen (viewModel){
                     showBottomSheet = true
                 }
                 filterButtonsSearchForRow()
@@ -58,7 +58,7 @@ fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
                             verticalArrangement = Arrangement.spacedBy((10).dp)
                         ) {
                             items(viewModel.searchInfo.queryResult){
-                                searchItem(it)
+                                SearchItem(it,navigateTo)
                             }
                         }
 

@@ -100,6 +100,9 @@
     <string name="user_profile_image">Foto de perfil del usuario</string>
     <string name="has_reviewed">" reseñó "</string>
     <string name="list_text_books">Libros</string>
+    <string name="book_add_to_list">Añadir a una lista</string>
+    <string name="book_pages">Páginas:</string>
+    <string name="book_add_new_list">Crear nueva lista</string>
     <string-array name="list_of_search_for">
         <item>Título</item>
         <item>Autor</item>

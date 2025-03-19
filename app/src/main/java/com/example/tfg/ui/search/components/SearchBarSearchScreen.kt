@@ -15,6 +15,7 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
@@ -23,16 +24,20 @@ import com.example.tfg.ui.search.SearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun searchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
+fun SearchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
+    val focus = LocalFocusManager.current
     SearchBar(
         modifier = Modifier
             .semantics { traversalIndex = 0f }
             .fillMaxWidth(),
         inputField = {
             SearchBarDefaults.InputField(
-                onSearch = { viewModel.getResultsFromQuery() },
+                onSearch = {
+                    viewModel.getResultsFromQuery()
+                    focus.clearFocus()
+                },
                 expanded = viewModel.searchInfo.expandedSearchBar,
-                onExpandedChange = {  },
+                onExpandedChange = { },
                 placeholder = { Text(stringResource(id = R.string.search_placeholder_input)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
                 trailingIcon = {
@@ -41,7 +46,7 @@ fun searchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
                     }
                 },
                 query = viewModel.searchInfo.userQuery,
-                onQueryChange = {viewModel.userQueryChange(it)  }
+                onQueryChange = { viewModel.userQueryChange(it) }
             )
         },
         expanded = false,
