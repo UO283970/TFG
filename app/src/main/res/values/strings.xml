@@ -9,7 +9,7 @@
     <string name="home_no_books">No estas leyendo ningún libro ahora mismo \n ¡Añade algún libro a tu lista!</string>
     <string name="home_search_books">Buscar Libros</string>
     <string name="search_placeholder_input">Busca tu libro</string>
-    <string name="search_filters_filterFor">Filtrar por género:</string>
+    <string name="search_filters_search_by_gender">Buscar por género:</string>
     <string name="search_filters_button_tittle">Título</string>
     <string name="search_filters_button_author">Autor</string>
     <string name="search_filters_button_list">Listas</string>
@@ -103,27 +103,50 @@
     <string name="book_add_to_list">Añadir a una lista</string>
     <string name="book_pages">Páginas:</string>
     <string name="book_add_new_list">Crear nueva lista</string>
-    <string-array name="list_of_search_for">
-        <item>Título</item>
-        <item>Autor</item>
-        <item>Listas</item>
-    </string-array>
-    <string-array name="list_of_subjects">
-        <item>Todos</item>
-        <item>Fantasía</item>
-        <item>Romance</item>
-        <item>Misterio</item>
-        <item>Ciencia Ficción</item>
-        <item>Terror</item>
-        <item>Cine</item>
-        <item>Arte</item>
-    </string-array>
-    <string-array name="list_of_order_by">
-        <item>Titulo</item>
-        <item>Valoraciones</item>
-        <item>Autor</item>
-        <item>Fecha</item>
-        <item>Número de páginas</item>
+    <string name="book_dialog_cancel">Cancelar</string>
+    <string name="read_list_name">Leídos</string>
+    <string name="book_dialog_save">Guardar</string>
+    <string name="reading_list_name">Leyendo</string>
+    <string name="book_add_new_list_my_lists">Mis listas</string>
+    <string name="book_user_rating">Valoración: </string>
+    <string name="book_total_rating">/10</string>
+    <string name="search_filters_order_by_tittle">Título</string>
+    <string name="search_filters_search_for">Buscar por:</string>
+    <string name="search_filters_order_by_rating">Valoraciones</string>
+    <string name="search_filters_order_by_author">Autor</string>
+    <string name="search_filters_order_by_date">Fecha</string>
+    <string name="search_filters_order_by_pages">Páginas</string>
+    <string name="search_filters_search_for_books">Libros</string>
+    <string name="search_filters_search_for_author">Autor</string>
+    <string name="search_filters_search_for_lists">Listas</string>
+    <string name="search_filters_filterFor_fantasy">Fantasía</string>
+    <string name="search_filters_filterFor_romance">Romance</string>
+    <string name="search_filters_filterFor_mystery">Misterio</string>
+    <string name="search_filters_filterFor_horror">Terror</string>
+    <string name="search_filters_filterFor_science_fiction">Ciencia ficción</string>
+    <string name="search_filters_filterFor_film">Cine</string>
+    <string name="search_filters_filterFor_art">Arte</string>
+    <string name="search_filters_filterFor_magic">Magía</string>
+    <string name="search_filters_filterFor_textbook">Libro de texto</string>
+    <string name="search_filters_filterFor_humor">Humor</string>
+    <string name="search_filters_filterFor_thriller">Suspense</string>
+    <string name="search_filters_filterFor_biography">Biografía</string>
+    <string name="search_filters_filter_language">Filtrar por lenguaje</string>
+    <string name="search_filters_filter_language_all">Todos</string>
+    <string-array name="search_filters_filter_by_language_list">
+        <item>Checo</item>
+        <item>Búlgaro</item>
+        <item>Italiano</item>
+        <item>Japonés</item>
+        <item>Aleman</item>
+        <item>Ruso</item>
+        <item>Portugués</item>
+        <item>Polaco</item>
+        <item>Turco</item>
+        <item>Coreano</item>
+        <item>Español</item>
+        <item>Frances</item>
+        <item>Inglés</item>
     </string-array>
     <string-array name="list_of_lists_tabs">
         <item>Mis Listas</item>

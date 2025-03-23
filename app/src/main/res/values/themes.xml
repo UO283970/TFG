@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.TFG" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.TFG" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Color de la status bar -->
+        <item name="android:statusBarColor">@color/white</item>
+
+        <!--  La status bar se muestra con texto oscuro -->
+        <item name="android:windowLightStatusBar">true</item>
+        </style>
 </resources>

@@ -71,4 +71,5 @@ dependencies {
     implementation("com.airbnb.android:lottie-compose:6.6.0")
     ksp("com.google.dagger:hilt-android-compiler:2.55")
     implementation("androidx.compose.material3:material3:$composeMaterial3Version")
+    implementation("com.github.skydoves:cloudy:0.2.6")
 }

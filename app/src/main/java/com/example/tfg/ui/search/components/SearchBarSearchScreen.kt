@@ -1,11 +1,8 @@
 package com.example.tfg.ui.search.components
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -16,9 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
+import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.ui.search.SearchViewModel
 
@@ -41,8 +40,11 @@ fun SearchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
                 placeholder = { Text(stringResource(id = R.string.search_placeholder_input)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
                 trailingIcon = {
-                    IconButton(onClick = onClick) {
-                        Icon(Icons.Default.MoreVert, contentDescription = "")
+                    IconButton(onClick = {
+                        onClick()
+                        focus.clearFocus()
+                    }) {
+                        Icon(painterResource(R.drawable.filter_icon), contentDescription = "", modifier = Modifier.size(26.dp))
                     }
                 },
                 query = viewModel.searchInfo.userQuery,
@@ -51,9 +53,5 @@ fun SearchBarSearchScreen(viewModel: SearchViewModel, onClick: () -> Unit) {
         },
         expanded = false,
         onExpandedChange = { },
-    ) {
-        Column(Modifier.verticalScroll(rememberScrollState())) {
-
-        }
-    }
+    ) {}
 }
