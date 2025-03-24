@@ -28,11 +28,11 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.model.Book
+import com.example.tfg.ui.common.BookAuthorText
+import com.example.tfg.ui.common.BookTittleText
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.bottonSheetLists.AddBookToListsBottomSheet
 import com.example.tfg.ui.common.navHost.BookNavigationItems
-import com.example.tfg.ui.profile.components.statistics.reviews.BookAuthorText
-import com.example.tfg.ui.profile.components.statistics.reviews.BookTittleText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("ConfigurationScreenWidthHeight")

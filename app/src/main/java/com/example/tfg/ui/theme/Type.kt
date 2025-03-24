@@ -10,15 +10,15 @@ import com.example.tfg.R
 
 
 val myAppMainFont = FontFamily(
-    Font(R.font.lansui_regular, FontWeight.Black)
+    Font(R.font.playwrite_font, FontWeight.Black)
 )
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = myAppMainFont,
         fontWeight = FontWeight.Bold,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
         letterSpacing = 0.5.sp
     )
     /* Other default text styles to override

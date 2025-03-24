@@ -23,7 +23,6 @@ import com.example.tfg.ui.theme.myAppMainFont
 @Composable
 fun TopDetailsListBar(returnToLastScreen: () -> Unit, tittle: String) {
     TopAppBar(
-        windowInsets = TopAppBarDefaults.windowInsets,
         title = {
             Text(
                 text = tittle,

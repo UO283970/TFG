@@ -32,10 +32,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.ui.bookDetails.components.AddToListAndProgressBookInfo
 import com.example.tfg.ui.bookDetails.components.MainBookInfoImage
+import com.example.tfg.ui.common.BookAuthorText
+import com.example.tfg.ui.common.BookTittleText
 import com.example.tfg.ui.common.ObtainColorsOfImage
 import com.example.tfg.ui.common.bottonSheetLists.AddBookToListsBottomSheet
-import com.example.tfg.ui.profile.components.statistics.reviews.BookAuthorText
-import com.example.tfg.ui.profile.components.statistics.reviews.BookTittleText
 import com.example.tfg.ui.theme.TFGTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

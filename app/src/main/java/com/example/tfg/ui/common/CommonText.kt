@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,7 +25,8 @@ fun BigTittleText(text: String) {
     Text(
         text = text,
         fontSize = 20.sp,
-        fontWeight = FontWeight.SemiBold
+        fontWeight = FontWeight.SemiBold,
+        overflow = TextOverflow.Ellipsis
     )
 }
 
@@ -82,5 +84,26 @@ fun ErrorText(errorText : String) {
         text = errorText,
         color = MaterialTheme.colorScheme.error,
         style = MaterialTheme.typography.bodySmall
+    )
+}
+
+@Composable
+fun BookAuthorText(author: String) {
+    Text(
+        author,
+        overflow = TextOverflow.Ellipsis,
+        fontSize = 16.sp,
+        textDecoration = TextDecoration.Companion.Underline,
+        maxLines = 1
+    )
+}
+
+@Composable
+fun BookTittleText(tittle: String) {
+    Text(
+        tittle,
+        overflow = TextOverflow.Ellipsis,
+        fontSize = 24.sp,
+        maxLines = 3
     )
 }

@@ -102,6 +102,15 @@ enum class SubjectsEnum {
             return R.drawable.biography_icon
         }
     },
+    ADVENTURE{
+        override fun getStringResource(): Int {
+            return R.string.search_filters_filterFor_adventure
+        }
+
+        override fun getIconResource(): Int {
+            return R.drawable.adventure_icon
+        }
+    },
     ;
     abstract fun getStringResource(): Int
     abstract fun getIconResource(): Int

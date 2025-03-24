@@ -133,6 +133,8 @@
     <string name="search_filters_filterFor_biography">Biografía</string>
     <string name="search_filters_filter_language">Filtrar por lenguaje</string>
     <string name="search_filters_filter_language_all">Todos</string>
+    <string name="rating">valoro</string>
+    <string name="search_filters_filterFor_adventure">Aventura</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

@@ -1,6 +1,7 @@
 package com.example.tfg.ui.home
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
@@ -27,7 +28,7 @@ fun HomeScreen(navigateTo: (route: String) -> Unit,viewModel: HomeViewModel = hi
     val state by viewModel.homeState.collectAsState()
 
     TFGTheme(dynamicColor = false) {
-        Scaffold(
+        Scaffold(contentWindowInsets = WindowInsets(0.dp),
             topBar = { TopNotifications(navigateTo) }) { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 HorizontalDivider(thickness = 1.dp)

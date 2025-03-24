@@ -1,5 +1,6 @@
 package com.example.tfg.ui.home.components
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -20,7 +21,7 @@ import com.example.tfg.ui.common.navHost.HomeRoutesItems
 @Composable
 fun TopNotifications(navigateTo: (String) -> Unit) {
     TopAppBar(
-        windowInsets = TopAppBarDefaults.windowInsets,
+        windowInsets = WindowInsets(0.dp),
         title = { Text(text = "") },
         expandedHeight = 50.dp,
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),

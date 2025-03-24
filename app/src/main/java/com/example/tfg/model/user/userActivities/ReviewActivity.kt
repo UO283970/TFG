@@ -16,10 +16,7 @@ data class ReviewActivity(
     override val rating: Int = -1
 ): Activity(){
     override fun infoForUI(): Int {
-        if(rating == -1){
-            return R.string.review_text_info
-        }
-        return R.string.review_text_info_with_valoration
+        return R.string.has_reviewed
     }
 
     override fun extraInfo(): String {

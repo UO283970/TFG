@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.model.user.User
-import com.example.tfg.ui.friends.components.FriendActivityItem
+import com.example.tfg.ui.common.FriendsItem
 import com.example.tfg.ui.friends.components.SearchBarFriendsScreen
 import com.example.tfg.ui.theme.TFGTheme
 
@@ -38,7 +38,7 @@ fun FriendsScreen(
                         verticalArrangement = Arrangement.spacedBy((10).dp)
                     ) {
                         items(state.followedActivity) {
-                            FriendActivityItem(it)
+                            FriendsItem(it)
                         }
                     }
                 }

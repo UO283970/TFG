@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -25,6 +26,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.tfg.ui.common.navHost.MainAppNavigation
 import com.example.tfg.ui.common.navHost.Routes
+import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
 fun NavigationBar(navController: NavHostController) {
@@ -37,38 +39,48 @@ fun NavigationBar(navController: NavHostController) {
     }
     val bottomBarState = rememberSaveable { (mutableStateOf(true)) }
 
-    Scaffold(
-        bottomBar = {
-            AnimatedVisibility(visible = bottomBarState.value,
-                enter = slideInVertically(initialOffsetY = { it }),
-                exit = slideOutVertically(targetOffsetY = { it }),) {
-                NavigationBar{
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentDestination = navBackStackEntry?.destination
+    TFGTheme (dynamicColor = false){
+        Scaffold(
+            bottomBar = {
+                AnimatedVisibility(
+                    visible = bottomBarState.value,
+                    enter = slideInVertically(initialOffsetY = { it }),
+                    exit = slideOutVertically(targetOffsetY = { it }),
+                ) {
+                    NavigationBar(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.background,
+                        tonalElevation = 0.dp
+                    ) {
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentDestination = navBackStackEntry?.destination
 
-                    items.forEachIndexed { index, screen ->
-                        NavigationBarItem(
-                            icon = {
-                                Icon(painterResource(screen.icon), contentDescription = null,
-                                    modifier = Modifier.size(28.dp)
+                        items.forEachIndexed { index, screen ->
+                            NavigationBarItem(
+                                icon = {
+                                    Icon(
+                                        painterResource(screen.icon), contentDescription = null,
+                                        modifier = Modifier.size(28.dp)
                                     )
-                            },
-                            selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                            onClick = {
-                                selectedIndex = index
-                                navController.switchTabs(screen.route)
-                            }
-                        )
+                                },
+                                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                                onClick = {
+                                    selectedIndex = index
+                                    navController.switchTabs(screen.route)
+                                }
+                            )
+                        }
                     }
                 }
+            })
+        { innerPadding ->
+            Box(modifier = Modifier.padding(innerPadding)) {
+                MainAppNavigation(navController, bottomBarState)
             }
-        })
-    { innerPadding ->
-        Box (modifier = Modifier.padding(innerPadding)){
-            MainAppNavigation(navController,bottomBarState)
         }
     }
 }
+
 
 fun NavHostController.switchTabs(route: String) {
     navigate(route) {

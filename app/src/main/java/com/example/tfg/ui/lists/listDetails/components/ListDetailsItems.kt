@@ -22,28 +22,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.ui.common.BigTittleText
 import com.example.tfg.ui.common.SmallTittleText
 
 @Composable
-fun listDetailsItemList(books: ArrayList<Book>) {
+fun ListDetailsItemList(books: ArrayList<Book>) {
     LazyColumn(
         Modifier
             .padding(top = 10.dp),
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         items(books){
-            listDetailsItem(it)
+            ListDetailsItem(it)
         }
     }
 }
 
 @Composable
-fun listDetailsItem(book: Book) {
+fun ListDetailsItem(book: Book) {
     Box(
         modifier = Modifier
             .clip(AlertDialogDefaults.shape)
@@ -59,7 +57,7 @@ fun listDetailsItem(book: Book) {
                 Box(contentAlignment = Alignment.TopEnd) {
                     Image(
                         painterResource(book.coverImage),
-                        contentDescription = stringResource(id = R.string.home_imageDescNoBooks),
+                        contentDescription = null,
                         modifier = Modifier
                             .clip(RoundedCornerShape(10.dp))
                             .height(140.dp)
@@ -77,7 +75,7 @@ fun listDetailsItem(book: Book) {
                 }
 
                 Column(
-                    Modifier.padding(start = 10.dp, top = 20.dp),
+                    Modifier.padding(start = 10.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     BigTittleText(book.tittle)
