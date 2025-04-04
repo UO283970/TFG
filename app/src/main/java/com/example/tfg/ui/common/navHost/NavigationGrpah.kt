@@ -102,7 +102,7 @@ private fun NavGraphBuilder.homeGraph(
     bottomBarState: MutableState<Boolean>,
 ) {
     var startDestination: String = Routes.Home.route
-    if (/*TODO: Cuando el usuario no inicio sesión antes*/false) {
+    if (/*TODO: Cuando el usuario no inicio sesión antes*/true) {
         startDestination = HomeRoutesItems.LoginScreen.route
     }
 

@@ -4,10 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
+import com.example.tfg.repository.UserRepository
 import com.example.tfg.ui.common.StringResourcesProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class RegisterMainState(
@@ -25,7 +28,8 @@ data class RegisterMainState(
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val stringResourcesProvider: StringResourcesProvider
+    private val stringResourcesProvider: StringResourcesProvider,
+    private val mainRepository: UserRepository
 ) : ViewModel() {
 
     var formState by mutableStateOf(RegisterMainState())
@@ -54,6 +58,13 @@ class RegisterViewModel @Inject constructor(
         val correctUser: Boolean = validateUsers()
         val correctPassword: Boolean = validatePassword()
         val correctRepeatPassword: Boolean = validateRepeatPassword()
+
+        if(correctEmail && correctUser && correctPassword && correctRepeatPassword){
+            viewModelScope.launch {
+                val apiResponse = mainRepository.createUser(formState.email,formState.password,formState.userName,formState.userName,"Nada")
+                print(apiResponse)
+            }
+        }
         return correctEmail && correctUser && correctPassword && correctRepeatPassword
     }
 

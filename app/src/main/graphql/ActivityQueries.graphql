@@ -1,0 +1,19 @@
+query GetAllFollowedActivity{
+    getAllFollowedActivity{
+        activityId
+        text
+        score
+        user {
+            userId
+            userAlias
+            profilePictureURL
+        }
+        book {
+            bookId
+            title
+            author
+            coverImageURL
+        }
+        activityType
+    }
+}

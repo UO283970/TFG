@@ -1,0 +1,13 @@
+query SearchBooks($userQuery: String!){
+    searchBooks(userQuery: $userQuery){
+        bookId
+        title
+        author
+        publishYear
+        pages
+        coverImageURL
+        description
+#        readingState
+        subjects
+    }
+}

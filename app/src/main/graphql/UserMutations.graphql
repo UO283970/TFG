@@ -1,0 +1,14 @@
+mutation CreateUser($email: String!, $password: String!, $userAlias: String!, $userName: String!, $profilePictureURL: String!){
+    createUser(email: $email, password: $password, userAlias: $userAlias, userName: $userName, profilePictureURL: $profilePictureURL){
+        tokenId
+        refreshToken
+    }
+}
+
+mutation UpdateUser($userAlias: String!, $userName: String!, $profilePictureURL: String!, $description: String!){
+    updateUser(userAlias: $userAlias, userName: $userName, profilePictureURL: $profilePictureURL, description: $description)
+}
+
+mutation deleteUser{
+    deleteUser
+}

@@ -3,14 +3,17 @@ package com.example.tfg.ui.lists
 import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookList
+import com.example.tfg.repository.ListRepository
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.ListNavigationItems
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 import javax.inject.Inject
@@ -27,7 +30,8 @@ data class ListMainState(
 @HiltViewModel
 class ListViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider,
-    private var savedStateHandle: SavedStateHandle
+    private var savedStateHandle: SavedStateHandle,
+    private val listRepository: ListRepository
 ) : ViewModel() {
 
     private val _listState = MutableStateFlow(
@@ -54,16 +58,18 @@ class ListViewModel @Inject constructor(
     }
 
     private fun getOwnLists(): List<BookList> {
-        /*TODO: Conseguir las listas del usuario*/
-        val forTest = Book(
-            "Words Of Radiance",
-            "Brandon Sanderson",
-            R.drawable.prueba,
-            pages = 789,
-            publicationDate = LocalDate.ofYearDay(2017, 12)
-        )
+        var resultList = arrayListOf<BookList>()
 
-        return arrayListOf(BookList("Fantasia interesante", arrayListOf(forTest)))
+        viewModelScope.launch {
+            var userList = listRepository.getBasicListInfo(userId = "")
+            if (userList != null) {
+                for(list in userList){
+                    resultList.add(BookList(list.listName))
+                }
+            }
+        }
+
+        return resultList
     }
 
     private fun getDefaultLists(): List<BookList> {

@@ -1,13 +1,18 @@
 package com.example.tfg.ui.userIdentification
 
+import android.content.SharedPreferences
 import android.os.Parcelable
+import androidx.core.content.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
+import com.example.tfg.repository.UserRepository
 import com.example.tfg.ui.common.StringResourcesProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 
@@ -23,7 +28,9 @@ data class LoginMainState(
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val userRepository: UserRepository,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private val _formState = MutableStateFlow(
@@ -34,6 +41,15 @@ class LoginViewModel @Inject constructor(
     fun submit() : Boolean{
         val correctEmail = validateEmail()
         val correctUser = validatePasswordAndUsers()
+
+        if(correctEmail && correctUser){
+            viewModelScope.launch {
+                var loginUser = userRepository.login(email = formState.value.email, password = formState.value.password)
+                sharedPreferences.edit() { putString("access_token", loginUser?.tokenId) }
+                sharedPreferences.edit() { putString("refresh_token", loginUser?.refreshToken) }
+            }
+        }
+
         return correctEmail && correctUser
     }
     fun visiblePassword(isVisiblePassword: Boolean) {

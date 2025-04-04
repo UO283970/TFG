@@ -6,6 +6,7 @@ plugins {
     id ("com.google.dagger.hilt.android")
     id ("kotlin-parcelize")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.apollographql.apollo") version "4.1.1"
 }
 
 android {
@@ -51,6 +52,16 @@ android {
     }
 }
 
+apollo {
+    service("service") {
+        packageName.set("com.graphQL")
+        introspection {
+            endpointUrl.set("http://10.0.2.2:8080/graphql")
+            schemaFile.set(file("src/main/graphql/schema.graphqls"))
+        }
+    }
+}
+
 val composeMaterial3Version by extra("1.3.1")
 
 dependencies {
@@ -72,4 +83,6 @@ dependencies {
     ksp("com.google.dagger:hilt-android-compiler:2.55")
     implementation("androidx.compose.material3:material3:$composeMaterial3Version")
     implementation("com.github.skydoves:cloudy:0.2.6")
+    implementation("com.apollographql.apollo:apollo-runtime:4.1.1")
+
 }

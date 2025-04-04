@@ -18,7 +18,6 @@ val Typography = Typography(
         fontFamily = myAppMainFont,
         fontWeight = FontWeight.Bold,
         fontSize = 14.sp,
-        lineHeight = 20.sp,
         letterSpacing = 0.5.sp
     )
     /* Other default text styles to override

@@ -1,0 +1,20 @@
+mutation FollowUser($friendId: String!){
+    followUser(friendId: $friendId)
+}
+
+mutation CancelFollow($friendId: String!){
+    cancelFollow(friendId: $friendId)
+}
+
+mutation AcceptRequest($friendId: String!){
+    acceptRequest(friendId: $friendId)
+}
+
+mutation CancelRequest($friendId: String!){
+    cancelRequest(friendId: $friendId)
+}
+
+mutation DeleteFromFollower($friendId: String!){
+    deleteFromFollower(friendId: $friendId)
+}
+

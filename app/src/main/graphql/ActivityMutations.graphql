@@ -1,0 +1,11 @@
+mutation AddActivity($activityText : String!, $score: Int!, $bookId: String!, $userActivityType: UserActivityType!){
+    addActivity(activityText: $activityText,score: $score,bookId: $bookId,userActivityType: $userActivityType)
+}
+
+mutation DeleteActivity($activityId: String!){
+    deleteActivity(activityId: $activityId)
+}
+
+mutation UpdateActivity($activityId: String!, $activityText : String!, $score: Int!){
+    updateActivity(activityId: $activityId,activityText: $activityText,score: $score)
+}

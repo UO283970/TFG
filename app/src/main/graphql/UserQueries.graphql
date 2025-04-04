@@ -1,0 +1,103 @@
+query Login($email: String!, $password: String!){
+    login(email: $email,password: $password){
+        tokenId
+        refreshToken
+    }
+}
+
+query Logout{
+    logout
+}
+
+query RefreshToken($oldRefreshToken: String!){
+    refreshToken(oldRefreshToken: $oldRefreshToken)
+}
+
+query GetUserSearchInfo($userQuery: String!){
+    getUserSearchInfo(userQuery: $userQuery){
+        userId
+        userName
+        userAlias
+        profilePictureURL
+    }
+}
+
+query GetAuthenticatedUserInfo{
+    getAuthenticatedUserInfo{
+        userName
+        userAlias
+        profilePictureURL
+        description
+        followedUsersCount
+        followingUsersCount
+        userActivitiesCount
+        userDefaultLists {
+            listId
+            listName
+        }
+        userLists {
+            listId
+            listName
+        }
+    }
+}
+
+query GetAllUserInfo($userId: String!){
+    getAllUserInfo(userId: $userId){
+        userName
+        userAlias
+        profilePictureURL
+        description
+        followedUsersCount
+        followingUsersCount
+        userActivitiesCount
+        userDefaultLists {
+            listId
+            listName
+        }
+        userLists {
+            listId
+            listName
+            bookListPrivacy
+        }
+        userPrivacy
+    }
+}
+
+query GetFollowersOfUser($userId: String!){
+    getFollowersOfUser(userId: $userId){
+        userId
+        userName
+        userAlias
+        profilePictureURL
+        userFollowState
+    }
+}
+
+query GetFollowingListUser($userId: String!){
+    getFollowingListUser(userId: $userId){
+        userId
+        userName
+        userAlias
+        profilePictureURL
+    }
+}
+
+query GetUsersReviews($userId: String!){
+    getUsersReviews(userId: $userId){
+        activityId
+        text
+        score
+        user {
+            userId
+            userAlias
+            profilePictureURL
+        }
+        book {
+            bookId
+            title
+            author
+            coverImageURL
+        }
+    }
+}

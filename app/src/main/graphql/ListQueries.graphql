@@ -1,0 +1,64 @@
+query GetBasicListInfo($userId: String!){
+    getBasicListInfoList(userId: $userId){
+        listId
+        listName
+        numberOfBooks
+        bookListPrivacy
+        listImage
+    }
+}
+
+query GetAllListInfo($listId: String!){
+    getAllListInfo(listId: $listId){
+        listId
+        listName
+        description
+        listOfBooks {
+            bookId
+            title
+            author
+            coverImageURL
+            pages
+            publishYear
+            subjects
+        }
+        listUserId
+    }
+}
+
+query GetUserDefaultList($userId: String!, $listId: String!){
+    getUserDefaultList(listId: $listId, userId: $userId){
+        listId
+        listName
+        description
+        listOfBooks {
+            bookId
+            title
+            author
+            coverImageURL
+            pages
+            publishYear
+            subjects
+        }
+        listUserId
+    }
+}
+
+query GetUserDefaultListsList($userId: String!){
+    getUserDefaultListsList(userId: $userId){
+        listId
+        listName
+        numberOfBooks
+        listImage
+    }
+}
+
+query SearchLists($userQuery: String!){
+    searchLists(userQuery: $userQuery){
+        listId
+        listName
+        numberOfBooks
+        listImage
+        listUserId
+    }
+}

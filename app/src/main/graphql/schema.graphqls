@@ -1,0 +1,139 @@
+type Query{
+    #User queries
+    login(email: String!, password: String!): UserLogin!
+    logout: String!
+    refreshToken(oldRefreshToken: String!): String!
+    getUserSearchInfo(userQuery: String!): [User!]!
+    getAuthenticatedUserInfo: User!
+    getAllUserInfo(userId: String!): User!
+    getFollowersOfUser(userId: String!): [User!]!
+    getFollowingListUser(userId: String!): [User!]!
+    getUsersReviews(userId: String!): [UserActivity!]!
+
+    #Lists queries
+    getBasicListInfoList(userId: String!): [BookList!]!
+    getAllListInfo(listId: String!): BookList
+    getUserDefaultList(userId: String!, listId: String!): BookList
+    getUserDefaultListsList(userId: String!): [BookList!]!
+    searchLists(userQuery: String!): [BookList!]!
+
+    #User activity queries
+    getAllFollowedActivity: [UserActivity!]!
+
+    #Book queries
+    searchBooks(userQuery: String!): [Book!]!
+}
+
+type Mutation{
+    #User mutations
+    createUser(email: String!, password: String!, userAlias: String!, userName: String!, profilePictureURL: String!): UserLogin!
+    updateUser(userAlias: String!, userName: String!, profilePictureURL: String!, description: String!): Boolean!
+    deleteUser: Boolean!
+
+    #Follow mutations
+    followUser(friendId: String!): UserFollowState!
+    cancelFollow(friendId: String!): Boolean!
+    acceptRequest(friendId: String!): Boolean!
+    cancelRequest(friendId: String!): Boolean!
+    deleteFromFollower(friendId: String!): Boolean!
+
+    #List mutations
+    createList(listName: String!, description: String!, bookListPrivacy: BookListPrivacy!): String!
+    updateList(listId: String!,listName: String!, description: String!, bookListPrivacy: BookListPrivacy!): Boolean!
+    deleteList(listId: String!): Boolean!
+    addBookToDefaultList(listId: String!, bookId: String!): ReadingState!
+    removeBookFromDefaultList(listId: String!, bookId: String!): Boolean!
+    addBookToList(listId: String!, bookId: String!): Boolean!
+    removeBookFromList(listId: String!, bookId: String!): Boolean!
+
+    #User activity mutations
+    addActivity(activityText : String!, score: Int!, bookId: String, userActivityType: UserActivityType): Boolean!
+    deleteActivity(activityId: String!): Boolean!
+    updateActivity(activityId: String!, activityText : String!, score: Int!): Boolean!
+}
+
+type UserLogin{
+    tokenId: String!
+    refreshToken: String!
+}
+
+type User{
+    userId: String!
+    userName: String!
+    userAlias: String!
+    profilePictureURL: String!
+    description: String!
+    userPrivacy: UserPrivacy!
+    userFollowState: UserFollowState!
+    followedUsersCount: Int!
+    followingUsersCount: Int!
+    userActivitiesCount: Int!
+    userDefaultLists: [BookList]!
+    userLists: [BookList]!
+}
+
+enum UserPrivacy {
+    PRIVATE,
+    PUBLIC
+}
+
+enum UserFollowState {
+    FOLLOWING,
+    NOT_FOLLOW,
+    REQUESTED,
+    OWN
+}
+
+enum BookListPrivacy{
+    PRIVATE,
+    PUBLIC,
+    ONLY_FOLLOWERS
+}
+
+type BookList{
+    listId: String!
+    listName: String!
+    numberOfBooks: Int!
+    listOfBooks: [Book!]!
+    bookListPrivacy: BookListPrivacy!
+    description: String!
+    listUserId: String!
+    listImage: String!
+}
+
+type Book{
+    bookId: String!
+    title: String!
+    author: String!
+    publishYear: String!
+    pages: String!
+    meanScore: Float!
+    userScore: Int!
+    subjects: [String!]!
+    description: String
+    readingState: ReadingState!
+    coverImageURL: String!
+}
+
+enum ReadingState {
+    NOT_IN_LIST,
+    READING,
+    DROPPED,
+    WAITING,
+    READ,
+    PLAN_TO_READ
+}
+
+type UserActivity{
+    activityId: String!
+    text: String!
+    score: Int!
+    user: User!
+    book: Book!
+    activityType: UserActivityType!
+}
+
+enum UserActivityType{
+    REVIEW,
+    RATING
+}

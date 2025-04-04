@@ -103,7 +103,7 @@ fun BookTittleText(tittle: String) {
     Text(
         tittle,
         overflow = TextOverflow.Ellipsis,
-        fontSize = 24.sp,
-        maxLines = 3
+        fontSize = 16.sp,
+        maxLines = 3,
     )
 }

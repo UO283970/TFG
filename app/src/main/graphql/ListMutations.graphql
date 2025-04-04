@@ -1,0 +1,27 @@
+mutation CreateList($listName: String!, $description: String!, $bookListPrivacy: BookListPrivacy!){
+    createList(listName:$listName, description: $description, bookListPrivacy: $bookListPrivacy)
+}
+
+mutation updateList($listId: String!,$listName: String!, $description: String!, $bookListPrivacy: BookListPrivacy!){
+    updateList(listId: $listId,listName: $listName, description: $description, bookListPrivacy: $bookListPrivacy)
+}
+
+mutation deleteList($listId: String!){
+    deleteList(listId: $listId)
+}
+
+mutation AddBookToDefaultList($listId: String!, $bookId: String!){
+    addBookToDefaultList(listId: $listId,bookId: $bookId)
+}
+
+mutation RemoveBookFromDefaultList($listId: String!, $bookId: String!){
+    removeBookFromDefaultList(listId: $listId,bookId: $bookId)
+}
+
+mutation AddBookToList($listId: String!, $bookId: String!){
+    addBookToList(listId: $listId,bookId: $bookId)
+}
+
+mutation RemoveBookFromList($listId: String!, $bookId: String!){
+    removeBookFromList(listId: $listId,bookId: $bookId)
+}
