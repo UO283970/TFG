@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookList
+import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.Activity
 import com.example.tfg.model.user.userActivities.ReviewActivity
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 data class ProfileMainState(
     val user: User?,
-    var profileDefaultLists: ArrayList<BookList>,
+    var profileDefaultLists: ArrayList<DefaultList>,
     var profileBookLists: ArrayList<BookList>,
     var profileReviews: ArrayList<Activity> = arrayListOf()
 )
@@ -56,13 +57,13 @@ class OthersProfileViewModel @Inject constructor(
             publicationDate = LocalDate.ofYearDay(2017, 12)
         )
 
-        return arrayListOf(BookList("Fantasia interesante", arrayListOf(forTest)))
+        return arrayListOf(BookList("","Fantasia interesante", books = arrayListOf(forTest)))
     }
 
-    private fun profileDefaultLists(user: User?): ArrayList<BookList> {
+    private fun profileDefaultLists(user: User?): ArrayList<DefaultList> {
         /*TODO: Conseguir las listas por defecto del usuario*/
         val listNames = stringResourcesProvider.getStringArray(R.array.list_of_default_lists)
-        val listOfBooks: ArrayList<BookList> = arrayListOf()
+        val listOfBooks: ArrayList<DefaultList> = arrayListOf()
         val forTest = Book(
             "Words Of Radiance",
             "Brandon Sanderson",
@@ -72,7 +73,7 @@ class OthersProfileViewModel @Inject constructor(
         )
 
         for (name in listNames) {
-            listOfBooks.add(BookList(name, arrayListOf(forTest)))
+            listOfBooks.add(DefaultList("",R.string.list_default_name_read, books = arrayListOf(forTest)))
         }
 
         return listOfBooks

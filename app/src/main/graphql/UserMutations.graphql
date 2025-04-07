@@ -1,7 +1,8 @@
-mutation CreateUser($email: String!, $password: String!, $userAlias: String!, $userName: String!, $profilePictureURL: String!){
-    createUser(email: $email, password: $password, userAlias: $userAlias, userName: $userName, profilePictureURL: $profilePictureURL){
+mutation CreateUser($email: String!, $password: String!, $repeatedPassword: String!, $userAlias: String!, $userName: String!, $profilePictureURL: String!){
+    createUser(email: $email, password: $password, repeatedPassword: $repeatedPassword, userAlias: $userAlias, userName: $userName, profilePictureURL: $profilePictureURL){
         tokenId
         refreshToken
+        userRegisterErrors
     }
 }
 

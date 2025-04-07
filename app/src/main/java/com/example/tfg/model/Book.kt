@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDate
 
 @Parcelize
+@Serializable
 class Book(
     val tittle: String,
     val author: String,

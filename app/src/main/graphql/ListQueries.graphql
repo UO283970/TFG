@@ -1,4 +1,4 @@
-query GetBasicListInfo($userId: String!){
+query GetBasicListInfoList($userId: String!){
     getBasicListInfoList(userId: $userId){
         listId
         listName

@@ -2,6 +2,8 @@ package com.example.tfg.model.user
 
 import android.os.Parcelable
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.tfg.model.booklist.BookList
+import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
 import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
 import kotlinx.parcelize.Parcelize
@@ -19,7 +21,9 @@ class User(
     var userName: String = "",
     var numReviews: Int = 0,
     var followers: Int = 0,
-    var followed: Int = 0,
+    var following: Int = 0,
+    var defaultList: List<DefaultList> = arrayListOf<DefaultList>(),
+    var userList: List<BookList> = arrayListOf<BookList>(),
 ) : Parcelable {
 
     @Serializable

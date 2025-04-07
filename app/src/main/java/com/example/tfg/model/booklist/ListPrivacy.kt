@@ -14,7 +14,7 @@ enum class ListPrivacy{
             return stringResourcesProvider.getString(R.string.list_privacy_private)
         }
     },
-    ONLYFRIENDS{
+    ONLY_FOLLOWERS{
         override fun getListPrivacyString(stringResourcesProvider: StringResourcesProvider):String {
             return stringResourcesProvider.getString(R.string.list_privacy_only_friends)
         }

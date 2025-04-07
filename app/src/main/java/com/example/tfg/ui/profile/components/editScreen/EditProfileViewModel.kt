@@ -76,7 +76,7 @@ class EditProfileViewModel @Inject constructor(
     private fun userNameCheck(): Boolean {
         if (profileEditState.userName.isBlank()) {
             profileEditState =
-                profileEditState.copy(userNameError = stringResourcesProvider.getString(R.string.error_userName_empty))
+                profileEditState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_empty))
             return false
         }
 

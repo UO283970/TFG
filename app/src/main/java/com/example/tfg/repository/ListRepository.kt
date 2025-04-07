@@ -1,17 +1,20 @@
 package com.example.tfg.repository
 
 import com.apollographql.apollo.ApolloClient
+import com.example.tfg.model.booklist.BookList
+import com.example.tfg.model.booklist.DefaultList
+import com.example.tfg.repository.mappers.toAppLists
+import com.example.tfg.repository.mappers.toDefaultAppLists
 import com.graphQL.AddBookToDefaultListMutation
 import com.graphQL.AddBookToListMutation
 import com.graphQL.CreateListMutation
 import com.graphQL.DeleteListMutation
 import com.graphQL.GetAllListInfoQuery
 import com.graphQL.GetAllListInfoQuery.GetAllListInfo
-import com.graphQL.GetBasicListInfoQuery
+import com.graphQL.GetBasicListInfoListQuery
 import com.graphQL.GetUserDefaultListQuery
 import com.graphQL.GetUserDefaultListQuery.GetUserDefaultList
 import com.graphQL.GetUserDefaultListsListQuery
-import com.graphQL.GetUserDefaultListsListQuery.GetUserDefaultListsList
 import com.graphQL.RemoveBookFromDefaultListMutation
 import com.graphQL.RemoveBookFromListMutation
 import com.graphQL.SearchListsQuery
@@ -77,8 +80,8 @@ class ListRepository @Inject constructor(private val apolloClient: ApolloClient)
         ).execute().data?.removeBookFromList
     }
 
-    suspend fun getBasicListInfo(userId: String): List<GetBasicListInfoQuery.GetBasicListInfoList>? {
-        return apolloClient.query(GetBasicListInfoQuery(userId = userId)).execute().data?.getBasicListInfoList
+    suspend fun getBasicListInfo(userId: String): List<BookList>? {
+        return apolloClient.query(GetBasicListInfoListQuery(userId = userId)).execute().data?.getBasicListInfoList.toAppLists()
     }
 
     suspend fun getAllListInfo(listId: String): GetAllListInfo? {
@@ -89,8 +92,8 @@ class ListRepository @Inject constructor(private val apolloClient: ApolloClient)
         return apolloClient.query(GetUserDefaultListQuery(listId = listId, userId = userId)).execute().data?.getUserDefaultList
     }
 
-    suspend fun getUserDefaultLists(userId: String): List<GetUserDefaultListsList>? {
-        return apolloClient.query(GetUserDefaultListsListQuery(userId = userId)).execute().data?.getUserDefaultListsList
+    suspend fun getUserDefaultLists(userId: String): List<DefaultList>? {
+        return apolloClient.query(GetUserDefaultListsListQuery(userId = userId)).execute().data?.getUserDefaultListsList.toDefaultAppLists()
     }
 
     suspend fun searchLists(userQuery: String): List<SearchList>? {
@@ -98,3 +101,4 @@ class ListRepository @Inject constructor(private val apolloClient: ApolloClient)
     }
 
 }
+

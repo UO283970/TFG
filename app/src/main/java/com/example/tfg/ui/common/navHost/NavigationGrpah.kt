@@ -10,6 +10,7 @@ import androidx.navigation.compose.navigation
 import com.example.tfg.R
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.user.User
+import com.example.tfg.repository.GlobalErrorHandler
 import com.example.tfg.ui.bookDetails.BookDetailsScreen
 import com.example.tfg.ui.friends.FriendsScreen
 import com.example.tfg.ui.home.HomeScreen
@@ -75,6 +76,12 @@ fun MainAppNavigation(
     navController: NavHostController,
     bottomBarState: MutableState<Boolean>
 ) {
+    GlobalErrorHandler.onAuthError = {
+        navController.navigate(HomeRoutesItems.LoginScreen.route) {
+            popUpTo(0)
+        }
+    }
+
     NavHost(
         navController = navController,
         startDestination = HomeRoutesItems.HomeNav.route
@@ -99,14 +106,9 @@ fun MainAppNavigation(
 
 private fun NavGraphBuilder.homeGraph(
     navController: NavHostController,
-    bottomBarState: MutableState<Boolean>,
+    bottomBarState: MutableState<Boolean>
 ) {
-    var startDestination: String = Routes.Home.route
-    if (/*TODO: Cuando el usuario no inicio sesión antes*/true) {
-        startDestination = HomeRoutesItems.LoginScreen.route
-    }
-
-    navigation(startDestination = startDestination, route = HomeRoutesItems.HomeNav.route) {
+    navigation(startDestination = HomeRoutesItems.LoginScreen.route, route = HomeRoutesItems.HomeNav.route) {
         composable(HomeRoutesItems.LoginScreen.route) {
             bottomBarState.value = false
             LoginScreen({ navigateToRoute(it, navController) }, { navigateToRouteWithoutSave(it, navController) })
@@ -218,7 +220,7 @@ private fun navigateToRoute(route: String, navController: NavHostController) {
 
 private fun navigateToRouteWithoutSave(route: String, navController: NavHostController) {
     navController.navigate(route) {
-        popUpTo(route) { inclusive = true }
+        popUpTo(0)
     }
 }
 

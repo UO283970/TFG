@@ -37,7 +37,7 @@ fun Statistics(user: User?, navigateTo: (route: String) -> Unit) {
         }
 
         Spacer(modifier = Modifier.weight(1.0f))
-        StatisticTexts(stringResource(R.string.profile_following_text), user?.followed ?: 0){
+        StatisticTexts(stringResource(R.string.profile_following_text), user?.following ?: 0){
             navigateTo(ProfileNavigationItems.UserFollows.route)
         }
         Spacer(modifier = Modifier.weight(1.0f))

@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.booklist.BookList
-import com.example.tfg.ui.common.navHost.ListNavigationItems
 import com.example.tfg.ui.lists.ListMainState
 import com.example.tfg.ui.lists.ListViewModel
 
@@ -46,8 +45,8 @@ fun CreteOwnLists(
     Column {
         Box {
             LazyColumn {
-                items(state.ownLists) {
-                    NewListItem(viewModel, it, navigateToListDetails)
+                items(state.userListState.getOwnLists()) {
+                    NewListItem(viewModel,navigateToListDetails,it.listName, it.numberOfBooks, it.listId)
                 }
             }
             Column(
@@ -58,7 +57,7 @@ fun CreteOwnLists(
                 verticalArrangement = Arrangement.Bottom
             ) {
                 FloatingActionButton(
-                    onClick = { navigateTo(ListNavigationItems.ListCreation.route) },
+                    onClick = { navigateTo(viewModel.listCreation()) },
                     modifier = Modifier.clip(CircleShape)
                 ) {
                     Icon(Icons.Filled.Add, contentDescription = "")
@@ -75,14 +74,14 @@ fun CreteDefaultLists(
     navigateToListDetails: (bookList: BookList) -> Unit
 ) {
     LazyColumn {
-        items(state.defaultLists) {
-            NewListItem(viewModel, it, navigateToListDetails)
+        items(state.userListState.getDefaultLists()) {
+            NewListItem(viewModel, navigateToListDetails, stringResource(it.listName), it.numberOfBooks, it.listId)
         }
     }
 }
 
 @Composable
-fun NewListItem(viewModel: ListViewModel, list: BookList, navigateToListDetails: (bookList: BookList) -> Unit) {
+fun NewListItem(viewModel: ListViewModel, navigateToListDetails: (bookList: BookList) -> Unit,listName: String, numberOfBooks: Int, listId: String) {
     Box(
         Modifier
             .padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 5.dp)
@@ -90,7 +89,7 @@ fun NewListItem(viewModel: ListViewModel, list: BookList, navigateToListDetails:
             .background(MaterialTheme.colorScheme.onPrimary)
             .clickable {
                 viewModel.listDetails()
-                navigateToListDetails(list)
+                navigateToListDetails(/*listId TODO: Pasar solo el id*/BookList("",""))
             }
     ) {
         Row(
@@ -100,7 +99,7 @@ fun NewListItem(viewModel: ListViewModel, list: BookList, navigateToListDetails:
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Image(
-                painterResource(list.books[0].coverImage),
+                painterResource(/*list.books[0].coverImage  TODO: Coger la imagen que mande el back*/R.drawable.prueba),
                 contentDescription = stringResource(id = R.string.book_image),
                 modifier = Modifier
                     .fillMaxWidth(fraction = 0.17f)
@@ -108,14 +107,14 @@ fun NewListItem(viewModel: ListViewModel, list: BookList, navigateToListDetails:
             )
             Column(Modifier.fillMaxWidth()) {
                 Text(
-                    text = list.listName,
+                    text = listName,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = list.books.size.toString() + " " + stringResource(R.string.list_text_books),
+                    text = numberOfBooks.toString() + " " + stringResource(R.string.list_text_books),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,

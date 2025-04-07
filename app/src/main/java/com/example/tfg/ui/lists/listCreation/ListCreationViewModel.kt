@@ -3,12 +3,19 @@ package com.example.tfg.ui.lists.listCreation
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
+import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.booklist.ListPrivacy
+import com.example.tfg.repository.ListRepository
 import com.example.tfg.ui.common.StringResourcesProvider
+import com.example.tfg.ui.lists.UserListState
+import com.graphQL.type.BookListPrivacy
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ListCreationMainState(
@@ -16,13 +23,18 @@ data class ListCreationMainState(
     var listNameError: String? = null,
     var listDescription: String = "",
     var listPrivacy: ListPrivacy = ListPrivacy.PUBLIC,
-    var dropDawnExpanded: Boolean = false
+    var dropDawnExpanded: Boolean = false,
+    var listCreated: Boolean = false
 )
 
 @HiltViewModel
 class ListCreationViewModel @Inject constructor(
-    val stringResourcesProvider: StringResourcesProvider
+    val savedStateHandle: SavedStateHandle,
+    val stringResourcesProvider: StringResourcesProvider,
+    val listRepository: ListRepository,
+    val userListState: UserListState
 ) : ViewModel() {
+
     var listCreationState by mutableStateOf(ListCreationMainState())
 
     fun changeListName(listName: String) {
@@ -42,13 +54,39 @@ class ListCreationViewModel @Inject constructor(
         listCreationState = listCreationState.copy(dropDawnExpanded = expandedState)
     }
 
-    fun saveNewList(): Boolean {
-        return checkListName()
-        /*TODO: Guardar la lista creada*/
+    fun saveNewList() {
+        if (checkListName()) {
+            viewModelScope.launch {
+                val listCreated = listRepository.createList(
+                    listCreationState.listName,
+                    listCreationState.listDescription,
+                    BookListPrivacy.valueOf(listCreationState.listPrivacy.toString())
+                )
+                if (listCreated != null) {
+                    listCreationState = listCreationState.copy(listCreated = true)
+
+                    userListState.addToOwnList(BookList(
+                        listCreated,
+                        listName = listCreationState.listName,
+                        listDescription = listCreationState.listDescription,
+                        listPrivacy = listCreationState.listPrivacy)
+                    )
+
+                } else {
+                    listCreationState =
+                        listCreationState.copy(listNameError = stringResourcesProvider.getString(R.string.list_creation_list_name_error))
+                }
+            }
+        }
     }
 
     private fun checkListName(): Boolean {
-        /*TODO: Mirar que no haya dos listas con el mismo nombre*/
+        if (userListState.getOwnLists().stream().anyMatch { bookList -> bookList.listName == listCreationState.listName }) {
+            listCreationState =
+                listCreationState.copy(listNameError = stringResourcesProvider.getString(R.string.list_creation_list_repeated_name_error))
+            return false
+        }
+
         if (listCreationState.listName.isBlank()) {
             listCreationState =
                 listCreationState.copy(listNameError = stringResourcesProvider.getString(R.string.list_creation_list_empty_name_error))

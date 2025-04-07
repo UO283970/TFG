@@ -1,13 +1,14 @@
 package com.example.tfg.repository
 
 import com.apollographql.apollo.ApolloClient
+import com.example.tfg.model.user.User
+import com.example.tfg.repository.mappers.toUserModel
 import com.graphQL.CreateUserMutation
 import com.graphQL.CreateUserMutation.CreateUser
 import com.graphQL.DeleteUserMutation
 import com.graphQL.GetAllUserInfoQuery
 import com.graphQL.GetAllUserInfoQuery.GetAllUserInfo
 import com.graphQL.GetAuthenticatedUserInfoQuery
-import com.graphQL.GetAuthenticatedUserInfoQuery.GetAuthenticatedUserInfo
 import com.graphQL.GetFollowersOfUserQuery
 import com.graphQL.GetFollowersOfUserQuery.GetFollowersOfUser
 import com.graphQL.GetFollowingListUserQuery
@@ -25,11 +26,19 @@ import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val apolloClient: ApolloClient) {
 
-    suspend fun createUser(email: String, password: String, userAlias: String, userName: String, profilePictureURL: String): CreateUser? {
+    suspend fun createUser(
+        email: String,
+        password: String,
+        repeatedPassword: String,
+        userAlias: String,
+        userName: String,
+        profilePictureURL: String
+    ): CreateUser? {
         return apolloClient.mutation(
             CreateUserMutation(
                 email = email,
                 password = password,
+                repeatedPassword = repeatedPassword,
                 userAlias = userAlias,
                 userName = userName,
                 profilePictureURL = profilePictureURL
@@ -48,54 +57,72 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient)
         ).execute().data?.updateUser
     }
 
-    suspend fun deleteUser(): Boolean?{
+    suspend fun deleteUser(): Boolean? {
         return apolloClient.mutation(
-            DeleteUserMutation()).execute().data?.deleteUser
+            DeleteUserMutation()
+        ).execute().data?.deleteUser
     }
 
-    suspend fun login(email: String,password: String): Login?{
+    suspend fun login(email: String, password: String): Login? {
+        val response = apolloClient.query(
+            LoginQuery(email = email, password = password)
+        ).execute()
+
+        if (response.hasErrors()) {
+            return null
+        }
+
         return apolloClient.query(
-            LoginQuery(email = email, password = password)).execute().data?.login
+            LoginQuery(email = email, password = password)
+        ).execute().data?.login
     }
 
-    suspend fun logout(): String?{
+    suspend fun logout(): String? {
         return apolloClient.query(
-            LogoutQuery()).execute().data?.logout
+            LogoutQuery()
+        ).execute().data?.logout
     }
 
-    suspend fun refreshToken(oldRefreshToken: String): String?{
+    suspend fun refreshToken(oldRefreshToken: String): String? {
         return apolloClient.query(
-            RefreshTokenQuery(oldRefreshToken = oldRefreshToken)).execute().data?.refreshToken
+            RefreshTokenQuery(oldRefreshToken = oldRefreshToken)
+        ).execute().data?.refreshToken
     }
 
     suspend fun getUserSearchInfo(userQuery: String): List<GetUserSearchInfo>? {
         return apolloClient.query(
-            GetUserSearchInfoQuery(userQuery = userQuery)).execute().data?.getUserSearchInfo
+            GetUserSearchInfoQuery(userQuery = userQuery)
+        ).execute().data?.getUserSearchInfo
     }
 
-    suspend fun getAuthenticatedUserInfo(): GetAuthenticatedUserInfo? {
+    suspend fun getAuthenticatedUserInfo(): User? {
         return apolloClient.query(
-            GetAuthenticatedUserInfoQuery()).execute().data?.getAuthenticatedUserInfo
+            GetAuthenticatedUserInfoQuery()
+        ).execute().data?.getAuthenticatedUserInfo?.toUserModel()
     }
 
     suspend fun getAllUserInfo(userId: String): GetAllUserInfo? {
         return apolloClient.query(
-            GetAllUserInfoQuery(userId = userId)).execute().data?.getAllUserInfo
+            GetAllUserInfoQuery(userId = userId)
+        ).execute().data?.getAllUserInfo
     }
 
     suspend fun getFollowersOfUser(userId: String): List<GetFollowersOfUser>? {
         return apolloClient.query(
-            GetFollowersOfUserQuery(userId = userId)).execute().data?.getFollowersOfUser
+            GetFollowersOfUserQuery(userId = userId)
+        ).execute().data?.getFollowersOfUser
     }
 
     suspend fun getFollowingListUser(userId: String): List<GetFollowingListUser>? {
         return apolloClient.query(
-            GetFollowingListUserQuery(userId = userId)).execute().data?.getFollowingListUser
+            GetFollowingListUserQuery(userId = userId)
+        ).execute().data?.getFollowingListUser
     }
 
     suspend fun getUsersReviews(userId: String): List<GetUsersReview>? {
         return apolloClient.query(
-            GetUsersReviewsQuery(userId = userId)).execute().data?.getUsersReviews
+            GetUsersReviewsQuery(userId = userId)
+        ).execute().data?.getUsersReviews
     }
 
 }

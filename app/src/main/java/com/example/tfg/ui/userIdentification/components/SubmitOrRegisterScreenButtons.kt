@@ -14,14 +14,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.ui.common.navHost.HomeRoutesItems
-import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.userIdentification.LoginViewModel
 
 @Composable
 fun SubmitOrRegisterScreenButtons(
     loginViewModel: LoginViewModel,
-    navigateTo: (route: String) -> Unit,
-    navigateToWithoutSave: (route: String) -> Unit
+    navigateTo: (route: String) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(5.dp),
@@ -29,9 +27,7 @@ fun SubmitOrRegisterScreenButtons(
     ) {
         Button(
             onClick = {
-                if(loginViewModel.submit()){
-                    navigateToWithoutSave(Routes.Home.route)
-                }
+                loginViewModel.submit()
             },
             modifier = Modifier.fillMaxWidth()
         ) {

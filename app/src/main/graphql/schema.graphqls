@@ -11,8 +11,8 @@ type Query{
     getUsersReviews(userId: String!): [UserActivity!]!
 
     #Lists queries
-    getBasicListInfoList(userId: String!): [BookList!]!
     getAllListInfo(listId: String!): BookList
+    getBasicListInfoList(userId: String!): [BookList!]!
     getUserDefaultList(userId: String!, listId: String!): BookList
     getUserDefaultListsList(userId: String!): [BookList!]!
     searchLists(userQuery: String!): [BookList!]!
@@ -26,7 +26,7 @@ type Query{
 
 type Mutation{
     #User mutations
-    createUser(email: String!, password: String!, userAlias: String!, userName: String!, profilePictureURL: String!): UserLogin!
+    createUser(email: String!, password: String!, repeatedPassword: String!, userAlias: String!, userName: String!, profilePictureURL: String!): UserRegister!
     updateUser(userAlias: String!, userName: String!, profilePictureURL: String!, description: String!): Boolean!
     deleteUser: Boolean!
 
@@ -55,6 +55,32 @@ type Mutation{
 type UserLogin{
     tokenId: String!
     refreshToken: String!
+    userLoginErrors: [UserLoginErrors!]!
+}
+
+enum UserLoginErrors{
+    EMPTY_EMAIL
+    INVALID_EMAIL
+    EMPTY_PASSWORD
+    USER_NOT_FOUND
+}
+
+type UserRegister{
+    tokenId: String!
+    refreshToken: String!
+    userRegisterErrors: [UserRegisterErrors!]!
+}
+
+enum UserRegisterErrors{
+    REPEATED_PASSWORD
+    EMPTY_PASSWORD
+    LONGITUDE_PASSWORD
+    INVALID_PASSWORD
+    EMPTY_USER_ALIAS
+    REPEATED_USER_ALIAS
+    EMPTY_EMAIL
+    INVALID_EMAIL
+    ACCOUNT_EXISTS
 }
 
 type User{

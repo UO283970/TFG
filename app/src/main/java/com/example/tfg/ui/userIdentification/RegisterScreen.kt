@@ -10,6 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -31,6 +32,12 @@ fun RegisterScreen(
     navigateToWithoutSave: (route: String) -> Unit,
     registerViewModel: RegisterViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(registerViewModel.formState.isUserRegistered) {
+        if (registerViewModel.formState.isUserRegistered) {
+            navigateToWithoutSave(Routes.Home.route)
+        }
+    }
+
     TFGTheme(dynamicColor = false) {
         Scaffold { innerPadding ->
             Column(
@@ -56,7 +63,7 @@ fun RegisterScreen(
                             verticalArrangement = Arrangement.spacedBy(5.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            RegisterButton(registerViewModel,navigateToWithoutSave)
+                            RegisterButton(registerViewModel)
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(2.dp),
                                 verticalAlignment = Alignment.CenterVertically
@@ -77,11 +84,9 @@ fun RegisterScreen(
 }
 
 @Composable
-fun RegisterButton(registerViewModel: RegisterViewModel, navigateToWithoutSave: (String) -> Unit) {
+fun RegisterButton(registerViewModel: RegisterViewModel) {
     Button(onClick = {
-        if (registerViewModel.submit()) {
-            navigateToWithoutSave(Routes.Home.route)
-        }
+        registerViewModel.submit()
     }, modifier = Modifier.fillMaxWidth()) {
         Text(stringResource(R.string.register_button))
     }

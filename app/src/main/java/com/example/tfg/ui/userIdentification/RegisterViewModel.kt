@@ -1,14 +1,17 @@
 package com.example.tfg.ui.userIdentification
 
+import android.content.SharedPreferences
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
 import com.example.tfg.repository.UserRepository
 import com.example.tfg.ui.common.StringResourcesProvider
+import com.graphQL.type.UserRegisterErrors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,13 +26,15 @@ data class RegisterMainState(
     var isVisiblePassword: Boolean = false,
     var passwordRepeat: String = "",
     var passwordRepeatError: String? = null,
-    var isVisiblePasswordRepeat: Boolean = false
+    var isVisiblePasswordRepeat: Boolean = false,
+    var isUserRegistered: Boolean = false,
 )
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider,
-    private val mainRepository: UserRepository
+    private val mainRepository: UserRepository,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     var formState by mutableStateOf(RegisterMainState())
@@ -53,19 +58,68 @@ class RegisterViewModel @Inject constructor(
         formState = formState.copy(isVisiblePasswordRepeat = isVisibleRepeatPassword)
     }
 
-    fun submit(): Boolean {
+    fun submit() {
         val correctEmail: Boolean = validateEmailRegister()
         val correctUser: Boolean = validateUsers()
         val correctPassword: Boolean = validatePassword()
         val correctRepeatPassword: Boolean = validateRepeatPassword()
 
-        if(correctEmail && correctUser && correctPassword && correctRepeatPassword){
+        if (correctEmail && correctUser && correctPassword && correctRepeatPassword) {
             viewModelScope.launch {
-                val apiResponse = mainRepository.createUser(formState.email,formState.password,formState.userName,formState.userName,"Nada")
-                print(apiResponse)
+                val registeredUser = mainRepository.createUser(formState.email, formState.password, formState.passwordRepeat, formState.userName, formState.userName, "Nada")
+                if (registeredUser != null) {
+                    if (registeredUser.userRegisterErrors.isNotEmpty()) {
+                        formState = formState.copy(isUserRegistered = false)
+                        for (error in registeredUser.userRegisterErrors) {
+                            handleError(error)
+                        }
+                    } else {
+                        formState = formState.copy(isUserRegistered = true)
+                        sharedPreferences.edit() { putString("access_token", registeredUser.tokenId).apply() }
+                        sharedPreferences.edit() { putString("refresh_token", registeredUser.refreshToken).apply() }
+                    }
+                }else{
+                    formState = formState.copy(isUserRegistered = false)
+                    handleError(UserRegisterErrors.UNKNOWN__)
+                }
             }
         }
-        return correctEmail && correctUser && correctPassword && correctRepeatPassword
+    }
+
+    private fun handleError(error: UserRegisterErrors) {
+        when (error) {
+            UserRegisterErrors.REPEATED_PASSWORD -> formState =
+                formState.copy(passwordRepeatError = stringResourcesProvider.getString(R.string.error_passwordRepeat))
+
+            UserRegisterErrors.EMPTY_PASSWORD -> formState =
+                formState.copy(passwordError = stringResourcesProvider.getString(R.string.error_password_empty))
+
+            UserRegisterErrors.LONGITUDE_PASSWORD -> formState = formState.copy(
+                passwordError = stringResourcesProvider.getStringWithParameters(R.string.error_password_length, AppConstants.PASS_MIN_CHARACTERS)
+            )
+
+            UserRegisterErrors.INVALID_PASSWORD -> formState =
+                formState.copy(passwordError = stringResourcesProvider.getString(R.string.error_password_rules))
+
+            UserRegisterErrors.EMPTY_USER_ALIAS -> formState =
+                formState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_empty))
+
+            UserRegisterErrors.REPEATED_USER_ALIAS -> formState =
+                formState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_repeated))
+
+            UserRegisterErrors.EMPTY_EMAIL -> formState =
+                formState.copy(emailError = stringResourcesProvider.getString(R.string.error_email_empty))
+
+            UserRegisterErrors.INVALID_EMAIL -> formState =
+                formState.copy(emailError = stringResourcesProvider.getString(R.string.error_email_not_email))
+
+            UserRegisterErrors.ACCOUNT_EXISTS -> formState =
+                formState.copy(emailError = stringResourcesProvider.getString(R.string.error_email_used))
+
+            UserRegisterErrors.UNKNOWN__ -> formState =
+                formState.copy(emailError = stringResourcesProvider.getString(R.string.error_unkown_error))
+
+        }
     }
 
     fun userNameChanged(userName: String) {
@@ -74,14 +128,12 @@ class RegisterViewModel @Inject constructor(
 
     private fun validateRepeatPassword(): Boolean {
         if (formState.passwordRepeat.isBlank()) {
-            formState =
-                formState.copy(passwordRepeatError = stringResourcesProvider.getString(R.string.error_passwordRepeat))
+            handleError(UserRegisterErrors.EMPTY_PASSWORD)
             return false
         }
 
         if (formState.passwordRepeat != formState.password) {
-            formState =
-                formState.copy(passwordRepeatError = stringResourcesProvider.getString(R.string.error_passwordRepeat))
+            handleError(UserRegisterErrors.REPEATED_PASSWORD)
             return false
         }
 
@@ -91,19 +143,12 @@ class RegisterViewModel @Inject constructor(
 
     private fun validatePassword(): Boolean {
         if (formState.password.isBlank()) {
-            formState = formState.copy(passwordError = stringResourcesProvider.getString(R.string.error_password_empty))
+            handleError(UserRegisterErrors.EMPTY_PASSWORD)
             return false
         }
 
         if (formState.password.length < AppConstants.PASS_MIN_CHARACTERS) {
-            formState =
-                formState.copy(
-                    passwordError = stringResourcesProvider.getStringWithParameters(
-                        R.string.error_password_length,
-                        AppConstants.PASS_MIN_CHARACTERS
-                    )
-                )
-
+            handleError(UserRegisterErrors.LONGITUDE_PASSWORD)
             return false
         }
 
@@ -113,13 +158,7 @@ class RegisterViewModel @Inject constructor(
         val hasNonAlphas = Regex("\\w").containsMatchIn(formState.password)
 
         if (!(hasUpperCase && hasLowerCase && hasNumbers && hasNonAlphas)) {
-            formState =
-                formState.copy(passwordError = stringResourcesProvider.getString(R.string.error_password_rules))
-            return false
-        }
-
-        if (formState.password.isBlank()) {
-            formState = formState.copy(passwordError = stringResourcesProvider.getString(R.string.error_password_empty))
+            handleError(UserRegisterErrors.INVALID_PASSWORD)
             return false
         }
 
@@ -129,7 +168,7 @@ class RegisterViewModel @Inject constructor(
 
     private fun validateUsers(): Boolean {
         if (formState.userName.isBlank()) {
-            formState = formState.copy(userNameError = stringResourcesProvider.getString(R.string.error_userName_empty))
+            handleError(UserRegisterErrors.EMPTY_USER_ALIAS)
             return false
         }
 
@@ -142,12 +181,12 @@ class RegisterViewModel @Inject constructor(
     private fun validateEmailRegister(): Boolean {
 
         if (formState.email.isBlank()) {
-            formState = formState.copy(emailError = stringResourcesProvider.getString(R.string.error_email_empty))
+            handleError(UserRegisterErrors.EMPTY_EMAIL)
             return false
         }
 
         if (!Regex("[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+").matches(formState.email)) {
-            formState = formState.copy(emailError = stringResourcesProvider.getString(R.string.error_email_not_email))
+            handleError(UserRegisterErrors.INVALID_EMAIL)
             return false
         }
 

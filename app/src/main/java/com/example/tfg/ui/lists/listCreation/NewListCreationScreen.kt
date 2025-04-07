@@ -21,6 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,12 @@ fun NewListCreationScreen(
     returnToLastScreen: () -> Unit,
     viewModel: ListCreationViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(viewModel.listCreationState.listCreated) {
+        if(viewModel.listCreationState.listCreated){
+            returnToLastScreen()
+        }
+    }
+
     TFGTheme(dynamicColor = false)
     {
         Scaffold(
@@ -57,9 +64,7 @@ fun NewListCreationScreen(
                 DropDownMenu(viewModel)
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Button(onClick = {
-                        if(viewModel.saveNewList()){
-                            returnToLastScreen()
-                        }
+                        viewModel.saveNewList()
                     }) {
                         Text(stringResource(R.string.save_button))
                     }

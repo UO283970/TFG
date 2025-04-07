@@ -73,6 +73,7 @@ class SearchViewModel @Inject constructor(
         var resultFromQuery = arrayListOf<Book>()
 
         viewModelScope.launch {
+
             var booksFromQuery = bookRepository.searchBooks(searchInfo.userQuery)
             if (booksFromQuery != null) {
                 for (book in booksFromQuery) {

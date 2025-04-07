@@ -2,6 +2,7 @@ query Login($email: String!, $password: String!){
     login(email: $email,password: $password){
         tokenId
         refreshToken
+        userLoginErrors
     }
 }
 
@@ -34,10 +35,14 @@ query GetAuthenticatedUserInfo{
         userDefaultLists {
             listId
             listName
+            numberOfBooks
+            listImage
         }
         userLists {
             listId
             listName
+            numberOfBooks
+            listImage
         }
     }
 }

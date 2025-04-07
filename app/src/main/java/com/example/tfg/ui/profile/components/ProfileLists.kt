@@ -26,32 +26,34 @@ import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookList
+import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.ui.common.TittleBigText
 
 @Composable
-fun ProfileLists(defaultList: ArrayList<BookList>,userLists: ArrayList<BookList>) {
+fun ProfileLists(defaultList: List<DefaultList>, userLists: List<BookList>) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        ProfileLists(defaultList, stringResource(R.string.profile_default_lists))
+        ProfileDefaultLists(defaultList, stringResource(R.string.profile_default_lists))
         ProfileLists(userLists, stringResource(R.string.profile_own_lists))
     }
 }
 
 @Composable
-fun ProfileLists(lists: ArrayList<BookList>, tittle: String) {
-
-    Column {
-        TittleBigText(tittle)
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            items(lists){
-                Column(
-                    modifier = Modifier
-                        .padding(top = 5.dp)
-                        .wrapContentWidth(),
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    ProfileNameList(it)
+fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String) {
+    if(lists.isNotEmpty()){
+        Column {
+            TittleBigText(tittle)
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(lists){
+                    Column(
+                        modifier = Modifier
+                            .padding(top = 5.dp)
+                            .wrapContentWidth(),
+                        verticalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        ProfileNameList(stringResource(it.listName), it.numberOfBooks)
+                    }
                 }
             }
         }
@@ -59,20 +61,42 @@ fun ProfileLists(lists: ArrayList<BookList>, tittle: String) {
 }
 
 @Composable
-fun ProfileNameList(bookList: BookList) {
-    ProfileListImage(bookList.books[0]/*TODO: Aquí y en todas las listas es necesario obtener la imagen del primer libro sino se pondrá una por defecto*/)
+fun ProfileLists(lists: List<BookList>, tittle: String) {
+    if(lists.isNotEmpty()){
+        Column {
+            TittleBigText(tittle)
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(15.dp)
+            ) {
+                items(lists){
+                    Column(
+                        modifier = Modifier
+                            .padding(top = 5.dp)
+                            .wrapContentWidth(),
+                        verticalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        ProfileNameList(it.listName,it.numberOfBooks)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ProfileNameList(name: String, numberOfBooks: Int) {
+    ProfileListImage(Book("","", coverImage = R.drawable.prueba)/*bookList.books[0]TODO: Aquí y en todas las listas es necesario obtener la imagen del primer libro sino se pondrá una por defecto*/)
     Row(
-        Modifier.widthIn(0.dp, 120.dp),
+        Modifier.widthIn(0.dp, 100.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         ProfileListText(
-            bookList.listName,
+            name,
             Modifier
-                .wrapContentWidth()
-                .widthIn(0.dp, 65.dp)
+                .weight(1f)
         )
         Text(
-            text = ("(" + 999.toString() + "+)"),
+            text = ("($numberOfBooks)"),
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
             maxLines = 1

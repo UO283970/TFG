@@ -63,7 +63,7 @@ class AddBookToListsBottomSheetViewModel @Inject constructor(
         var booleanMap = mutableMapOf<BookList, Boolean>()
         var defaultList = stringResourcesProvider.getStringArray(R.array.list_of_default_lists)
         for (list in defaultList) {
-            booleanMap.put(BookList(list), false)
+            booleanMap.put(BookList("",list), false)
         }
 
         _sheetListSate.value = _sheetListSate.value.copy(checkboxUserList = booleanMap)

@@ -35,41 +35,43 @@ fun ProfileScreen(
     navigateTo: (route: String) -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
-    TFGTheme(dynamicColor = false)
-    {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            viewModel.profileInfo.user?.userAlias?.trim() ?: "",
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1,
-                            fontSize = 22.sp
-                        )
-                    },
-                    actions = {
-                        IconButton(onClick = { navigateTo(ProfileNavigationItems.ProfileConfiguration.route) }) {
-                            Icon(Icons.Outlined.Settings, stringResource(R.string.settings_button))
+    if(viewModel.profileInfo.infoLoaded){
+        TFGTheme(dynamicColor = false)
+        {
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                viewModel.profileInfo.user?.userAlias?.trim() ?: "",
+                                overflow = TextOverflow.Ellipsis,
+                                maxLines = 1,
+                                fontSize = 22.sp
+                            )
+                        },
+                        actions = {
+                            IconButton(onClick = { navigateTo(ProfileNavigationItems.ProfileConfiguration.route) }) {
+                                Icon(Icons.Outlined.Settings, stringResource(R.string.settings_button))
+                            }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
+                    )
+                }) { innerPadding ->
+                Column(
+                    Modifier
+                        .padding(innerPadding)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
+                        MainUserProfileInfo(viewModel.profileInfo.user, navigateTo)
+                        if (viewModel.profileInfo.user?.description?.trim() != "") {
+                            DescText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
                         }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
-                )
-            }) { innerPadding ->
-            Column(
-                Modifier
-                    .padding(innerPadding)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
-                    MainUserProfileInfo(viewModel.profileInfo.user, navigateTo)
-                    if (viewModel.profileInfo.user?.description?.trim() != "") {
-                        DescText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
+                        EditButton(navigateTo)
+                        ProfileLists(viewModel.profileInfo.user?.defaultList!!,viewModel.profileInfo.user?.userList!!)
                     }
-                    EditButton(navigateTo)
-                    ProfileLists(viewModel.profileInfo.profileDefaultLists,viewModel.profileInfo.profileBookLists)
-                }
 
+                }
             }
         }
     }

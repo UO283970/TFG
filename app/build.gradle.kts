@@ -84,5 +84,5 @@ dependencies {
     implementation("androidx.compose.material3:material3:$composeMaterial3Version")
     implementation("com.github.skydoves:cloudy:0.2.6")
     implementation("com.apollographql.apollo:apollo-runtime:4.1.1")
-
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 }

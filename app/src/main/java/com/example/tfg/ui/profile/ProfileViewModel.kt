@@ -5,43 +5,61 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.Activity
-import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
-import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
+import com.example.tfg.repository.GlobalErrorHandler
+import com.example.tfg.repository.UserRepository
+import com.example.tfg.repository.exceptions.AuthenticationException
 import com.example.tfg.ui.common.StringResourcesProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
 data class ProfileMainState(
-    val user: User?,
-    var profileDefaultLists: ArrayList<BookList>,
-    var profileBookLists: ArrayList<BookList>,
-    var profileReviews: ArrayList<Activity> = arrayListOf()
+    val user: User? = null,
+    var profileDefaultLists: ArrayList<BookList> = arrayListOf(),
+    var profileBookLists: ArrayList<BookList> = arrayListOf(),
+    var profileReviews: ArrayList<Activity> = arrayListOf(),
+    var infoLoaded: Boolean = false
 )
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider,
+    private val userRepository: UserRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    val userConnected = User(
-        /*TODO: Le pasas el usuario que esta conectado porque se accede desde el menú*/
-        "Nombre de Usuario2",
-        R.drawable.prueba,
-        UserPrivacyLevel.PUBLIC,
-        UserFollowStateEnum.OWN,
-        userName = "Nombre de Usuario2"
-    )
-    val user = savedStateHandle.get<User>("user")
 
     var profileInfo by mutableStateOf(
-        ProfileMainState(obtainUserInfo(userConnected), profileDefaultLists(userConnected), getUsersProfileLists(userConnected))
+        ProfileMainState()
     )
+
+    init {
+        val user = savedStateHandle.get<User>("connectedUserInfo")
+        viewModelScope.launch {
+            if (user == null) {
+                try {
+                    val connectedUser = userRepository.getAuthenticatedUserInfo()
+                    if (connectedUser != null) {
+                        val userObtained = connectedUser
+                        savedStateHandle["connectedUserInfo"] = userObtained
+                        profileInfo = profileInfo.copy(user = userObtained)
+                        profileInfo = profileInfo.copy(infoLoaded = true)
+                    }
+                } catch (e: AuthenticationException) {
+                    GlobalErrorHandler.handle(e)
+                }
+            }else{
+                profileInfo = profileInfo.copy(infoLoaded = true)
+            }
+        }
+    }
+
 
     private fun obtainUserInfo(user: User?): User? {
         /*TODO: Se le pasa la id del usuario o el token y se obtiene la info*/
@@ -59,7 +77,7 @@ class ProfileViewModel @Inject constructor(
             publicationDate = LocalDate.ofYearDay(2017, 12)
         )
 
-        return arrayListOf(BookList("Fantasia interesante", arrayListOf(forTest)))
+        return arrayListOf(BookList("", "Fantasia interesante", books = arrayListOf(forTest)))
     }
 
     private fun profileDefaultLists(user: User?): ArrayList<BookList> {
@@ -75,7 +93,7 @@ class ProfileViewModel @Inject constructor(
         )
 
         for (name in listNames) {
-            listOfBooks.add(BookList(name, arrayListOf(forTest)))
+            listOfBooks.add(BookList("", name, books = arrayListOf(forTest)))
         }
 
         return listOfBooks
