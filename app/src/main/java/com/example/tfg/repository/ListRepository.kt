@@ -1,19 +1,20 @@
 package com.example.tfg.repository
 
 import com.apollographql.apollo.ApolloClient
-import com.example.tfg.model.booklist.BookList
+import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.repository.mappers.toAppLists
+import com.example.tfg.repository.mappers.toBookList
 import com.example.tfg.repository.mappers.toDefaultAppLists
+import com.example.tfg.repository.mappers.toDefaultList
+import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.AddBookToDefaultListMutation
 import com.graphQL.AddBookToListMutation
 import com.graphQL.CreateListMutation
 import com.graphQL.DeleteListMutation
 import com.graphQL.GetAllListInfoQuery
-import com.graphQL.GetAllListInfoQuery.GetAllListInfo
 import com.graphQL.GetBasicListInfoListQuery
 import com.graphQL.GetUserDefaultListQuery
-import com.graphQL.GetUserDefaultListQuery.GetUserDefaultList
 import com.graphQL.GetUserDefaultListsListQuery
 import com.graphQL.RemoveBookFromDefaultListMutation
 import com.graphQL.RemoveBookFromListMutation
@@ -24,7 +25,7 @@ import com.graphQL.type.BookListPrivacy
 import com.graphQL.type.ReadingState
 import javax.inject.Inject
 
-class ListRepository @Inject constructor(private val apolloClient: ApolloClient) {
+class ListRepository @Inject constructor(private val apolloClient: ApolloClient, private val stringResourcesProvider: StringResourcesProvider) {
 
     suspend fun createList(listName: String, description: String, bookListPrivacy: BookListPrivacy): String? {
         return apolloClient.mutation(CreateListMutation(listName = listName, description = description, bookListPrivacy = bookListPrivacy))
@@ -80,20 +81,20 @@ class ListRepository @Inject constructor(private val apolloClient: ApolloClient)
         ).execute().data?.removeBookFromList
     }
 
-    suspend fun getBasicListInfo(userId: String): List<BookList>? {
+    suspend fun getBasicListInfo(userId: String): List<BookListClass>? {
         return apolloClient.query(GetBasicListInfoListQuery(userId = userId)).execute().data?.getBasicListInfoList.toAppLists()
     }
 
-    suspend fun getAllListInfo(listId: String): GetAllListInfo? {
-        return apolloClient.query(GetAllListInfoQuery(listId = listId)).execute().data?.getAllListInfo
+    suspend fun getAllListInfo(listId: String): BookListClass? {
+        return apolloClient.query(GetAllListInfoQuery(listId = listId)).execute().data?.getAllListInfo.toBookList()
     }
 
-    suspend fun getUserDefaultList(listId: String, userId: String): GetUserDefaultList? {
-        return apolloClient.query(GetUserDefaultListQuery(listId = listId, userId = userId)).execute().data?.getUserDefaultList
+    suspend fun getUserDefaultList(listId: String, userId: String): DefaultList? {
+        return apolloClient.query(GetUserDefaultListQuery(listId = listId, userId = userId)).execute().data?.getUserDefaultList.toDefaultList(stringResourcesProvider)
     }
 
     suspend fun getUserDefaultLists(userId: String): List<DefaultList>? {
-        return apolloClient.query(GetUserDefaultListsListQuery(userId = userId)).execute().data?.getUserDefaultListsList.toDefaultAppLists()
+        return apolloClient.query(GetUserDefaultListsListQuery(userId = userId)).execute().data?.getUserDefaultListsList.toDefaultAppLists(userId, stringResourcesProvider)
     }
 
     suspend fun searchLists(userQuery: String): List<SearchList>? {
@@ -101,4 +102,7 @@ class ListRepository @Inject constructor(private val apolloClient: ApolloClient)
     }
 
 }
+
+
+
 

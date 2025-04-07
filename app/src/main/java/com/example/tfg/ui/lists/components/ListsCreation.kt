@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.booklist.BookList
+import com.example.tfg.ui.common.navHost.ListNavigationItems
 import com.example.tfg.ui.lists.ListMainState
 import com.example.tfg.ui.lists.ListViewModel
 
@@ -39,14 +40,13 @@ import com.example.tfg.ui.lists.ListViewModel
 fun CreteOwnLists(
     viewModel: ListViewModel,
     navigateTo: (route: String) -> Unit,
-    navigateToListDetails: (bookList: BookList) -> Unit,
-    state: ListMainState
+    state: ListMainState,
 ) {
     Column {
         Box {
             LazyColumn {
-                items(state.userListState.getOwnLists()) {
-                    NewListItem(viewModel,navigateToListDetails,it.listName, it.numberOfBooks, it.listId)
+                items(state.listsState.getOwnLists()) {
+                    NewListItem(viewModel,navigateTo, it)
                 }
             }
             Column(
@@ -56,11 +56,13 @@ fun CreteOwnLists(
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.Bottom
             ) {
-                FloatingActionButton(
-                    onClick = { navigateTo(viewModel.listCreation()) },
-                    modifier = Modifier.clip(CircleShape)
-                ) {
-                    Icon(Icons.Filled.Add, contentDescription = "")
+                if(state.canAddLists){
+                    FloatingActionButton(
+                        onClick = { navigateTo(viewModel.listCreation()) },
+                        modifier = Modifier.clip(CircleShape)
+                    ) {
+                        Icon(Icons.Filled.Add, contentDescription = "")
+                    }
                 }
             }
         }
@@ -69,27 +71,27 @@ fun CreteOwnLists(
 
 @Composable
 fun CreteDefaultLists(
-    viewModel: ListViewModel,
     state: ListMainState,
-    navigateToListDetails: (bookList: BookList) -> Unit
+    navigateTo: (route: String) -> Unit,
+    viewModel: ListViewModel
 ) {
     LazyColumn {
-        items(state.userListState.getDefaultLists()) {
-            NewListItem(viewModel, navigateToListDetails, stringResource(it.listName), it.numberOfBooks, it.listId)
+        items(state.listsState.getDefaultLists()) {
+            NewListItem(viewModel, navigateTo,it)
         }
     }
 }
 
 @Composable
-fun NewListItem(viewModel: ListViewModel, navigateToListDetails: (bookList: BookList) -> Unit,listName: String, numberOfBooks: Int, listId: String) {
+fun NewListItem(viewModel: ListViewModel,navigateTo: (route: String) -> Unit, bookList: BookList) {
     Box(
         Modifier
             .padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 5.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.onPrimary)
             .clickable {
-                viewModel.listDetails()
-                navigateToListDetails(/*listId TODO: Pasar solo el id*/BookList("",""))
+                viewModel.listDetails(bookList)
+                navigateTo(ListNavigationItems.ListDetails.route)
             }
     ) {
         Row(
@@ -107,14 +109,14 @@ fun NewListItem(viewModel: ListViewModel, navigateToListDetails: (bookList: Book
             )
             Column(Modifier.fillMaxWidth()) {
                 Text(
-                    text = listName,
+                    text = bookList.getName(),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = numberOfBooks.toString() + " " + stringResource(R.string.list_text_books),
+                    text = bookList.getBookCount().toString() + " " + stringResource(R.string.list_text_books),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,

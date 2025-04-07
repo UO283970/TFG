@@ -8,7 +8,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.tfg.model.booklist.BookList
 import com.example.tfg.ui.lists.components.SearchBarListScreen
 import com.example.tfg.ui.lists.components.TabsLists
 import com.example.tfg.ui.theme.TFGTheme
@@ -16,7 +15,6 @@ import com.example.tfg.ui.theme.TFGTheme
 @Composable
 fun ListScreen(
     navigateTo: (route: String) -> Unit,
-    navigateToListDetails: (bookList: BookList) -> Unit,
     viewModel: ListViewModel = hiltViewModel()
 ) {
     val state by viewModel.listState.collectAsState()
@@ -25,7 +23,7 @@ fun ListScreen(
         Scaffold { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 SearchBarListScreen(viewModel, state)
-                TabsLists(viewModel, navigateTo, navigateToListDetails, state)
+                TabsLists(viewModel, navigateTo, state)
             }
         }
     }

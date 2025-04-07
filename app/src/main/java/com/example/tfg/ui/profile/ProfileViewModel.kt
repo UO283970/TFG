@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.Book
-import com.example.tfg.model.booklist.BookList
+import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.Activity
 import com.example.tfg.repository.GlobalErrorHandler
@@ -22,8 +22,8 @@ import javax.inject.Inject
 
 data class ProfileMainState(
     val user: User? = null,
-    var profileDefaultLists: ArrayList<BookList> = arrayListOf(),
-    var profileBookLists: ArrayList<BookList> = arrayListOf(),
+    var profileDefaultLists: ArrayList<BookListClass> = arrayListOf(),
+    var profileBookListClasses: ArrayList<BookListClass> = arrayListOf(),
     var profileReviews: ArrayList<Activity> = arrayListOf(),
     var infoLoaded: Boolean = false
 )
@@ -67,7 +67,7 @@ class ProfileViewModel @Inject constructor(
     }
 
 
-    private fun getUsersProfileLists(user: User?): ArrayList<BookList> {
+    private fun getUsersProfileLists(user: User?): ArrayList<BookListClass> {
         /*TODO: Conseguir las listas del usuario*/
         val forTest = Book(
             "Words Of Radiance",
@@ -77,13 +77,13 @@ class ProfileViewModel @Inject constructor(
             publicationDate = LocalDate.ofYearDay(2017, 12)
         )
 
-        return arrayListOf(BookList("", "Fantasia interesante", books = arrayListOf(forTest)))
+        return arrayListOf(BookListClass("", "Fantasia interesante", books = arrayListOf(forTest)))
     }
 
-    private fun profileDefaultLists(user: User?): ArrayList<BookList> {
+    private fun profileDefaultLists(user: User?): ArrayList<BookListClass> {
         /*TODO: Conseguir las listas por defecto del usuario*/
         val listNames = stringResourcesProvider.getStringArray(R.array.list_of_default_lists)
-        val listOfBooks: ArrayList<BookList> = arrayListOf()
+        val listOfBooks: ArrayList<BookListClass> = arrayListOf()
         val forTest = Book(
             "Words Of Radiance",
             "Brandon Sanderson",
@@ -93,7 +93,7 @@ class ProfileViewModel @Inject constructor(
         )
 
         for (name in listNames) {
-            listOfBooks.add(BookList("", name, books = arrayListOf(forTest)))
+            listOfBooks.add(BookListClass("", name, books = arrayListOf(forTest)))
         }
 
         return listOfBooks

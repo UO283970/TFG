@@ -3,6 +3,7 @@ package com.example.tfg.repository
 import com.apollographql.apollo.ApolloClient
 import com.example.tfg.model.user.User
 import com.example.tfg.repository.mappers.toUserModel
+import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.CreateUserMutation
 import com.graphQL.CreateUserMutation.CreateUser
 import com.graphQL.DeleteUserMutation
@@ -24,7 +25,7 @@ import com.graphQL.RefreshTokenQuery
 import com.graphQL.UpdateUserMutation
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(private val apolloClient: ApolloClient) {
+class UserRepository @Inject constructor(private val apolloClient: ApolloClient, private val stringResourcesProvider: StringResourcesProvider) {
 
     suspend fun createUser(
         email: String,
@@ -98,7 +99,7 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient)
     suspend fun getAuthenticatedUserInfo(): User? {
         return apolloClient.query(
             GetAuthenticatedUserInfoQuery()
-        ).execute().data?.getAuthenticatedUserInfo?.toUserModel()
+        ).execute().data?.getAuthenticatedUserInfo?.toUserModel(stringResourcesProvider)
     }
 
     suspend fun getAllUserInfo(userId: String): GetAllUserInfo? {

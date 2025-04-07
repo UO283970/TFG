@@ -135,7 +135,7 @@ fun AddBookToListsBottomSheet(
 
                     Row(verticalAlignment = Alignment.Companion.CenterVertically) {
                         Text(
-                            list.key.listName,
+                            list.key.getName(),
                             modifier = Modifier.Companion.weight(1f)
                         )
                         LottieAnimation(

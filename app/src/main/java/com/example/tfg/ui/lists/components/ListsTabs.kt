@@ -5,7 +5,6 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.example.tfg.model.booklist.BookList
 import com.example.tfg.ui.lists.ListMainState
 import com.example.tfg.ui.lists.ListViewModel
 
@@ -13,7 +12,6 @@ import com.example.tfg.ui.lists.ListViewModel
 fun TabsLists(
     viewModel: ListViewModel,
     navigateTo: (route: String) -> Unit,
-    navigateToListDetails: (bookList: BookList) -> Unit,
     state: ListMainState
 ) {
     TabRow(
@@ -29,7 +27,7 @@ fun TabsLists(
         }
     }
     when (state.tabIndex) {
-        0 -> CreteOwnLists(viewModel, navigateTo, navigateToListDetails, state)
-        1 -> CreteDefaultLists(viewModel, state, navigateToListDetails)
+        0 -> CreteOwnLists(viewModel, navigateTo, state)
+        1 -> CreteDefaultLists(state, navigateTo, viewModel)
     }
 }

@@ -2,18 +2,18 @@ package com.example.tfg.model.booklist
 
 import android.os.Parcelable
 import com.example.tfg.model.Book
-import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
+import com.example.tfg.repository.ListRepository
 
-@Parcelize
-@Serializable
-class BookList(
-    var listId: String,
-    var listName: String,
-    var listImage: Int = 0,
-    var books: ArrayList<Book> = arrayListOf(),
-    var listDescription: String = "",
-    var numberOfBooks: Int = 0,
-    var listPrivacy: ListPrivacy = ListPrivacy.PUBLIC
-) :
-    Parcelable
+interface BookList : Parcelable {
+
+    suspend fun getAllListInfo(listRepository: ListRepository): BookList?
+
+    fun getListOfBooks(): ArrayList<Book>
+
+    fun getDescription(): String
+
+    fun getName(): String
+
+    fun getBookCount(): Int
+
+}

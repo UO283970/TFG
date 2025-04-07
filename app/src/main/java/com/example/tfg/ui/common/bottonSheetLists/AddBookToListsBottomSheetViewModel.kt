@@ -2,7 +2,7 @@ package com.example.tfg.ui.common.bottonSheetLists
 
 import androidx.lifecycle.ViewModel
 import com.example.tfg.R
-import com.example.tfg.model.booklist.BookList
+import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.ui.common.StringResourcesProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 data class SheetListsSate(
     val checkboxDefaultList: MutableMap<String, Boolean> = linkedMapOf<String, Boolean>(),
-    val checkboxUserList: MutableMap<BookList, Boolean> = linkedMapOf<BookList, Boolean>(),
+    val checkboxUserList: MutableMap<BookListClass, Boolean> = linkedMapOf<BookListClass, Boolean>(),
     val userQuery: String = "",
     var updateView: Boolean = false
 )
@@ -38,8 +38,8 @@ class AddBookToListsBottomSheetViewModel @Inject constructor(
 
     }
 
-    fun changeUserListState(bookList: BookList, boolean: Boolean) {
-        _sheetListSate.value.checkboxUserList.put(bookList, !boolean)
+    fun changeUserListState(bookListClass: BookListClass, boolean: Boolean) {
+        _sheetListSate.value.checkboxUserList.put(bookListClass, !boolean)
         _sheetListSate.value = _sheetListSate.value.copy(updateView = !_sheetListSate.value.updateView)
 
     }
@@ -60,10 +60,10 @@ class AddBookToListsBottomSheetViewModel @Inject constructor(
 
     private fun generateUsrLists() {
         /*TODO: Buscar la listas del usuario y si el libro esta incluido en alguna poner el check a true*/
-        var booleanMap = mutableMapOf<BookList, Boolean>()
+        var booleanMap = mutableMapOf<BookListClass, Boolean>()
         var defaultList = stringResourcesProvider.getStringArray(R.array.list_of_default_lists)
         for (list in defaultList) {
-            booleanMap.put(BookList("",list), false)
+            booleanMap.put(BookListClass("",list), false)
         }
 
         _sheetListSate.value = _sheetListSate.value.copy(checkboxUserList = booleanMap)

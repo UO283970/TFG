@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
-import com.example.tfg.model.booklist.BookList
+import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.ListPrivacy
+import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.ListRepository
 import com.example.tfg.ui.common.StringResourcesProvider
-import com.example.tfg.ui.lists.UserListState
 import com.graphQL.type.BookListPrivacy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -32,7 +32,7 @@ class ListCreationViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
     val stringResourcesProvider: StringResourcesProvider,
     val listRepository: ListRepository,
-    val userListState: UserListState
+    val listsState: ListsState
 ) : ViewModel() {
 
     var listCreationState by mutableStateOf(ListCreationMainState())
@@ -65,7 +65,7 @@ class ListCreationViewModel @Inject constructor(
                 if (listCreated != null) {
                     listCreationState = listCreationState.copy(listCreated = true)
 
-                    userListState.addToOwnList(BookList(
+                    listsState.addToOwnList(BookListClass(
                         listCreated,
                         listName = listCreationState.listName,
                         listDescription = listCreationState.listDescription,
@@ -81,7 +81,7 @@ class ListCreationViewModel @Inject constructor(
     }
 
     private fun checkListName(): Boolean {
-        if (userListState.getOwnLists().stream().anyMatch { bookList -> bookList.listName == listCreationState.listName }) {
+        if (listsState.getOwnLists().stream().anyMatch { bookList -> bookList.getName() == listCreationState.listName }) {
             listCreationState =
                 listCreationState.copy(listNameError = stringResourcesProvider.getString(R.string.list_creation_list_repeated_name_error))
             return false

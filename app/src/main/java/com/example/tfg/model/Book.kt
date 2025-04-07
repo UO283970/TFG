@@ -18,5 +18,6 @@ class Book(
     val userScore: Int = -1,
     val subjects: List<String> = arrayListOf(),
     val details: String = "",
-    val readingState: String = ""
+    val readingState: String = "",
+    val bookId: String = ""
 ) : Parcelable

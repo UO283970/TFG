@@ -44,7 +44,7 @@ fun OthersProfileScreen(
                         DescText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
                     }
                     EditButton(navigateTo)
-                    ProfileLists(viewModel.profileInfo.profileDefaultLists,viewModel.profileInfo.profileBookLists)
+                    ProfileLists(viewModel.profileInfo.profileDefaultLists,viewModel.profileInfo.profileBookListClasses)
                 }
 
             }

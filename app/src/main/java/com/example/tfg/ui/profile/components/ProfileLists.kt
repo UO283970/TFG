@@ -25,12 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.Book
-import com.example.tfg.model.booklist.BookList
+import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.ui.common.TittleBigText
 
 @Composable
-fun ProfileLists(defaultList: List<DefaultList>, userLists: List<BookList>) {
+fun ProfileLists(defaultList: List<DefaultList>, userLists: List<BookListClass>) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         ProfileDefaultLists(defaultList, stringResource(R.string.profile_default_lists))
         ProfileLists(userLists, stringResource(R.string.profile_own_lists))
@@ -52,7 +52,7 @@ fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String) {
                             .wrapContentWidth(),
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        ProfileNameList(stringResource(it.listName), it.numberOfBooks)
+                        ProfileNameList(it.getName(), it.numberOfBooks)
                     }
                 }
             }
@@ -61,7 +61,7 @@ fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String) {
 }
 
 @Composable
-fun ProfileLists(lists: List<BookList>, tittle: String) {
+fun ProfileLists(lists: List<BookListClass>, tittle: String) {
     if(lists.isNotEmpty()){
         Column {
             TittleBigText(tittle)
@@ -75,7 +75,7 @@ fun ProfileLists(lists: List<BookList>, tittle: String) {
                             .wrapContentWidth(),
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        ProfileNameList(it.listName,it.numberOfBooks)
+                        ProfileNameList(it.getName(),it.numberOfBooks)
                     }
                 }
             }

@@ -16,27 +16,30 @@ import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
 fun ListDetailsScreen(returnToLastScreen: () -> Unit, viewModel: ListDetailsViewModel = hiltViewModel()) {
-    TFGTheme(dynamicColor = false)
-    {
-        Scaffold(
-            topBar = {
-                TopDetailsListBar(
-                    returnToLastScreen,
-                    viewModel.listDetailsInfo.bookList?.listName ?: ""
-                )
-            }
-        ) { innerPadding ->
-            Column(Modifier.padding(innerPadding)) {
-                HorizontalDivider(thickness = 1.dp)
-                Column {
-                    SearchBarListDetailsScreen(viewModel)
-                    if (viewModel.listDetailsInfo.bookList?.listDescription != "") {
-                        DescText(3, viewModel.listDetailsInfo.bookList?.listDescription ?: "")
-                        HorizontalDivider(Modifier.padding(top = 5.dp))
+    if(viewModel.listDetailsInfo.detailsLoaded){
+        TFGTheme(dynamicColor = false)
+        {
+            Scaffold(
+                topBar = {
+                    TopDetailsListBar(
+                        returnToLastScreen,
+                        viewModel.listDetailsInfo.bookList?.getName() ?: ""
+                    )
+                }
+            ) { innerPadding ->
+                Column(Modifier.padding(innerPadding)) {
+                    HorizontalDivider(thickness = 1.dp)
+                    Column {
+                        SearchBarListDetailsScreen(viewModel)
+                        if (viewModel.listDetailsInfo.bookList?.getDescription() != "") {
+                            DescText(3, viewModel.listDetailsInfo.bookList?.getDescription() ?: "")
+                            HorizontalDivider(Modifier.padding(top = 5.dp))
+                        }
+                        ListDetailsItemList(viewModel.listDetailsInfo.bookList?.getListOfBooks() ?: arrayListOf())
                     }
-                    ListDetailsItemList(viewModel.listDetailsInfo.bookList?.books ?: arrayListOf())
                 }
             }
         }
     }
+
 }

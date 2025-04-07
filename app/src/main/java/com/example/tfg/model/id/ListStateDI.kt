@@ -1,6 +1,6 @@
 package com.example.tfg.model.id
 
-import com.example.tfg.ui.lists.UserListState
+import com.example.tfg.model.booklist.ListsState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,8 +13,8 @@ class ListStateDI {
 
     @Singleton
     @Provides
-    fun provideListState(): UserListState {
-        return UserListState()
+    fun provideListState(): ListsState {
+        return ListsState()
     }
 
 }

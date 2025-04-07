@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.tfg.R
-import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.user.User
 import com.example.tfg.repository.GlobalErrorHandler
 import com.example.tfg.ui.bookDetails.BookDetailsScreen
@@ -53,7 +52,7 @@ sealed class HomeRoutesItems(val route: String) {
 }
 
 sealed class ListNavigationItems(val route: String) {
-    object ListsScreen : ListNavigationItems("listScreen")
+    object ListsScreen : ListNavigationItems("listScreen/{userId}")
     object ListDetails : ListNavigationItems("listDetails/{bookList}")
     object ListCreation : ListNavigationItems("listCreation")
 }
@@ -141,7 +140,7 @@ private fun NavGraphBuilder.listsGraph(
 ) {
     navigation(startDestination = ListNavigationItems.ListsScreen.route, route = Routes.ListsScreen.route) {
         composable(ListNavigationItems.ListsScreen.route) {
-            ListScreen({ navigateToRoute(it, navController) }, { navigateToDetailList(navController, it) })
+            ListScreen({ navigateToRoute(it, navController) })
         }
         composable(ListNavigationItems.ListDetails.route) {
             ListDetailsScreen({ returnToLastScreen(navController) })
@@ -198,18 +197,6 @@ private fun navigateToProfileWithUser(user: User, navController: NavHostControll
         ProfileNavigationItems.OthersProfileScreen.route.replace(
             oldValue = "{user}",
             newValue = userJson
-        )
-    )
-}
-
-
-private fun navigateToDetailList(navController: NavHostController, bookList: BookList) {
-    val gson: Gson = GsonBuilder().create()
-    val listJson = gson.toJson(bookList)
-    navController.navigate(
-        ListNavigationItems.ListDetails.route.replace(
-            oldValue = "{bookList}",
-            newValue = listJson
         )
     )
 }
