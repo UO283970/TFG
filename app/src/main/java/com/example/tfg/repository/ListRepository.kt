@@ -82,7 +82,7 @@ class ListRepository @Inject constructor(private val apolloClient: ApolloClient,
     }
 
     suspend fun getBasicListInfo(userId: String): List<BookListClass>? {
-        return apolloClient.query(GetBasicListInfoListQuery(userId = userId)).execute().data?.getBasicListInfoList.toAppLists()
+        return apolloClient.query(GetBasicListInfoListQuery(userId = userId)).execute().data?.getBasicListInfoList.toAppLists(userId)
     }
 
     suspend fun getAllListInfo(listId: String): BookListClass? {

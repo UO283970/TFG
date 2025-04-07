@@ -23,6 +23,7 @@ import com.graphQL.LoginQuery.Login
 import com.graphQL.LogoutQuery
 import com.graphQL.RefreshTokenQuery
 import com.graphQL.UpdateUserMutation
+import com.graphQL.type.UserPrivacy
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val apolloClient: ApolloClient, private val stringResourcesProvider: StringResourcesProvider) {
@@ -48,12 +49,13 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient,
     }
 
 
-    suspend fun updateUser(userAlias: String, userName: String, profilePictureURL: String, description: String): Boolean? {
+    suspend fun updateUser(userAlias: String, userName: String, profilePictureURL: String, description: String, privacy: UserPrivacy): Boolean? {
         return apolloClient.mutation(
             UpdateUserMutation(
                 userAlias = userAlias,
                 userName = userName,
-                profilePictureURL = profilePictureURL, description = description
+                profilePictureURL = profilePictureURL, description = description,
+                privacyLevel = privacy
             )
         ).execute().data?.updateUser
     }

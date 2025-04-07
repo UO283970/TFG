@@ -39,8 +39,7 @@ class ListViewModel @Inject constructor(
 
     val userId = if(savedStateHandle.get<String?>("userId") == null) "" else savedStateHandle.get<String?>("userId")
 
-    private var _listState = MutableStateFlow(
-        savedStateHandle.get<ListMainState>("listScreenInfo") ?: ListMainState(
+    private var _listState = MutableStateFlow(ListMainState(
             tabs = stringResourcesProvider.getStringArray(R.array.list_of_lists_tabs),
             listsState = listsState,
             userId = userId!!,

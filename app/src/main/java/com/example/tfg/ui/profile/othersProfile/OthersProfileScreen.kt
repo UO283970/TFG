@@ -12,9 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.ui.common.DescText
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
-import com.example.tfg.ui.profile.components.EditButton
 import com.example.tfg.ui.profile.components.MainUserProfileInfo
-import com.example.tfg.ui.profile.components.ProfileLists
 import com.example.tfg.ui.theme.TFGTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,8 +41,8 @@ fun OthersProfileScreen(
                     if (viewModel.profileInfo.user?.description?.trim() != "") {
                         DescText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
                     }
-                    EditButton(navigateTo)
-                    ProfileLists(viewModel.profileInfo.profileDefaultLists,viewModel.profileInfo.profileBookListClasses)
+                    //EditButton(navigateTo,viewModel)
+                    //ProfileLists(viewModel.profileInfo.profileDefaultLists,viewModel.profileInfo.profileBookListClasses)
                 }
 
             }

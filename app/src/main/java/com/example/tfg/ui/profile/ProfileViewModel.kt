@@ -1,101 +1,67 @@
 package com.example.tfg.ui.profile
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tfg.R
-import com.example.tfg.model.Book
+import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.booklist.BookListClass
-import com.example.tfg.model.user.User
+import com.example.tfg.model.booklist.ListsState
+import com.example.tfg.model.user.MainUserState
 import com.example.tfg.model.user.userActivities.Activity
 import com.example.tfg.repository.GlobalErrorHandler
 import com.example.tfg.repository.UserRepository
 import com.example.tfg.repository.exceptions.AuthenticationException
-import com.example.tfg.ui.common.StringResourcesProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 data class ProfileMainState(
-    val user: User? = null,
     var profileDefaultLists: ArrayList<BookListClass> = arrayListOf(),
     var profileBookListClasses: ArrayList<BookListClass> = arrayListOf(),
     var profileReviews: ArrayList<Activity> = arrayListOf(),
-    var infoLoaded: Boolean = false
+    var infoLoaded: Boolean = false,
+    var mainUserState: MainUserState
 )
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val stringResourcesProvider: StringResourcesProvider,
     private val userRepository: UserRepository,
-    savedStateHandle: SavedStateHandle
+    private val mainUserState: MainUserState,
+    private val listsState: ListsState
 ) : ViewModel() {
 
-    var profileInfo by mutableStateOf(
-        ProfileMainState()
+    private val _profileInfo = MutableStateFlow(
+        ProfileMainState(mainUserState = mainUserState)
     )
 
+    val profileInfo: StateFlow<ProfileMainState> = _profileInfo
+
     init {
-        val user = savedStateHandle.get<User>("connectedUserInfo")
         viewModelScope.launch {
-            if (user == null) {
+            if (_profileInfo.value.mainUserState.getMainUser() == null) {
                 try {
                     val connectedUser = userRepository.getAuthenticatedUserInfo()
                     if (connectedUser != null) {
                         val userObtained = connectedUser
-                        savedStateHandle["connectedUserInfo"] = userObtained
-                        profileInfo = profileInfo.copy(user = userObtained)
-                        profileInfo = profileInfo.copy(infoLoaded = true)
+                        _profileInfo.value = _profileInfo.value.copy(infoLoaded = true)
+                        _profileInfo.value.mainUserState.setMainUser(userObtained)
                     }
                 } catch (e: AuthenticationException) {
                     GlobalErrorHandler.handle(e)
                 }
             }else{
-                profileInfo = profileInfo.copy(infoLoaded = true)
+                _profileInfo.value = _profileInfo.value.copy(infoLoaded = true)
             }
         }
     }
 
-
-    private fun obtainUserInfo(user: User?): User? {
-        /*TODO: Se le pasa la id del usuario o el token y se obtiene la info*/
-        return user
+    fun editProfile(){
+        _profileInfo.value = _profileInfo.value.copy(infoLoaded = true)
     }
 
-
-    private fun getUsersProfileLists(user: User?): ArrayList<BookListClass> {
-        /*TODO: Conseguir las listas del usuario*/
-        val forTest = Book(
-            "Words Of Radiance",
-            "Brandon Sanderson",
-            R.drawable.prueba,
-            pages = 789,
-            publicationDate = LocalDate.ofYearDay(2017, 12)
-        )
-
-        return arrayListOf(BookListClass("", "Fantasia interesante", books = arrayListOf(forTest)))
+    fun listDetails(bookList: BookList) {
+        listsState.setDetailsList(bookList)
     }
 
-    private fun profileDefaultLists(user: User?): ArrayList<BookListClass> {
-        /*TODO: Conseguir las listas por defecto del usuario*/
-        val listNames = stringResourcesProvider.getStringArray(R.array.list_of_default_lists)
-        val listOfBooks: ArrayList<BookListClass> = arrayListOf()
-        val forTest = Book(
-            "Words Of Radiance",
-            "Brandon Sanderson",
-            R.drawable.prueba,
-            pages = 789,
-            publicationDate = LocalDate.ofYearDay(2017, 12)
-        )
-
-        for (name in listNames) {
-            listOfBooks.add(BookListClass("", name, books = arrayListOf(forTest)))
-        }
-
-        return listOfBooks
-    }
 }

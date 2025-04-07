@@ -5,6 +5,7 @@ import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.booklist.DefaultListNames
 import com.example.tfg.model.user.User
+import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.GetAuthenticatedUserInfoQuery
 import com.graphQL.GetAuthenticatedUserInfoQuery.UserDefaultList
@@ -13,7 +14,7 @@ import com.graphQL.GetAuthenticatedUserInfoQuery.UserList
 
 fun GetAuthenticatedUserInfoQuery.GetAuthenticatedUserInfo.toUserModel(stringResourcesProvider: StringResourcesProvider): User {
     return User(
-        this.userName,
+        this.userAlias,
         profilePicture = R.drawable.prueba,
         description = this.description,
         userName = this.userName,
@@ -21,7 +22,8 @@ fun GetAuthenticatedUserInfoQuery.GetAuthenticatedUserInfo.toUserModel(stringRes
         following = this.followingUsersCount,
         followers = this.followedUsersCount,
         defaultList = toBookListFromDefault(this.userDefaultLists,stringResourcesProvider),
-        userList = toBookList(this.userLists)
+        userList = toBookList(this.userLists),
+        privacy = UserPrivacyLevel.valueOf(this.userPrivacy.toString())
     )
 }
 

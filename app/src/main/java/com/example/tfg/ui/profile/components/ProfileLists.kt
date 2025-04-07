@@ -1,6 +1,7 @@
 package com.example.tfg.ui.profile.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,19 +29,21 @@ import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.ui.common.TittleBigText
+import com.example.tfg.ui.common.navHost.ListNavigationItems
+import com.example.tfg.ui.profile.ProfileViewModel
 
 @Composable
-fun ProfileLists(defaultList: List<DefaultList>, userLists: List<BookListClass>) {
+fun ProfileLists(defaultList: List<DefaultList>, userLists: List<BookListClass>, navigateTo: (route: String) -> Unit, viewModel: ProfileViewModel) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        ProfileDefaultLists(defaultList, stringResource(R.string.profile_default_lists))
-        ProfileLists(userLists, stringResource(R.string.profile_own_lists))
+        ProfileDefaultLists(defaultList, stringResource(R.string.profile_default_lists),navigateTo, viewModel)
+        ProfileLists(userLists, stringResource(R.string.profile_own_lists), navigateTo, viewModel)
     }
 }
 
 @Composable
-fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String) {
+fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String, navigateTo: (route: String) -> Unit, viewModel: ProfileViewModel) {
     if(lists.isNotEmpty()){
-        Column {
+        Column{
             TittleBigText(tittle)
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -49,7 +52,10 @@ fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String) {
                     Column(
                         modifier = Modifier
                             .padding(top = 5.dp)
-                            .wrapContentWidth(),
+                            .wrapContentWidth().clickable{
+                                viewModel.listDetails(it)
+                                navigateTo(ListNavigationItems.ListDetails.route)
+                            },
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
                         ProfileNameList(it.getName(), it.numberOfBooks)
@@ -61,9 +67,9 @@ fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String) {
 }
 
 @Composable
-fun ProfileLists(lists: List<BookListClass>, tittle: String) {
+fun ProfileLists(lists: List<BookListClass>, tittle: String,  navigateTo: (route: String) -> Unit, viewModel: ProfileViewModel) {
     if(lists.isNotEmpty()){
-        Column {
+        Column{
             TittleBigText(tittle)
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(15.dp)
@@ -72,7 +78,11 @@ fun ProfileLists(lists: List<BookListClass>, tittle: String) {
                     Column(
                         modifier = Modifier
                             .padding(top = 5.dp)
-                            .wrapContentWidth(),
+                            .wrapContentWidth()
+                            .clickable{
+                            viewModel.listDetails(it)
+                            navigateTo(ListNavigationItems.ListDetails.route)
+                        },
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
                         ProfileNameList(it.getName(),it.numberOfBooks)

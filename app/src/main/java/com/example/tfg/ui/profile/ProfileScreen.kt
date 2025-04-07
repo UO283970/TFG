@@ -15,6 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -35,7 +37,9 @@ fun ProfileScreen(
     navigateTo: (route: String) -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
-    if(viewModel.profileInfo.infoLoaded){
+    val state by viewModel.profileInfo.collectAsState()
+
+    if(state.infoLoaded){
         TFGTheme(dynamicColor = false)
         {
             Scaffold(
@@ -43,7 +47,7 @@ fun ProfileScreen(
                     TopAppBar(
                         title = {
                             Text(
-                                viewModel.profileInfo.user?.userAlias?.trim() ?: "",
+                                state.mainUserState.getMainUser()?.userAlias?.trim() ?: "",
                                 overflow = TextOverflow.Ellipsis,
                                 maxLines = 1,
                                 fontSize = 22.sp
@@ -63,12 +67,12 @@ fun ProfileScreen(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
-                        MainUserProfileInfo(viewModel.profileInfo.user, navigateTo)
-                        if (viewModel.profileInfo.user?.description?.trim() != "") {
-                            DescText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
+                        MainUserProfileInfo(state.mainUserState.getMainUser(), navigateTo)
+                        if (state.mainUserState.getMainUser()?.description?.trim() != "") {
+                            DescText(3, state.mainUserState.getMainUser()?.description?.trim() ?: "")
                         }
-                        EditButton(navigateTo)
-                        ProfileLists(viewModel.profileInfo.user?.defaultList!!,viewModel.profileInfo.user?.userList!!)
+                        EditButton(navigateTo,viewModel)
+                        ProfileLists(state.mainUserState.getMainUser()?.defaultList!!,state.mainUserState.getMainUser()?.userList!!,navigateTo, viewModel)
                     }
 
                 }

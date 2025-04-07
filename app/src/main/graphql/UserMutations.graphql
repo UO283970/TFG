@@ -6,8 +6,8 @@ mutation CreateUser($email: String!, $password: String!, $repeatedPassword: Stri
     }
 }
 
-mutation UpdateUser($userAlias: String!, $userName: String!, $profilePictureURL: String!, $description: String!){
-    updateUser(userAlias: $userAlias, userName: $userName, profilePictureURL: $profilePictureURL, description: $description)
+mutation UpdateUser($userAlias: String!, $userName: String!, $profilePictureURL: String!, $description: String!, $privacyLevel: UserPrivacy!){
+    updateUser(userAlias: $userAlias, userName: $userName, profilePictureURL: $profilePictureURL, description: $description, privacyLevel: $privacyLevel)
 }
 
 mutation deleteUser{

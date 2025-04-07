@@ -14,6 +14,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +32,13 @@ fun EditScreen(
     returnToLastScreen: () -> Unit,
     editProfileViewModel: EditProfileViewModel = hiltViewModel()
 ) {
+
+    LaunchedEffect(editProfileViewModel.profileEditState.profileEdited) {
+        if(editProfileViewModel.profileEditState.profileEdited){
+            returnToLastScreen()
+        }
+    }
+
     TFGTheme(dynamicColor = false)
     {
         Scaffold(
@@ -71,9 +79,7 @@ fun EditScreen(
                         ProfileEditSwitch(editProfileViewModel)
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                             Button(onClick = {
-                                if (editProfileViewModel.saveButtonOnClick()) {
-                                    returnToLastScreen()
-                                }
+                                editProfileViewModel.saveButtonOnClick()
                             }) {
                                 Text(stringResource(R.string.save_button))
                             }

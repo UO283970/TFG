@@ -3,15 +3,17 @@ package com.example.tfg.ui.profile.components.editScreen
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
-import com.example.tfg.model.user.User
-import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
+import com.example.tfg.model.user.MainUserState
 import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
+import com.example.tfg.repository.UserRepository
 import com.example.tfg.ui.common.StringResourcesProvider
+import com.graphQL.type.UserPrivacy
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class EditProfileMainState(
@@ -20,31 +22,25 @@ data class EditProfileMainState(
     var userNameError: String? = null,
     var userAlias: String,
     var userDescription: String,
-    var switchState: Boolean
+    var switchState: Boolean,
+    var profileEdited: Boolean = false
 
 )
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider,
-    savedStateHandle: SavedStateHandle
+    private val mainUserState: MainUserState,
+    private val userRepository: UserRepository
 ) : ViewModel() {
-    val user = User(
-        /*TODO: Le pasas el usuario que esta conectado porque se accede desde el menú*/
-        "Nombre de Usuario2",
-        R.drawable.prueba,
-        UserPrivacyLevel.PUBLIC,
-        UserFollowStateEnum.OWN,
-        userName = "Nombre de Usuario2"
-    )
 
     var profileEditState by mutableStateOf(
         EditProfileMainState(
-            userProfilePicture = user?.profilePicture ?: 0,
-            userName = user?.userName ?: "",
-            userAlias = user?.userAlias ?: "",
-            userDescription = user?.description ?: "",
-            switchState = user?.privacy == UserPrivacyLevel.PRIVATE
+            userProfilePicture = mainUserState.getMainUser()?.profilePicture ?: 0,
+            userName = mainUserState.getMainUser()?.userName ?: "",
+            userAlias = mainUserState.getMainUser()?.userAlias ?: "",
+            userDescription = mainUserState.getMainUser()?.description ?: "",
+            switchState = mainUserState.getMainUser()?.privacy == UserPrivacyLevel.PRIVATE
         )
     )
 
@@ -68,9 +64,27 @@ class EditProfileViewModel @Inject constructor(
         profileEditState = profileEditState.copy(switchState = !profileEditState.switchState)
     }
 
-    fun saveButtonOnClick(): Boolean {
-        /*TODO: Guardar los cambios del usuario en la base de datos*/
-        return userNameCheck()
+    fun saveButtonOnClick() {
+        viewModelScope.launch {
+            val userPrivacy = if(profileEditState.switchState) UserPrivacy.PRIVATE else UserPrivacy.PUBLIC
+            val newUser = userRepository.updateUser(profileEditState.userAlias,profileEditState.userName,"",profileEditState.userDescription,userPrivacy)
+            if(newUser != null && newUser){
+                profileEditState =
+                    profileEditState.copy(profileEdited = true)
+
+                val userSaved =  mainUserState.getMainUser()
+                userSaved?.userAlias = profileEditState.userAlias
+                userSaved?.userName = profileEditState.userName
+                userSaved?.description = profileEditState.userDescription
+                userSaved?.privacy = UserPrivacyLevel.valueOf(userPrivacy.toString())
+
+                mainUserState.setMainUser(userSaved!!)
+            }else{
+                profileEditState =
+                    profileEditState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_repeated))
+            }
+        }
+
     }
 
     private fun userNameCheck(): Boolean {
@@ -79,8 +93,6 @@ class EditProfileViewModel @Inject constructor(
                 profileEditState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_empty))
             return false
         }
-
-        /*TODO: Mirar que no exista ya el nombre de usuario*/
 
         profileEditState = profileEditState.copy(userNameError = null)
         return true

@@ -58,7 +58,7 @@ fun List<ListOfBook>.toAppListBookFromDefault(): ArrayList<Book> {
 }
 
 
-fun List<GetBasicListInfoList>?.toAppLists(): List<BookListClass>? {
+fun List<GetBasicListInfoList>?.toAppLists(userId: String): List<BookListClass>? {
     var appDefaultBookListClasses = arrayListOf<BookListClass>()
 
     if (this != null) {
@@ -68,7 +68,8 @@ fun List<GetBasicListInfoList>?.toAppLists(): List<BookListClass>? {
                     list.listId,
                     list.listName,
                     R.drawable.prueba,
-                    numberOfBooks = list.numberOfBooks
+                    numberOfBooks = list.numberOfBooks,
+                    userId = userId
                 )
             )
         }

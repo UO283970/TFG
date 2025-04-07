@@ -9,11 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.example.tfg.R
 import com.example.tfg.ui.common.navHost.ProfileNavigationItems
+import com.example.tfg.ui.profile.ProfileViewModel
 
 @Composable
-fun EditButton(navigateTo : (route: String) -> Unit) {
+fun EditButton(navigateTo : (route: String) -> Unit, viewModel: ProfileViewModel) {
 
-    Button(onClick = { navigateTo(ProfileNavigationItems.EditProfile.route) }) {
+    Button(onClick = {
+        viewModel.editProfile()
+        navigateTo(ProfileNavigationItems.EditProfile.route)
+    }) {
         Icon(Icons.Outlined.Edit, contentDescription = "")
         Text(stringResource(R.string.profile_edit_button))
     }
