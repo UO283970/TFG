@@ -3,19 +3,17 @@ package com.example.tfg.ui.friends
 import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.example.tfg.R
-import com.example.tfg.model.Book
+import androidx.lifecycle.viewModelScope
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.Activity
-import com.example.tfg.model.user.userActivities.ReviewActivity
-import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
-import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
+import com.example.tfg.repository.ActivityRepository
+import com.example.tfg.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
-import java.time.LocalDate
 import javax.inject.Inject
 
 @Parcelize
@@ -23,23 +21,34 @@ data class FriendsMainState(
     var userQuery: String = "",
     var queryResult: ArrayList<User> = arrayListOf(),
     var expandedSearchBar: Boolean = false,
-    var followedActivity: ArrayList<Activity>
+    var followedActivity: ArrayList<Activity> = arrayListOf<Activity>(),
+    var activityLoaded: Boolean = false,
+    var userExpandedInfo: User? = null,
+    var userExpandedInfoLoaded: Boolean = false,
+
 ) : Parcelable
 
 @HiltViewModel
-class FriendsViewModel @Inject constructor(private val savedStateHandle: SavedStateHandle) : ViewModel() {
+class FriendsViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
+    private val activityRepository: ActivityRepository,
+    private val userRepository: UserRepository
+) : ViewModel() {
     private val _friendsInfo = MutableStateFlow(
-        savedStateHandle.get<FriendsMainState>("friendsInfo") ?: FriendsMainState(
-            followedActivity = getFollowedActivity()
-        )
+        savedStateHandle.get<FriendsMainState>("friendsInfo") ?: FriendsMainState()
     )
     val friendsInfo: StateFlow<FriendsMainState> = _friendsInfo
+
+    init {
+        viewModelScope.launch {
+            getFollowedActivity()
+        }
+    }
 
 
     fun changeExpandedSearchBar(change: Boolean) {
         _friendsInfo.update {
             val newState = it.copy(expandedSearchBar = change,queryResult = arrayListOf(), userQuery = "")
-            savedStateHandle["friendsInfo"] = newState
             newState
         }
     }
@@ -47,7 +56,6 @@ class FriendsViewModel @Inject constructor(private val savedStateHandle: SavedSt
     fun onlyChangeExpandedSearchBar(change: Boolean) {
         _friendsInfo.update {
             val newState = it.copy(expandedSearchBar = change)
-            savedStateHandle["friendsInfo"] = newState
             newState
         }
     }
@@ -56,56 +64,33 @@ class FriendsViewModel @Inject constructor(private val savedStateHandle: SavedSt
         _friendsInfo.value = _friendsInfo.value.copy(userQuery = userQuery)
     }
 
-    fun saveState() {
-        val newState = _friendsInfo.value.copy()
-        savedStateHandle["friendsInfo"] = newState
+    fun saveState(userId: String) {
+        _friendsInfo.value = _friendsInfo.value.copy(userExpandedInfoLoaded = true)
+        viewModelScope.launch {
+
+        }
+    }
+
+    fun changeExpandedInfoLoaded(){
+        _friendsInfo.value = _friendsInfo.value.copy(userExpandedInfoLoaded = false)
     }
 
     fun searchUsers() {
-        val foundUsers: ArrayList<User> = arrayListOf()
-        /*TODO: Buscar los usuarios en la base de datos*/
-        foundUsers.add(
-            User(
-                "Nombre de Usuario1 sdfnshlñk sdfh sñljhf dfsdhf",
-                R.drawable.prueba,
-                UserPrivacyLevel.PUBLIC,
-                UserFollowStateEnum.FOLLOW
-            )
-        )
-        foundUsers.add(
-            User(
-                "Nombre de Usuario7",
-                R.drawable.prueba,
-                UserPrivacyLevel.PUBLIC,
-                UserFollowStateEnum.FOLLOWED
-            )
-        )
-        foundUsers.add(
-            User(
-                "Nombre de Usuario8",
-                R.drawable.prueba,
-                UserPrivacyLevel.PRIVATE,
-                UserFollowStateEnum.REQUESTED
-            )
-        )
-
-        _friendsInfo.value = _friendsInfo.value.copy(queryResult = foundUsers)
+        viewModelScope.launch {
+            val result = userRepository.getUserSearchInfo(_friendsInfo.value.userQuery)
+            if(result != null){
+                _friendsInfo.value = _friendsInfo.value.copy(queryResult = ArrayList(result))
+            }
+        }
     }
 
-    private fun getFollowedActivity(): ArrayList<Activity> {
-        val followedActivity: ArrayList<Activity> = arrayListOf()
-        //TODO: Obtener la actividad de las personas a las que sigue el usuario registrado
-        val libroTest = Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba)
-        val userForTesting =
-            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWED)
-        val reviewForTest = ReviewActivity(
-            userForTesting,
-            LocalDate.now(),
-            libroTest,
-            "Muy guapo el libro"
-        )
-
-        followedActivity.add(reviewForTest)
-        return followedActivity
+    private fun getFollowedActivity(){
+        viewModelScope.launch {
+            val activity = activityRepository.getAllFollowedActivity()
+            if(activity != null){
+                _friendsInfo.value = _friendsInfo.value.copy(followedActivity = ArrayList(activity))
+                _friendsInfo.value = _friendsInfo.value.copy(activityLoaded = true)
+            }
+        }
     }
 }

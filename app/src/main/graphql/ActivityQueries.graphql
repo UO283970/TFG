@@ -1,11 +1,12 @@
 query GetAllFollowedActivity{
     getAllFollowedActivity{
         activityId
-        text
+        activityText
         score
         user {
             userId
             userAlias
+            userName
             profilePictureURL
         }
         book {
@@ -14,6 +15,7 @@ query GetAllFollowedActivity{
             author
             coverImageURL
         }
-        activityType
+        userActivityType
+        localDateTime
     }
 }

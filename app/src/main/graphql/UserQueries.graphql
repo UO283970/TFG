@@ -60,13 +60,17 @@ query GetAllUserInfo($userId: String!){
         userDefaultLists {
             listId
             listName
+            numberOfBooks
+            listImage
         }
         userLists {
             listId
             listName
-            bookListPrivacy
+            numberOfBooks
+            listImage
         }
         userPrivacy
+        userId
     }
 }
 
@@ -92,8 +96,9 @@ query GetFollowingListUser($userId: String!){
 query GetUsersReviews($userId: String!){
     getUsersReviews(userId: $userId){
         activityId
-        text
+        activityText
         score
+        localDateTime
         user {
             userId
             userAlias

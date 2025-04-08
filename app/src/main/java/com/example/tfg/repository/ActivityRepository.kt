@@ -1,6 +1,8 @@
 package com.example.tfg.repository
 
 import com.apollographql.apollo.ApolloClient
+import com.example.tfg.model.user.userActivities.Activity
+import com.example.tfg.repository.mappers.toAppActivity
 import com.graphQL.AddActivityMutation
 import com.graphQL.DeleteActivityMutation
 import com.graphQL.GetAllFollowedActivityQuery
@@ -25,9 +27,11 @@ class ActivityRepository @Inject constructor(private val apolloClient: ApolloCli
             .execute().data?.updateActivity
     }
 
-    suspend fun getAllFollowedActivity(): List<GetAllFollowedActivityQuery.GetAllFollowedActivity>? {
+    suspend fun getAllFollowedActivity(): List<Activity>? {
         return apolloClient.query(GetAllFollowedActivityQuery())
-            .execute().data?.getAllFollowedActivity
+            .execute().data?.getAllFollowedActivity.toAppActivity()
     }
 
 }
+
+

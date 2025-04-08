@@ -20,6 +20,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -77,17 +78,23 @@ fun SearchBarFriendsScreen(
     ) {
         LazyColumn{
             items(state.queryResult){
-                FriendsRow(it,viewModel,navigateToProfile)
+                FriendsRow(it,viewModel,navigateToProfile, state)
             }
         }
     }
 }
 
 @Composable
-fun FriendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user: User) -> Unit) {
+fun FriendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user: User) -> Unit, state: FriendsMainState) {
+    LaunchedEffect(state.userExpandedInfoLoaded) {
+        if(state.userExpandedInfoLoaded){
+            navigateToProfile(user)
+            viewModel.changeExpandedInfoLoaded()
+        }
+    }
+
     Row(Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp).clickable {
-        viewModel.saveState()
-        navigateToProfile(user)
+        viewModel.saveState(user.userId)
     }) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(5.dp),

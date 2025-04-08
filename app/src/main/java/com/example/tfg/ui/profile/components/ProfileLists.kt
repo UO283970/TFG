@@ -26,22 +26,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.Book
+import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.ui.common.TittleBigText
 import com.example.tfg.ui.common.navHost.ListNavigationItems
-import com.example.tfg.ui.profile.ProfileViewModel
 
 @Composable
-fun ProfileLists(defaultList: List<DefaultList>, userLists: List<BookListClass>, navigateTo: (route: String) -> Unit, viewModel: ProfileViewModel) {
+fun ProfileLists(defaultList: List<DefaultList>, userLists: List<BookListClass>, navigateTo: (route: String) -> Unit, goToListDetail: (bookList: BookList) -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        ProfileDefaultLists(defaultList, stringResource(R.string.profile_default_lists),navigateTo, viewModel)
-        ProfileLists(userLists, stringResource(R.string.profile_own_lists), navigateTo, viewModel)
+        ProfileDefaultLists(defaultList, stringResource(R.string.profile_default_lists),navigateTo, goToListDetail)
+        ProfileOwnLists(userLists, stringResource(R.string.profile_own_lists), navigateTo, goToListDetail)
     }
 }
 
 @Composable
-fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String, navigateTo: (route: String) -> Unit, viewModel: ProfileViewModel) {
+fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String, navigateTo: (route: String) -> Unit, goToListDetail: (bookList: BookList) -> Unit) {
     if(lists.isNotEmpty()){
         Column{
             TittleBigText(tittle)
@@ -53,7 +53,7 @@ fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String, navigateTo: (r
                         modifier = Modifier
                             .padding(top = 5.dp)
                             .wrapContentWidth().clickable{
-                                viewModel.listDetails(it)
+                                goToListDetail(it)
                                 navigateTo(ListNavigationItems.ListDetails.route)
                             },
                         verticalArrangement = Arrangement.SpaceEvenly
@@ -67,7 +67,7 @@ fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String, navigateTo: (r
 }
 
 @Composable
-fun ProfileLists(lists: List<BookListClass>, tittle: String,  navigateTo: (route: String) -> Unit, viewModel: ProfileViewModel) {
+fun ProfileOwnLists(lists: List<BookListClass>, tittle: String, navigateTo: (route: String) -> Unit, goToListDetail: (bookList: BookList) -> Unit) {
     if(lists.isNotEmpty()){
         Column{
             TittleBigText(tittle)
@@ -80,7 +80,7 @@ fun ProfileLists(lists: List<BookListClass>, tittle: String,  navigateTo: (route
                             .padding(top = 5.dp)
                             .wrapContentWidth()
                             .clickable{
-                            viewModel.listDetails(it)
+                                goToListDetail(it)
                             navigateTo(ListNavigationItems.ListDetails.route)
                         },
                         verticalArrangement = Arrangement.SpaceEvenly

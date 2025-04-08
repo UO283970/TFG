@@ -39,15 +39,22 @@ fun FriendsItem(review: Activity) {
         Column {
             Row {
                 Text(
-                    review.user.userAlias,
+                    review.user.userAlias + " ",
                     overflow = TextOverflow.Companion.Ellipsis,
-                    modifier = Modifier.Companion.weight(1f),
+                    modifier = Modifier.weight(0.60f, fill = false),
                     maxLines = 1
                 )
-                Text(stringResource(review.infoForUI()) + review.book.tittle, overflow = TextOverflow.Companion.Ellipsis)
+                Text(
+                    stringResource(review.infoForUI()) + " " + review.book.tittle,
+                    overflow = TextOverflow.Companion.Ellipsis,
+                    modifier = Modifier.weight(1f),
+                    maxLines = 1
+                )
             }
             Text(review.creationDate.toString(), color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f))
-            Text(review.extraInfo(), overflow = TextOverflow.Companion.Ellipsis, maxLines = 2)
+            if (review.extraInfo().isNotEmpty()) {
+                Text(review.extraInfo(), overflow = TextOverflow.Companion.Ellipsis, maxLines = 2)
+            }
             Row(modifier = Modifier.Companion.padding(top = 5.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Image(
                     painterResource(review.book.coverImage),

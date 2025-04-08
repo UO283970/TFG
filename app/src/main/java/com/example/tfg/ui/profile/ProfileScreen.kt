@@ -35,6 +35,7 @@ import com.example.tfg.ui.theme.TFGTheme
 @Composable
 fun ProfileScreen(
     navigateTo: (route: String) -> Unit,
+    navigateToRouteWithId: (String, String) -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.profileInfo.collectAsState()
@@ -67,12 +68,13 @@ fun ProfileScreen(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
-                        MainUserProfileInfo(state.mainUserState.getMainUser(), navigateTo)
+                        MainUserProfileInfo(state.mainUserState.getMainUser(), navigateToRouteWithId)
                         if (state.mainUserState.getMainUser()?.description?.trim() != "") {
                             DescText(3, state.mainUserState.getMainUser()?.description?.trim() ?: "")
                         }
                         EditButton(navigateTo,viewModel)
-                        ProfileLists(state.mainUserState.getMainUser()?.defaultList!!,state.mainUserState.getMainUser()?.userList!!,navigateTo, viewModel)
+                        ProfileLists(state.mainUserState.getMainUser()?.defaultList!!,state.mainUserState.getMainUser()?.userList!!,navigateTo
+                        ) { viewModel.listDetails(it) }
                     }
 
                 }

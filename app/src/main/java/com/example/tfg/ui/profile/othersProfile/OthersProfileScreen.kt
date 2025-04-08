@@ -13,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.ui.common.DescText
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.profile.components.MainUserProfileInfo
+import com.example.tfg.ui.profile.components.ProfileLists
 import com.example.tfg.ui.theme.TFGTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -20,6 +21,7 @@ import com.example.tfg.ui.theme.TFGTheme
 fun OthersProfileScreen(
     navigateTo: (route: String) -> Unit,
     returnToLastScreen: () -> Unit,
+    navigateToRouteWithId: (String, String) -> Unit,
     viewModel: OthersProfileViewModel = hiltViewModel()
 ) {
     TFGTheme(dynamicColor = false)
@@ -28,7 +30,7 @@ fun OthersProfileScreen(
             topBar = {
                 TopDetailsListBar(
                     returnToLastScreen,
-                    tittle = viewModel.profileInfo.user?.userAlias?.trim() ?: ""
+                    tittle = viewModel.profileInfo.user.userAlias.trim()
                 )
             }) { innerPadding ->
             Column(
@@ -37,12 +39,14 @@ fun OthersProfileScreen(
                     .verticalScroll(rememberScrollState())
             ) {
                 Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
-                    MainUserProfileInfo(viewModel.profileInfo.user, navigateTo)
-                    if (viewModel.profileInfo.user?.description?.trim() != "") {
-                        DescText(3, viewModel.profileInfo.user?.description?.trim() ?: "")
+                    MainUserProfileInfo(viewModel.profileInfo.user,navigateToRouteWithId)
+                    if(viewModel.profileInfo.userInfoLoaded){
+                        if (viewModel.profileInfo.user.description.trim() != "") {
+                            DescText(3, viewModel.profileInfo.user.description.trim())
+                        }
+                        //EditButton(navigateTo,viewModel)
+                        ProfileLists(viewModel.profileInfo.user.defaultList,viewModel.profileInfo.user.userList, navigateTo) { viewModel.listDetails(it) }
                     }
-                    //EditButton(navigateTo,viewModel)
-                    //ProfileLists(viewModel.profileInfo.profileDefaultLists,viewModel.profileInfo.profileBookListClasses)
                 }
 
             }

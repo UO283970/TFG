@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.example.tfg.model.user.User
 
 @Composable
-fun MainUserProfileInfo(user: User?, navigateTo: (String) -> Unit) {
+fun MainUserProfileInfo(user: User?, navigateToRouteWithId: (String, String) -> Unit) {
     Row {
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -31,7 +31,7 @@ fun MainUserProfileInfo(user: User?, navigateTo: (String) -> Unit) {
                 .weight(1f)
         ) {
             ProfileImage(user?.profilePicture ?: 0)
-            UserNameAndDate(user, navigateTo)
+            UserNameAndDate(user, navigateToRouteWithId)
         }
     }
 }
@@ -49,7 +49,7 @@ fun ProfileImage(profilePicture: Int) {
 }
 
 @Composable
-fun UserNameAndDate(user: User?, navigateTo: (route: String) -> Unit) {
+fun UserNameAndDate(user: User?,  navigateToRouteWithId: (String, String) -> Unit) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         modifier = Modifier.fillMaxWidth()
@@ -63,7 +63,7 @@ fun UserNameAndDate(user: User?, navigateTo: (route: String) -> Unit) {
                 overflow = TextOverflow.Ellipsis
             )
         }
-        Statistics(user, navigateTo)
+        Statistics(user,navigateToRouteWithId, user?.userId ?: "")
     }
 }
 

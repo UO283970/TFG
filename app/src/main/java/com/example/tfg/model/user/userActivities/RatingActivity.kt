@@ -18,6 +18,6 @@ data class RatingActivity(
         return R.string.rating
     }
     override fun extraInfo(): String {
-        return rating.toString()
+        return ""
     }
 }

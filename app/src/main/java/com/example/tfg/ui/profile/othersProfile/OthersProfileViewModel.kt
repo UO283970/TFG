@@ -5,31 +5,33 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.Book
-import com.example.tfg.model.booklist.BookListClass
-import com.example.tfg.model.booklist.DefaultList
+import com.example.tfg.model.booklist.BookList
+import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.Activity
 import com.example.tfg.model.user.userActivities.ReviewActivity
 import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
 import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
-import com.example.tfg.ui.common.StringResourcesProvider
+import com.example.tfg.repository.UserRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
 data class ProfileMainState(
-    val user: User?,
-    var profileDefaultLists: ArrayList<DefaultList>,
-    var profileBookListClasses: ArrayList<BookListClass>,
-    var profileReviews: ArrayList<Activity> = arrayListOf()
+    val user: User,
+    var profileReviews: ArrayList<Activity> = arrayListOf(),
+    val userInfoLoaded: Boolean = false
 )
 @HiltViewModel
 class OthersProfileViewModel @Inject constructor(
-    private val stringResourcesProvider: StringResourcesProvider,
+    private val listsState: ListsState,
+    private val userRepository: UserRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -38,45 +40,21 @@ class OthersProfileViewModel @Inject constructor(
     private val user = gson.fromJson(userJson, User::class.java)
 
     var profileInfo by mutableStateOf(
-        ProfileMainState(obtainUserInfo(user), profileDefaultLists(user), getUsersProfileLists(user))
+        ProfileMainState(user = user)
     )
 
-    private fun obtainUserInfo(user: User?): User? {
-        /*TODO: Se le pasa la id del usuario o el token y se obtiene la info*/
-        return user
+    init {
+        getAllUserInfo()
     }
 
-
-    private fun getUsersProfileLists(user: User?): ArrayList<BookListClass> {
-        /*TODO: Conseguir las listas del usuario*/
-        val forTest = Book(
-            "Words Of Radiance",
-            "Brandon Sanderson",
-            R.drawable.prueba,
-            pages = 789,
-            publicationDate = LocalDate.ofYearDay(2017, 12)
-        )
-
-        return arrayListOf(BookListClass("","Fantasia interesante", books = arrayListOf(forTest)))
-    }
-
-    private fun profileDefaultLists(user: User?): ArrayList<DefaultList> {
-        /*TODO: Conseguir las listas por defecto del usuario*/
-        val listNames = stringResourcesProvider.getStringArray(R.array.list_of_default_lists)
-        val listOfBooks: ArrayList<DefaultList> = arrayListOf()
-        val forTest = Book(
-            "Words Of Radiance",
-            "Brandon Sanderson",
-            R.drawable.prueba,
-            pages = 789,
-            publicationDate = LocalDate.ofYearDay(2017, 12)
-        )
-
-        for (name in listNames) {
-            listOfBooks.add(DefaultList("",stringResourcesProvider.getString(R.string.list_default_name_read), books = arrayListOf(forTest)))
+    fun getAllUserInfo(){
+        viewModelScope.launch {
+            var expandedUser = userRepository.getAllUserInfo(profileInfo.user.userId)
+            if (expandedUser != null) {
+                profileInfo = profileInfo.copy(user = expandedUser)
+                profileInfo = profileInfo.copy(userInfoLoaded = true)
+            }
         }
-
-        return listOfBooks
     }
 
     fun getUserReviews() {
@@ -95,8 +73,9 @@ class OthersProfileViewModel @Inject constructor(
         followedActivity.add(reviewForTest)
         profileInfo = profileInfo.copy(profileReviews = followedActivity)
     }
-
-    fun checkConnectedUser(): Boolean {
-        return user?.followState == UserFollowStateEnum.OWN
+    fun listDetails(bookList: BookList) {
+        listsState.setDetailsList(bookList)
     }
+
+
 }

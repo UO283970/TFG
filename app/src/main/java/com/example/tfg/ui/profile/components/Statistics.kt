@@ -21,7 +21,7 @@ import com.example.tfg.model.user.User
 import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 
 @Composable
-fun Statistics(user: User?, navigateTo: (route: String) -> Unit) {
+fun Statistics(user: User?, navigateToRouteWithId: (String, String) -> Unit, userId: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -29,16 +29,16 @@ fun Statistics(user: User?, navigateTo: (route: String) -> Unit) {
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         StatisticTexts(stringResource(R.string.profile_review_text), user?.numReviews ?: 0) {
-            navigateTo(ProfileNavigationItems.UserReviews.route)
+            navigateToRouteWithId(ProfileNavigationItems.UserReviews.route, userId)
         }
         Spacer(modifier = Modifier.weight(1.0f))
         StatisticTexts(stringResource(R.string.profile_followers_text), user?.followers ?: 0) {
-            navigateTo(ProfileNavigationItems.UserFollowers.route)
+            navigateToRouteWithId(ProfileNavigationItems.UserFollowers.route, userId)
         }
 
         Spacer(modifier = Modifier.weight(1.0f))
-        StatisticTexts(stringResource(R.string.profile_following_text), user?.following ?: 0){
-            navigateTo(ProfileNavigationItems.UserFollows.route)
+        StatisticTexts(stringResource(R.string.profile_following_text), user?.following ?: 0) {
+            navigateToRouteWithId(ProfileNavigationItems.UserFollows.route, userId)
         }
         Spacer(modifier = Modifier.weight(1.0f))
     }
@@ -46,8 +46,10 @@ fun Statistics(user: User?, navigateTo: (route: String) -> Unit) {
 
 @Composable
 private fun StatisticTexts(mainText: String, total: Int, onClick: () -> Unit) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable(onClick = onClick) )
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.clickable(onClick = onClick)
+    )
     {
         Text(total.toString(), fontWeight = FontWeight.SemiBold)
         Text(

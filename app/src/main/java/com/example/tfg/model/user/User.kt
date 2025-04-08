@@ -16,7 +16,7 @@ class User(
     var userAlias: String,
     var profilePicture: Int = 0,
     var privacy: UserPrivacyLevel = UserPrivacyLevel.PUBLIC,
-    var followState: UserFollowStateEnum = UserFollowStateEnum.FOLLOW,
+    var followState: UserFollowStateEnum = UserFollowStateEnum.FOLLOWING,
     var description: String = "",
     var userName: String = "",
     var numReviews: Int = 0,
@@ -24,6 +24,7 @@ class User(
     var following: Int = 0,
     var defaultList: List<DefaultList> = arrayListOf<DefaultList>(),
     var userList: List<BookListClass> = arrayListOf<BookListClass>(),
+    var userId: String = ""
 ) : Parcelable {
 
     @Serializable

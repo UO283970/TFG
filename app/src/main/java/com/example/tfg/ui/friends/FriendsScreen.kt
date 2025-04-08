@@ -26,19 +26,21 @@ fun FriendsScreen(
 ) {
     val state by viewModel.friendsInfo.collectAsState()
 
-    TFGTheme(dynamicColor = false)
-    {
-        Scaffold { innerPadding ->
-            Column(Modifier.padding(innerPadding)) {
-                SearchBarFriendsScreen(viewModel, state, navigateToProfile)
-                Box {
-                    LazyColumn(
-                        Modifier
-                            .padding(top = 10.dp, start = 10.dp, end = 10.dp),
-                        verticalArrangement = Arrangement.spacedBy((10).dp)
-                    ) {
-                        items(state.followedActivity) {
-                            FriendsItem(it)
+    if (state.activityLoaded) {
+        TFGTheme(dynamicColor = false)
+        {
+            Scaffold { innerPadding ->
+                Column(Modifier.padding(innerPadding)) {
+                    SearchBarFriendsScreen(viewModel, state, navigateToProfile)
+                    Box {
+                        LazyColumn(
+                            Modifier
+                                .padding(top = 10.dp, start = 10.dp, end = 10.dp),
+                            verticalArrangement = Arrangement.spacedBy((10).dp)
+                        ) {
+                            items(state.followedActivity) {
+                                FriendsItem(it)
+                            }
                         }
                     }
                 }

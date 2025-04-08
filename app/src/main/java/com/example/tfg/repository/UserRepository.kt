@@ -2,22 +2,23 @@ package com.example.tfg.repository
 
 import com.apollographql.apollo.ApolloClient
 import com.example.tfg.model.user.User
+import com.example.tfg.model.user.userActivities.ReviewActivity
+import com.example.tfg.repository.mappers.toAppReviews
+import com.example.tfg.repository.mappers.toAppSearchUser
+import com.example.tfg.repository.mappers.toUserAppFullInfo
 import com.example.tfg.repository.mappers.toUserModel
+import com.example.tfg.repository.mappers.userMinInfoFollowers
+import com.example.tfg.repository.mappers.userMinInfoFollowing
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.CreateUserMutation
 import com.graphQL.CreateUserMutation.CreateUser
 import com.graphQL.DeleteUserMutation
 import com.graphQL.GetAllUserInfoQuery
-import com.graphQL.GetAllUserInfoQuery.GetAllUserInfo
 import com.graphQL.GetAuthenticatedUserInfoQuery
 import com.graphQL.GetFollowersOfUserQuery
-import com.graphQL.GetFollowersOfUserQuery.GetFollowersOfUser
 import com.graphQL.GetFollowingListUserQuery
-import com.graphQL.GetFollowingListUserQuery.GetFollowingListUser
 import com.graphQL.GetUserSearchInfoQuery
-import com.graphQL.GetUserSearchInfoQuery.GetUserSearchInfo
 import com.graphQL.GetUsersReviewsQuery
-import com.graphQL.GetUsersReviewsQuery.GetUsersReview
 import com.graphQL.LoginQuery
 import com.graphQL.LoginQuery.Login
 import com.graphQL.LogoutQuery
@@ -92,10 +93,10 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient,
         ).execute().data?.refreshToken
     }
 
-    suspend fun getUserSearchInfo(userQuery: String): List<GetUserSearchInfo>? {
+    suspend fun getUserSearchInfo(userQuery: String): List<User>? {
         return apolloClient.query(
             GetUserSearchInfoQuery(userQuery = userQuery)
-        ).execute().data?.getUserSearchInfo
+        ).execute().data?.getUserSearchInfo.toAppSearchUser()
     }
 
     suspend fun getAuthenticatedUserInfo(): User? {
@@ -104,28 +105,30 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient,
         ).execute().data?.getAuthenticatedUserInfo?.toUserModel(stringResourcesProvider)
     }
 
-    suspend fun getAllUserInfo(userId: String): GetAllUserInfo? {
+    suspend fun getAllUserInfo(userId: String): User? {
         return apolloClient.query(
             GetAllUserInfoQuery(userId = userId)
-        ).execute().data?.getAllUserInfo
+        ).execute().data?.getAllUserInfo.toUserAppFullInfo(stringResourcesProvider)
     }
 
-    suspend fun getFollowersOfUser(userId: String): List<GetFollowersOfUser>? {
+    suspend fun getFollowersOfUser(userId: String): List<User>? {
         return apolloClient.query(
             GetFollowersOfUserQuery(userId = userId)
-        ).execute().data?.getFollowersOfUser
+        ).execute().data?.getFollowersOfUser.userMinInfoFollowers()
     }
 
-    suspend fun getFollowingListUser(userId: String): List<GetFollowingListUser>? {
+    suspend fun getFollowingListUser(userId: String): List<User>? {
         return apolloClient.query(
             GetFollowingListUserQuery(userId = userId)
-        ).execute().data?.getFollowingListUser
+        ).execute().data?.getFollowingListUser.userMinInfoFollowing()
     }
 
-    suspend fun getUsersReviews(userId: String): List<GetUsersReview>? {
+    suspend fun getUsersReviews(userId: String): List<ReviewActivity>? {
         return apolloClient.query(
             GetUsersReviewsQuery(userId = userId)
-        ).execute().data?.getUsersReviews
+        ).execute().data?.getUsersReviews.toAppReviews()
     }
 
 }
+
+

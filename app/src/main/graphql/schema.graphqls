@@ -152,11 +152,12 @@ enum ReadingState {
 
 type UserActivity{
     activityId: String!
-    text: String!
+    activityText: String!
     score: Int!
     user: User!
     book: Book!
-    activityType: UserActivityType!
+    userActivityType: UserActivityType!
+    localDateTime: String!
 }
 
 enum UserActivityType{

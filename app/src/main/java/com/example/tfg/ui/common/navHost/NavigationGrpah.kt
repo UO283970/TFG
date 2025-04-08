@@ -60,9 +60,9 @@ sealed class ListNavigationItems(val route: String) {
 sealed class ProfileNavigationItems(val route: String) {
     object ProfileScreen : ProfileNavigationItems("profileScreen/{user}")
     object OthersProfileScreen : ProfileNavigationItems("othersProfileScreen/{user}")
-    object UserReviews : ProfileNavigationItems("userReviews")
-    object UserFollowers : ProfileNavigationItems("userFollowers")
-    object UserFollows : ProfileNavigationItems("userFollows")
+    object UserReviews : ProfileNavigationItems("userReviews/{id}")
+    object UserFollowers : ProfileNavigationItems("userFollowers/{id}")
+    object UserFollows : ProfileNavigationItems("userFollows/{id}")
     object EditProfile : ProfileNavigationItems("editProfile")
     object ProfileConfiguration : ProfileNavigationItems("configureProfile")
 }
@@ -155,13 +155,19 @@ private fun NavGraphBuilder.profileGraph(
     navController: NavHostController,
     bottomBarState: MutableState<Boolean>
 ) {
+    val navigateSimplified: (String, String) -> Unit = { route, id ->
+        navigateToRouteWithId(route, navController, id)
+    }
+
+
     navigation(startDestination = ProfileNavigationItems.ProfileScreen.route, route = Routes.Profile.route) {
         composable(ProfileNavigationItems.ProfileScreen.route) {
             bottomBarState.value = true
-            ProfileScreen({ navigateToRoute(it, navController) })
+            ProfileScreen({ navigateToRoute(it, navController) }, navigateSimplified)
         }
         composable(ProfileNavigationItems.OthersProfileScreen.route) {
-            OthersProfileScreen({ navigateToRoute(it, navController) }, { returnToLastScreen(navController) })
+            bottomBarState.value = false
+            OthersProfileScreen({ navigateToRoute(it, navController) }, { returnToLastScreen(navController) }, navigateSimplified)
         }
         composable(ProfileNavigationItems.UserReviews.route) {
             OnlyReviews({ returnToLastScreen(navController) })
@@ -203,6 +209,10 @@ private fun navigateToProfileWithUser(user: User, navController: NavHostControll
 
 private fun navigateToRoute(route: String, navController: NavHostController) {
     navController.navigate(route)
+}
+
+private fun navigateToRouteWithId(route: String, navController: NavHostController, id: String ) {
+    navController.navigate(route.replace(oldValue = "{id}", newValue = id))
 }
 
 private fun navigateToRouteWithoutSave(route: String, navController: NavHostController) {

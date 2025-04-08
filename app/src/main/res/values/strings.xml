@@ -98,7 +98,7 @@
     <string name="profile_configuration_delete_account">Eliminar cuenta</string>
     <string name="profile_configuration_logout">Cerrar sesión</string>
     <string name="user_profile_image">Foto de perfil del usuario</string>
-    <string name="has_reviewed">" reseñó "</string>
+    <string name="has_reviewed">"reseñó"</string>
     <string name="list_text_books">Libros</string>
     <string name="book_add_to_list">Añadir a una lista</string>
     <string name="book_pages">Páginas:</string>

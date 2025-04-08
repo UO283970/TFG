@@ -33,39 +33,41 @@ fun FollowersScreen(
     navigateToProfile: (user: User) -> Unit,
     viewModel: FollowersScreenViewModel = hiltViewModel()
 ) {
-    TFGTheme(dynamicColor = false)
-    {
-        Scaffold(
-            topBar = {
-                TopDetailsListBar(
-                    returnToLastScreen,
-                    tittle = stringResource(R.string.profile_followers_text)
-                )
-            }
-        ) { innerPadding ->
-            LazyColumn(
-                Modifier.padding(innerPadding)
-            ) {
-                items(viewModel.followersInfo.followersList) {
-                    HorizontalDivider()
-                    Row (modifier = Modifier.padding(start = 10.dp, top = 10.dp)){
-                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
-                            navigateToProfile(it)
-                        }.weight(1f)) {
-                            ProfileUserImage(it.profilePicture)
-                            Column (modifier = Modifier.padding(start = 10.dp)){
-                                UserRowText(it.userAlias)
-                                if (it.userName != "") {
-                                    UserRowText(it.userName)
+    if(viewModel.followersInfo.infoLoaded) {
+        TFGTheme(dynamicColor = false)
+        {
+            Scaffold(
+                topBar = {
+                    TopDetailsListBar(
+                        returnToLastScreen,
+                        tittle = stringResource(R.string.profile_followers_text)
+                    )
+                }
+            ) { innerPadding ->
+                LazyColumn(
+                    Modifier.padding(innerPadding)
+                ) {
+                    items(viewModel.followersInfo.followersList) {
+                        HorizontalDivider()
+                        Row(modifier = Modifier.padding(start = 10.dp, top = 10.dp)) {
+                            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
+                                navigateToProfile(it)
+                            }.weight(1f)) {
+                                ProfileUserImage(it.profilePicture)
+                                Column(modifier = Modifier.padding(start = 10.dp)) {
+                                    UserRowText(it.userAlias)
+                                    if (it.userName != "") {
+                                        UserRowText(it.userName)
+                                    }
                                 }
                             }
-                        }
-                        Button({it.followState.getButtonAction().buttonEvent}) {
-                            Icon(it.followState.getButtonAction().buttonIcon,"")
-                            Text(stringResource(it.followState.getButtonAction().buttonTittle))
-                        }
-                        IconButton({viewModel.deleteFollower(it)}) {
-                            Icon(Icons.Default.Clear,stringResource(R.string.notifications_delete_button))
+                            Button({ it.followState.getButtonAction().buttonEvent }) {
+                                Icon(it.followState.getButtonAction().buttonIcon, "")
+                                Text(stringResource(it.followState.getButtonAction().buttonTittle))
+                            }
+                            IconButton({ viewModel.deleteFollower(it) }) {
+                                Icon(Icons.Default.Clear, stringResource(R.string.notifications_delete_button))
+                            }
                         }
                     }
                 }
