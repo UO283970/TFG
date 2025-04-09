@@ -39,6 +39,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.ui.search.components.NewBookSearchItem
 import com.example.tfg.ui.search.components.SearchBarSearchScreen
+import com.example.tfg.ui.search.components.SearchForEnum
+import com.example.tfg.ui.search.components.SubjectsEnum
 import com.example.tfg.ui.theme.TFGTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -70,6 +72,8 @@ fun SearchScreen(navigateTo: (route: String) -> Unit, viewModel: SearchViewModel
                                 NewBookSearchItem(
                                     it,
                                     viewModel.stringResourcesProvider,
+                                    viewModel.listsRepository,
+                                    viewModel.listsState,
                                     navigateTo
                                 )
                             }

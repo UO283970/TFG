@@ -28,6 +28,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.model.Book
+import com.example.tfg.model.booklist.DefaultList
+import com.example.tfg.model.booklist.ListsState
+import com.example.tfg.repository.ListRepository
 import com.example.tfg.ui.common.BookAuthorText
 import com.example.tfg.ui.common.BookTittleText
 import com.example.tfg.ui.common.StringResourcesProvider
@@ -40,6 +43,8 @@ import com.example.tfg.ui.common.navHost.BookNavigationItems
 fun NewBookSearchItem(
     book: Book,
     stringResourcesProvider: StringResourcesProvider,
+    listRepository: ListRepository,
+    listsState: ListsState,
     navigateTo: (route: String) -> Unit
 ) {
     val constraints = LocalConfiguration.current.screenHeightDp.dp
@@ -47,9 +52,9 @@ fun NewBookSearchItem(
     var isBottomSheetOpen by remember { mutableStateOf(false) }
 
 
-    fun changeBookState(listName: String, state: Boolean) {
+    fun changeBookState(listName: DefaultList, state: Boolean) {
         bookState = if (state){
-            listName
+            listName.listName
         }else{
             ""
         }
@@ -91,7 +96,7 @@ fun NewBookSearchItem(
     if (isBottomSheetOpen) {
         AddBookToListsBottomSheet(
             MaterialTheme.colorScheme.onPrimary, MaterialTheme.colorScheme.onBackground,
-            stringResourcesProvider, { changeCloseOpen() },::changeBookState, { navigateTo(it) })
+            stringResourcesProvider,listRepository, book.bookId, listsState, { changeCloseOpen() },::changeBookState, { navigateTo(it) })
     }
     HorizontalDivider(thickness = 2.dp)
 }

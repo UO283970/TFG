@@ -7,7 +7,7 @@ query SearchBooks($userQuery: String!){
         pages
         coverImageURL
         description
-#        readingState
+        readingState
         subjects
     }
 }

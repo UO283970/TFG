@@ -53,6 +53,14 @@ query GetUserDefaultListsList($userId: String!){
     }
 }
 
+query GetDefaultListsWithBook($bookId: String!){
+    getDefaultListsWithBook(bookId: $bookId)
+}
+
+query GetListsWithBook($bookId: String!){
+    getListsWithBook(bookId: $bookId)
+}
+
 query SearchLists($userQuery: String!){
     searchLists(userQuery: $userQuery){
         listId

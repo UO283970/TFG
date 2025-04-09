@@ -7,8 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.Book
+import com.example.tfg.model.booklist.DefaultListNames
+import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.BookRepository
+import com.example.tfg.repository.ListRepository
 import com.example.tfg.ui.common.StringResourcesProvider
+import com.example.tfg.ui.search.components.OrderByEnum
+import com.example.tfg.ui.search.components.SearchForEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -28,7 +33,9 @@ data class SearchMainState(
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     val stringResourcesProvider: StringResourcesProvider,
-    val bookRepository: BookRepository
+    val bookRepository: BookRepository,
+    val listsRepository: ListRepository,
+    val listsState: ListsState
 ) : ViewModel() {
     var searchInfo by mutableStateOf(SearchMainState())
 
@@ -83,7 +90,11 @@ class SearchViewModel @Inject constructor(
                             book.author,
                             R.drawable.prueba,
                             pages = if(book.pages.isNotBlank()) Integer.valueOf(book.pages) else 0,
-                            publicationDate =if(book.publishYear.isNotBlank()) LocalDate.ofYearDay(Integer.valueOf(book.publishYear), 12) else LocalDate.MIN
+                            publicationDate =if(book.publishYear.isNotBlank()) LocalDate.ofYearDay(Integer.valueOf(book.publishYear), 12) else LocalDate.MIN,
+                            bookId = book.bookId,
+                            readingState = if(DefaultListNames.valueOf(book.readingState.toString()) != DefaultListNames.NOT_IN_LIST)
+                                stringResourcesProvider.getString(DefaultListNames.valueOf(book.readingState.toString()).getDefaultListName())
+                            else ""
                         )
                     )
                 }

@@ -9,9 +9,9 @@ import java.time.LocalDate
 @Parcelize
 @Serializable
 class Book(
-    val tittle: String,
-    val author: String,
-    val coverImage: Int,
+    val tittle: String = "",
+    val author: String = "",
+    val coverImage: Int = 0,
     @Serializable(LocalDateSerializer::class) val publicationDate: LocalDate = LocalDate.MIN,
     val pages: Int = 0,
     val meanScore: Double = -1.0,

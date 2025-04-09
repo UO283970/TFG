@@ -43,6 +43,9 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieDynamicProperties
 import com.airbnb.lottie.compose.rememberLottieDynamicProperty
 import com.example.tfg.R
+import com.example.tfg.model.booklist.DefaultList
+import com.example.tfg.model.booklist.ListsState
+import com.example.tfg.repository.ListRepository
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.common.navHost.ListNavigationItems
 
@@ -52,10 +55,13 @@ fun AddBookToListsBottomSheet(
     mainColor: Color,
     textColor: Color,
     stringResourcesProvider: StringResourcesProvider,
+    listsRepository: ListRepository,
+    bookId: String,
+    listsState: ListsState,
     changeCloseOpen: () -> Unit,
-    onDefaultListChange: (String, Boolean) -> Unit,
+    onDefaultListChange: (DefaultList, Boolean) -> Unit,
     navigateTo: (String) -> Unit,
-    viewModel: AddBookToListsBottomSheetViewModel = AddBookToListsBottomSheetViewModel(stringResourcesProvider)
+    viewModel: AddBookToListsBottomSheetViewModel = AddBookToListsBottomSheetViewModel(stringResourcesProvider, listsRepository,bookId, listsState)
 ) {
     val composition by rememberLottieComposition(
         spec = LottieCompositionSpec.RawRes(R.raw.add_animation)
@@ -67,7 +73,7 @@ fun AddBookToListsBottomSheet(
                 textColor.hashCode(),
                 BlendModeCompat.SRC_ATOP
             ),
-            keyPath = arrayOf("**") // Apply to all layers and objects
+            keyPath = arrayOf("**")
         )
     )
     val sheetState = rememberModalBottomSheetState()
@@ -87,7 +93,7 @@ fun AddBookToListsBottomSheet(
             for (list in state.value.checkboxDefaultList) {
                 Row(verticalAlignment = Alignment.Companion.CenterVertically) {
                     Text(
-                        list.key, modifier = Modifier.Companion.weight(1f)
+                        list.key.getName(), modifier = Modifier.Companion.weight(1f)
                     )
                     Checkbox(
                         checked = list.value,

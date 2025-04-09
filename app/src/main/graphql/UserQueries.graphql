@@ -6,6 +6,10 @@ query Login($email: String!, $password: String!){
     }
 }
 
+query TokenCheck{
+    tokenCheck
+}
+
 query Logout{
     logout
 }

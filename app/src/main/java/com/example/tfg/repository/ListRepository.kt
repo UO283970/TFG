@@ -14,6 +14,8 @@ import com.graphQL.CreateListMutation
 import com.graphQL.DeleteListMutation
 import com.graphQL.GetAllListInfoQuery
 import com.graphQL.GetBasicListInfoListQuery
+import com.graphQL.GetDefaultListsWithBookQuery
+import com.graphQL.GetListsWithBookQuery
 import com.graphQL.GetUserDefaultListQuery
 import com.graphQL.GetUserDefaultListsListQuery
 import com.graphQL.RemoveBookFromDefaultListMutation
@@ -65,18 +67,18 @@ class ListRepository @Inject constructor(private val apolloClient: ApolloClient,
         ).execute().data?.removeBookFromDefaultList
     }
 
-    suspend fun addBookToList(listId: String, bookId: String): Boolean? {
+    suspend fun addBookToList(listIds: List<String>, bookId: String): Boolean? {
         return apolloClient.mutation(
             AddBookToListMutation(
-                listId = listId, bookId = bookId
+                listIds = listIds, bookId = bookId
             )
         ).execute().data?.addBookToList
     }
 
-    suspend fun removeBookFromList(listId: String, bookId: String): Boolean? {
+    suspend fun removeBookFromList(listIds: List<String>, bookId: String): Boolean? {
         return apolloClient.mutation(
             RemoveBookFromListMutation(
-                listId = listId, bookId = bookId
+                listIds = listIds, bookId = bookId
             )
         ).execute().data?.removeBookFromList
     }
@@ -90,11 +92,24 @@ class ListRepository @Inject constructor(private val apolloClient: ApolloClient,
     }
 
     suspend fun getUserDefaultList(listId: String, userId: String): DefaultList? {
-        return apolloClient.query(GetUserDefaultListQuery(listId = listId, userId = userId)).execute().data?.getUserDefaultList.toDefaultList(stringResourcesProvider)
+        return apolloClient.query(GetUserDefaultListQuery(listId = listId, userId = userId)).execute().data?.getUserDefaultList.toDefaultList(
+            stringResourcesProvider
+        )
     }
 
     suspend fun getUserDefaultLists(userId: String): List<DefaultList>? {
-        return apolloClient.query(GetUserDefaultListsListQuery(userId = userId)).execute().data?.getUserDefaultListsList.toDefaultAppLists(userId, stringResourcesProvider)
+        return apolloClient.query(GetUserDefaultListsListQuery(userId = userId)).execute().data?.getUserDefaultListsList.toDefaultAppLists(
+            userId,
+            stringResourcesProvider
+        )
+    }
+
+    suspend fun getDefaultListsWithBook(bookId: String): String? {
+        return apolloClient.query(GetDefaultListsWithBookQuery(bookId = bookId)).execute().data?.getDefaultListsWithBook
+    }
+
+    suspend fun getListsWithBook(bookId: String): List<String>? {
+        return apolloClient.query(GetListsWithBookQuery(bookId = bookId)).execute().data?.getListsWithBook
     }
 
     suspend fun searchLists(userQuery: String): List<SearchList>? {

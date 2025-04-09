@@ -23,6 +23,7 @@ import com.graphQL.LoginQuery
 import com.graphQL.LoginQuery.Login
 import com.graphQL.LogoutQuery
 import com.graphQL.RefreshTokenQuery
+import com.graphQL.TokenCheckQuery
 import com.graphQL.UpdateUserMutation
 import com.graphQL.type.UserPrivacy
 import javax.inject.Inject
@@ -79,6 +80,12 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient,
         return apolloClient.query(
             LoginQuery(email = email, password = password)
         ).execute().data?.login
+    }
+
+    suspend fun tokenCheck(): Boolean? {
+        return apolloClient.query(
+            TokenCheckQuery()
+        ).execute().data?.tokenCheck
     }
 
     suspend fun logout(): String? {

@@ -18,10 +18,10 @@ mutation RemoveBookFromDefaultList($listId: String!, $bookId: String!){
     removeBookFromDefaultList(listId: $listId,bookId: $bookId)
 }
 
-mutation AddBookToList($listId: String!, $bookId: String!){
-    addBookToList(listId: $listId,bookId: $bookId)
+mutation AddBookToList($listIds: [String!]!, $bookId: String!){
+    addBookToList(listIds: $listIds,bookId: $bookId)
 }
 
-mutation RemoveBookFromList($listId: String!, $bookId: String!){
-    removeBookFromList(listId: $listId,bookId: $bookId)
+mutation RemoveBookFromList($listIds: [String!]!, $bookId: String!){
+    removeBookFromList(listIds: $listIds,bookId: $bookId)
 }

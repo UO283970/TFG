@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
             NavigationBar(navController = rememberNavController())
         }
     }
+
 }
 @HiltAndroidApp
 class CoreApplication: Application()

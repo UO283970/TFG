@@ -1,4 +1,4 @@
-package com.example.tfg.ui.search
+package com.example.tfg.ui.search.components
 
 import com.example.tfg.R
 

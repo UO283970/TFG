@@ -50,8 +50,10 @@ class ListViewModel @Inject constructor(
     var listState: StateFlow<ListMainState> = _listState
 
     init {
-        if(_listState.value.listsState.getOwnLists().isEmpty() && _listState.value.userId == ""){
+        if(_listState.value.listsState.getDefaultLists().isEmpty() && _listState.value.userId == ""){
             getDefaultLists()
+        }
+        if(_listState.value.listsState.getOwnLists().isEmpty() && _listState.value.userId == ""){
             getOwnLists()
         }
         savedStateHandle["userId"] = ""

@@ -32,6 +32,12 @@ enum class DefaultListNames {
             return R.string.list_default_name_plan_to_read
         }
 
+    },
+    NOT_IN_LIST{
+        override fun getDefaultListName(): Int {
+            return 0
+        }
+
     }
 
     ;

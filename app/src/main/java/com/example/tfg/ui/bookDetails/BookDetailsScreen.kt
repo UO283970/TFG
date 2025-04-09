@@ -35,7 +35,6 @@ import com.example.tfg.ui.bookDetails.components.MainBookInfoImage
 import com.example.tfg.ui.common.BookAuthorText
 import com.example.tfg.ui.common.BookTittleText
 import com.example.tfg.ui.common.ObtainColorsOfImage
-import com.example.tfg.ui.common.bottonSheetLists.AddBookToListsBottomSheet
 import com.example.tfg.ui.theme.TFGTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,14 +79,14 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, viewModel: BookDetail
                     BookSubjectButton(color)
                     AddToListAndProgressBookInfo(focus, viewModel)
                     if (viewModel.bookInfo.dialogOpened) {
-                        AddBookToListsBottomSheet(
-                            color,
-                            textColor,
-                            viewModel.stringResourcesProvider,
-                            { viewModel.toggleDialog() },
-                            ::saveChanges,
-                            { navigateTo(it) }
-                        )
+//                        AddBookToListsBottomSheet(
+//                            color,
+//                            textColor,
+//                            viewModel.stringResourcesProvider,
+//                            { viewModel.toggleDialog() },
+//                            ::saveChanges,
+//                            { navigateTo(it) }
+//                        )
                     }
                     Row {
                         Text(stringResource(R.string.book_user_rating))

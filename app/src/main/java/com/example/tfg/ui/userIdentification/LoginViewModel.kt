@@ -7,6 +7,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
+import com.example.tfg.model.booklist.ListsState
+import com.example.tfg.repository.ListRepository
 import com.example.tfg.repository.UserRepository
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.type.UserLoginErrors
@@ -32,7 +34,9 @@ class LoginViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider,
     savedStateHandle: SavedStateHandle,
     private val userRepository: UserRepository,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    private val listRepository: ListRepository,
+    private val listsState: ListsState
 ) : ViewModel() {
 
     private val _formState = MutableStateFlow(
@@ -48,7 +52,7 @@ class LoginViewModel @Inject constructor(
 
     private suspend fun checkUserConnected() {
         if (sharedPreferences.getString("access_token", "")?.isEmpty() == false && sharedPreferences.getString("refresh_token", "")?.isEmpty() == false) {
-            var loginUser = userRepository.getAuthenticatedUserInfo()
+            var loginUser = userRepository.tokenCheck()
             if (loginUser != null) {
                 _formState.value = _formState.value.copy(userIsLoggedIn = true)
             } else {
