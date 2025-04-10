@@ -60,7 +60,7 @@ class OthersProfileViewModel @Inject constructor(
     fun getUserReviews() {
         val followedActivity: ArrayList<Activity> = arrayListOf()
         //TODO: Obtener la actividad de las reviews del usuario seleccionado
-        val libroTest = Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba)
+        val libroTest = Book("Words Of Radiance", "Brandon Sanderson")
         val userForTesting =
             User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.REQUESTED)
         val reviewForTest = ReviewActivity(

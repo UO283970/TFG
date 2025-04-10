@@ -47,7 +47,7 @@ private fun toBookListFromDefault(userDefaultLists: List<UserDefaultList?>, stri
             DefaultList(
                 list?.listId ?: "",
                 stringResourcesProvider.getString(DefaultListNames.valueOf(list?.listName.toString()).getDefaultListName()),
-                R.drawable.prueba,
+                list?.listImage.toString(),
                 numberOfBooks = list?.numberOfBooks
                     ?: 0
             )
@@ -62,7 +62,9 @@ private fun toBookList(userDefaultLists: List<UserList?>): List<BookListClass> {
     var appBookListClass = arrayListOf<BookListClass>()
 
     for (list in userDefaultLists) {
-        appBookListClass.add(BookListClass(list?.listId ?: "", list?.listName ?: "", R.drawable.prueba))
+        if(list != null){
+            appBookListClass.add(BookListClass(list.listId, list.listName, list.listImage))
+        }
     }
 
     return appBookListClass
@@ -113,16 +115,16 @@ private fun toBookListUserFromDefault(
     var appBookList = arrayListOf<DefaultList>()
 
     for (list in userDefaultLists) {
-
-        appBookList.add(
-            DefaultList(
-                list?.listId ?: "",
-                stringResourcesProvider.getString(DefaultListNames.valueOf(list?.listName.toString()).getDefaultListName()),
-                R.drawable.prueba,
-                numberOfBooks = list?.numberOfBooks
-                    ?: 0
+        if(list != null){
+            appBookList.add(
+                DefaultList(
+                    list.listId,
+                    stringResourcesProvider.getString(DefaultListNames.valueOf(list.listName.toString()).getDefaultListName()),
+                    list.listImage,
+                    numberOfBooks = list.numberOfBooks
+                )
             )
-        )
+        }
     }
 
     return appBookList
@@ -132,7 +134,10 @@ private fun toUserBookList(userDefaultLists: List<GetAllUserInfoQuery.UserList?>
     var appBookListClass = arrayListOf<BookListClass>()
 
     for (list in userDefaultLists) {
-        appBookListClass.add(BookListClass(list?.listId ?: "", list?.listName ?: "", R.drawable.prueba))
+        if(list != null){
+            appBookListClass.add(BookListClass(list.listId, list.listName, list.listImage))
+        }
+
     }
 
     return appBookListClass
@@ -187,7 +192,7 @@ fun List<GetUsersReview>?.toAppReviews(): List<ReviewActivity>? {
                 ReviewActivity(
                     user = User(activity.user.userAlias, profilePicture = R.drawable.prueba, userId = activity.user.userId),
                     creationDate = LocalDateTime.parse(activity.localDateTime).toLocalDate(),
-                    book = Book("Palabras Rradiantes", "Brandon  Sanderson", R.drawable.prueba),
+                    book = Book("Palabras Rradiantes", "Brandon  Sanderson"),
                     reviewText = activity.activityText,
                     rating = activity.score
                 )

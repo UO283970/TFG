@@ -1,6 +1,5 @@
 package com.example.tfg.repository.mappers
 
-import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
@@ -22,7 +21,7 @@ fun List<GetUserDefaultListsList>?.toDefaultAppLists(userId: String, stringResou
                 DefaultList(
                     list.listId,
                     stringResourcesProvider.getString(DefaultListNames.valueOf(list.listName).getDefaultListName()),
-                    R.drawable.prueba,
+                    list.listImage,
                     numberOfBooks = list.numberOfBooks,
                     userId = userId
                 )
@@ -67,7 +66,7 @@ fun List<GetBasicListInfoList>?.toAppLists(userId: String): List<BookListClass>?
                 BookListClass(
                     list.listId,
                     list.listName,
-                    R.drawable.prueba,
+                    list.listImage,
                     numberOfBooks = list.numberOfBooks,
                     userId = userId
                 )

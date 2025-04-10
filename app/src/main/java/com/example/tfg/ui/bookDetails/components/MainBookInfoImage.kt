@@ -33,7 +33,7 @@ fun MainBookInfoImage(viewModel: BookDetailsViewModel) {
         modifier = Modifier.height(constraints * 0.4f)
     ) {
         Image(
-            painterResource(viewModel.bookInfo.book.coverImage),
+            painterResource(R.drawable.prueba),
             stringResource(R.string.book_image),
             Modifier
                 .clip(RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp))
@@ -50,11 +50,11 @@ fun MainBookInfoImage(viewModel: BookDetailsViewModel) {
                 .padding(bottom = 5.dp)
         ) {
             Image(
-                painterResource(viewModel.bookInfo.book.coverImage),
+                painterResource(R.drawable.prueba),
                 stringResource(R.string.book_image),
                 Modifier.Companion
                     .fillMaxHeight(fraction = 0.9f)
-                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                    .clip(RoundedCornerShape(16.dp))
             )
         }
     }

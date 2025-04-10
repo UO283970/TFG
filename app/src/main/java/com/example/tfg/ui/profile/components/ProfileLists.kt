@@ -1,6 +1,5 @@
 package com.example.tfg.ui.profile.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,14 +17,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.CrossFade
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 import com.example.tfg.R
-import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
@@ -58,7 +59,7 @@ fun ProfileDefaultLists(lists: List<DefaultList>, tittle: String, navigateTo: (r
                             },
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        ProfileNameList(it.getName(), it.numberOfBooks)
+                        ProfileNameList(it.getName(), it.numberOfBooks, it.listImage)
                     }
                 }
             }
@@ -85,7 +86,7 @@ fun ProfileOwnLists(lists: List<BookListClass>, tittle: String, navigateTo: (rou
                         },
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        ProfileNameList(it.getName(),it.numberOfBooks)
+                        ProfileNameList(it.getName(),it.numberOfBooks, it.listImage)
                     }
                 }
             }
@@ -94,8 +95,8 @@ fun ProfileOwnLists(lists: List<BookListClass>, tittle: String, navigateTo: (rou
 }
 
 @Composable
-fun ProfileNameList(name: String, numberOfBooks: Int) {
-    ProfileListImage(Book("","", coverImage = R.drawable.prueba)/*bookList.books[0]TODO: Aquí y en todas las listas es necesario obtener la imagen del primer libro sino se pondrá una por defecto*/)
+fun ProfileNameList(name: String, numberOfBooks: Int, listImage: String) {
+    ProfileListImage(listImage)
     Row(
         Modifier.widthIn(0.dp, 100.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -114,17 +115,20 @@ fun ProfileNameList(name: String, numberOfBooks: Int) {
     }
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ProfileListImage(firstBook: Book) {
-    Image(
-        painterResource(firstBook.coverImage),
-        contentDescription = stringResource(id = R.string.home_imageDescNoBooks),
+fun ProfileListImage(firstBook: String) {
+    GlideImage(
+        model = firstBook,
+        contentDescription = stringResource(R.string.book_cover),
+        loading = placeholder(R.drawable.no_cover_image_book),
+        failure = placeholder(R.drawable.no_cover_image_book),
+        transition = CrossFade,
         modifier = Modifier
             .clip(RoundedCornerShape(15.dp))
             .width(110.dp)
             .height(160.dp),
         contentScale = ContentScale.FillBounds
-
     )
 }
 

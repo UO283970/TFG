@@ -45,24 +45,40 @@ class ListsState {
         var list = this.ownLists.find { it.listId == bookListClass.listId }
         list?.getListOfBooks()?.add(book)
         list?.numberOfBooks++
+        if(list?.numberOfBooks != 0){
+            list?.listImage = list.getListOfBooks()[0].coverImage.toString()
+        }
     }
 
     fun removeBookFromUserList(book : Book, bookListClass: BookListClass){
         var list = this.ownLists.find { it.listId == bookListClass.listId }
         list?.getListOfBooks()?.remove(book)
         list?.numberOfBooks--
+        if(list?.numberOfBooks == 0){
+            list.listImage = ""
+        }else{
+            list?.listImage = list.getListOfBooks()[0].coverImage.toString()
+        }
     }
 
     fun addBookToDefaultList(book : Book, defaultList: DefaultList){
         var list = this.defaultLists.find { it.listId == defaultList.listId }
         list?.getListOfBooks()?.add(book)
         list?.numberOfBooks++
+        if(list?.numberOfBooks != 0){
+            list?.listImage = list.getListOfBooks()[0].coverImage.toString()
+        }
     }
 
     fun removeBookFromDefaultList(book : Book, defaultList: DefaultList){
         var list = this.defaultLists.find { it.listId == defaultList.listId }
         list?.getListOfBooks()?.remove(book)
         list?.numberOfBooks--
+        if(list?.numberOfBooks == 0 || list?.getListOfBooks()?.isEmpty() == true){
+            list.listImage = ""
+        }else{
+            list?.listImage = list.getListOfBooks()[0].coverImage.toString()
+        }
     }
 
 

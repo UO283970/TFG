@@ -43,6 +43,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieDynamicProperties
 import com.airbnb.lottie.compose.rememberLottieDynamicProperty
 import com.example.tfg.R
+import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.ListRepository
@@ -56,12 +57,12 @@ fun AddBookToListsBottomSheet(
     textColor: Color,
     stringResourcesProvider: StringResourcesProvider,
     listsRepository: ListRepository,
-    bookId: String,
+    book: Book,
     listsState: ListsState,
     changeCloseOpen: () -> Unit,
     onDefaultListChange: (DefaultList, Boolean) -> Unit,
     navigateTo: (String) -> Unit,
-    viewModel: AddBookToListsBottomSheetViewModel = AddBookToListsBottomSheetViewModel(stringResourcesProvider, listsRepository,bookId, listsState)
+    viewModel: AddBookToListsBottomSheetViewModel = AddBookToListsBottomSheetViewModel(stringResourcesProvider, listsRepository,book, listsState)
 ) {
     val composition by rememberLottieComposition(
         spec = LottieCompositionSpec.RawRes(R.raw.add_animation)

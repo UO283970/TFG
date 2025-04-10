@@ -11,7 +11,7 @@ import java.time.LocalDate
 class Book(
     val tittle: String = "",
     val author: String = "",
-    val coverImage: Int = 0,
+    val coverImage: String = "",
     @Serializable(LocalDateSerializer::class) val publicationDate: LocalDate = LocalDate.MIN,
     val pages: Int = 0,
     val meanScore: Double = -1.0,

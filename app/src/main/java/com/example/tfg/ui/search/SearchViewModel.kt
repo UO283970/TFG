@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.DefaultListNames
 import com.example.tfg.model.booklist.ListsState
@@ -80,7 +79,7 @@ class SearchViewModel @Inject constructor(
         var resultFromQuery = arrayListOf<Book>()
 
         viewModelScope.launch {
-
+            searchInfo = searchInfo.copy(queryResult = emptyList())
             var booksFromQuery = bookRepository.searchBooks(searchInfo.userQuery)
             if (booksFromQuery != null) {
                 for (book in booksFromQuery) {
@@ -88,7 +87,7 @@ class SearchViewModel @Inject constructor(
                         Book(
                             book.title,
                             book.author,
-                            R.drawable.prueba,
+                            book.coverImageURL,
                             pages = if(book.pages.isNotBlank()) Integer.valueOf(book.pages) else 0,
                             publicationDate =if(book.publishYear.isNotBlank()) LocalDate.ofYearDay(Integer.valueOf(book.publishYear), 12) else LocalDate.MIN,
                             bookId = book.bookId,

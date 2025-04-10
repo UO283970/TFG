@@ -19,14 +19,14 @@ fun List<GetAllFollowedActivity>?.toAppActivity(): List<Activity>? {
                 UserActivityType.REVIEW -> listOfAppActivities.add(ReviewActivity(
                     user = User(activity.user.userAlias, profilePicture = R.drawable.prueba, userId = activity.user.userId),
                     creationDate =  LocalDateTime.parse(activity.localDateTime).toLocalDate(),
-                    book = Book("Palabras Rradiantes","Brandon  Sanderson", R.drawable.prueba),
+                    book = Book("Palabras Rradiantes","Brandon  Sanderson"),
                     reviewText = activity.activityText,
                     rating = activity.score
                 ))
                 UserActivityType.RATING -> listOfAppActivities.add(RatingActivity(
                     user = User(activity.user.userAlias, profilePicture = R.drawable.prueba, userId = activity.user.userId),
                     creationDate =  LocalDateTime.parse(activity.localDateTime).toLocalDate(),
-                    book = Book("Palabras Rradiantes","Brandon  Sanderson", R.drawable.prueba),
+                    book = Book("Palabras Rradiantes","Brandon  Sanderson"),
                     rating = activity.score
                 ))
                 UserActivityType.UNKNOWN__ -> ""

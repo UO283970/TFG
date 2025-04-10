@@ -1,6 +1,5 @@
 package com.example.tfg.ui.lists.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,12 +24,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.CrossFade
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 import com.example.tfg.R
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.ui.common.navHost.ListNavigationItems
@@ -46,7 +51,7 @@ fun CreteOwnLists(
         Box {
             LazyColumn {
                 items(state.listsState.getOwnLists()) {
-                    NewListItem(viewModel,navigateTo, it)
+                    NewListItem(viewModel,navigateTo, it, it.listImage)
                 }
             }
             Column(
@@ -77,13 +82,15 @@ fun CreteDefaultLists(
 ) {
     LazyColumn {
         items(state.listsState.getDefaultLists()) {
-            NewListItem(viewModel, navigateTo,it)
+            NewListItem(viewModel, navigateTo,it, it.listImage)
         }
     }
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun NewListItem(viewModel: ListViewModel,navigateTo: (route: String) -> Unit, bookList: BookList) {
+fun NewListItem(viewModel: ListViewModel, navigateTo: (route: String) -> Unit, bookList: BookList, listImage: String) {
+    val constraints = LocalWindowInfo.current.containerSize.height.dp
     Box(
         Modifier
             .padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 5.dp)
@@ -100,12 +107,17 @@ fun NewListItem(viewModel: ListViewModel,navigateTo: (route: String) -> Unit, bo
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Image(
-                painterResource(/*list.books[0].coverImage  TODO: Coger la imagen que mande el back*/R.drawable.prueba),
-                contentDescription = stringResource(id = R.string.book_image),
+            GlideImage(
+                model = listImage,
+                contentDescription = stringResource(R.string.book_cover),
+                loading = placeholder(R.drawable.no_cover_image_book),
+                failure = placeholder(R.drawable.no_cover_image_book),
+                transition = CrossFade,
                 modifier = Modifier
                     .fillMaxWidth(fraction = 0.17f)
-                    .clip(RoundedCornerShape(10.dp))
+                    .height(constraints * 0.05f)
+                    .clip(RoundedCornerShape(10.dp)),
+                contentScale = ContentScale.FillBounds
             )
             Column(Modifier.fillMaxWidth()) {
                 Text(

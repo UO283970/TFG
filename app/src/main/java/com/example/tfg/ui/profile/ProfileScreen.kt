@@ -73,7 +73,7 @@ fun ProfileScreen(
                             DescText(3, state.mainUserState.getMainUser()?.description?.trim() ?: "")
                         }
                         EditButton(navigateTo,viewModel)
-                        ProfileLists(state.mainUserState.getMainUser()?.defaultList!!,state.mainUserState.getMainUser()?.userList!!,navigateTo
+                        ProfileLists(viewModel.listsState.getDefaultLists(),viewModel.listsState.getOwnLists(),navigateTo
                         ) { viewModel.listDetails(it) }
                     }
 

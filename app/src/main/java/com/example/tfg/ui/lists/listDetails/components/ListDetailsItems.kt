@@ -1,6 +1,5 @@
 package com.example.tfg.ui.lists.listDetails.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,8 +20,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.bumptech.glide.integration.compose.CrossFade
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
+import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.ui.common.BigTittleText
 import com.example.tfg.ui.common.SmallTittleText
@@ -40,8 +46,11 @@ fun ListDetailsItemList(books: ArrayList<Book>) {
     }
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ListDetailsItem(book: Book) {
+    val constraints = LocalWindowInfo.current.containerSize.height.dp
+
     Box(
         modifier = Modifier
             .clip(AlertDialogDefaults.shape)
@@ -55,12 +64,17 @@ fun ListDetailsItem(book: Book) {
 
             Row(modifier = Modifier.padding(start = 20.dp, bottom = 10.dp)) {
                 Box(contentAlignment = Alignment.TopEnd) {
-                    Image(
-                        painterResource(book.coverImage),
-                        contentDescription = null,
+                    GlideImage(
+                        model = book.coverImage,
+                        contentDescription = stringResource(R.string.book_cover)+ " " + book.tittle,
+                        loading = placeholder(R.drawable.no_cover_image_book),
+                        failure = placeholder(R.drawable.no_cover_image_book),
+                        transition = CrossFade,
                         modifier = Modifier
                             .clip(RoundedCornerShape(10.dp))
-                            .height(140.dp)
+                            .fillMaxWidth(0.25f)
+                            .height(constraints * 0.08f),
+                        contentScale = ContentScale.FillBounds
                     )
                     Box(
                         modifier = Modifier

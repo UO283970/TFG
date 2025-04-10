@@ -28,7 +28,7 @@ data class ProfileMainState(
 class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val mainUserState: MainUserState,
-    private val listsState: ListsState
+    val listsState: ListsState
 ) : ViewModel() {
 
     private val _profileInfo = MutableStateFlow(

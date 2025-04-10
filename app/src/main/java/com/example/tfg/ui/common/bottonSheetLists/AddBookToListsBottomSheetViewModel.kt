@@ -28,7 +28,7 @@ data class SheetListsSate(
 class AddBookToListsBottomSheetViewModel(
     val stringResourcesProvider: StringResourcesProvider,
     val listsRepository: ListRepository,
-    val bookId: String,
+    val book: Book,
     val listsState: ListsState
 ) : ViewModel() {
     private val _sheetListSate: MutableStateFlow<SheetListsSate> = MutableStateFlow(SheetListsSate())
@@ -40,19 +40,21 @@ class AddBookToListsBottomSheetViewModel(
     }
 
     fun changeSelectedDefaultList(bookList: DefaultList, boolean: Boolean) {
-        for (list in _sheetListSate.value.checkboxDefaultList) {
+        for(list in _sheetListSate.value.checkboxDefaultList){
             if(list.value){
-                listsState.removeBookFromDefaultList(Book(bookId = bookId),list.key)
+                _sheetListSate.value.checkboxDefaultList[list.key] = false
+                listsState.removeBookFromDefaultList(book, list.key)
             }
-            list.setValue(false)
         }
 
-        _sheetListSate.value.checkboxDefaultList.put(bookList, boolean)
         if (boolean) {
             _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = bookList)
-            listsState.addBookToDefaultList(Book(bookId = bookId),bookList)
-        } else {
+            _sheetListSate.value.checkboxDefaultList[bookList] = true
+            listsState.addBookToDefaultList(book, bookList)
+        }else{
             _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = null)
+            _sheetListSate.value.checkboxDefaultList[bookList] = false
+            listsState.removeBookFromDefaultList(book, bookList)
         }
 
         _sheetListSate.value = _sheetListSate.value.copy(updateView = !_sheetListSate.value.updateView)
@@ -62,16 +64,16 @@ class AddBookToListsBottomSheetViewModel(
     fun changeUserListState(bookListClass: BookListClass, boolean: Boolean) {
         _sheetListSate.value.checkboxUserList.put(bookListClass, !boolean)
 
-        if(!boolean){
+        if (!boolean) {
             _sheetListSate.value.listOfSelectedUserLists.add(bookListClass.listId)
-            listsState.addBookToUserList(Book(bookId = bookId),bookListClass)
-            if(_sheetListSate.value.listOfCanDeleteIds.contains(bookListClass.listId)){
+            listsState.addBookToUserList(book, bookListClass)
+            if (_sheetListSate.value.listOfCanDeleteIds.contains(bookListClass.listId)) {
                 _sheetListSate.value.listOfDeleteFromUserLists.remove(bookListClass.listId)
             }
-        }else{
+        } else {
             _sheetListSate.value.listOfSelectedUserLists.remove(bookListClass.listId)
-            listsState.removeBookFromUserList(Book(bookId = bookId),bookListClass)
-            if(_sheetListSate.value.listOfCanDeleteIds.contains(bookListClass.listId)){
+            listsState.removeBookFromUserList(book, bookListClass)
+            if (_sheetListSate.value.listOfCanDeleteIds.contains(bookListClass.listId)) {
                 _sheetListSate.value.listOfDeleteFromUserLists.add(bookListClass.listId)
             }
         }
@@ -84,21 +86,27 @@ class AddBookToListsBottomSheetViewModel(
         viewModelScope.launch {
             if (_sheetListSate.value.selectedDefaultList != null) {
                 try {
-                    listsRepository.addBookToDefaultList(_sheetListSate.value.selectedDefaultList!!.listId, bookId)
+                    listsRepository.addBookToDefaultList(_sheetListSate.value.selectedDefaultList!!.listId, book.bookId)
+                } catch (e: AuthenticationException) {
+                    GlobalErrorHandler.handle(e)
+                }
+            } else {
+                try {
+                    listsRepository.removeBookFromDefaultList(_sheetListSate.value.selectedDefaultList!!.listId, book.bookId)
                 } catch (e: AuthenticationException) {
                     GlobalErrorHandler.handle(e)
                 }
             }
-            if(_sheetListSate.value.listOfSelectedUserLists.isNotEmpty()){
+            if (_sheetListSate.value.listOfSelectedUserLists.isNotEmpty()) {
                 try {
-                    listsRepository.removeBookFromList(_sheetListSate.value.listOfDeleteFromUserLists, bookId)
+                    listsRepository.addBookToList(_sheetListSate.value.listOfSelectedUserLists, book.bookId)
                 } catch (e: AuthenticationException) {
                     GlobalErrorHandler.handle(e)
                 }
             }
-            if(_sheetListSate.value.listOfDeleteFromUserLists.isNotEmpty()){
+            if (_sheetListSate.value.listOfDeleteFromUserLists.isNotEmpty()) {
                 try {
-                    listsRepository.removeBookFromList(_sheetListSate.value.listOfDeleteFromUserLists, bookId)
+                    listsRepository.removeBookFromList(_sheetListSate.value.listOfDeleteFromUserLists, book.bookId)
                 } catch (e: AuthenticationException) {
                     GlobalErrorHandler.handle(e)
                 }
@@ -108,12 +116,13 @@ class AddBookToListsBottomSheetViewModel(
 
     private fun generateDefaultLists() {
         viewModelScope.launch {
-            val booksLocation = listsRepository.getDefaultListsWithBook(bookId)
+            val booksLocation = listsRepository.getDefaultListsWithBook(book.bookId)
             if (booksLocation != null) {
                 val mapWithBookLocations: LinkedHashMap<DefaultList, Boolean> = listsState.getDefaultLists().associateWith { it.listId in booksLocation }.toMap(
                     LinkedHashMap()
                 )
 
+                _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = mapWithBookLocations.keys.find { it.listId == booksLocation })
                 _sheetListSate.value = _sheetListSate.value.copy(checkboxDefaultList = mapWithBookLocations)
             }
         }
@@ -121,7 +130,7 @@ class AddBookToListsBottomSheetViewModel(
 
     private fun generateUsrLists() {
         viewModelScope.launch {
-            val booksLocation = listsRepository.getListsWithBook(bookId)
+            val booksLocation = listsRepository.getListsWithBook(book.bookId)
             if (booksLocation != null) {
                 val mapWithBookLocations: LinkedHashMap<BookListClass, Boolean> = listsState.getOwnLists().associateWith { it.listId in booksLocation }.toMap(
                     LinkedHashMap()

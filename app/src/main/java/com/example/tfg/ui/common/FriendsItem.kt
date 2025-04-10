@@ -57,7 +57,7 @@ fun FriendsItem(review: Activity) {
             }
             Row(modifier = Modifier.Companion.padding(top = 5.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Image(
-                    painterResource(review.book.coverImage),
+                    painterResource(R.drawable.prueba),
                     contentDescription = stringResource(id = R.string.book_image),
                     modifier = Modifier.Companion
                         .fillMaxWidth(fraction = 0.3f)

@@ -1,6 +1,5 @@
 package com.example.tfg.model.booklist
 
-import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.repository.ListRepository
 import kotlinx.parcelize.Parcelize
@@ -11,7 +10,7 @@ import kotlinx.serialization.Serializable
 data class DefaultList(
     var listId: String,
     var listName: String,
-    var listImage: Int = R.drawable.prueba,
+    var listImage: String = "",
     var books: ArrayList<Book> = arrayListOf(),
     var listDescription: String = "",
     var numberOfBooks: Int = 0,
@@ -36,4 +35,19 @@ data class DefaultList(
     override fun getBookCount(): Int {
         return numberOfBooks
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DefaultList
+
+        return listId == other.listId
+    }
+
+    override fun hashCode(): Int {
+        return listId.hashCode()
+    }
+
+
 }

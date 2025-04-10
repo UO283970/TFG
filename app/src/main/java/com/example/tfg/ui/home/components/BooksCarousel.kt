@@ -84,7 +84,7 @@ fun BookMainItems(book: Book) {
             .padding(bottom = 10.dp)
     ) {
         Image(
-            painterResource(book.coverImage),
+            painterResource(R.drawable.prueba),
             contentDescription = stringResource(R.string.book_cover) + book.tittle,
             modifier = Modifier
                 .clip(RoundedCornerShape(15.dp))

@@ -3,7 +3,6 @@ package com.example.tfg.ui.home
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.ListRepository
@@ -49,10 +48,10 @@ class HomeViewModel @Inject constructor(
 
     private fun getListOfRecommendedBooks(): ArrayList<Book> {
         val items = arrayListOf<Book>(
-            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba),
-            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba),
-            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba),
-            Book("Words Of Radiance", "Brandon Sanderson", R.drawable.prueba)
+            Book("Words Of Radiance", "Brandon Sanderson"),
+            Book("Words Of Radiance", "Brandon Sanderson"),
+            Book("Words Of Radiance", "Brandon Sanderson"),
+            Book("Words Of Radiance", "Brandon Sanderson")
         )
 
         //viewModelScope.launch {  }

@@ -86,7 +86,6 @@ class BookDetailsViewModel @Inject constructor(
         return Book(
             "Words Of Radiance",
             "Brandon Sanderson",
-            R.drawable.prueba,
             pages = 789,
             publicationDate = LocalDate.ofYearDay(2017, 12)
         )

@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 class BookListClass(
     var listId: String,
     var listName: String,
-    var listImage: Int = 0,
+    var listImage: String = "",
     var books: ArrayList<Book> = arrayListOf(),
     var listDescription: String = "",
     var numberOfBooks: Int = 0,

@@ -45,7 +45,7 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, viewModel: BookDetail
         ObtainColorsOfImage().createPalette(
             BitmapFactory.decodeResource(
                 LocalContext.current.resources,
-                viewModel.bookInfo.book.coverImage
+                R.drawable.prueba
             )
         )
     val color = Color(
