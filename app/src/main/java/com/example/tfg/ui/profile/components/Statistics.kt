@@ -17,27 +17,26 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
-import com.example.tfg.model.user.User
 import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 
 @Composable
-fun Statistics(user: User?, navigateToRouteWithId: (String, String) -> Unit, userId: String) {
+fun Statistics(followers: Int,following: Int,numReviews: Int, navigateToRouteWithId: (String, String) -> Unit, userId: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 5.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        StatisticTexts(stringResource(R.string.profile_review_text), user?.numReviews ?: 0) {
+        StatisticTexts(stringResource(R.string.profile_review_text), numReviews) {
             navigateToRouteWithId(ProfileNavigationItems.UserReviews.route, userId)
         }
         Spacer(modifier = Modifier.weight(1.0f))
-        StatisticTexts(stringResource(R.string.profile_followers_text), user?.followers ?: 0) {
+        StatisticTexts(stringResource(R.string.profile_followers_text), followers) {
             navigateToRouteWithId(ProfileNavigationItems.UserFollowers.route, userId)
         }
 
         Spacer(modifier = Modifier.weight(1.0f))
-        StatisticTexts(stringResource(R.string.profile_following_text), user?.following ?: 0) {
+        StatisticTexts(stringResource(R.string.profile_following_text), following) {
             navigateToRouteWithId(ProfileNavigationItems.UserFollows.route, userId)
         }
         Spacer(modifier = Modifier.weight(1.0f))

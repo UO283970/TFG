@@ -8,12 +8,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,14 +20,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.model.user.User
+import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
 import com.example.tfg.ui.friends.components.ProfileUserImage
 import com.example.tfg.ui.friends.components.UserRowText
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
+import com.example.tfg.ui.profile.othersProfile.ProfileButton
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
 fun FollowersScreen(
     returnToLastScreen: () -> Unit,
+    navigateTo: (String) -> Unit,
     navigateToProfile: (user: User) -> Unit,
     viewModel: FollowersScreenViewModel = hiltViewModel()
 ) {
@@ -61,9 +62,9 @@ fun FollowersScreen(
                                     }
                                 }
                             }
-                            Button({ it.followState.getButtonAction().buttonEvent }) {
-                                Icon(it.followState.getButtonAction().buttonIcon, "")
-                                Text(stringResource(it.followState.getButtonAction().buttonTittle))
+                            val user = it
+                            if(user.followState != UserFollowStateEnum.OWN){
+                                ProfileButton(it.followState, navigateTo,{viewModel.changeToNotFollowing(user)}, {viewModel.followUser(user)})
                             }
                             IconButton({ viewModel.deleteFollower(it) }) {
                                 Icon(Icons.Default.Clear, stringResource(R.string.notifications_delete_button))

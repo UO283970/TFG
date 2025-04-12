@@ -178,7 +178,7 @@ private fun NavGraphBuilder.profileGraph(
         }
         composable(ProfileNavigationItems.UserFollowers.route) {
             bottomBarState.value = false
-            FollowersScreen({ returnToLastScreen(navController) },
+            FollowersScreen({ returnToLastScreen(navController) },{navigateToRoute(it,navController)},
                 { user: User -> navigateToProfileWithUser(user, navController) })
         }
         composable(ProfileNavigationItems.UserFollows.route) {

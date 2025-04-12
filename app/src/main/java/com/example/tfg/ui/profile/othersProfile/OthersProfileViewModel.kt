@@ -1,37 +1,37 @@
 package com.example.tfg.ui.profile.othersProfile
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tfg.R
-import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.Activity
-import com.example.tfg.model.user.userActivities.ReviewActivity
 import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
-import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
+import com.example.tfg.repository.FollowRepository
+import com.example.tfg.repository.GlobalErrorHandler
 import com.example.tfg.repository.UserRepository
+import com.example.tfg.repository.exceptions.AuthenticationException
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 data class ProfileMainState(
     val user: User,
     var profileReviews: ArrayList<Activity> = arrayListOf(),
-    val userInfoLoaded: Boolean = false
+    val userInfoLoaded: Boolean = false,
+    val refreshUserState: Boolean = false
 )
+
 @HiltViewModel
 class OthersProfileViewModel @Inject constructor(
     private val listsState: ListsState,
     private val userRepository: UserRepository,
+    val followRepository: FollowRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -39,42 +39,61 @@ class OthersProfileViewModel @Inject constructor(
     val userJson = savedStateHandle.get<String?>("user")
     private val user = gson.fromJson(userJson, User::class.java)
 
-    var profileInfo by mutableStateOf(
+
+    private val _profileInfo = MutableStateFlow(
         ProfileMainState(user = user)
     )
+
+    val profileInfo: StateFlow<ProfileMainState> = _profileInfo
 
     init {
         getAllUserInfo()
     }
 
-    fun getAllUserInfo(){
+    fun getAllUserInfo() {
         viewModelScope.launch {
-            var expandedUser = userRepository.getAllUserInfo(profileInfo.user.userId)
+            var expandedUser = userRepository.getAllUserInfo(_profileInfo.value.user.userId)
             if (expandedUser != null) {
-                profileInfo = profileInfo.copy(user = expandedUser)
-                profileInfo = profileInfo.copy(userInfoLoaded = true)
+                _profileInfo.value = _profileInfo.value.copy(user = expandedUser)
+                _profileInfo.value = _profileInfo.value.copy(userInfoLoaded = true)
             }
         }
     }
 
-    fun getUserReviews() {
-        val followedActivity: ArrayList<Activity> = arrayListOf()
-        //TODO: Obtener la actividad de las reviews del usuario seleccionado
-        val libroTest = Book("Words Of Radiance", "Brandon Sanderson")
-        val userForTesting =
-            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.REQUESTED)
-        val reviewForTest = ReviewActivity(
-            userForTesting,
-            LocalDate.now(),
-            libroTest,
-            "Muy guapo el libro"
-        )
-
-        followedActivity.add(reviewForTest)
-        profileInfo = profileInfo.copy(profileReviews = followedActivity)
-    }
     fun listDetails(bookList: BookList) {
         listsState.setDetailsList(bookList)
+    }
+
+    fun changeToNotFollowing() {
+        viewModelScope.launch {
+            val cancel = followRepository.cancelFollow(_profileInfo.value.user.userId)
+            try {
+                if (cancel != null && cancel) {
+                    getAllUserInfo()
+                }
+            } catch (e: AuthenticationException) {
+                GlobalErrorHandler.handle(e)
+            }
+
+        }
+    }
+
+    fun followUser() {
+        viewModelScope.launch {
+            val followState = followRepository.followUser(_profileInfo.value.user.userId)
+            try {
+                if (followState != null) {
+                    _profileInfo.value.user.followState = UserFollowStateEnum.valueOf(followState.toString())
+                    if (_profileInfo.value.user.followState == UserFollowStateEnum.FOLLOWING) {
+                        _profileInfo.value.user.followers++
+                        getAllUserInfo()
+                    }
+                    _profileInfo.value = _profileInfo.value.copy(refreshUserState = !_profileInfo.value.refreshUserState)
+                }
+            } catch (e: AuthenticationException) {
+                GlobalErrorHandler.handle(e)
+            }
+        }
     }
 
 

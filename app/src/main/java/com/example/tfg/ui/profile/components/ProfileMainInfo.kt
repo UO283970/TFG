@@ -63,7 +63,7 @@ fun UserNameAndDate(user: User?,  navigateToRouteWithId: (String, String) -> Uni
                 overflow = TextOverflow.Ellipsis
             )
         }
-        Statistics(user,navigateToRouteWithId, user?.userId ?: "")
+        Statistics(user?.followers ?: 0, user?.following ?: 0, user?.numReviews ?: 0,navigateToRouteWithId, user?.userId ?: "")
     }
 }
 

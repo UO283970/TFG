@@ -7,6 +7,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,31 +27,36 @@ fun OthersProfileScreen(
     navigateToRouteWithId: (String, String) -> Unit,
     viewModel: OthersProfileViewModel = hiltViewModel()
 ) {
-    TFGTheme(dynamicColor = false)
-    {
-        Scaffold(
-            topBar = {
-                TopDetailsListBar(
-                    returnToLastScreen,
-                    tittle = viewModel.profileInfo.user.userAlias.trim()
-                )
-            }) { innerPadding ->
-            Column(
-                Modifier
-                    .padding(innerPadding)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
-                    MainUserProfileInfo(viewModel.profileInfo.user,navigateToRouteWithId)
-                    if(viewModel.profileInfo.userInfoLoaded){
-                        if (viewModel.profileInfo.user.description.trim() != "") {
-                            DescText(3, viewModel.profileInfo.user.description.trim())
-                        }
-                        //EditButton(navigateTo,viewModel)
-                        ProfileLists(viewModel.profileInfo.user.defaultList,viewModel.profileInfo.user.userList, navigateTo) { viewModel.listDetails(it) }
-                    }
-                }
 
+    val state by viewModel.profileInfo.collectAsState()
+
+    key(state.refreshUserState) {
+        TFGTheme(dynamicColor = false)
+        {
+            Scaffold(
+                topBar = {
+                    TopDetailsListBar(
+                        returnToLastScreen,
+                        tittle = state.user.userAlias.trim()
+                    )
+                }) { innerPadding ->
+                Column(
+                    Modifier
+                        .padding(innerPadding)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
+                        MainUserProfileInfo(state.user, navigateToRouteWithId)
+                        if (state.userInfoLoaded) {
+                            if (state.user.description.trim() != "") {
+                                DescText(3, state.user.description.trim())
+                            }
+                            ProfileButton(state.user.followState, navigateTo, { viewModel.changeToNotFollowing() }, { viewModel.followUser() })
+                            ProfileLists(state.user.defaultList, state.user.userList, navigateTo) { viewModel.listDetails(it) }
+                        }
+                    }
+
+                }
             }
         }
     }

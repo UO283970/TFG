@@ -99,10 +99,11 @@ fun GetAllUserInfo?.toUserAppFullInfo(stringResourcesProvider: StringResourcesPr
             numReviews = this.userActivitiesCount,
             following = this.followingUsersCount,
             followers = this.followedUsersCount,
-            defaultList = toBookListUserFromDefault(this.userDefaultLists, stringResourcesProvider),
+            defaultList = toBookListUserFromDefault(this.userDefaultLists, stringResourcesProvider, this.userId),
             userList = toUserBookList(this.userLists),
             privacy = UserPrivacyLevel.valueOf(this.userPrivacy.toString()),
-            userId = this.userId
+            userId = this.userId,
+            followState = UserFollowStateEnum.valueOf(this.userFollowState.toString())
         )
     }
     return null
@@ -110,7 +111,8 @@ fun GetAllUserInfo?.toUserAppFullInfo(stringResourcesProvider: StringResourcesPr
 
 private fun toBookListUserFromDefault(
     userDefaultLists: List<GetAllUserInfoQuery.UserDefaultList?>,
-    stringResourcesProvider: StringResourcesProvider
+    stringResourcesProvider: StringResourcesProvider,
+    userId: String
 ): List<DefaultList> {
     var appBookList = arrayListOf<DefaultList>()
 
@@ -121,7 +123,8 @@ private fun toBookListUserFromDefault(
                     list.listId,
                     stringResourcesProvider.getString(DefaultListNames.valueOf(list.listName.toString()).getDefaultListName()),
                     list.listImage,
-                    numberOfBooks = list.numberOfBooks
+                    numberOfBooks = list.numberOfBooks,
+                    userId = userId
                 )
             )
         }

@@ -9,7 +9,7 @@ import com.example.tfg.R
 import com.example.tfg.model.user.User
 
 enum class UserFollowStateEnum {
-    FOLLOWING{
+    NOT_FOLLOW{
         override fun getButtonAction(): User.UserButtonConfig {
             return User.UserButtonConfig(R.string.user_follow_not_follow,Icons.Outlined.Add) {/*TODO: Enviar solicitud o seguir depende de la privacidad*/}
         }
@@ -18,7 +18,7 @@ enum class UserFollowStateEnum {
             return false
         }
     },
-    FOLLOWED{
+    FOLLOWING{
         override fun getButtonAction(): User.UserButtonConfig {
             return User.UserButtonConfig(
                 R.string.user_follow_follow, Icons.Outlined.Check

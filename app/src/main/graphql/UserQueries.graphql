@@ -75,6 +75,7 @@ query GetAllUserInfo($userId: String!){
         }
         userPrivacy
         userId
+        userFollowState
     }
 }
 

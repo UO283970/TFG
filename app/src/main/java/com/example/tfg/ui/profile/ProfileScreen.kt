@@ -48,7 +48,7 @@ fun ProfileScreen(
                     TopAppBar(
                         title = {
                             Text(
-                                state.mainUserState.getMainUser()?.userAlias?.trim() ?: "",
+                                viewModel.mainUserState.getMainUser()?.userAlias?.trim() ?: "",
                                 overflow = TextOverflow.Ellipsis,
                                 maxLines = 1,
                                 fontSize = 22.sp
@@ -68,9 +68,9 @@ fun ProfileScreen(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
-                        MainUserProfileInfo(state.mainUserState.getMainUser(), navigateToRouteWithId)
-                        if (state.mainUserState.getMainUser()?.description?.trim() != "") {
-                            DescText(3, state.mainUserState.getMainUser()?.description?.trim() ?: "")
+                        MainUserProfileInfo(viewModel.mainUserState.getMainUser(), navigateToRouteWithId)
+                        if (viewModel.mainUserState.getMainUser()?.description?.trim() != "") {
+                            DescText(3, viewModel.mainUserState.getMainUser()?.description?.trim() ?: "")
                         }
                         EditButton(navigateTo,viewModel)
                         ProfileLists(viewModel.listsState.getDefaultLists(),viewModel.listsState.getOwnLists(),navigateTo

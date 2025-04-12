@@ -16,7 +16,7 @@ class User(
     var userAlias: String,
     var profilePicture: Int = 0,
     var privacy: UserPrivacyLevel = UserPrivacyLevel.PUBLIC,
-    var followState: UserFollowStateEnum = UserFollowStateEnum.FOLLOWING,
+    var followState: UserFollowStateEnum = UserFollowStateEnum.NOT_FOLLOW,
     var description: String = "",
     var userName: String = "",
     var numReviews: Int = 0,

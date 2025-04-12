@@ -3,7 +3,6 @@ package com.example.tfg.ui.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.model.booklist.BookList
-import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.model.user.MainUserState
 import com.example.tfg.model.user.userActivities.Activity
@@ -17,8 +16,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ProfileMainState(
-    var profileDefaultLists: ArrayList<BookListClass> = arrayListOf(),
-    var profileBookListClasses: ArrayList<BookListClass> = arrayListOf(),
     var profileReviews: ArrayList<Activity> = arrayListOf(),
     var infoLoaded: Boolean = false,
     var mainUserState: MainUserState
@@ -27,7 +24,7 @@ data class ProfileMainState(
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val mainUserState: MainUserState,
+    val mainUserState: MainUserState,
     val listsState: ListsState
 ) : ViewModel() {
 

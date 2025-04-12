@@ -48,7 +48,7 @@ class NotificationsViewModel @Inject constructor() :
     private fun getUserNotifications(): ArrayList<Notification> {
 
         val userForTesting =
-            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWED)
+            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWING)
         val followNot = FollowNotification(userForTesting)
         val followedNoti = FollowedNotification(userForTesting)
         return arrayListOf(followNot, followedNoti)
@@ -57,7 +57,7 @@ class NotificationsViewModel @Inject constructor() :
 
     private fun getFriendRequests(): ArrayList<User> {
         val userForTesting =
-            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWED)
+            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWING)
         return arrayListOf(userForTesting,userForTesting)
     }
 

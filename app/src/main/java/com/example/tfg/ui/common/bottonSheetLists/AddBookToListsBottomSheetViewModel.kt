@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 data class SheetListsSate(
     val checkboxDefaultList: MutableMap<DefaultList, Boolean> = linkedMapOf<DefaultList, Boolean>(),
     val selectedDefaultList: DefaultList? = null,
+    val selectedDefaultListId: String = "",
     val checkboxUserList: MutableMap<BookListClass, Boolean> = linkedMapOf<BookListClass, Boolean>(),
     val listOfSelectedUserLists: ArrayList<String> = arrayListOf<String>(),
     val listOfDeleteFromUserLists: ArrayList<String> = arrayListOf<String>(),
@@ -53,8 +54,6 @@ class AddBookToListsBottomSheetViewModel(
             listsState.addBookToDefaultList(book, bookList)
         }else{
             _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = null)
-            _sheetListSate.value.checkboxDefaultList[bookList] = false
-            listsState.removeBookFromDefaultList(book, bookList)
         }
 
         _sheetListSate.value = _sheetListSate.value.copy(updateView = !_sheetListSate.value.updateView)
@@ -92,7 +91,7 @@ class AddBookToListsBottomSheetViewModel(
                 }
             } else {
                 try {
-                    listsRepository.removeBookFromDefaultList(_sheetListSate.value.selectedDefaultList!!.listId, book.bookId)
+                    listsRepository.removeBookFromDefaultList(_sheetListSate.value.selectedDefaultListId, book.bookId)
                 } catch (e: AuthenticationException) {
                     GlobalErrorHandler.handle(e)
                 }
@@ -123,6 +122,7 @@ class AddBookToListsBottomSheetViewModel(
                 )
 
                 _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = mapWithBookLocations.keys.find { it.listId == booksLocation })
+                _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultListId = booksLocation)
                 _sheetListSate.value = _sheetListSate.value.copy(checkboxDefaultList = mapWithBookLocations)
             }
         }
