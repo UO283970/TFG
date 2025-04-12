@@ -6,8 +6,9 @@ import com.apollographql.apollo.api.Operation
 import com.apollographql.apollo.interceptor.ApolloInterceptor
 import com.apollographql.apollo.interceptor.ApolloInterceptorChain
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.runBlocking
 
-class AuthorizationInterceptor(private val tokenProvider: () -> String?) : ApolloInterceptor {
+class AuthorizationInterceptor(private val  tokenProvider: suspend () -> String?) : ApolloInterceptor {
     override fun <D : Operation.Data> intercept(
         request: ApolloRequest<D>,
         chain: ApolloInterceptorChain
@@ -18,7 +19,9 @@ class AuthorizationInterceptor(private val tokenProvider: () -> String?) : Apoll
             "Login", "CreateUser", "RefreshToken"
         )
 
-        val token = tokenProvider()
+        val token = runBlocking{
+            tokenProvider()
+        }
 
         val shouldAddToken = !token.isNullOrEmpty() && !unauthenticatedOperations.contains(operationName)
 

@@ -1,14 +1,11 @@
 package com.example.tfg.ui.userIdentification
 
-import android.content.SharedPreferences
 import android.os.Parcelable
-import androidx.core.content.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
-import com.example.tfg.model.booklist.ListsState
-import com.example.tfg.repository.ListRepository
+import com.example.tfg.model.security.TokenRepository
 import com.example.tfg.repository.UserRepository
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.type.UserLoginErrors
@@ -34,9 +31,7 @@ class LoginViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider,
     savedStateHandle: SavedStateHandle,
     private val userRepository: UserRepository,
-    private val sharedPreferences: SharedPreferences,
-    private val listRepository: ListRepository,
-    private val listsState: ListsState
+    private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
     private val _formState = MutableStateFlow(
@@ -51,14 +46,14 @@ class LoginViewModel @Inject constructor(
     }
 
     private suspend fun checkUserConnected() {
-        if (sharedPreferences.getString("access_token", "")?.isEmpty() == false && sharedPreferences.getString("refresh_token", "")?.isEmpty() == false) {
+        if (tokenRepository.getAccessToken()?.isEmpty() == false && tokenRepository.getRefreshToken()?.isEmpty() == false) {
             var loginUser = userRepository.tokenCheck()
             if (loginUser != null) {
                 _formState.value = _formState.value.copy(userIsLoggedIn = true)
             } else {
-                var newToken = userRepository.refreshToken(sharedPreferences.getString("refresh_token", "").toString())
+                var newToken = userRepository.refreshToken(tokenRepository.getRefreshToken().toString())
                 if (newToken != null){
-                    sharedPreferences.edit() { putString("access_token", newToken).apply() }
+                    tokenRepository.saveTokens(newToken,tokenRepository.getRefreshToken().toString())
                     _formState.value = _formState.value.copy(userIsLoggedIn = true)
                 }
             }
@@ -80,8 +75,7 @@ class LoginViewModel @Inject constructor(
                         }
                     } else {
                         _formState.value = _formState.value.copy(userIsLoggedIn = true)
-                        sharedPreferences.edit() { putString("access_token", loginUser.tokenId).apply() }
-                        sharedPreferences.edit() { putString("refresh_token", loginUser.refreshToken).apply() }
+                        tokenRepository.saveTokens(loginUser.tokenId,loginUser.refreshToken)
                     }
                 } else {
                     _formState.value = _formState.value.copy(userIsLoggedIn = false)

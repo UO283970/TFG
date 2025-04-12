@@ -87,4 +87,8 @@ dependencies {
     implementation("androidx.security:security-crypto:1.1.0-alpha07")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+    implementation ("androidx.datastore:datastore:1.1.4")
+    implementation("androidx.datastore:datastore-preferences:1.1.4")
+    implementation("androidx.datastore:datastore-preferences-rxjava2:1.1.4")
+    implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.4")
 }

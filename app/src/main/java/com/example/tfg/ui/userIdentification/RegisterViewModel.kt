@@ -1,14 +1,13 @@
 package com.example.tfg.ui.userIdentification
 
-import android.content.SharedPreferences
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
+import com.example.tfg.model.security.TokenRepository
 import com.example.tfg.repository.UserRepository
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.type.UserRegisterErrors
@@ -34,7 +33,7 @@ data class RegisterMainState(
 class RegisterViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider,
     private val mainRepository: UserRepository,
-    private val sharedPreferences: SharedPreferences
+    private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
     var formState by mutableStateOf(RegisterMainState())
@@ -75,8 +74,7 @@ class RegisterViewModel @Inject constructor(
                         }
                     } else {
                         formState = formState.copy(isUserRegistered = true)
-                        sharedPreferences.edit() { putString("access_token", registeredUser.tokenId).apply() }
-                        sharedPreferences.edit() { putString("refresh_token", registeredUser.refreshToken).apply() }
+                        tokenRepository.saveTokens(registeredUser.tokenId,registeredUser.refreshToken)
                     }
                 }else{
                     formState = formState.copy(isUserRegistered = false)
