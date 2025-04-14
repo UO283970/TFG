@@ -24,9 +24,10 @@ import com.example.tfg.R
 fun BigTittleText(text: String) {
     Text(
         text = text,
-        fontSize = 20.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.SemiBold,
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Ellipsis,
+        maxLines = 2
     )
 }
 

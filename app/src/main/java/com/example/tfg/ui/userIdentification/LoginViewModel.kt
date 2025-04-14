@@ -23,7 +23,8 @@ data class LoginMainState(
     var password: String = "",
     var passwordError: String? = null,
     var isVisiblePassword: Boolean = false,
-    var userIsLoggedIn: Boolean = false
+    var userIsLoggedIn: Boolean = false,
+    var chargingInfo: Boolean = true,
 ) : Parcelable
 
 @HiltViewModel
@@ -58,6 +59,7 @@ class LoginViewModel @Inject constructor(
                 }
             }
         }
+        _formState.value = _formState.value.copy(chargingInfo = false)
     }
 
     fun submit() {

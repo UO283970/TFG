@@ -50,7 +50,7 @@ fun CreteOwnLists(
     Column {
         Box {
             LazyColumn {
-                items(state.listsState.getOwnLists()) {
+                items(state.ownLists) {
                     NewListItem(viewModel,navigateTo, it, it.listImage)
                 }
             }
@@ -81,7 +81,7 @@ fun CreteDefaultLists(
     viewModel: ListViewModel
 ) {
     LazyColumn {
-        items(state.listsState.getDefaultLists()) {
+        items(state.defaultLists) {
             NewListItem(viewModel, navigateTo,it, it.listImage)
         }
     }

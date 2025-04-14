@@ -44,7 +44,9 @@ class AddBookToListsBottomSheetViewModel(
         for(list in _sheetListSate.value.checkboxDefaultList){
             if(list.value){
                 _sheetListSate.value.checkboxDefaultList[list.key] = false
-                listsState.removeBookFromDefaultList(book, list.key)
+                viewModelScope.launch {
+                    listsState.removeBookFromDefaultList(book, list.key, listsRepository)
+                }
             }
         }
 
@@ -71,7 +73,9 @@ class AddBookToListsBottomSheetViewModel(
             }
         } else {
             _sheetListSate.value.listOfSelectedUserLists.remove(bookListClass.listId)
-            listsState.removeBookFromUserList(book, bookListClass)
+            viewModelScope.launch {
+                listsState.removeBookFromUserList(book, bookListClass, listsRepository)
+            }
             if (_sheetListSate.value.listOfCanDeleteIds.contains(bookListClass.listId)) {
                 _sheetListSate.value.listOfDeleteFromUserLists.add(bookListClass.listId)
             }
@@ -121,7 +125,7 @@ class AddBookToListsBottomSheetViewModel(
                     LinkedHashMap()
                 )
 
-                _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = mapWithBookLocations.keys.find { it.listId == booksLocation })
+                _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = mapWithBookLocations.keys.find { it.listId == booksLocation})
                 _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultListId = booksLocation)
                 _sheetListSate.value = _sheetListSate.value.copy(checkboxDefaultList = mapWithBookLocations)
             }

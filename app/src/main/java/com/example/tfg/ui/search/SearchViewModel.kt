@@ -25,7 +25,8 @@ data class SearchMainState(
     var isBottomSheetOpened: Boolean = false,
     var orderByButtonMap: MutableMap<OrderByEnum, Boolean> = linkedMapOf<OrderByEnum, Boolean>(),
     var searchFor: SearchForEnum = SearchForEnum.BOOKS,
-    var forceRepaint: Boolean = false
+    var forceRepaint: Boolean = false,
+    var chargingInfo: Boolean = false,
 
 )
 
@@ -72,14 +73,15 @@ class SearchViewModel @Inject constructor(
     }
 
     fun orderBy(orderByEnum: OrderByEnum, descending: Boolean) {
-        searchInfo = searchInfo.copy(queryResult = orderByEnum.order(searchInfo.queryResult, descending))
+        val listOrdered = orderByEnum.order(searchInfo.queryResult, descending)
+        searchInfo = searchInfo.copy(queryResult = listOrdered)
     }
 
     fun getResultsFromQuery() {
         var resultFromQuery = arrayListOf<Book>()
 
         viewModelScope.launch {
-            searchInfo = searchInfo.copy(queryResult = emptyList())
+            searchInfo = searchInfo.copy(chargingInfo = true)
             var booksFromQuery = bookRepository.searchBooks(searchInfo.userQuery)
             if (booksFromQuery != null) {
                 for (book in booksFromQuery) {
@@ -99,6 +101,7 @@ class SearchViewModel @Inject constructor(
                 }
             }
             searchInfo = searchInfo.copy(queryResult = resultFromQuery)
+            searchInfo = searchInfo.copy(chargingInfo = false)
         }
     }
 }

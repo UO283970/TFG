@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.booklist.BookListClass
+import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.GlobalErrorHandler
 import com.example.tfg.repository.ListRepository
@@ -26,7 +27,9 @@ data class ListMainState(
     var listsState: ListsState,
     var change: Boolean = false,
     var userId: String,
-    var canAddLists: Boolean
+    var canAddLists: Boolean,
+    var defaultLists: List<DefaultList> = arrayListOf<DefaultList>(),
+    var ownLists: List<BookListClass> = arrayListOf<BookListClass>(),
 )
 
 @HiltViewModel
@@ -37,9 +40,10 @@ class ListViewModel @Inject constructor(
     val listsState: ListsState
 ) : ViewModel() {
 
-    val userId = if(savedStateHandle.get<String?>("userId") == null) "" else savedStateHandle.get<String?>("userId")
+    val userId = if (savedStateHandle.get<String?>("userId") == null) "" else savedStateHandle.get<String?>("userId")
 
-    private var _listState = MutableStateFlow(ListMainState(
+    private var _listState = MutableStateFlow(
+        ListMainState(
             tabs = stringResourcesProvider.getStringArray(R.array.list_of_lists_tabs),
             listsState = listsState,
             userId = userId!!,
@@ -50,11 +54,15 @@ class ListViewModel @Inject constructor(
     var listState: StateFlow<ListMainState> = _listState
 
     init {
-        if(_listState.value.listsState.getDefaultLists().isEmpty() && _listState.value.userId == ""){
+        if (_listState.value.listsState.getDefaultLists().isEmpty() && _listState.value.userId == "") {
             getDefaultLists()
+        } else {
+            _listState.value = _listState.value.copy(defaultLists = _listState.value.listsState.getDefaultLists())
         }
-        if(_listState.value.listsState.getOwnLists().isEmpty() && _listState.value.userId == ""){
+        if (_listState.value.listsState.getOwnLists().isEmpty() && _listState.value.userId == "") {
             getOwnLists()
+        } else {
+            _listState.value = _listState.value.copy(ownLists = _listState.value.listsState.getOwnLists())
         }
         savedStateHandle["userId"] = ""
     }
@@ -64,10 +72,11 @@ class ListViewModel @Inject constructor(
     }
 
     fun tabChange(tabIndex: Int) {
+        _listState.value.userQuery = ""
         _listState.value = _listState.value.copy(tabIndex = tabIndex)
     }
 
-    fun listDetails(bookList : BookList) {
+    fun listDetails(bookList: BookList) {
         _listState.value.listsState.setDetailsList(bookList)
     }
 
@@ -85,6 +94,7 @@ class ListViewModel @Inject constructor(
                     _listState.value.listsState.setOwnList(ArrayList(userList))
                 }
                 _listState.value = _listState.value.copy(change = !_listState.value.change)
+                _listState.value = _listState.value.copy(ownLists = _listState.value.listsState.getOwnLists())
             } catch (e: AuthenticationException) {
                 GlobalErrorHandler.handle(e)
             }
@@ -101,9 +111,31 @@ class ListViewModel @Inject constructor(
                     _listState.value.listsState.setDefaultList(ArrayList(defaultUserLists))
                 }
                 _listState.value = _listState.value.copy(change = !_listState.value.change)
+                _listState.value = _listState.value.copy(defaultLists = _listState.value.listsState.getDefaultLists())
             } catch (e: AuthenticationException) {
                 GlobalErrorHandler.handle(e)
             }
         }
     }
+
+    fun searchList() {
+        if (!_listState.value.userQuery.isBlank()) {
+            if (_listState.value.tabIndex == 0) {
+                _listState.value.ownLists = listsState.getOwnLists().filter { it ->
+                    var nameForSearch = it.listName.trim().lowercase()
+                    nameForSearch == _listState.value.userQuery.trim().lowercase() || nameForSearch.contains(_listState.value.userQuery.trim().lowercase())
+                }
+            } else if (_listState.value.tabIndex == 1) {
+                _listState.value.defaultLists = listsState.getDefaultLists().filter { it ->
+                    var nameForSearch = it.listName.trim().lowercase()
+                    nameForSearch == _listState.value.userQuery.trim().lowercase() || nameForSearch.contains(_listState.value.userQuery.trim().lowercase())
+                }
+            }
+        } else {
+            _listState.value.ownLists = listsState.getOwnLists()
+            _listState.value.defaultLists = listsState.getDefaultLists()
+        }
+        _listState.value = _listState.value.copy(change = !_listState.value.change)
+    }
+
 }

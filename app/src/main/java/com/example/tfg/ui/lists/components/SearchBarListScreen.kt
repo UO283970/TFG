@@ -35,7 +35,10 @@ fun SearchBarListScreen(viewModel: ListViewModel, state: ListMainState) {
                 placeholder = { Text(stringResource(id = R.string.list_search_placeholder_input)) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "") },
                 query = state.userQuery,
-                onQueryChange = { viewModel.userQueryChange(it) }
+                onQueryChange = {
+                    viewModel.userQueryChange(it)
+                    viewModel.searchList()
+                }
             )
         },
         expanded = false,

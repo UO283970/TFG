@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.tfg.ui.common.ChargingProgress
 import com.example.tfg.ui.common.DescText
 import com.example.tfg.ui.lists.listDetails.components.ListDetailsItemList
 import com.example.tfg.ui.lists.listDetails.components.SearchBarListDetailsScreen
@@ -35,11 +36,13 @@ fun ListDetailsScreen(returnToLastScreen: () -> Unit, viewModel: ListDetailsView
                             DescText(3, viewModel.listDetailsInfo.bookList?.getDescription() ?: "")
                             HorizontalDivider(Modifier.padding(top = 5.dp))
                         }
-                        ListDetailsItemList(viewModel.listDetailsInfo.bookList?.getListOfBooks() ?: arrayListOf())
+                        ListDetailsItemList(viewModel.listDetailsInfo.baseListOfBooks)
                     }
                 }
             }
         }
+    }else{
+        ChargingProgress()
     }
 
 }

@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
+import com.example.tfg.ui.common.ChargingProgress
 import com.example.tfg.ui.search.components.NewBookSearchItem
 import com.example.tfg.ui.search.components.SearchBarSearchScreen
 import com.example.tfg.ui.search.components.SearchForEnum
@@ -55,7 +56,7 @@ fun SearchScreen(navigateTo: (route: String) -> Unit, viewModel: SearchViewModel
                 SearchBarSearchScreen(viewModel) {
                     viewModel.toggleButtonSheet()
                 }
-                if (viewModel.searchInfo.queryResult.isEmpty() && viewModel.searchInfo.queryResult.isEmpty()) {
+                if (viewModel.searchInfo.queryResult.isEmpty() && !viewModel.searchInfo.chargingInfo) {
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -64,21 +65,25 @@ fun SearchScreen(navigateTo: (route: String) -> Unit, viewModel: SearchViewModel
                         Text(stringResource(R.string.search_start_message), textAlign = TextAlign.Center)
                     }
                 } else {
-                    Box {
-                        LazyColumn(
-                            Modifier.padding(start = 10.dp, end = 10.dp)
-                        ) {
-                            items(viewModel.searchInfo.queryResult) {
-                                NewBookSearchItem(
-                                    it,
-                                    viewModel.stringResourcesProvider,
-                                    viewModel.listsRepository,
-                                    viewModel.listsState,
-                                    navigateTo
-                                )
+                    if (viewModel.searchInfo.chargingInfo) {
+                        ChargingProgress()
+                    } else {
+                        Box {
+                            LazyColumn(
+                                Modifier.padding(start = 10.dp, end = 10.dp)
+                            ) {
+                                items(viewModel.searchInfo.queryResult) {
+                                    NewBookSearchItem(
+                                        it,
+                                        viewModel.stringResourcesProvider,
+                                        viewModel.listsRepository,
+                                        viewModel.listsState,
+                                        navigateTo
+                                    )
+                                }
                             }
-                        }
 
+                        }
                     }
                 }
                 if (viewModel.searchInfo.isBottomSheetOpened) {
@@ -126,23 +131,23 @@ fun SearchScreen(navigateTo: (route: String) -> Unit, viewModel: SearchViewModel
                             Row(modifier = Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
                                 for (searchFor in SearchForEnum.entries) {
                                     OutlinedButton({ viewModel.changeSelectedSearchFor(searchFor) }) {
-                                        Text(stringResource(searchFor.stringResource()),color = MaterialTheme.colorScheme.onBackground)
+                                        Text(stringResource(searchFor.stringResource()), color = MaterialTheme.colorScheme.onBackground)
                                     }
                                 }
                             }
                             Text(stringResource(R.string.search_filters_filter_language))
                             Row(modifier = Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
                                 for (searchFor in stringArrayResource(R.array.search_filters_filter_by_language_list).sorted()) {
-                                    OutlinedButton({  }) {
-                                        Text(searchFor,color = MaterialTheme.colorScheme.onBackground)
+                                    OutlinedButton({ }) {
+                                        Text(searchFor, color = MaterialTheme.colorScheme.onBackground)
                                     }
                                 }
                             }
                             Text(stringResource(R.string.search_filters_search_by_gender))
                             FlowRow(maxItemsInEachRow = 3, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
                                 var actualNamedList = linkedMapOf<String, Int>()
-                                for (subject in SubjectsEnum.entries){
-                                    actualNamedList.put(stringResource(subject.getStringResource()),subject.getIconResource())
+                                for (subject in SubjectsEnum.entries) {
+                                    actualNamedList.put(stringResource(subject.getStringResource()), subject.getIconResource())
                                 }
                                 for (subject in actualNamedList.toSortedMap()) {
                                     OutlinedButton({}) {

@@ -61,6 +61,14 @@ query GetListsWithBook($bookId: String!){
     getListsWithBook(bookId: $bookId)
 }
 
+query GetImageForDefaultList($listId: String!){
+    getImageForDefaultList(listId: $listId)
+}
+
+query GetImageForList($listId: String!){
+    getImageForList(listId: $listId)
+}
+
 query SearchLists($userQuery: String!){
     searchLists(userQuery: $userQuery){
         listId

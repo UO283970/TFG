@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
+import com.example.tfg.ui.common.ChargingProgress
 import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.theme.TFGTheme
 import com.example.tfg.ui.userIdentification.components.PasswordTextField
@@ -35,28 +36,32 @@ fun LoginScreen(
         }
     }
 
-    TFGTheme(dynamicColor = false) {
-        Scaffold { innerPadding ->
-            Column(
-                Modifier.padding(innerPadding)
-            ) {
+    if (!state.chargingInfo && !state.userIsLoggedIn) {
+        TFGTheme(dynamicColor = false) {
+            Scaffold { innerPadding ->
                 Column(
-                    modifier = Modifier.padding(top = 15.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(15.dp)
+                    Modifier.padding(innerPadding)
                 ) {
-                    loginMainText(stringResource(R.string.login_welcome))
                     Column(
-                        Modifier.padding(start = 10.dp, end = 10.dp),
+                        modifier = Modifier.padding(top = 15.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        TextFieldUserEmail(loginViewModel, state)
-                        PasswordTextField(loginViewModel, state)
-                        SubmitOrRegisterScreenButtons(loginViewModel, navigateTo)
+                        loginMainText(stringResource(R.string.login_welcome))
+                        Column(
+                            Modifier.padding(start = 10.dp, end = 10.dp),
+                            verticalArrangement = Arrangement.spacedBy(15.dp)
+                        ) {
+                            TextFieldUserEmail(loginViewModel, state)
+                            PasswordTextField(loginViewModel, state)
+                            SubmitOrRegisterScreenButtons(loginViewModel, navigateTo)
+                        }
                     }
                 }
             }
         }
+    } else {
+        ChargingProgress()
     }
 }
 

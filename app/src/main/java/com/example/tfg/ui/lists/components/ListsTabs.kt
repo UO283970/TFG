@@ -5,6 +5,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalFocusManager
 import com.example.tfg.ui.lists.ListMainState
 import com.example.tfg.ui.lists.ListViewModel
 
@@ -14,6 +15,8 @@ fun TabsLists(
     navigateTo: (route: String) -> Unit,
     state: ListMainState
 ) {
+    var localFocus = LocalFocusManager.current
+
     TabRow(
         selectedTabIndex = state.tabIndex,
         containerColor = MaterialTheme.colorScheme.background,
@@ -23,7 +26,11 @@ fun TabsLists(
             Tab(
                 text = { Text(title) },
                 selected = state.tabIndex == index,
-                onClick = { viewModel.tabChange(index) })
+                onClick = {
+                    localFocus.clearFocus(true)
+                    viewModel.tabChange(index)
+                    viewModel.searchList()
+                })
         }
     }
     when (state.tabIndex) {

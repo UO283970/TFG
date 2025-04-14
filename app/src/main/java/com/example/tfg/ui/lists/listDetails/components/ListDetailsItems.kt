@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.CrossFade
@@ -34,7 +33,7 @@ import com.example.tfg.ui.common.BigTittleText
 import com.example.tfg.ui.common.SmallTittleText
 
 @Composable
-fun ListDetailsItemList(books: ArrayList<Book>) {
+fun ListDetailsItemList(books: List<Book>) {
     LazyColumn(
         Modifier
             .padding(top = 10.dp),
@@ -49,8 +48,6 @@ fun ListDetailsItemList(books: ArrayList<Book>) {
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ListDetailsItem(book: Book) {
-    val constraints = LocalWindowInfo.current.containerSize.height.dp
-
     Box(
         modifier = Modifier
             .clip(AlertDialogDefaults.shape)
@@ -72,8 +69,8 @@ fun ListDetailsItem(book: Book) {
                         transition = CrossFade,
                         modifier = Modifier
                             .clip(RoundedCornerShape(10.dp))
-                            .fillMaxWidth(0.25f)
-                            .height(constraints * 0.08f),
+                            .fillMaxHeight()
+                            .fillMaxWidth(0.25f),
                         contentScale = ContentScale.FillBounds
                     )
                     Box(
@@ -89,7 +86,7 @@ fun ListDetailsItem(book: Book) {
                 }
 
                 Column(
-                    Modifier.padding(start = 10.dp),
+                    Modifier.padding(start = 10.dp, end = 5.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     BigTittleText(book.tittle)

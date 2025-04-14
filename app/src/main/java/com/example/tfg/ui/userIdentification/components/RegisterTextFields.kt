@@ -37,7 +37,8 @@ fun TextFieldUserName(registerViewModel: RegisterViewModel) {
                 }
             },
             modifier = Modifier.fillMaxWidth(),
-            isError = registerViewModel.formState.userNameError != null
+            isError = registerViewModel.formState.userNameError != null,
+            supportingText = { Text(stringResource(R.string.register_user_name_supporting)) }
         )
         if (registerViewModel.formState.userNameError != null)
             ErrorText(registerViewModel.formState.userNameError!!)

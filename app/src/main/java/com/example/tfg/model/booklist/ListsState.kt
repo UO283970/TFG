@@ -1,6 +1,7 @@
 package com.example.tfg.model.booklist
 
 import com.example.tfg.model.Book
+import com.example.tfg.repository.ListRepository
 
 class ListsState {
 
@@ -24,11 +25,6 @@ class ListsState {
         ownLists.add(bookListClass)
     }
 
-
-    fun addToDefaultList(bookList: DefaultList){
-        defaultLists.add(bookList)
-    }
-
     fun setOwnList(ownLists: ArrayList<BookListClass> ){
         this.ownLists = ownLists
     }
@@ -50,14 +46,14 @@ class ListsState {
         }
     }
 
-    fun removeBookFromUserList(book : Book, bookListClass: BookListClass){
+    suspend fun removeBookFromUserList(book : Book, bookListClass: BookListClass, listRepository: ListRepository){
         var list = this.ownLists.find { it.listId == bookListClass.listId }
         list?.getListOfBooks()?.remove(book)
         list?.numberOfBooks--
         if(list?.numberOfBooks == 0){
             list.listImage = ""
         }else{
-            list?.listImage = list.getListOfBooks()[0].coverImage.toString()
+            list?.listImage = listRepository.getImageForList(list.listId)!!
         }
     }
 
@@ -70,14 +66,14 @@ class ListsState {
         }
     }
 
-    fun removeBookFromDefaultList(book : Book, defaultList: DefaultList){
+    suspend fun removeBookFromDefaultList(book : Book, defaultList: DefaultList, listRepository: ListRepository){
         var list = this.defaultLists.find { it.listId == defaultList.listId }
         list?.getListOfBooks()?.remove(book)
         list?.numberOfBooks--
         if(list?.numberOfBooks == 0 || list?.getListOfBooks()?.isEmpty() == true){
             list.listImage = ""
         }else{
-            list?.listImage = list.getListOfBooks()[0].coverImage.toString()
+            list?.listImage = listRepository.getImageForDefaultList(defaultList.listId)!!
         }
     }
 

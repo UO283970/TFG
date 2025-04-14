@@ -84,7 +84,9 @@ fun NewBookSearchItem(
                 .heightIn(max = constraints * 0.07f)
                 .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.FillBounds
-        )
+        ){
+            it.skipMemoryCache(true)
+        }
         Column(modifier = Modifier.padding(start = 10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Row(modifier = Modifier.weight(1f)) {

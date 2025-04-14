@@ -146,6 +146,7 @@
     <string name="list_default_name_plan_to_read">En plan para leer</string>
     <string name="list_creation_list_repeated_name_error">Nombre de lista repetido</string>
     <string name="list_creation_list_name_error">El nombre de la lista no esta permitido</string>
+    <string name="register_user_name_supporting">Nombre con el que se te identificara en la app</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>
