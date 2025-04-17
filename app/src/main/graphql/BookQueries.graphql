@@ -11,3 +11,17 @@ query SearchBooks($userQuery: String!){
         subjects
     }
 }
+
+query NextPageBooks($userQuery: String!, $page: Int!){
+    nextPageBooks(userQuery: $userQuery,page: $page){
+        bookId
+        title
+        author
+        publishYear
+        pages
+        coverImageURL
+        description
+        readingState
+        subjects
+    }
+}

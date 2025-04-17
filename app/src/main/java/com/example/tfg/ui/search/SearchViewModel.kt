@@ -20,14 +20,16 @@ import javax.inject.Inject
 
 data class SearchMainState(
     var userQuery: String = "",
-    var queryResult: List<Book> = emptyList(),
+    var queryResult: ArrayList<Book> = arrayListOf<Book>(),
     var expandedSearchBar: Boolean = false,
     var isBottomSheetOpened: Boolean = false,
     var orderByButtonMap: MutableMap<OrderByEnum, Boolean> = linkedMapOf<OrderByEnum, Boolean>(),
     var searchFor: SearchForEnum = SearchForEnum.BOOKS,
     var forceRepaint: Boolean = false,
     var chargingInfo: Boolean = false,
-
+    var actualPages: Int = 1,
+    var loadMoreInfo: Boolean = false,
+    val canGetMoreInfo: Boolean = false,
 )
 
 @HiltViewModel
@@ -74,7 +76,7 @@ class SearchViewModel @Inject constructor(
 
     fun orderBy(orderByEnum: OrderByEnum, descending: Boolean) {
         val listOrdered = orderByEnum.order(searchInfo.queryResult, descending)
-        searchInfo = searchInfo.copy(queryResult = listOrdered)
+        searchInfo = searchInfo.copy(queryResult = ArrayList(listOrdered))
     }
 
     fun getResultsFromQuery() {
@@ -101,7 +103,19 @@ class SearchViewModel @Inject constructor(
                 }
             }
             searchInfo = searchInfo.copy(queryResult = resultFromQuery)
+            searchInfo = searchInfo.copy(canGetMoreInfo = true)
             searchInfo = searchInfo.copy(chargingInfo = false)
+        }
+    }
+
+    fun addMoreBooksForQuery(){
+        viewModelScope.launch {
+            var newBooksQuery = bookRepository.nextPageBooks(searchInfo.userQuery, searchInfo.actualPages)
+            if(newBooksQuery != null && newBooksQuery.isNotEmpty()){
+                searchInfo.queryResult.addAll(newBooksQuery)
+                searchInfo.actualPages++
+                searchInfo = searchInfo.copy(loadMoreInfo = !searchInfo.loadMoreInfo)
+            }
         }
     }
 }
