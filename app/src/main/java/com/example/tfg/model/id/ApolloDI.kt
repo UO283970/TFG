@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class ApolloDependencyInjection {
+class ApolloDI {
 
     @Singleton
     @Provides

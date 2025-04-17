@@ -20,11 +20,11 @@ import com.example.tfg.R
 import com.example.tfg.ui.common.navHost.HomeRoutesItems
 import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.theme.TFGTheme
+import com.example.tfg.ui.userIdentification.components.LoginMainText
 import com.example.tfg.ui.userIdentification.components.PasswordRegisterTextField
 import com.example.tfg.ui.userIdentification.components.PasswordRepeatRegisterTextField
 import com.example.tfg.ui.userIdentification.components.TextFieldUserEmail
 import com.example.tfg.ui.userIdentification.components.TextFieldUserName
-import com.example.tfg.ui.userIdentification.components.loginMainText
 
 @Composable
 fun RegisterScreen(
@@ -50,7 +50,7 @@ fun RegisterScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
-                    loginMainText(stringResource(R.string.login_register))
+                    LoginMainText(stringResource(R.string.login_register))
                     Column(
                         Modifier.padding(start = 10.dp, end = 10.dp),
                         verticalArrangement = Arrangement.spacedBy(15.dp)

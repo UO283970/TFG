@@ -28,5 +28,5 @@ class User(
 ) : Parcelable {
 
     @Serializable
-    data class UserButtonConfig(val buttonTittle: Int, @Contextual val buttonIcon: ImageVector, val buttonEvent: () -> Unit)
+    data class UserButtonConfig(val buttonTittle: Int, @Contextual val buttonIcon: ImageVector)
 }

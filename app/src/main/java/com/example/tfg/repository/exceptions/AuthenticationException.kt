@@ -1,4 +1,3 @@
 package com.example.tfg.repository.exceptions
 
-class AuthenticationException() : Exception() {
-}
+class AuthenticationException() : Exception()

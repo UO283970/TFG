@@ -30,7 +30,7 @@ data class FriendsMainState(
 
 @HiltViewModel
 class FriendsViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val activityRepository: ActivityRepository,
     private val userRepository: UserRepository
 ) : ViewModel() {

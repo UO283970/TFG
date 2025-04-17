@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">TFG</string>
-    <string name="edit_activity">Edit</string>
     <string name="book_cover">Portada del libro </string>
     <string name="notifications">Notificaciones</string>
     <string name="home_recommended_books">Libros Recomendados</string>
@@ -10,18 +9,11 @@
     <string name="home_search_books">Buscar Libros</string>
     <string name="search_placeholder_input">Busca tu libro</string>
     <string name="search_filters_search_by_gender">Buscar por género:</string>
-    <string name="search_filters_button_tittle">Título</string>
-    <string name="search_filters_button_author">Autor</string>
-    <string name="search_filters_button_list">Listas</string>
-    <string name="search_filters_pagesFilter">Número de páginas:</string>
-    <string name="search_filters_placeholder_min_pages">Min Pags</string>
-    <string name="search_filters_placeholder_max_pages">Max Pags</string>
     <string name="search_filters_orderBy">Ordenar por:</string>
     <string name="friends_search_placeholder_input">Buscar usuarios</string>
     <string name="back_arrow">Flecha de retorno</string>
     <string name="read_less">Leer menos</string>
     <string name="read_more">Leer más</string>
-    <string name="profile_joined">"Se unió en "</string>
     <string name="profile_edit_button">Editar</string>
     <string name="profile_rating_text">Valoraciones</string>
     <string name="profile_review_text">Reseñas</string>
@@ -50,9 +42,6 @@
     <string name="error_password_length">La contraseña tiene que tener mas de %d caracteres</string>
     <string name="error_password_rules">La contraseña debe contener letras mayúsculas, minúsculas, números y un caracter especial</string>
     <string name="search_start_message">Busca los libros más te gustan\nTu género favorito o tu autor preferido</string>
-    <string name="review_text_info">Ha realizado una resña a:</string>
-    <string name="review_text_info_with_valoration">Ha realizado una reseña y a puntuado con un %d:</string>
-    <string name="rating_text_info_with_valoration">Ha valorado con un %d:</string>
     <string name="book_image">Portada del libro</string>
     <string name="user_follow_follow">Seguido</string>
     <string name="user_follow_not_follow">Seguir</string>
@@ -60,9 +49,7 @@
     <string name="user_follow_own">Editar</string>
     <string name="list_search_placeholder_input">Busca tu lista</string>
     <string name="settings_button">Ajustes</string>
-    <string name="edit_change_profile_image">Cambiar foto</string>
     <string name="profile_edit_desc_characters">de %d caracteres</string>
-    <string name="edit_profile">Editar perfil</string>
     <string name="profile_edit_privacy">Perfil privado</string>
     <string name="save_button">Guardar</string>
     <string name="edit_user_name_placeholder">Nombre</string>
@@ -103,9 +90,7 @@
     <string name="book_add_to_list">Añadir a una lista</string>
     <string name="book_pages">Páginas:</string>
     <string name="book_add_new_list">Crear nueva lista</string>
-    <string name="book_dialog_cancel">Cancelar</string>
     <string name="read_list_name">Leídos</string>
-    <string name="book_dialog_save">Guardar</string>
     <string name="reading_list_name">Leyendo</string>
     <string name="book_add_new_list_my_lists">Mis listas</string>
     <string name="book_user_rating">Valoración: </string>
@@ -127,12 +112,10 @@
     <string name="search_filters_filterFor_film">Cine</string>
     <string name="search_filters_filterFor_art">Arte</string>
     <string name="search_filters_filterFor_magic">Magía</string>
-    <string name="search_filters_filterFor_textbook">Libro de texto</string>
     <string name="search_filters_filterFor_humor">Humor</string>
     <string name="search_filters_filterFor_thriller">Suspense</string>
     <string name="search_filters_filterFor_biography">Biografía</string>
     <string name="search_filters_filter_language">Filtrar por lenguaje</string>
-    <string name="search_filters_filter_language_all">Todos</string>
     <string name="rating">valoro</string>
     <string name="search_filters_filterFor_adventure">Aventura</string>
     <string name="error_user_login">El usuario y contraseña no coinciden</string>
@@ -147,9 +130,6 @@
     <string name="list_creation_list_repeated_name_error">Nombre de lista repetido</string>
     <string name="list_creation_list_name_error">El nombre de la lista no esta permitido</string>
     <string name="register_user_name_supporting">Nombre con el que se te identificara en la app</string>
-    <string name="profile_picture">Foto de perfil</string>
-    <string name="snackBar_text">Debes dar acceso a la galeria desde ajustes</string>
-    <string name="snackBar_actionLabel">Ajustes</string>
     <string name="list_details_dropdown_menu_modify">Modificar lista</string>
     <string name="list_details_dropdown_menu_delete">Borrar</string>
     <string name="list_creation_modify_list">Mofdificar lista</string>
@@ -171,12 +151,5 @@
     <string-array name="list_of_lists_tabs">
         <item>Mis Listas</item>
         <item>Listas por defecto</item>
-    </string-array>
-    <string-array name="list_of_default_lists">
-        <item>Leyendo</item>
-        <item>Leídos</item>
-        <item>En espera</item>
-        <item>Abandonados</item>
-        <item>En plan para leer</item>
     </string-array>
 </resources>

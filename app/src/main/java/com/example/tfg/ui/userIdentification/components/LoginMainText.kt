@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun loginMainText(text:String){
+fun LoginMainText(text:String){
     Text(
         text,
         fontSize = 28.sp,

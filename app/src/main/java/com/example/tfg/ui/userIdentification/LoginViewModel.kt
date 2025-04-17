@@ -42,7 +42,7 @@ class LoginViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            checkUserConnected();
+            checkUserConnected()
         }
     }
 

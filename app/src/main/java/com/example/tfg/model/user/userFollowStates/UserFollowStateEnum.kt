@@ -11,7 +11,7 @@ import com.example.tfg.model.user.User
 enum class UserFollowStateEnum {
     NOT_FOLLOW{
         override fun getButtonAction(): User.UserButtonConfig {
-            return User.UserButtonConfig(R.string.user_follow_not_follow,Icons.Outlined.Add) {/*TODO: Enviar solicitud o seguir depende de la privacidad*/}
+            return User.UserButtonConfig(R.string.user_follow_not_follow,Icons.Outlined.Add)
         }
 
         override fun getCanShowMoreInfo(): Boolean {
@@ -22,7 +22,7 @@ enum class UserFollowStateEnum {
         override fun getButtonAction(): User.UserButtonConfig {
             return User.UserButtonConfig(
                 R.string.user_follow_follow, Icons.Outlined.Check
-            ) {/*TODO: Dejar de seguir*/ }
+            )
         }
 
         override fun getCanShowMoreInfo(): Boolean {
@@ -31,7 +31,7 @@ enum class UserFollowStateEnum {
     },
     OWN{
         override fun getButtonAction(): User.UserButtonConfig {
-            return User.UserButtonConfig(R.string.user_follow_own, Icons.Outlined.Edit) {}
+            return User.UserButtonConfig(R.string.user_follow_own, Icons.Outlined.Edit)
         }
 
         override fun getCanShowMoreInfo(): Boolean {
@@ -41,7 +41,7 @@ enum class UserFollowStateEnum {
     REQUESTED{
         override fun getButtonAction(): User.UserButtonConfig {
             return User.UserButtonConfig(R.string.user_follow_requested, Icons.Outlined.Clear
-            ) { /*TODO: Cancelar la solicitud de amistad*/}
+            )
         }
 
         override fun getCanShowMoreInfo(): Boolean {

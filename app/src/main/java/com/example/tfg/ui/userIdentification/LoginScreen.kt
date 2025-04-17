@@ -17,10 +17,10 @@ import com.example.tfg.R
 import com.example.tfg.ui.common.ChargingProgress
 import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.theme.TFGTheme
+import com.example.tfg.ui.userIdentification.components.LoginMainText
 import com.example.tfg.ui.userIdentification.components.PasswordTextField
 import com.example.tfg.ui.userIdentification.components.SubmitOrRegisterScreenButtons
 import com.example.tfg.ui.userIdentification.components.TextFieldUserEmail
-import com.example.tfg.ui.userIdentification.components.loginMainText
 
 @Composable
 fun LoginScreen(
@@ -47,7 +47,7 @@ fun LoginScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        loginMainText(stringResource(R.string.login_welcome))
+                        LoginMainText(stringResource(R.string.login_welcome))
                         Column(
                             Modifier.padding(start = 10.dp, end = 10.dp),
                             verticalArrangement = Arrangement.spacedBy(15.dp)
