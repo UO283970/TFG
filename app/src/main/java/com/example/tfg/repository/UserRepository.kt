@@ -51,7 +51,7 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient,
     }
 
 
-    suspend fun updateUser(userAlias: String, userName: String, profilePictureURL: String, description: String, privacy: UserPrivacy): Boolean? {
+    suspend fun updateUser(userAlias: String, userName: String, profilePictureURL: String, description: String, privacy: UserPrivacy): String? {
         return apolloClient.mutation(
             UpdateUserMutation(
                 userAlias = userAlias,

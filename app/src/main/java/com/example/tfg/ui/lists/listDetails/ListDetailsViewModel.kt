@@ -7,8 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookList
+import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.ListsState
+import com.example.tfg.repository.GlobalErrorHandler
 import com.example.tfg.repository.ListRepository
+import com.example.tfg.repository.exceptions.AuthenticationException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,14 +20,17 @@ data class ListDetailsMainState(
     var bookList: BookList? = null,
     var userQuery: String = "",
     var detailsLoaded: Boolean = false,
-    var baseListOfBooks: List<Book> = arrayListOf<Book>()
+    var baseListOfBooks: List<Book> = arrayListOf<Book>(),
+    var menuOpen: Boolean = false,
+    var isDeleted: Boolean = false,
 
 )
 
 @HiltViewModel
-class ListDetailsViewModel @Inject constructor(listsState: ListsState, listRepository: ListRepository) : ViewModel() {
+class ListDetailsViewModel @Inject constructor(val listsState: ListsState, val listRepository: ListRepository) : ViewModel() {
 
     var listDetailsInfo by mutableStateOf(ListDetailsMainState())
+
     fun userQueryChange(query: String) {
         listDetailsInfo = listDetailsInfo.copy(userQuery = query)
     }
@@ -50,4 +56,23 @@ class ListDetailsViewModel @Inject constructor(listsState: ListsState, listRepos
 
         listDetailsInfo = listDetailsInfo.copy(detailsLoaded = true)
     }
+
+    fun changeMenu(state: Boolean){
+        listDetailsInfo = listDetailsInfo.copy(menuOpen = state)
+    }
+
+    fun deleteList(){
+        viewModelScope.launch {
+            try{
+                val deleted = listRepository.deleteList(listDetailsInfo.bookList?.getId() ?: "")
+                if(deleted != null && deleted){
+                    listDetailsInfo = listDetailsInfo.copy(isDeleted = true)
+                    listsState.deleteList(listDetailsInfo.bookList as BookListClass)
+                }
+            }catch(e: AuthenticationException){
+                GlobalErrorHandler.handle(e)
+            }
+        }
+    }
+
 }

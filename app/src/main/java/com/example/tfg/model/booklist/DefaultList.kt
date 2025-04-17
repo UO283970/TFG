@@ -49,5 +49,18 @@ data class DefaultList(
         return listId.hashCode()
     }
 
+    override fun getId(): String {
+        return this.listId
+    }
+
+
+    override fun canModify(): Boolean {
+        return false
+    }
+
+    override fun getPrivacy(): ListPrivacy {
+        return ListPrivacy.PUBLIC
+    }
+
 
 }

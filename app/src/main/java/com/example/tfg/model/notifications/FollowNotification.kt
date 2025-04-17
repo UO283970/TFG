@@ -10,7 +10,7 @@ class FollowNotification(
     val user: User
 ) :
     Notification(user.profilePicture) {
-    override fun getNotificationImage(): Int {
+    override fun getNotificationImage(): String {
         return user.profilePicture
     }
 

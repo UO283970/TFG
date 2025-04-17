@@ -1,6 +1,5 @@
 package com.example.tfg.ui.friends.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -21,11 +20,11 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
@@ -37,6 +36,7 @@ import com.example.tfg.R
 import com.example.tfg.model.user.User
 import com.example.tfg.ui.friends.FriendsMainState
 import com.example.tfg.ui.friends.FriendsViewModel
+import com.example.tfg.ui.profile.components.UserPicture
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,7 +101,9 @@ fun FriendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.weight(1f)
         ) {
-            ProfileUserImage(user.profilePicture)
+            val signatureKey = remember { mutableStateOf(System.currentTimeMillis().toString()) }
+            UserPicture(user.profilePicture, signatureKey,Modifier.size(50.dp).clip(CircleShape))
+
             UserRowText(user.userAlias)
         }
     }
@@ -116,17 +118,5 @@ fun UserRowText(text: String) {
         overflow = TextOverflow.Ellipsis,
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
-    )
-}
-
-@Composable
-fun ProfileUserImage(user: Int) {
-    Image(
-        painterResource(user),
-        contentDescription = "",
-        contentScale = ContentScale.FillBounds,
-        modifier = Modifier
-            .size(50.dp)
-            .clip(CircleShape)
     )
 }

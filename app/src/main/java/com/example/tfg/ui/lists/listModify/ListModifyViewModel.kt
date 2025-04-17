@@ -1,4 +1,4 @@
-package com.example.tfg.ui.lists.listCreation
+package com.example.tfg.ui.lists.listModify
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
-import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.ListPrivacy
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.ListRepository
@@ -18,24 +17,30 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class ListCreationMainState(
-    var listName: String = "",
+data class ListModifyMainState(
+    var listName: String,
     var listNameError: String? = null,
-    var listDescription: String = "",
-    var listPrivacy: ListPrivacy = ListPrivacy.PUBLIC,
+    var listDescription: String,
+    var listPrivacy: ListPrivacy,
     var dropDawnExpanded: Boolean = false,
-    var listCreated: Boolean = false
+    var listModify: Boolean = false
 )
 
 @HiltViewModel
-class ListCreationViewModel @Inject constructor(
+class ListModifyViewModel @Inject constructor(
     val savedStateHandle: SavedStateHandle,
     val stringResourcesProvider: StringResourcesProvider,
     val listRepository: ListRepository,
     val listsState: ListsState
 ) : ViewModel() {
 
-    var listCreationState by mutableStateOf(ListCreationMainState())
+    var listCreationState by mutableStateOf(
+        ListModifyMainState(
+            listName = listsState.getDetailList().getName(),
+            listDescription = listsState.getDetailList().getDescription(),
+            listPrivacy = listsState.getDetailList().getPrivacy(),
+        )
+    )
 
     fun changeListName(listName: String) {
         listCreationState = listCreationState.copy(listName = listName)
@@ -57,19 +62,18 @@ class ListCreationViewModel @Inject constructor(
     fun saveNewList() {
         if (checkListName()) {
             viewModelScope.launch {
-                val listCreated = listRepository.createList(
+                val listCreated = listRepository.updateList(
+                    listsState.getDetailList().getId(),
                     listCreationState.listName,
                     listCreationState.listDescription,
                     BookListPrivacy.valueOf(listCreationState.listPrivacy.toString())
                 )
                 if (listCreated != null) {
-                    listsState.addToOwnList(BookListClass(
-                        listCreated,
-                        listName = listCreationState.listName,
-                        listDescription = listCreationState.listDescription,
-                        listPrivacy = listCreationState.listPrivacy)
-                    )
-                    listCreationState = listCreationState.copy(listCreated = true)
+                    val list = listsState.getOwnLists().filter { it -> it.listId == listsState.getDetailList().getId() }[0]
+                    list.listName = listCreationState.listName
+                    list.listDescription = listCreationState.listDescription
+                    list.listPrivacy = listCreationState.listPrivacy
+                    listCreationState = listCreationState.copy(listModify = true)
                 } else {
                     listCreationState =
                         listCreationState.copy(listNameError = stringResourcesProvider.getString(R.string.list_creation_list_name_error))
@@ -79,7 +83,9 @@ class ListCreationViewModel @Inject constructor(
     }
 
     private fun checkListName(): Boolean {
-        if (listsState.getOwnLists().stream().anyMatch { bookList -> bookList.getName() == listCreationState.listName }) {
+        if (listsState.getOwnLists().stream()
+                .anyMatch { bookList -> bookList.getName() == listCreationState.listName && bookList.getId() != listsState.getDetailList().getId() }
+        ) {
             listCreationState =
                 listCreationState.copy(listNameError = stringResourcesProvider.getString(R.string.list_creation_list_repeated_name_error))
             return false

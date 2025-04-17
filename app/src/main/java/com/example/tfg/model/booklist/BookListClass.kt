@@ -37,4 +37,31 @@ class BookListClass(
     override fun getBookCount(): Int {
         return numberOfBooks
     }
+
+    override fun getId(): String {
+        return this.listId
+    }
+
+    override fun canModify(): Boolean {
+        return true
+    }
+
+    override fun getPrivacy(): ListPrivacy {
+        return this.listPrivacy
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as BookListClass
+
+        return listId == other.listId
+    }
+
+    override fun hashCode(): Int {
+        return listId.hashCode()
+    }
+
+
 }

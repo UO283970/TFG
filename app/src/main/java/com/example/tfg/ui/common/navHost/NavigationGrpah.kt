@@ -18,6 +18,7 @@ import com.example.tfg.ui.home.notifications.NotificationScreen
 import com.example.tfg.ui.lists.ListScreen
 import com.example.tfg.ui.lists.listCreation.NewListCreationScreen
 import com.example.tfg.ui.lists.listDetails.ListDetailsScreen
+import com.example.tfg.ui.lists.listModify.ListModifyScreen
 import com.example.tfg.ui.profile.ProfileScreen
 import com.example.tfg.ui.profile.components.configuration.ConfigurationScreen
 import com.example.tfg.ui.profile.components.editScreen.EditScreen
@@ -28,8 +29,6 @@ import com.example.tfg.ui.profile.othersProfile.OthersProfileScreen
 import com.example.tfg.ui.search.SearchScreen
 import com.example.tfg.ui.userIdentification.LoginScreen
 import com.example.tfg.ui.userIdentification.RegisterScreen
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
@@ -54,12 +53,13 @@ sealed class HomeRoutesItems(val route: String) {
 sealed class ListNavigationItems(val route: String) {
     object ListsScreen : ListNavigationItems("listScreen/{userId}")
     object ListDetails : ListNavigationItems("listDetails/{bookList}")
+    object ListModify : ListNavigationItems("listModify")
     object ListCreation : ListNavigationItems("listCreation")
 }
 
 sealed class ProfileNavigationItems(val route: String) {
     object ProfileScreen : ProfileNavigationItems("profileScreen/{user}")
-    object OthersProfileScreen : ProfileNavigationItems("othersProfileScreen/{user}")
+    object OthersProfileScreen : ProfileNavigationItems("othersProfileScreen/{userId}")
     object UserReviews : ProfileNavigationItems("userReviews/{id}")
     object UserFollowers : ProfileNavigationItems("userFollowers/{id}")
     object UserFollows : ProfileNavigationItems("userFollows/{id}")
@@ -143,7 +143,10 @@ private fun NavGraphBuilder.listsGraph(
             ListScreen({ navigateToRoute(it, navController) })
         }
         composable(ListNavigationItems.ListDetails.route) {
-            ListDetailsScreen({ returnToLastScreen(navController) })
+            ListDetailsScreen({ returnToLastScreen(navController) }, {navigateToRoute(it,navController)})
+        }
+        composable(ListNavigationItems.ListModify.route) {
+            ListModifyScreen({ returnToLastScreen(navController) })
         }
         composable(ListNavigationItems.ListCreation.route) {
             NewListCreationScreen({ returnToLastScreen(navController) })
@@ -196,13 +199,10 @@ private fun NavGraphBuilder.profileGraph(
 
 
 private fun navigateToProfileWithUser(user: User, navController: NavHostController) {
-    val gson: Gson =
-        GsonBuilder().create()
-    val userJson = gson.toJson(user)
     navController.navigate(
         ProfileNavigationItems.OthersProfileScreen.route.replace(
-            oldValue = "{user}",
-            newValue = userJson
+            oldValue = "{userId}",
+            newValue = user.userId
         )
     )
 }

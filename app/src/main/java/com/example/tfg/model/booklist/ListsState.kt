@@ -37,6 +37,10 @@ class ListsState {
         this.detailList = bookList
     }
 
+    fun deleteList(bookListClass: BookListClass){
+        this.ownLists.remove(bookListClass)
+    }
+
     fun addBookToUserList(book : Book, bookListClass: BookListClass){
         var list = this.ownLists.find { it.listId == bookListClass.listId }
         list?.getListOfBooks()?.add(book)

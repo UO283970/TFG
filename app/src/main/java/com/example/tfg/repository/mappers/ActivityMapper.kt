@@ -1,6 +1,5 @@
 package com.example.tfg.repository.mappers
 
-import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.Activity
@@ -17,14 +16,14 @@ fun List<GetAllFollowedActivity>?.toAppActivity(): List<Activity>? {
         for (activity in this){
             when(activity.userActivityType){
                 UserActivityType.REVIEW -> listOfAppActivities.add(ReviewActivity(
-                    user = User(activity.user.userAlias, profilePicture = R.drawable.prueba, userId = activity.user.userId),
+                    user = User(activity.user.userAlias, profilePicture = activity.user.profilePictureURL, userId = activity.user.userId),
                     creationDate =  LocalDateTime.parse(activity.localDateTime).toLocalDate(),
                     book = Book("Palabras Rradiantes","Brandon  Sanderson"),
                     reviewText = activity.activityText,
                     rating = activity.score
                 ))
                 UserActivityType.RATING -> listOfAppActivities.add(RatingActivity(
-                    user = User(activity.user.userAlias, profilePicture = R.drawable.prueba, userId = activity.user.userId),
+                    user = User(activity.user.userAlias, profilePicture = activity.user.profilePictureURL, userId = activity.user.userId),
                     creationDate =  LocalDateTime.parse(activity.localDateTime).toLocalDate(),
                     book = Book("Palabras Rradiantes","Brandon  Sanderson"),
                     rating = activity.score

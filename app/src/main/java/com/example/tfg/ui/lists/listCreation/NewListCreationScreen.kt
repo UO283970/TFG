@@ -30,6 +30,7 @@ import com.example.tfg.R
 import com.example.tfg.model.AppConstants
 import com.example.tfg.model.booklist.ListPrivacy
 import com.example.tfg.ui.common.ErrorText
+import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.theme.TFGTheme
 
@@ -39,7 +40,7 @@ fun NewListCreationScreen(
     viewModel: ListCreationViewModel = hiltViewModel()
 ) {
     LaunchedEffect(viewModel.listCreationState.listCreated) {
-        if(viewModel.listCreationState.listCreated){
+        if (viewModel.listCreationState.listCreated) {
             returnToLastScreen()
         }
     }
@@ -59,9 +60,14 @@ fun NewListCreationScreen(
                     .padding(innerPadding)
                     .then(Modifier.padding(start = 10.dp, end = 10.dp))
             ) {
-                ListNameTextField(viewModel)
-                ListDescriptionTextField(viewModel, Modifier.weight(0.5f))
-                DropDownMenu(viewModel)
+                ListNameTextField(viewModel.listCreationState.listName, { viewModel.changeListName(it) }, viewModel.listCreationState.listNameError)
+                ListDescriptionTextField(Modifier.weight(0.5f), viewModel.listCreationState.listDescription, { viewModel.changeListDesc(it) })
+                DropDownMenu(
+                    viewModel.listCreationState.dropDawnExpanded,
+                    { viewModel.changeDropDownState(it) },
+                    { viewModel.listCreationState.listPrivacy.getListPrivacyString(it) },
+                    viewModel.stringResourcesProvider,
+                    { viewModel.changeListPrivacy(it) })
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Button(onClick = {
                         viewModel.saveNewList()
@@ -76,11 +82,17 @@ fun NewListCreationScreen(
 }
 
 @Composable
-private fun DropDownMenu(viewModel: ListCreationViewModel) {
+fun DropDownMenu(
+    dropDawnExpanded: Boolean,
+    changeDropDownState: (change: Boolean) -> Unit,
+    getListPrivacyString: (stringResourcesProvider: StringResourcesProvider) -> String,
+    stringResourcesProvider: StringResourcesProvider,
+    changeListPrivacy: (privacy: ListPrivacy) -> Unit
+) {
     Row(
         modifier = Modifier
             .clickable {
-                viewModel.changeDropDownState(!viewModel.listCreationState.dropDawnExpanded)
+                changeDropDownState(!dropDawnExpanded)
             }
             .padding(top = 10.dp)) {
         Text(
@@ -88,9 +100,9 @@ private fun DropDownMenu(viewModel: ListCreationViewModel) {
         )
         Row {
             Text(
-                viewModel.listCreationState.listPrivacy.getListPrivacyString(viewModel.stringResourcesProvider)
+                getListPrivacyString(stringResourcesProvider)
             )
-            if (viewModel.listCreationState.dropDawnExpanded) {
+            if (dropDawnExpanded) {
                 Icon(
                     Icons.Default.KeyboardArrowUp,
                     stringResource(R.string.list_creation_dropdown_menu_down_arrow)
@@ -102,14 +114,14 @@ private fun DropDownMenu(viewModel: ListCreationViewModel) {
                 )
             }
             DropdownMenu(
-                viewModel.listCreationState.dropDawnExpanded,
-                onDismissRequest = { viewModel.changeDropDownState(false) }) {
+                dropDawnExpanded,
+                onDismissRequest = { changeDropDownState(false) }) {
                 for (privacy in ListPrivacy.entries) {
                     DropdownMenuItem(
-                        text = { Text(privacy.getListPrivacyString(viewModel.stringResourcesProvider)) },
+                        text = { Text(privacy.getListPrivacyString(stringResourcesProvider)) },
                         onClick = {
-                            viewModel.changeListPrivacy(privacy)
-                            viewModel.changeDropDownState(false)
+                            changeListPrivacy(privacy)
+                            changeDropDownState(false)
                         })
                 }
             }
@@ -118,15 +130,15 @@ private fun DropDownMenu(viewModel: ListCreationViewModel) {
 }
 
 @Composable
-private fun ListNameTextField(viewModel: ListCreationViewModel) {
+fun ListNameTextField(listName: String, changeListName: (newName: String) -> Unit, listNameError: String?) {
     OutlinedTextField(
-        value = viewModel.listCreationState.listName,
-        onValueChange = { viewModel.changeListName(it) },
+        value = listName,
+        onValueChange = { changeListName(it) },
         singleLine = true,
         label = { Text(stringResource(R.string.list_creation_list_name)) },
         trailingIcon = {
-            if (viewModel.listCreationState.listName != "") {
-                IconButton(onClick = { viewModel.changeListName("") }) {
+            if (listName != "") {
+                IconButton(onClick = { changeListName("") }) {
                     Icon(
                         Icons.Default.Clear,
                         contentDescription = stringResource(R.string.text_field_delete)
@@ -135,17 +147,17 @@ private fun ListNameTextField(viewModel: ListCreationViewModel) {
             }
         },
         modifier = Modifier.fillMaxWidth(),
-        isError = viewModel.listCreationState.listNameError != null
+        isError = listNameError != null
     )
-    if (viewModel.listCreationState.listNameError != null)
-        ErrorText(viewModel.listCreationState.listNameError!!)
+    if (listNameError != null)
+        ErrorText(listNameError)
 }
 
 @Composable
-private fun ListDescriptionTextField(viewModel: ListCreationViewModel, modifier: Modifier) {
+fun ListDescriptionTextField(modifier: Modifier, listDescription: String, changeListDesc: (newDesc: String) -> Unit) {
     OutlinedTextField(
-        value = viewModel.listCreationState.listDescription,
-        onValueChange = { viewModel.changeListDesc(it) },
+        value = listDescription,
+        onValueChange = { changeListDesc(it) },
         label = { Text(stringResource(R.string.list_creation_list_desccription)) },
         modifier = Modifier
             .fillMaxWidth()
@@ -154,7 +166,7 @@ private fun ListDescriptionTextField(viewModel: ListCreationViewModel, modifier:
     Text(
         text = stringResource(
             R.string.list_creation_list_desccription_char_count,
-            viewModel.listCreationState.listDescription.length,
+            listDescription.length,
             AppConstants.LIST_DESC_MAX_CHARACTERS
         ),
         style = MaterialTheme.typography.bodySmall

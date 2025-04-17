@@ -12,30 +12,27 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.model.user.userActivities.Activity
+import com.example.tfg.ui.profile.components.UserPicture
 
 @Composable
 fun FriendsItem(review: Activity) {
     Row(
         modifier = Modifier.Companion.padding(start = 10.dp, end = 10.dp, top = 5.dp, bottom = 5.dp),
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Image(
-            painterResource(review.user.profilePicture),
-            contentDescription = stringResource(R.string.user_profile_image),
-            contentScale = ContentScale.Companion.FillBounds,
-            modifier = Modifier.Companion
-                .size(50.dp)
-                .clip(CircleShape)
-        )
+        val signatureKey = remember { mutableStateOf(System.currentTimeMillis().toString()) }
+        UserPicture(review.user.profilePicture, signatureKey,Modifier.size(50.dp).clip(CircleShape))
+
         Column {
             Row {
                 Text(

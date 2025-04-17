@@ -91,4 +91,5 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.1.4")
     implementation("androidx.datastore:datastore-preferences-rxjava2:1.1.4")
     implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.4")
+    implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
 }

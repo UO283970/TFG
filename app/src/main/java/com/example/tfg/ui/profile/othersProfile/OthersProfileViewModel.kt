@@ -12,8 +12,6 @@ import com.example.tfg.repository.FollowRepository
 import com.example.tfg.repository.GlobalErrorHandler
 import com.example.tfg.repository.UserRepository
 import com.example.tfg.repository.exceptions.AuthenticationException
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ProfileMainState(
-    val user: User,
+    val user: User = User(""),
     var profileReviews: ArrayList<Activity> = arrayListOf(),
     val userInfoLoaded: Boolean = false,
     val refreshUserState: Boolean = false
@@ -35,13 +33,10 @@ class OthersProfileViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val gson: Gson = GsonBuilder().create()
-    val userJson = savedStateHandle.get<String?>("user")
-    private val user = gson.fromJson(userJson, User::class.java)
-
+    val userId = savedStateHandle.get<String?>("userId")
 
     private val _profileInfo = MutableStateFlow(
-        ProfileMainState(user = user)
+        ProfileMainState()
     )
 
     val profileInfo: StateFlow<ProfileMainState> = _profileInfo
@@ -52,7 +47,7 @@ class OthersProfileViewModel @Inject constructor(
 
     fun getAllUserInfo() {
         viewModelScope.launch {
-            var expandedUser = userRepository.getAllUserInfo(_profileInfo.value.user.userId)
+            var expandedUser = userRepository.getAllUserInfo(userId.toString())
             if (expandedUser != null) {
                 _profileInfo.value = _profileInfo.value.copy(user = expandedUser)
                 _profileInfo.value = _profileInfo.value.copy(userInfoLoaded = true)

@@ -16,4 +16,9 @@ interface BookList : Parcelable {
 
     fun getBookCount(): Int
 
+    fun getId(): String
+
+    fun canModify(): Boolean
+
+    fun getPrivacy(): ListPrivacy
 }

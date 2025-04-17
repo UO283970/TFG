@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tfg.R
 import com.example.tfg.model.user.userActivities.Activity
 import java.time.format.DateTimeFormatter
 
@@ -29,7 +30,7 @@ fun UserInfoAndDate(activity: Activity) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painterResource(activity.user.profilePicture),
+            painterResource(R.drawable.prueba),
             contentDescription = "",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier

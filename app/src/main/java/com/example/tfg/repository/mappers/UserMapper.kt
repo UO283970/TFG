@@ -1,6 +1,5 @@
 package com.example.tfg.repository.mappers
 
-import com.example.tfg.R
 import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
@@ -25,7 +24,7 @@ import java.time.LocalDateTime
 fun GetAuthenticatedUserInfoQuery.GetAuthenticatedUserInfo.toUserModel(stringResourcesProvider: StringResourcesProvider): User {
     return User(
         this.userAlias,
-        profilePicture = R.drawable.prueba,
+        profilePicture = this.profilePictureURL,
         description = this.description,
         userName = this.userName,
         numReviews = this.userActivitiesCount,
@@ -78,7 +77,7 @@ fun List<GetUserSearchInfo>?.toAppSearchUser(): List<User>? {
             userForSearchApp.add(
                 User(
                     userAlias = user.userAlias,
-                    profilePicture = R.drawable.prueba,
+                    profilePicture = user.profilePictureURL,
                     userName = user.userName,
                     userId = user.userId
                 )
@@ -93,7 +92,7 @@ fun GetAllUserInfo?.toUserAppFullInfo(stringResourcesProvider: StringResourcesPr
     if (this != null) {
         return User(
             this.userAlias,
-            profilePicture = R.drawable.prueba,
+            profilePicture = this.profilePictureURL,
             description = this.description,
             userName = this.userName,
             numReviews = this.userActivitiesCount,
@@ -155,7 +154,7 @@ fun List<GetFollowersOfUser>?.userMinInfoFollowers(): List<User>? {
             followerList.add(
                 User(
                     userAlias = user.userAlias,
-                    profilePicture = R.drawable.prueba,
+                    profilePicture = user.profilePictureURL,
                     followState = UserFollowStateEnum.valueOf(user.userFollowState.toString()),
                     userName = user.userName,
                     userId = user.userId
@@ -175,7 +174,7 @@ fun List<GetFollowingListUser>?.userMinInfoFollowing(): List<User>? {
             followerList.add(
                 User(
                     userAlias = user.userAlias,
-                    profilePicture = R.drawable.prueba,
+                    profilePicture = user.profilePictureURL,
                     userName = user.userName,
                     userId = user.userId
                 )
@@ -193,7 +192,7 @@ fun List<GetUsersReview>?.toAppReviews(): List<ReviewActivity>? {
         for (activity in this) {
             listOfAppActivities.add(
                 ReviewActivity(
-                    user = User(activity.user.userAlias, profilePicture = R.drawable.prueba, userId = activity.user.userId),
+                    user = User(activity.user.userAlias, profilePicture = activity.user.profilePictureURL, userId = activity.user.userId),
                     creationDate = LocalDateTime.parse(activity.localDateTime).toLocalDate(),
                     book = Book("Palabras Rradiantes", "Brandon  Sanderson"),
                     reviewText = activity.activityText,

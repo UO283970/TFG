@@ -1,8 +1,11 @@
 package com.example.tfg.ui.profile.components.editScreen
 
+import android.content.ContentResolver
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
@@ -14,16 +17,21 @@ import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.type.UserPrivacy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okio.FileNotFoundException
 import javax.inject.Inject
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 data class EditProfileMainState(
-    var userProfilePicture: Int,
+    var userProfilePicture: String,
     var userName: String,
     var userNameError: String? = null,
     var userAlias: String,
     var userDescription: String,
+    var userImageUri: Uri,
     var switchState: Boolean,
-    var profileEdited: Boolean = false
+    var profileEdited: Boolean = false,
+    var checkGalleryPermission: Boolean = false
 
 )
 
@@ -31,16 +39,18 @@ data class EditProfileMainState(
 class EditProfileViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider,
     private val mainUserState: MainUserState,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val contentResolver: ContentResolver
 ) : ViewModel() {
 
     var profileEditState by mutableStateOf(
         EditProfileMainState(
-            userProfilePicture = mainUserState.getMainUser()?.profilePicture ?: 0,
+            userProfilePicture = mainUserState.getMainUser()?.profilePicture ?: "",
             userName = mainUserState.getMainUser()?.userName ?: "",
             userAlias = mainUserState.getMainUser()?.userAlias ?: "",
             userDescription = mainUserState.getMainUser()?.description ?: "",
-            switchState = mainUserState.getMainUser()?.privacy == UserPrivacyLevel.PRIVATE
+            switchState = mainUserState.getMainUser()?.privacy == UserPrivacyLevel.PRIVATE,
+            userImageUri = mainUserState.getMainUser()?.profilePicture?.toUri() ?: "".toUri()
         )
     )
 
@@ -56,35 +66,62 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
-    fun changeUserAlias(userAlias: String) {
-        profileEditState = profileEditState.copy(userAlias = userAlias)
-    }
-
     fun changeSwitch() {
         profileEditState = profileEditState.copy(switchState = !profileEditState.switchState)
     }
 
+    fun changePermission() {
+        profileEditState = profileEditState.copy(checkGalleryPermission = !profileEditState.checkGalleryPermission)
+    }
+
+    fun changeUserAlias(userAlias: String) {
+        profileEditState = profileEditState.copy(userAlias = userAlias)
+    }
+
+    fun setImageUri(imageUri: Uri) {
+        profileEditState = profileEditState.copy(userImageUri = imageUri)
+    }
+
+
+    @OptIn(ExperimentalEncodingApi::class)
     fun saveButtonOnClick() {
-        viewModelScope.launch {
-            val userPrivacy = if(profileEditState.switchState) UserPrivacy.PRIVATE else UserPrivacy.PUBLIC
-            val newUser = userRepository.updateUser(profileEditState.userAlias,profileEditState.userName,"",profileEditState.userDescription,userPrivacy)
-            if(newUser != null && newUser){
-                profileEditState =
-                    profileEditState.copy(profileEdited = true)
+        if(userNameCheck()) {
+            viewModelScope.launch {
+                val userPrivacy = if (profileEditState.switchState) UserPrivacy.PRIVATE else UserPrivacy.PUBLIC
+                var userImageBase64 = try {
+                    contentResolver.openInputStream(profileEditState.userImageUri).use { inputStream ->
+                        val bytes = inputStream?.readBytes()
+                        Base64.encode(bytes!!)
+                    }
+                } catch (_: FileNotFoundException) {
+                    ""
+                }
 
-                val userSaved =  mainUserState.getMainUser()
-                userSaved?.userAlias = profileEditState.userAlias
-                userSaved?.userName = profileEditState.userName
-                userSaved?.description = profileEditState.userDescription
-                userSaved?.privacy = UserPrivacyLevel.valueOf(userPrivacy.toString())
+                val newUser = userRepository.updateUser(
+                    profileEditState.userAlias,
+                    profileEditState.userName,
+                    userImageBase64,
+                    profileEditState.userDescription,
+                    userPrivacy
+                )
+                if (newUser != null && !newUser.isBlank()) {
+                    profileEditState =
+                        profileEditState.copy(profileEdited = true)
 
-                mainUserState.setMainUser(userSaved!!)
-            }else{
-                profileEditState =
-                    profileEditState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_repeated))
+                    val userSaved = mainUserState.getMainUser()
+                    userSaved?.userAlias = profileEditState.userAlias
+                    userSaved?.userName = profileEditState.userName
+                    userSaved?.description = profileEditState.userDescription
+                    userSaved?.privacy = UserPrivacyLevel.valueOf(userPrivacy.toString())
+                    userSaved?.profilePicture = newUser
+
+                    mainUserState.setMainUser(userSaved!!)
+                } else {
+                    profileEditState =
+                        profileEditState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_repeated))
+                }
             }
         }
-
     }
 
     private fun userNameCheck(): Boolean {

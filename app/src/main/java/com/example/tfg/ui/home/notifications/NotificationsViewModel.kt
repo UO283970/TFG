@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.tfg.R
 import com.example.tfg.model.notifications.FollowNotification
 import com.example.tfg.model.notifications.FollowedNotification
 import com.example.tfg.model.notifications.Notification
@@ -48,7 +47,7 @@ class NotificationsViewModel @Inject constructor() :
     private fun getUserNotifications(): ArrayList<Notification> {
 
         val userForTesting =
-            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWING)
+            User("Nombre de Usuario","", UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWING)
         val followNot = FollowNotification(userForTesting)
         val followedNoti = FollowedNotification(userForTesting)
         return arrayListOf(followNot, followedNoti)
@@ -57,7 +56,7 @@ class NotificationsViewModel @Inject constructor() :
 
     private fun getFriendRequests(): ArrayList<User> {
         val userForTesting =
-            User("Nombre de Usuario", R.drawable.prueba, UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWING)
+            User("Nombre de Usuario","", UserPrivacyLevel.PUBLIC, UserFollowStateEnum.FOLLOWING)
         return arrayListOf(userForTesting,userForTesting)
     }
 

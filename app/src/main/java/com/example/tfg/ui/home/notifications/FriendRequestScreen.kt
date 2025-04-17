@@ -65,7 +65,7 @@ fun FriendsRequestScreen(
                                     }, verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Image(
-                                    painterResource(it.profilePicture),
+                                    painterResource(R.drawable.prueba),
                                     stringResource(R.string.notifications_image_text),
                                     modifier = Modifier
                                         .clip(CircleShape)

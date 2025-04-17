@@ -29,7 +29,7 @@ data class ListMainState(
     var userId: String,
     var canAddLists: Boolean,
     var defaultLists: List<DefaultList> = arrayListOf<DefaultList>(),
-    var ownLists: List<BookListClass> = arrayListOf<BookListClass>(),
+    var ownLists: List<BookListClass>,
 )
 
 @HiltViewModel
@@ -47,7 +47,8 @@ class ListViewModel @Inject constructor(
             tabs = stringResourcesProvider.getStringArray(R.array.list_of_lists_tabs),
             listsState = listsState,
             userId = userId!!,
-            canAddLists = userId == ""
+            canAddLists = userId == "",
+            ownLists = listsState.getOwnLists()
         )
     )
 
@@ -59,11 +60,7 @@ class ListViewModel @Inject constructor(
         } else {
             _listState.value = _listState.value.copy(defaultLists = _listState.value.listsState.getDefaultLists())
         }
-        if (_listState.value.listsState.getOwnLists().isEmpty() && _listState.value.userId == "") {
-            getOwnLists()
-        } else {
-            _listState.value = _listState.value.copy(ownLists = _listState.value.listsState.getOwnLists())
-        }
+
         savedStateHandle["userId"] = ""
     }
 
@@ -81,26 +78,8 @@ class ListViewModel @Inject constructor(
     }
 
     fun listCreation(): String {
+        listsState.setDetailsList(BookListClass("",""))
         return ListNavigationItems.ListCreation.route
-    }
-
-    private fun getOwnLists(): List<BookListClass> {
-        var resultList = arrayListOf<BookListClass>()
-
-        viewModelScope.launch {
-            try {
-                var userList = listRepository.getBasicListInfo(userId = _listState.value.userId)
-                if (userList != null) {
-                    _listState.value.listsState.setOwnList(ArrayList(userList))
-                }
-                _listState.value = _listState.value.copy(change = !_listState.value.change)
-                _listState.value = _listState.value.copy(ownLists = _listState.value.listsState.getOwnLists())
-            } catch (e: AuthenticationException) {
-                GlobalErrorHandler.handle(e)
-            }
-        }
-
-        return resultList
     }
 
     private fun getDefaultLists() {

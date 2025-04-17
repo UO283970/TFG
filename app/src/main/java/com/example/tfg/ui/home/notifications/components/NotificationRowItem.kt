@@ -37,7 +37,7 @@ fun NotificationRowItem(notificationsViewModel: NotificationsViewModel, navigate
                         navigateTo(it.getRowOnClickRoute())
                     }) {
                 Image(
-                    painterResource(it.getNotificationImage()),
+                    painterResource(R.drawable.prueba),
                     stringResource(R.string.notifications_image_text),
                     modifier = Modifier
                         .clip(CircleShape)

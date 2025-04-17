@@ -147,6 +147,12 @@
     <string name="list_creation_list_repeated_name_error">Nombre de lista repetido</string>
     <string name="list_creation_list_name_error">El nombre de la lista no esta permitido</string>
     <string name="register_user_name_supporting">Nombre con el que se te identificara en la app</string>
+    <string name="profile_picture">Foto de perfil</string>
+    <string name="snackBar_text">Debes dar acceso a la galeria desde ajustes</string>
+    <string name="snackBar_actionLabel">Ajustes</string>
+    <string name="list_details_dropdown_menu_modify">Modificar lista</string>
+    <string name="list_details_dropdown_menu_delete">Borrar</string>
+    <string name="list_creation_modify_list">Mofdificar lista</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

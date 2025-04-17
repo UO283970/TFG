@@ -1,11 +1,11 @@
 package com.example.tfg.model.notifications
 
-abstract class Notification(val image: Int) {
+abstract class Notification(val image: String) {
     abstract fun getMainNotificationInfoResource(): Int
     abstract fun getExtraInfo(): String
     abstract fun getRowOnClickRoute(): String
 
-    open fun getNotificationImage(): Int{
+    open fun getNotificationImage(): String{
         return image
     }
     open fun getButtonInfo(): NotificationButtonInfo?{

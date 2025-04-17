@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 @Parcelize
 class User(
     var userAlias: String,
-    var profilePicture: Int = 0,
+    var profilePicture: String = "",
     var privacy: UserPrivacyLevel = UserPrivacyLevel.PUBLIC,
     var followState: UserFollowStateEnum = UserFollowStateEnum.NOT_FOLLOW,
     var description: String = "",
