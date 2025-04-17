@@ -94,7 +94,7 @@
     <string name="profile_configuration">Configuración</string>
     <string name="profile_configuration_security">Seguridad</string>
     <string name="profile_configuration_go_to">Icono de flecha para avanzar</string>
-    <string name="profile_configuration_notifications">Administrar Norificaciones</string>
+    <string name="profile_configuration_notifications">Administrar Notificaciones</string>
     <string name="profile_configuration_delete_account">Eliminar cuenta</string>
     <string name="profile_configuration_logout">Cerrar sesión</string>
     <string name="user_profile_image">Foto de perfil del usuario</string>
