@@ -64,11 +64,8 @@ class FriendsViewModel @Inject constructor(
         _friendsInfo.value = _friendsInfo.value.copy(userQuery = userQuery)
     }
 
-    fun saveState(userId: String) {
+    fun saveState() {
         _friendsInfo.value = _friendsInfo.value.copy(userExpandedInfoLoaded = true)
-        viewModelScope.launch {
-
-        }
     }
 
     fun changeExpandedInfoLoaded(){

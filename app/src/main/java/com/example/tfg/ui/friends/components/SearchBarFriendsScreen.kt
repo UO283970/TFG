@@ -94,7 +94,7 @@ fun FriendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user
     }
 
     Row(Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp).clickable {
-        viewModel.saveState(user.userId)
+        viewModel.saveState()
     }) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(5.dp),

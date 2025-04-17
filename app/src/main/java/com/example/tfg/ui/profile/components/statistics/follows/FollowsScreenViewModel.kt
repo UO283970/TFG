@@ -56,6 +56,7 @@ class FollowsScreenViewModel @Inject constructor(
             try {
                 if (cancel != null && cancel) {
                     mainUserState.getMainUser()?.following--
+                    followsInfo.followsList.remove(user)
                     user.followState = UserFollowStateEnum.NOT_FOLLOW
                     followsInfo = followsInfo.copy(refreshInfo = !followsInfo.refreshInfo)
                 }

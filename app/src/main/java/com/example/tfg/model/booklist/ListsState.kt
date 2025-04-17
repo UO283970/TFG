@@ -65,6 +65,7 @@ class ListsState {
         var list = this.defaultLists.find { it.listId == defaultList.listId }
         list?.getListOfBooks()?.add(book)
         list?.numberOfBooks++
+        book.readingState = list?.listName.toString()
         if(list?.numberOfBooks != 0){
             list?.listImage = list.getListOfBooks()[0].coverImage.toString()
         }
@@ -74,6 +75,7 @@ class ListsState {
         var list = this.defaultLists.find { it.listId == defaultList.listId }
         list?.getListOfBooks()?.remove(book)
         list?.numberOfBooks--
+        book.readingState = ""
         if(list?.numberOfBooks == 0 || list?.getListOfBooks()?.isEmpty() == true){
             list.listImage = ""
         }else{

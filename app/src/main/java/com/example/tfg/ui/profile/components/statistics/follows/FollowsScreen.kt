@@ -65,7 +65,7 @@ fun FollowsScreen(
                             }
                         }
                         IconButton({viewModel.deleteFollow(it)}) {
-                            Icon(Icons.Default.Clear,stringResource(R.string.notifications_delete_button))
+                            Icon(Icons.Default.Clear,null)
                         }
                     }
                 }
