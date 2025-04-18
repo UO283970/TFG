@@ -104,7 +104,7 @@ class LoginViewModel @Inject constructor(
                 _formState.value.copy(passwordError = stringResourcesProvider.getString(R.string.error_password_empty))
 
             UserLoginErrors.UNKNOWN__ -> _formState.value =
-                _formState.value.copy(emailError = stringResourcesProvider.getString(R.string.error_unkown_error))
+                _formState.value.copy(emailError = stringResourcesProvider.getString(R.string.error_unknown_error))
         }
     }
 

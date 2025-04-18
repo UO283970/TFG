@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.model.user.User
+import com.example.tfg.ui.common.ChargingProgress
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.theme.TFGTheme
 
@@ -36,61 +37,65 @@ import com.example.tfg.ui.theme.TFGTheme
 fun FriendsRequestScreen(
     returnToLastScreen: () -> Unit,
     navigateToProfile: (user: User) -> Unit,
-    notificationsViewModel: NotificationsViewModel = hiltViewModel()
+    requestViewModel: FriendRequestViewModel = hiltViewModel()
 ) {
-    TFGTheme {
-        Scaffold(
-            topBar = {
-                TopDetailsListBar(
-                    returnToLastScreen = returnToLastScreen,
-                    tittle = stringResource(R.string.home_notifications_friend_requests)
-                )
-            }
-        ) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .padding(innerPadding)
-            ) {
-                LazyColumn(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
-                    items(notificationsViewModel.notificationsMainState.friendRequests) {
-                        Row(
-                            Modifier
-                                .padding(top = 10.dp)
-                        ) {
+    if (!requestViewModel.requestMainState.loadingRequests) {
+        TFGTheme {
+            Scaffold(
+                topBar = {
+                    TopDetailsListBar(
+                        returnToLastScreen = returnToLastScreen,
+                        tittle = stringResource(R.string.home_notifications_friend_requests)
+                    )
+                }
+            ) { innerPadding ->
+                Column(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                ) {
+                    LazyColumn(modifier = Modifier.padding(start = 10.dp, end = 10.dp)) {
+                        items(requestViewModel.requestMainState.friendRequests) {
                             Row(
                                 Modifier
-                                    .weight(1f)
-                                    .clickable {
-                                        navigateToProfile(it)
-                                    }, verticalAlignment = Alignment.CenterVertically
+                                    .padding(top = 10.dp)
                             ) {
-                                Image(
-                                    painterResource(R.drawable.prueba),
-                                    stringResource(R.string.notifications_image_text),
-                                    modifier = Modifier
-                                        .clip(CircleShape)
-                                        .size(50.dp),
-                                    contentScale = ContentScale.FillBounds
-                                )
-                                Text(
-                                    it.userAlias,
-                                    modifier = Modifier
-                                        .padding(start = 5.dp),
-                                    overflow = TextOverflow.Ellipsis,
-                                    maxLines = 1,
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                            }
-                            Button(onClick = { notificationsViewModel.acceptFriendRequest(it) }) {
-                                Text(stringResource(R.string.accept_button))
-                            }
-                            IconButton(onClick = { notificationsViewModel.deleteFriendRequest(it) }) {
-                                Icon(Icons.Filled.Clear, stringResource(id = R.string.notifications_delete_button))
+                                Row(
+                                    Modifier
+                                        .weight(1f)
+                                        .clickable {
+                                            navigateToProfile(it)
+                                        }, verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Image(
+                                        painterResource(R.drawable.prueba),
+                                        stringResource(R.string.notifications_image_text),
+                                        modifier = Modifier
+                                            .clip(CircleShape)
+                                            .size(50.dp),
+                                        contentScale = ContentScale.FillBounds
+                                    )
+                                    Text(
+                                        it.userAlias,
+                                        modifier = Modifier
+                                            .padding(start = 5.dp),
+                                        overflow = TextOverflow.Ellipsis,
+                                        maxLines = 1,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                }
+                                Button(onClick = { requestViewModel.acceptFriendRequest(it) }) {
+                                    Text(stringResource(R.string.accept_button))
+                                }
+                                IconButton(onClick = { requestViewModel.deleteFriendRequest(it) }) {
+                                    Icon(Icons.Filled.Clear, stringResource(id = R.string.notifications_delete_button))
+                                }
                             }
                         }
                     }
                 }
             }
         }
+    }else{
+        ChargingProgress()
     }
 }

@@ -1,8 +1,11 @@
 package com.example.tfg.repository
 
 import com.apollographql.apollo.ApolloClient
+import com.example.tfg.model.notifications.Notification
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.ReviewActivity
+import com.example.tfg.repository.mappers.toAppFollowRequest
+import com.example.tfg.repository.mappers.toAppNotificationRequest
 import com.example.tfg.repository.mappers.toAppReviews
 import com.example.tfg.repository.mappers.toAppSearchUser
 import com.example.tfg.repository.mappers.toUserAppFullInfo
@@ -12,11 +15,14 @@ import com.example.tfg.repository.mappers.userMinInfoFollowing
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.CreateUserMutation
 import com.graphQL.CreateUserMutation.CreateUser
+import com.graphQL.DeleteNotificationMutation
 import com.graphQL.DeleteUserMutation
 import com.graphQL.GetAllUserInfoQuery
 import com.graphQL.GetAuthenticatedUserInfoQuery
 import com.graphQL.GetFollowersOfUserQuery
 import com.graphQL.GetFollowingListUserQuery
+import com.graphQL.GetUserFollowRequestQuery
+import com.graphQL.GetUserNotificationsQuery
 import com.graphQL.GetUserSearchInfoQuery
 import com.graphQL.GetUsersReviewsQuery
 import com.graphQL.LoginQuery
@@ -66,6 +72,12 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient,
         return apolloClient.mutation(
             DeleteUserMutation()
         ).execute().data?.deleteUser
+    }
+
+    suspend fun deleteNotification(notificationId: String): Boolean? {
+        return apolloClient.mutation(
+            DeleteNotificationMutation(notificationId)
+        ).execute().data?.deleteNotification
     }
 
     suspend fun login(email: String, password: String): Login? {
@@ -136,6 +148,21 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient,
         ).execute().data?.getUsersReviews.toAppReviews()
     }
 
+    suspend fun getUserFollowRequest(): List<User>? {
+        return apolloClient.query(
+            GetUserFollowRequestQuery()
+        ).execute().data?.getUserFollowRequest.toAppFollowRequest()
+    }
+
+    suspend fun getUserNotifications(timeStamp: String): List<Notification>? {
+        return apolloClient.query(
+            GetUserNotificationsQuery(timeStamp)
+        ).execute().data?.getUserNotifications.toAppNotificationRequest()
+    }
+
 }
+
+
+
 
 

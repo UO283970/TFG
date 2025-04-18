@@ -4,6 +4,10 @@ import com.example.tfg.model.Book
 import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.booklist.DefaultListNames
+import com.example.tfg.model.notifications.FollowNotification
+import com.example.tfg.model.notifications.FollowedNotification
+import com.example.tfg.model.notifications.Notification
+import com.example.tfg.model.notifications.NotificationTypes
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.ReviewActivity
 import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
@@ -16,8 +20,11 @@ import com.graphQL.GetAuthenticatedUserInfoQuery.UserDefaultList
 import com.graphQL.GetAuthenticatedUserInfoQuery.UserList
 import com.graphQL.GetFollowersOfUserQuery.GetFollowersOfUser
 import com.graphQL.GetFollowingListUserQuery.GetFollowingListUser
+import com.graphQL.GetUserFollowRequestQuery.GetUserFollowRequest
+import com.graphQL.GetUserNotificationsQuery.GetUserNotification
 import com.graphQL.GetUserSearchInfoQuery.GetUserSearchInfo
 import com.graphQL.GetUsersReviewsQuery.GetUsersReview
+import com.graphQL.type.NotificationType
 import java.time.LocalDateTime
 
 
@@ -205,4 +212,48 @@ fun List<GetUsersReview>?.toAppReviews(): List<ReviewActivity>? {
     return listOfAppActivities
 }
 
+fun List<GetUserFollowRequest>?.toAppFollowRequest(): List<User>? {
+    val userRequestList = arrayListOf<User>()
+    if (this != null) {
+        for (user in this) {
+            userRequestList.add(User(
+                userAlias = user.userAlias,
+                profilePicture = user.profilePictureURL,
+                userName = user.userName,
+                userId = user.userId
+            ))
+        }
+    }
+
+    return userRequestList
+}
+
+
+fun List<GetUserNotification>?.toAppNotificationRequest(): List<Notification>? {
+    var appNotifications = arrayListOf<Notification>()
+
+    if(this != null){
+        for(notification in this){
+            when(notification.notificationType) {
+                NotificationType.FOLLOW -> appNotifications.add(FollowNotification(User(
+                    userAlias = notification.user.userAlias,
+                    profilePicture =  notification.user.profilePictureURL,
+                    followState = UserFollowStateEnum.valueOf(notification.user.userFollowState.toString()),
+                    userName =  notification.user.userName,
+                    userId =  notification.user.userId
+                ), notification.notificationId, notification.timeStamp, NotificationTypes.FOLLOW))
+                NotificationType.FOLLOWED -> appNotifications.add(FollowedNotification(User(
+                    userAlias = notification.user.userAlias,
+                    profilePicture =  notification.user.profilePictureURL,
+                    followState = UserFollowStateEnum.valueOf(notification.user.userFollowState.toString()),
+                    userName =  notification.user.userName,
+                    userId =  notification.user.userId
+                ), notification.notificationId, notification.timeStamp, NotificationTypes.FOLLOWED))
+                NotificationType.UNKNOWN__ -> ""
+            }
+        }
+    }
+
+    return appNotifications
+}
 

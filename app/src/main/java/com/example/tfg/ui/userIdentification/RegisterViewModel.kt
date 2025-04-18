@@ -115,7 +115,7 @@ class RegisterViewModel @Inject constructor(
                 formState.copy(emailError = stringResourcesProvider.getString(R.string.error_email_used))
 
             UserRegisterErrors.UNKNOWN__ -> formState =
-                formState.copy(emailError = stringResourcesProvider.getString(R.string.error_unkown_error))
+                formState.copy(emailError = stringResourcesProvider.getString(R.string.error_unknown_error))
 
         }
     }

@@ -28,7 +28,6 @@ import com.example.tfg.ui.home.notifications.NotificationsViewModel
 fun FriendRequestAccessRow(viewModel: NotificationsViewModel, navigateTo: (String) -> Unit) {
     Row(modifier = Modifier
         .clickable {
-            viewModel.obtainFriendRequests()
             navigateTo(HomeRoutesItems.FriendRequestsScreen.route)
         }
         .padding(start = 10.dp, end = 10.dp)

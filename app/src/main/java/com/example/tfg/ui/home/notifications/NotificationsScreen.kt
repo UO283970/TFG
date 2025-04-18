@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
+import com.example.tfg.ui.common.ChargingProgress
 import com.example.tfg.ui.home.notifications.components.FriendRequestAccessRow
 import com.example.tfg.ui.home.notifications.components.NotificationRowItem
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
@@ -20,24 +21,28 @@ fun NotificationScreen(
     navigateTo: (route: String) -> Unit, returnToLastScreen: () -> Unit,
     notificationsViewModel: NotificationsViewModel = hiltViewModel()
 ) {
-    TFGTheme {
-        Scaffold(
-            topBar = {
-                TopDetailsListBar(
-                    returnToLastScreen = returnToLastScreen,
-                    tittle = stringResource(R.string.home_notifications)
-                )
-            }
-        ) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .padding(innerPadding)
-            ) {
-                FriendRequestAccessRow(notificationsViewModel, navigateTo)
-                HorizontalDivider(modifier = Modifier.padding(top = 5.dp))
-                NotificationRowItem(notificationsViewModel, navigateTo)
+    if (!notificationsViewModel.notificationsMainState.loadingNotifications) {
+        TFGTheme {
+            Scaffold(
+                topBar = {
+                    TopDetailsListBar(
+                        returnToLastScreen = returnToLastScreen,
+                        tittle = stringResource(R.string.home_notifications)
+                    )
+                }
+            ) { innerPadding ->
+                Column(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                ) {
+                    FriendRequestAccessRow(notificationsViewModel, navigateTo)
+                    HorizontalDivider(modifier = Modifier.padding(top = 5.dp))
+                    NotificationRowItem(notificationsViewModel, navigateTo)
+                }
             }
         }
+    }else{
+        ChargingProgress()
     }
 }
 

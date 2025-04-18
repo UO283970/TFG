@@ -10,6 +10,10 @@ mutation UpdateUser($userAlias: String!, $userName: String!, $profilePictureURL:
     updateUser(userAlias: $userAlias, userName: $userName, profilePictureURL: $profilePictureURL, description: $description, privacyLevel: $privacyLevel)
 }
 
-mutation deleteUser{
+mutation DeleteUser{
     deleteUser
+}
+
+mutation DeleteNotification($notificationId: String!){
+    deleteNotification(notificationId: $notificationId)
 }

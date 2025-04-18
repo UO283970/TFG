@@ -59,8 +59,8 @@
     <string name="home_notifications_friend_requests_icon">Icono de solicitudes de seguimiento</string>
     <string name="notifications_friend_requests">Solicitudes de seguimiento</string>
     <string name="notifications_friend_small_text">Acepta o deniega solicitudes</string>
-    <string name="notifications_follow_notification_text">Has comenzado a seguir a:\n%s</string>
-    <string name="notifications_followed_notification_text">%s\nHa comenzado a seguirte</string>
+    <string name="notifications_follow_notification_text">Has comenzado a seguir a: %s</string>
+    <string name="notifications_followed_notification_text">%s Ha comenzado a seguirte</string>
     <string name="notifications_followed_notification_button_text">Seguir</string>
     <string name="notifications_image_text">Imagen de notificación</string>
     <string name="notifications_delete_button">Eliminar notificación</string>
@@ -73,10 +73,10 @@
     <string name="list_privacy_only_friends">Solo seguidores</string>
     <string name="list_creation_new_list">Nueva lista</string>
     <string name="list_creation_list_name">Nombre de la lista</string>
-    <string name="list_creation_list_desccription">Descripción de la lista</string>
+    <string name="list_creation_list_description">Descripción de la lista</string>
     <string name="list_creation_list_privacy">Privacidad:</string>
     <string name="list_creation_dropdown_menu_down_arrow">Flecha del desplegable de la elección de privacidad</string>
-    <string name="list_creation_list_desccription_char_count">%d de %d caracteres</string>
+    <string name="list_creation_list_description_char_count">%d de %d caracteres</string>
     <string name="list_creation_list_empty_name_error">El nombre de la lista no puede estar vacío</string>
     <string name="profile_configuration">Configuración</string>
     <string name="profile_configuration_security">Seguridad</string>
@@ -119,20 +119,25 @@
     <string name="rating">valoro</string>
     <string name="search_filters_filterFor_adventure">Aventura</string>
     <string name="error_user_login">El usuario y contraseña no coinciden</string>
-    <string name="error_unkown_error">Se ha producido un error inesperado, pruebe otra vez</string>
+    <string name="error_unknown_error">Se ha producido un error inesperado, pruebe otra vez</string>
     <string name="error_user_alias_repeated">Este nombre de usuario ya existe</string>
     <string name="error_email_used">Este email ya esta asociado a una cuenta</string>
     <string name="list_default_name_reading">Leyendo</string>
     <string name="list_default_name_dropped">Abandonados</string>
     <string name="list_default_name_waiting">En espera</string>
-    <string name="list_default_name_read">Leidos</string>
+    <string name="list_default_name_read">Leídos</string>
     <string name="list_default_name_plan_to_read">En plan para leer</string>
     <string name="list_creation_list_repeated_name_error">Nombre de lista repetido</string>
     <string name="list_creation_list_name_error">El nombre de la lista no esta permitido</string>
     <string name="register_user_name_supporting">Nombre con el que se te identificara en la app</string>
     <string name="list_details_dropdown_menu_modify">Modificar lista</string>
     <string name="list_details_dropdown_menu_delete">Borrar</string>
-    <string name="list_creation_modify_list">Mofdificar lista</string>
+    <string name="list_creation_modify_list">Modificar lista</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="snackBar_text">Debes dar acceso a la galería desde ajustes</string>
+    <string name="snackBar_actionLabel">Ajustes</string>
+    <string name="profile_picture">Foto de perfil</string>
+    <string name="edit_change_profile_image">Cambiar foto</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

@@ -7,9 +7,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 class FollowNotification(
-    val user: User
+    val user: User,notificationId: String,timeStamp: String, notificationType: NotificationTypes
 ) :
-    Notification(user.profilePicture) {
+    Notification(user.profilePicture, notificationId, timeStamp,notificationType) {
     override fun getNotificationImage(): String {
         return user.profilePicture
     }

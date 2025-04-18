@@ -158,14 +158,14 @@ fun ListDescriptionTextField(modifier: Modifier, listDescription: String, change
     OutlinedTextField(
         value = listDescription,
         onValueChange = { changeListDesc(it) },
-        label = { Text(stringResource(R.string.list_creation_list_desccription)) },
+        label = { Text(stringResource(R.string.list_creation_list_description)) },
         modifier = Modifier
             .fillMaxWidth()
             .then(modifier)
     )
     Text(
         text = stringResource(
-            R.string.list_creation_list_desccription_char_count,
+            R.string.list_creation_list_description_char_count,
             listDescription.length,
             AppConstants.LIST_DESC_MAX_CHARACTERS
         ),

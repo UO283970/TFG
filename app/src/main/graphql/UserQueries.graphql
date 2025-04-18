@@ -117,3 +117,27 @@ query GetUsersReviews($userId: String!){
         }
     }
 }
+
+query GetUserFollowRequest{
+    getUserFollowRequest{
+        userId
+        userName
+        userAlias
+        profilePictureURL
+    }
+}
+
+query GetUserNotifications($timeStamp: String!){
+    getUserNotifications(timeStamp: $timeStamp){
+        notificationId
+        user {
+            userId
+            userName
+            userAlias
+            userFollowState
+            profilePictureURL
+        }
+        notificationType
+        timeStamp
+    }
+}
