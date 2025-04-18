@@ -25,6 +25,7 @@ data class FriendsMainState(
     var activityLoaded: Boolean = false,
     var userExpandedInfo: User? = null,
     var userExpandedInfoLoaded: Boolean = false,
+    var isRefreshing: Boolean = false,
 
 ) : Parcelable
 
@@ -81,11 +82,17 @@ class FriendsViewModel @Inject constructor(
         }
     }
 
+    fun refreshActivities(){
+        _friendsInfo.value = _friendsInfo.value.copy(isRefreshing = true)
+        getFollowedActivity()
+    }
+
     private fun getFollowedActivity(){
         viewModelScope.launch {
             val activity = activityRepository.getAllFollowedActivity()
             if(activity != null){
                 _friendsInfo.value = _friendsInfo.value.copy(followedActivity = ArrayList(activity))
+                _friendsInfo.value = _friendsInfo.value.copy(isRefreshing = false)
                 _friendsInfo.value = _friendsInfo.value.copy(activityLoaded = true)
             }
         }

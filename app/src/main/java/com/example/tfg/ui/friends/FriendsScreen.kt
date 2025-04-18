@@ -1,12 +1,13 @@
 package com.example.tfg.ui.friends
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,6 +20,7 @@ import com.example.tfg.ui.friends.components.SearchBarFriendsScreen
 import com.example.tfg.ui.theme.TFGTheme
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FriendsScreen(
     navigateToProfile: (user: User) -> Unit,
@@ -32,7 +34,10 @@ fun FriendsScreen(
             Scaffold { innerPadding ->
                 Column(Modifier.padding(innerPadding)) {
                     SearchBarFriendsScreen(viewModel, state, navigateToProfile)
-                    Box {
+                    PullToRefreshBox(
+                        isRefreshing = state.isRefreshing,
+                        onRefresh = {viewModel.refreshActivities()},
+                    ){
                         LazyColumn(
                             Modifier
                                 .padding(top = 10.dp, start = 10.dp, end = 10.dp),

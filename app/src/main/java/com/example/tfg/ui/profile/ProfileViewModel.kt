@@ -18,7 +18,8 @@ import javax.inject.Inject
 data class ProfileMainState(
     var profileReviews: ArrayList<Activity> = arrayListOf(),
     var infoLoaded: Boolean = false,
-    var mainUserState: MainUserState
+    var mainUserState: MainUserState,
+    val isRefreshing: Boolean = false,
 )
 
 @HiltViewModel
@@ -59,6 +60,23 @@ class ProfileViewModel @Inject constructor(
 
     fun listDetails(bookList: BookList) {
         listsState.setDetailsList(bookList)
+    }
+
+    fun refreshProfile() {
+        _profileInfo.value = _profileInfo.value.copy(isRefreshing = true)
+
+        viewModelScope.launch {
+            try {
+                val connectedUser = userRepository.getAuthenticatedUserInfo()
+                if (connectedUser != null) {
+                    val userObtained = connectedUser
+                    _profileInfo.value = _profileInfo.value.copy(isRefreshing = false)
+                    _profileInfo.value.mainUserState.setMainUser(userObtained)
+                }
+            } catch (e: AuthenticationException) {
+                GlobalErrorHandler.handle(e)
+            }
+        }
     }
 
 }

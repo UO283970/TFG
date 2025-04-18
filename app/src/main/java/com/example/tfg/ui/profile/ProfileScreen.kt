@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -41,47 +42,54 @@ fun ProfileScreen(
 ) {
     val state by viewModel.profileInfo.collectAsState()
 
-    if(state.infoLoaded){
+    if (state.infoLoaded) {
         TFGTheme(dynamicColor = false)
         {
-            Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = {
-                            Text(
-                                viewModel.mainUserState.getMainUser()?.userAlias?.trim() ?: "",
-                                overflow = TextOverflow.Ellipsis,
-                                maxLines = 1,
-                                fontSize = 22.sp
-                            )
-                        },
-                        actions = {
-                            IconButton(onClick = { navigateTo(ProfileNavigationItems.ProfileConfiguration.route) }) {
-                                Icon(Icons.Outlined.Settings, stringResource(R.string.settings_button))
-                            }
-                        },
-                        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
-                    )
-                }) { innerPadding ->
-                Column(
-                    Modifier
-                        .padding(innerPadding)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
-                        MainUserProfileInfo(viewModel.mainUserState.getMainUser(), navigateToRouteWithId)
-                        if (viewModel.mainUserState.getMainUser()?.description?.trim() != "") {
-                            DescText(3, viewModel.mainUserState.getMainUser()?.description?.trim() ?: "")
-                        }
-                        EditButton(navigateTo,viewModel)
-                        ProfileLists(viewModel.listsState.getDefaultLists(),viewModel.listsState.getOwnLists(),navigateTo
-                        ) { viewModel.listDetails(it) }
-                    }
+            PullToRefreshBox(
+                isRefreshing = state.isRefreshing,
+                onRefresh = { viewModel.refreshProfile() },
+            ) {
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = {
+                                Text(
+                                    viewModel.mainUserState.getMainUser()?.userAlias?.trim() ?: "",
+                                    overflow = TextOverflow.Ellipsis,
+                                    maxLines = 1,
+                                    fontSize = 22.sp
+                                )
+                            },
+                            actions = {
+                                IconButton(onClick = { navigateTo(ProfileNavigationItems.ProfileConfiguration.route) }) {
+                                    Icon(Icons.Outlined.Settings, stringResource(R.string.settings_button))
+                                }
+                            },
+                            colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
+                        )
+                    }) { innerPadding ->
 
+                    Column(
+                        Modifier
+                            .padding(innerPadding)
+                            .verticalScroll(rememberScrollState())
+                    ) {
+
+                        Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
+                            MainUserProfileInfo(viewModel.mainUserState.getMainUser(), navigateToRouteWithId)
+                            if (viewModel.mainUserState.getMainUser()?.description?.trim() != "") {
+                                DescText(3, viewModel.mainUserState.getMainUser()?.description?.trim() ?: "")
+                            }
+                            EditButton(navigateTo, viewModel)
+                            ProfileLists(
+                                viewModel.listsState.getDefaultLists(), viewModel.listsState.getOwnLists(), navigateTo
+                            ) { viewModel.listDetails(it) }
+                        }
+                    }
                 }
             }
         }
-    }else{
+    } else {
         ChargingProgress()
     }
 }

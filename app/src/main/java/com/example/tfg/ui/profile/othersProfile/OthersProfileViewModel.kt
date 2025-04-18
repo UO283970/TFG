@@ -23,7 +23,8 @@ data class ProfileMainState(
     val user: User = User(""),
     var profileReviews: ArrayList<Activity> = arrayListOf(),
     val userInfoLoaded: Boolean = false,
-    val refreshUserState: Boolean = false
+    val refreshUserState: Boolean = false,
+    val isRefreshing: Boolean = false
 )
 
 @HiltViewModel
@@ -53,6 +54,7 @@ class OthersProfileViewModel @Inject constructor(
             if (expandedUser != null) {
                 _profileInfo.value = _profileInfo.value.copy(user = expandedUser)
                 _profileInfo.value = _profileInfo.value.copy(userInfoLoaded = true)
+                _profileInfo.value = _profileInfo.value.copy(isRefreshing = true)
             }
         }
     }
@@ -95,6 +97,11 @@ class OthersProfileViewModel @Inject constructor(
                 GlobalErrorHandler.handle(e)
             }
         }
+    }
+
+    fun refreshUser(){
+        _profileInfo.value = _profileInfo.value.copy(isRefreshing = true)
+        getAllUserInfo()
     }
 
 

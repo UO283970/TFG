@@ -16,6 +16,7 @@ data class NotificationsMainState(
     val changeNotifications: Boolean = false,
     val loadingNotifications: Boolean = true,
     val canGetMoreInfo: Boolean = false,
+    val isRefreshing: Boolean = false,
 )
 
 @HiltViewModel
@@ -50,9 +51,15 @@ class NotificationsViewModel @Inject constructor(val userRepository: UserReposit
             if(notificationList != null){
                 notificationsMainState.notificationList.addAll(notificationList)
                 notificationsMainState = notificationsMainState.copy(loadingNotifications = false)
+                notificationsMainState = notificationsMainState.copy(isRefreshing = false)
                 notificationsMainState = notificationsMainState.copy(changeNotifications = !notificationsMainState.changeNotifications)
             }
         }
+    }
+
+    fun refreshNotifications(){
+        notificationsMainState = notificationsMainState.copy(isRefreshing = true)
+        getUserNotifications()
     }
 
 }
