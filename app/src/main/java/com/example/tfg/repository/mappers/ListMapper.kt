@@ -1,6 +1,6 @@
 package com.example.tfg.repository.mappers
 
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.booklist.DefaultListNames

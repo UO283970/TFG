@@ -138,6 +138,13 @@
     <string name="snackBar_actionLabel">Ajustes</string>
     <string name="profile_picture">Foto de perfil</string>
     <string name="edit_change_profile_image">Cambiar foto</string>
+    <string name="book_details_publish_year">Año de lanzamiento\n %s</string>
+    <string name="book_details_pages">Páginas\n %s</string>
+    <string name="book_details_review_creation">Esribe tu reseña</string>
+    <string name="book_details_review_creation_spoiler">Contiene spoilers</string>
+    <string name="book_details_review_creation_spoiler_aclaration">Marca si la reseña contiene spoilers</string>
+    <string name="book_details_review_screen">Reseñas</string>
+    <string name="book_details_review_screen_score">Puntuación: %s</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

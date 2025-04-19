@@ -22,7 +22,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.model.user.userActivities.Activity
-import com.example.tfg.ui.profile.components.UserPicture
 
 @Composable
 fun FriendsItem(review: Activity) {
@@ -31,7 +30,7 @@ fun FriendsItem(review: Activity) {
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         val signatureKey = remember { mutableStateOf(System.currentTimeMillis().toString()) }
-        UserPicture(review.user.profilePicture, signatureKey,Modifier.size(50.dp).clip(CircleShape))
+        UserPictureWithoutCache(review.user.profilePicture, signatureKey,Modifier.size(50.dp).clip(CircleShape))
 
         Column {
             Row {

@@ -1,6 +1,6 @@
 package com.example.tfg.repository.mappers
 
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.model.booklist.DefaultListNames
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.GetAllListInfoQuery
@@ -47,6 +47,7 @@ private fun NextPageBook.toAppBookFromPages(stringResourcesProvider: StringResou
         bookId = this.bookId,
         readingState = if(DefaultListNames.valueOf(this.readingState.toString()) != DefaultListNames.NOT_IN_LIST)
             stringResourcesProvider.getString(DefaultListNames.valueOf(this.readingState.toString()).getDefaultListName())
-        else ""
+        else "",
+        subjects = this.subjects
     )
 }

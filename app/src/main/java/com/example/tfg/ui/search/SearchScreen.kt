@@ -58,7 +58,7 @@ fun SearchScreen(navigateTo: (route: String) -> Unit, viewModel: SearchViewModel
             snapshotFlow {
                 val lastVisibleItem = listState.layoutInfo.visibleItemsInfo.lastOrNull()
                 val totalItems = listState.layoutInfo.totalItemsCount
-                (lastVisibleItem?.index ?: 0) >= totalItems - 3
+                (lastVisibleItem?.index ?: 0) >= totalItems - 5
             }.collect { shouldLoadMore ->
                 if (shouldLoadMore) {
                     viewModel.addMoreBooksForQuery()
@@ -96,7 +96,7 @@ fun SearchScreen(navigateTo: (route: String) -> Unit, viewModel: SearchViewModel
                                         viewModel.listsRepository,
                                         viewModel.listsState,
                                         navigateTo
-                                    )
+                                    ) { viewModel.setBookForDetails(it) }
                                 }
                             }
 

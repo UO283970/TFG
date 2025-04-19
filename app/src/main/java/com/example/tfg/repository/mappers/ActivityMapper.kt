@@ -1,11 +1,12 @@
 package com.example.tfg.repository.mappers
 
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.Activity
 import com.example.tfg.model.user.userActivities.RatingActivity
 import com.example.tfg.model.user.userActivities.ReviewActivity
 import com.graphQL.GetAllFollowedActivityQuery.GetAllFollowedActivity
+import com.graphQL.GetAllReviewsForBookQuery.GetAllReviewsForBook
 import com.graphQL.type.UserActivityType
 import java.time.LocalDateTime
 
@@ -31,6 +32,25 @@ fun List<GetAllFollowedActivity>?.toAppActivity(): List<Activity>? {
                 UserActivityType.UNKNOWN__ -> ""
             }
 
+        }
+    }
+
+    return listOfAppActivities
+}
+
+
+fun List<GetAllReviewsForBook>?.toAppReviews(): List<ReviewActivity>? {
+    var listOfAppActivities = arrayListOf<ReviewActivity>()
+
+    if (this != null){
+        for (activity in this){
+            listOfAppActivities.add(ReviewActivity(
+                user = User(activity.user.userAlias, profilePicture = activity.user.profilePictureURL, userId = activity.user.userId),
+                creationDate =  LocalDateTime.parse(activity.localDateTime).toLocalDate(),
+                book = Book("",""),
+                reviewText = activity.activityText,
+                rating = activity.score
+            ))
         }
     }
 

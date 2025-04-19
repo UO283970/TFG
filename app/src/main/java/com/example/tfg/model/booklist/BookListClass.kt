@@ -1,6 +1,6 @@
 package com.example.tfg.model.booklist
 
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.repository.ListRepository
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable

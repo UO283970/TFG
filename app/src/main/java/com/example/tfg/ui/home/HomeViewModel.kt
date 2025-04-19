@@ -3,7 +3,7 @@ package com.example.tfg.ui.home
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.ListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

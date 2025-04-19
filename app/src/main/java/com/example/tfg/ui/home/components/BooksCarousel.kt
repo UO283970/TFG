@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.ui.common.TittleBigText
 
 @Composable

@@ -1,7 +1,7 @@
 package com.example.tfg.ui.search.components
 
 import com.example.tfg.R
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 
 enum class OrderByEnum {
     TITTLE{

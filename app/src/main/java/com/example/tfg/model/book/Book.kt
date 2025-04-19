@@ -1,4 +1,4 @@
-package com.example.tfg.model
+package com.example.tfg.model.book
 
 import android.os.Parcelable
 import com.example.tfg.model.user.LocalDateSerializer

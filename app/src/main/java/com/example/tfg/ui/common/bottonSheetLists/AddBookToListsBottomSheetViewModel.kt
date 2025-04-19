@@ -2,7 +2,7 @@ package com.example.tfg.ui.common.bottonSheetLists
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.booklist.ListsState

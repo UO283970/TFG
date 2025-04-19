@@ -34,9 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
 import com.example.tfg.model.user.User
+import com.example.tfg.ui.common.UserPictureWithoutCache
 import com.example.tfg.ui.friends.FriendsMainState
 import com.example.tfg.ui.friends.FriendsViewModel
-import com.example.tfg.ui.profile.components.UserPicture
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -102,7 +102,7 @@ fun FriendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user
             modifier = Modifier.weight(1f)
         ) {
             val signatureKey = remember { mutableStateOf(System.currentTimeMillis().toString()) }
-            UserPicture(user.profilePicture, signatureKey,Modifier.size(50.dp).clip(CircleShape))
+            UserPictureWithoutCache(user.profilePicture, signatureKey,Modifier.size(50.dp).clip(CircleShape))
 
             UserRowText(user.userAlias)
         }

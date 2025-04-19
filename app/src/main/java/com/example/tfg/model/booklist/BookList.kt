@@ -1,7 +1,7 @@
 package com.example.tfg.model.booklist
 
 import android.os.Parcelable
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.repository.ListRepository
 
 interface BookList : Parcelable {

@@ -5,7 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
+import com.example.tfg.model.book.BookState
 import com.example.tfg.model.booklist.DefaultListNames
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.BookRepository
@@ -37,7 +38,8 @@ class SearchViewModel @Inject constructor(
     val stringResourcesProvider: StringResourcesProvider,
     val bookRepository: BookRepository,
     val listsRepository: ListRepository,
-    val listsState: ListsState
+    val listsState: ListsState,
+    val bookState: BookState,
 ) : ViewModel() {
     var searchInfo by mutableStateOf(SearchMainState())
 
@@ -97,7 +99,9 @@ class SearchViewModel @Inject constructor(
                             bookId = book.bookId,
                             readingState = if(DefaultListNames.valueOf(book.readingState.toString()) != DefaultListNames.NOT_IN_LIST)
                                 stringResourcesProvider.getString(DefaultListNames.valueOf(book.readingState.toString()).getDefaultListName())
-                            else ""
+                            else "",
+                            subjects = book.subjects,
+                            details = book.description ?: ""
                         )
                     )
                 }
@@ -117,5 +121,9 @@ class SearchViewModel @Inject constructor(
                 searchInfo = searchInfo.copy(loadMoreInfo = !searchInfo.loadMoreInfo)
             }
         }
+    }
+
+    fun setBookForDetails(book: Book){
+        bookState.bookForDetails = book
     }
 }

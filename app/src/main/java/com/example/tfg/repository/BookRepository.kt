@@ -1,7 +1,7 @@
 package com.example.tfg.repository
 
 import com.apollographql.apollo.ApolloClient
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.repository.mappers.toAppBooksFromPages
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.NextPageBooksQuery

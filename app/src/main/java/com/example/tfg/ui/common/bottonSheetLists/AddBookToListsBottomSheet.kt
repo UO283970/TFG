@@ -43,7 +43,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieDynamicProperties
 import com.airbnb.lottie.compose.rememberLottieDynamicProperty
 import com.example.tfg.R
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.ListRepository

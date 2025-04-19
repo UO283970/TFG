@@ -72,7 +72,8 @@ fun DescText(minLinesLength : Int, text: String) {
                 text = if (expandedState) stringResource(R.string.read_less) else stringResource(R.string.read_more),
                 modifier = Modifier.clickable {
                     expandedState = !expandedState
-                }
+                },
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }
@@ -84,7 +85,8 @@ fun ErrorText(errorText : String) {
     Text(
         text = errorText,
         color = MaterialTheme.colorScheme.error,
-        style = MaterialTheme.typography.bodySmall
+        style = MaterialTheme.typography.bodySmall,
+        overflow = TextOverflow.Ellipsis,
     )
 }
 
@@ -95,7 +97,7 @@ fun BookAuthorText(author: String) {
         overflow = TextOverflow.Ellipsis,
         fontSize = 16.sp,
         textDecoration = TextDecoration.Companion.Underline,
-        maxLines = 1
+        maxLines = 1,
     )
 }
 

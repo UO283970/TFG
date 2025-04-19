@@ -31,8 +31,9 @@ import com.bumptech.glide.integration.compose.CrossFade
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
+import com.bumptech.glide.signature.ObjectKey
 import com.example.tfg.R
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.ListRepository
@@ -49,7 +50,8 @@ fun NewBookSearchItem(
     stringResourcesProvider: StringResourcesProvider,
     listRepository: ListRepository,
     listsState: ListsState,
-    navigateTo: (route: String) -> Unit
+    navigateTo: (route: String) -> Unit,
+    setDetailsBook: (book: Book) -> Unit
 ) {
     val constraints = LocalWindowInfo.current.containerSize.height.dp
     var bookState by remember { mutableStateOf(book.readingState) }
@@ -71,8 +73,12 @@ fun NewBookSearchItem(
     Row(
         modifier = Modifier
             .padding(top = 10.dp, bottom = 10.dp)
-            .clickable { navigateTo(BookNavigationItems.BookScreen.route) }
+            .clickable {
+                setDetailsBook(book)
+                navigateTo(BookNavigationItems.BookScreen.route)
+            }
     ) {
+        val signatureKey = remember { mutableStateOf(System.currentTimeMillis().toString()) }
         GlideImage(
             model = book.coverImage,
             contentDescription = stringResource(R.string.book_cover)+ " " + book.tittle,
@@ -84,8 +90,8 @@ fun NewBookSearchItem(
                 .heightIn(max = constraints * 0.07f)
                 .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.FillBounds
-        ){
-            it.skipMemoryCache(true)
+        ) {
+            it.signature(ObjectKey(signatureKey.value))
         }
         Column(modifier = Modifier.padding(start = 10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {

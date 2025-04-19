@@ -26,9 +26,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
+import com.example.tfg.ui.common.UserPictureWithoutCache
 import com.example.tfg.ui.friends.components.UserRowText
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
-import com.example.tfg.ui.profile.components.UserPicture
 import com.example.tfg.ui.profile.othersProfile.ProfileButton
 import com.example.tfg.ui.theme.TFGTheme
 
@@ -60,7 +60,7 @@ fun FollowersScreen(
                                 navigateToProfile(it)
                             }.weight(1f)) {
                                 val signatureKey = remember { mutableStateOf(System.currentTimeMillis().toString()) }
-                                UserPicture(it.profilePicture, signatureKey,Modifier.size(50.dp).clip(CircleShape))
+                                UserPictureWithoutCache(it.profilePicture, signatureKey,Modifier.size(50.dp).clip(CircleShape))
                                 Column(modifier = Modifier.padding(start = 10.dp)) {
                                     UserRowText(it.userAlias)
                                     if (it.userName != "") {

@@ -5,7 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.tfg.R
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
+import com.example.tfg.model.book.BookState
 import com.example.tfg.ui.common.StringResourcesProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
@@ -18,12 +19,14 @@ data class BookDetails(
     var dialogOpened: Boolean = false,
     var selectedBookList: String = "",
     var ratingMenuOpen: Boolean = false,
-    var bookUserRating: String = "-"
+    var bookUserRating: String = "-",
+    var loadInfo: Boolean = true,
 )
 
 @HiltViewModel
 class BookDetailsViewModel @Inject constructor(
-    val stringResourcesProvider: StringResourcesProvider
+    val stringResourcesProvider: StringResourcesProvider,
+    val bookState: BookState
 ) : ViewModel() {
     var bookInfo by mutableStateOf(
         BookDetails(
@@ -43,6 +46,10 @@ class BookDetailsViewModel @Inject constructor(
 
     fun toggleRatingMenu(){
         bookInfo = bookInfo.copy(ratingMenuOpen = !bookInfo.ratingMenuOpen)
+    }
+
+    fun finishLoad(){
+        bookInfo = bookInfo.copy(loadInfo = false)
     }
 
     fun changePagesRead(pages: String) {

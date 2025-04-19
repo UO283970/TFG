@@ -19,3 +19,18 @@ query GetAllFollowedActivity{
         localDateTime
     }
 }
+
+query GetAllReviewsForBook($bookId: String!){
+    getAllReviewsForBook(bookId: $bookId){
+        activityId
+        activityText
+        score
+        user {
+            userId
+            userAlias
+            userName
+            profilePictureURL
+        }
+        localDateTime
+    }
+}

@@ -13,7 +13,6 @@ type Query{
     getUserFollowRequest: [User!]!
     getUserNotifications(timeStamp: String!): [Notification!]!
 
-
     #Lists queries
     getAllListInfo(listId: String!): BookList
     getBasicListInfoList(userId: String!): [BookList!]!
@@ -28,6 +27,7 @@ type Query{
 
     #User activity queries
     getAllFollowedActivity: [UserActivity!]!
+    getAllReviewsForBook(bookId: String!): [UserActivity!]!
 
     #Book queries
     searchBooks(userQuery: String!): [Book!]!

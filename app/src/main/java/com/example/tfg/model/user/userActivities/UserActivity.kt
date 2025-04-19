@@ -1,7 +1,7 @@
 package com.example.tfg.model.user.userActivities
 
 import android.os.Parcelable
-import com.example.tfg.model.Book
+import com.example.tfg.model.book.Book
 import com.example.tfg.model.user.LocalDateSerializer
 import com.example.tfg.model.user.User
 import kotlinx.parcelize.Parcelize

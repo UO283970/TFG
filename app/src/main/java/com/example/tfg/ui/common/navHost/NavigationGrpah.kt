@@ -11,6 +11,8 @@ import com.example.tfg.R
 import com.example.tfg.model.user.User
 import com.example.tfg.repository.GlobalErrorHandler
 import com.example.tfg.ui.bookDetails.BookDetailsScreen
+import com.example.tfg.ui.bookDetails.reviews.ReviewsScreen
+import com.example.tfg.ui.bookDetails.reviews.creation.ReviewCreation
 import com.example.tfg.ui.friends.FriendsScreen
 import com.example.tfg.ui.home.HomeScreen
 import com.example.tfg.ui.home.notifications.FriendsRequestScreen
@@ -67,7 +69,10 @@ sealed class ProfileNavigationItems(val route: String) {
     object ProfileConfiguration : ProfileNavigationItems("configureProfile")
 }
 sealed class BookNavigationItems(val route: String) {
+    object BookStartGraph : BookNavigationItems("books")
     object BookScreen : BookNavigationItems("bookScreen")
+    object ReviewScreen : BookNavigationItems("reviewScreen")
+    object ReviewCreationScreen : BookNavigationItems("reviewCreationScreen")
 }
 
 @Composable
@@ -96,10 +101,7 @@ fun MainAppNavigation(
         }
         listsGraph(navController)
         profileGraph(navController, bottomBarState)
-        composable(BookNavigationItems.BookScreen.route){
-            bottomBarState.value = false
-            BookDetailsScreen({ navigateToRoute(it, navController) })
-        }
+        bookGraph(navController, bottomBarState)
     }
 }
 
@@ -193,6 +195,26 @@ private fun NavGraphBuilder.profileGraph(
             bottomBarState.value = false
             ConfigurationScreen({ returnToLastScreen(navController) },
                 { navigateToRoute(it, navController)})
+        }
+    }
+}
+
+private fun NavGraphBuilder.bookGraph(
+    navController: NavHostController,
+    bottomBarState: MutableState<Boolean>
+) {
+    navigation(startDestination = BookNavigationItems.BookScreen.route, route = BookNavigationItems.BookStartGraph.route) {
+        composable(BookNavigationItems.BookScreen.route){
+            bottomBarState.value = false
+            BookDetailsScreen({ navigateToRoute(it, navController) })
+        }
+        composable(BookNavigationItems.ReviewCreationScreen.route){
+            bottomBarState.value = false
+            ReviewCreation({returnToLastScreen(navController)})
+        }
+        composable(BookNavigationItems.ReviewScreen.route){
+            bottomBarState.value = false
+            ReviewsScreen({returnToLastScreen(navController)})
         }
     }
 }
