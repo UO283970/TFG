@@ -101,7 +101,7 @@
     <string name="search_filters_order_by_author">Autor</string>
     <string name="search_filters_order_by_date">Fecha</string>
     <string name="search_filters_order_by_pages">Páginas</string>
-    <string name="search_filters_search_for_books">Libros</string>
+    <string name="search_filters_search_for_title">Título</string>
     <string name="search_filters_search_for_author">Autor</string>
     <string name="search_filters_search_for_lists">Listas</string>
     <string name="search_filters_filterFor_fantasy">Fantasía</string>
@@ -145,6 +145,8 @@
     <string name="book_details_review_creation_spoiler_aclaration">Marca si la reseña contiene spoilers</string>
     <string name="book_details_review_screen">Reseñas</string>
     <string name="book_details_review_screen_score">Puntuación: %s</string>
+    <string name="search_filters_order_by_default">Por defecto</string>
+    <string name="search_filters_search_for_isbn">ISBN</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

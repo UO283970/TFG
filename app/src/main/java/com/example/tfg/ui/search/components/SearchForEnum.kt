@@ -5,7 +5,11 @@ import com.example.tfg.R
 enum class SearchForEnum {
     BOOKS{
         override fun stringResource(): Int {
-            return R.string.search_filters_search_for_books
+            return R.string.search_filters_search_for_title
+        }
+
+        override fun searchForToQuery(): String {
+            return "intitle:"
         }
 
     },
@@ -13,12 +17,21 @@ enum class SearchForEnum {
         override fun stringResource(): Int {
             return R.string.search_filters_search_for_author
         }
+
+        override fun searchForToQuery(): String {
+            return "inauthor:"
+        }
     },
-    LISTS{
+    ISBN{
         override fun stringResource(): Int {
-            return R.string.search_filters_search_for_lists
+            return R.string.search_filters_search_for_isbn
+        }
+
+        override fun searchForToQuery(): String {
+            return "isbn:"
         }
     };
 
     abstract fun stringResource(): Int
+    abstract fun searchForToQuery(): String
 }

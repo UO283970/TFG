@@ -1,5 +1,5 @@
-query SearchBooks($userQuery: String!){
-    searchBooks(userQuery: $userQuery){
+query SearchBooks($userQuery: String!,$searchFor: String!,$subject: String!){
+    searchBooks(userQuery: $userQuery,searchFor: $searchFor,subject: $subject){
         bookId
         title
         author
@@ -12,8 +12,8 @@ query SearchBooks($userQuery: String!){
     }
 }
 
-query NextPageBooks($userQuery: String!, $page: Int!){
-    nextPageBooks(userQuery: $userQuery,page: $page){
+query NextPageBooks($userQuery: String!, $page: Int!,$searchFor: String!,$subject: String!){
+    nextPageBooks(userQuery: $userQuery,page: $page,searchFor: $searchFor,subject: $subject){
         bookId
         title
         author

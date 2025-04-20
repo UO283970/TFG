@@ -4,6 +4,15 @@ import com.example.tfg.R
 import com.example.tfg.model.book.Book
 
 enum class OrderByEnum {
+    DEFAULT{
+        override fun order(listToFilter: List<Book>, descending: Boolean): List<Book> {
+            return listToFilter
+        }
+
+        override fun getStringResource(): Int {
+            return R.string.search_filters_order_by_default
+        }
+    },
     TITTLE{
         override fun order(listToFilter: List<Book>, descending: Boolean): List<Book> {
             return if(descending){
@@ -16,20 +25,6 @@ enum class OrderByEnum {
         override fun getStringResource(): Int {
             return R.string.search_filters_order_by_tittle
         }
-    },
-    RATINGS{
-        override fun order(listToFilter: List<Book>, descending: Boolean): List<Book> {
-            return if(descending){
-                listToFilter.sortedByDescending { it.meanScore }
-            }else{
-                listToFilter.sortedBy { it.meanScore }
-            }
-        }
-
-        override fun getStringResource(): Int {
-            return R.string.search_filters_order_by_rating
-        }
-
     },
     AUTHOR{
         override fun order(listToFilter: List<Book>, descending: Boolean): List<Book> {

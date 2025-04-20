@@ -9,16 +9,16 @@ import com.graphQL.SearchBooksQuery
 import com.graphQL.SearchBooksQuery.SearchBook
 import javax.inject.Inject
 
-class BookRepository @Inject constructor(private val apolloClient: ApolloClient, val stringResourcesProvider: StringResourcesProvider){
+class BookRepository @Inject constructor(private val apolloClient: ApolloClient, val stringResourcesProvider: StringResourcesProvider) {
 
-    suspend fun searchBooks(userQuery: String): List<SearchBook>? {
-        var data = apolloClient.query(SearchBooksQuery(userQuery = userQuery)).execute().data
+    suspend fun searchBooks(userQuery: String, searchFor: String, subject: String): List<SearchBook>? {
+        var data = apolloClient.query(SearchBooksQuery(userQuery = userQuery, searchFor = searchFor, subject = subject)).execute().data
 
         return data?.searchBooks
     }
 
-    suspend fun nextPageBooks(userQuery: String, page: Int): List<Book>? {
-        var data = apolloClient.query(NextPageBooksQuery(userQuery = userQuery, page = page)).execute().data
+    suspend fun nextPageBooks(userQuery: String, page: Int, searchFor: String, subject: String): List<Book>? {
+        var data = apolloClient.query(NextPageBooksQuery(userQuery = userQuery, page = page, searchFor = searchFor, subject = subject)).execute().data
 
         return data?.nextPageBooks.toAppBooksFromPages(stringResourcesProvider)
     }

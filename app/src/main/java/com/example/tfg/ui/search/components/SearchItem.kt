@@ -31,7 +31,6 @@ import com.bumptech.glide.integration.compose.CrossFade
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
-import com.bumptech.glide.signature.ObjectKey
 import com.example.tfg.R
 import com.example.tfg.model.book.Book
 import com.example.tfg.model.booklist.DefaultList
@@ -91,7 +90,7 @@ fun NewBookSearchItem(
                 .clip(RoundedCornerShape(16.dp)),
             contentScale = ContentScale.FillBounds
         ) {
-            it.signature(ObjectKey(signatureKey.value))
+            it.skipMemoryCache(true)
         }
         Column(modifier = Modifier.padding(start = 10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {

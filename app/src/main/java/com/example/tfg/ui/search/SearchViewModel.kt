@@ -14,6 +14,7 @@ import com.example.tfg.repository.ListRepository
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.example.tfg.ui.search.components.OrderByEnum
 import com.example.tfg.ui.search.components.SearchForEnum
+import com.example.tfg.ui.search.components.SubjectsEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -26,6 +27,7 @@ data class SearchMainState(
     var isBottomSheetOpened: Boolean = false,
     var orderByButtonMap: MutableMap<OrderByEnum, Boolean> = linkedMapOf<OrderByEnum, Boolean>(),
     var searchFor: SearchForEnum = SearchForEnum.BOOKS,
+    var subject: SubjectsEnum? = null,
     var forceRepaint: Boolean = false,
     var chargingInfo: Boolean = false,
     var actualPages: Int = 1,
@@ -42,6 +44,7 @@ class SearchViewModel @Inject constructor(
     val bookState: BookState,
 ) : ViewModel() {
     var searchInfo by mutableStateOf(SearchMainState())
+    var defaultSearchResult = arrayListOf<Book>()
 
     init {
         getButtonToOrderByMap()
@@ -60,9 +63,10 @@ class SearchViewModel @Inject constructor(
             searchInfo.orderByButtonMap.put(order, false)
         }
 
-        searchInfo.orderByButtonMap.put(OrderByEnum.TITTLE, true)
+        searchInfo.orderByButtonMap.put(OrderByEnum.DEFAULT, true)
         searchInfo = searchInfo.copy(forceRepaint = !searchInfo.forceRepaint)
     }
+
 
     fun changeOrderByButton(orderByEnum: OrderByEnum) {
         for (orders in searchInfo.orderByButtonMap) {
@@ -74,10 +78,21 @@ class SearchViewModel @Inject constructor(
 
     fun changeSelectedSearchFor(searchFor: SearchForEnum) {
         searchInfo = searchInfo.copy(searchFor = searchFor)
+        getResultsFromQuery()
+    }
+
+    fun changeSelectedSubject(subject: SubjectsEnum) {
+        searchInfo = if(subject == searchInfo.subject){
+            searchInfo.copy(subject = null)
+        }else{
+            searchInfo.copy(subject = subject)
+        }
+        getResultsFromQuery()
     }
 
     fun orderBy(orderByEnum: OrderByEnum, descending: Boolean) {
-        val listOrdered = orderByEnum.order(searchInfo.queryResult, descending)
+        searchInfo = searchInfo.copy(queryResult = arrayListOf<Book>())
+        val listOrdered = orderByEnum.order(defaultSearchResult, descending)
         searchInfo = searchInfo.copy(queryResult = ArrayList(listOrdered))
     }
 
@@ -86,7 +101,9 @@ class SearchViewModel @Inject constructor(
 
         viewModelScope.launch {
             searchInfo = searchInfo.copy(chargingInfo = true)
-            var booksFromQuery = bookRepository.searchBooks(searchInfo.userQuery)
+            var subject = if(searchInfo.subject == null) "" else  "+subject:" + searchInfo.subject.toString()
+            var searchFor = if(searchInfo.userQuery == "") "" else searchInfo.searchFor.searchForToQuery()
+            var booksFromQuery = bookRepository.searchBooks(searchInfo.userQuery,searchFor,subject)
             if (booksFromQuery != null) {
                 for (book in booksFromQuery) {
                     resultFromQuery.add(
@@ -107,6 +124,7 @@ class SearchViewModel @Inject constructor(
                 }
             }
             searchInfo = searchInfo.copy(queryResult = resultFromQuery)
+            defaultSearchResult = resultFromQuery
             searchInfo = searchInfo.copy(canGetMoreInfo = true)
             searchInfo = searchInfo.copy(chargingInfo = false)
         }
@@ -114,7 +132,7 @@ class SearchViewModel @Inject constructor(
 
     fun addMoreBooksForQuery(){
         viewModelScope.launch {
-            var newBooksQuery = bookRepository.nextPageBooks(searchInfo.userQuery, searchInfo.actualPages)
+            var newBooksQuery = bookRepository.nextPageBooks(searchInfo.userQuery, searchInfo.actualPages,searchInfo.searchFor.searchForToQuery(),"")
             if(newBooksQuery != null && newBooksQuery.isNotEmpty()){
                 searchInfo.queryResult.addAll(newBooksQuery)
                 searchInfo.actualPages++

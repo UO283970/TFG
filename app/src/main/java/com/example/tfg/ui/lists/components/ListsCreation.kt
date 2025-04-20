@@ -51,7 +51,7 @@ fun CreteOwnLists(
         Box {
             LazyColumn {
                 items(state.ownLists) {
-                    NewListItem(viewModel,navigateTo, it, it.listImage)
+                    NewListItem({ viewModel.listDetails(it) },navigateTo, it, it.listImage)
                 }
             }
             Column(
@@ -82,14 +82,14 @@ fun CreteDefaultLists(
 ) {
     LazyColumn {
         items(state.defaultLists) {
-            NewListItem(viewModel, navigateTo,it, it.listImage)
+            NewListItem({ viewModel.listDetails(it) }, navigateTo,it, it.listImage)
         }
     }
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun NewListItem(viewModel: ListViewModel, navigateTo: (route: String) -> Unit, bookList: BookList, listImage: String) {
+fun NewListItem(listDetails: (bookList: BookList) -> Unit, navigateTo: (route: String) -> Unit, bookList: BookList, listImage: String) {
     val constraints = LocalWindowInfo.current.containerSize.height.dp
     Box(
         Modifier
@@ -97,7 +97,7 @@ fun NewListItem(viewModel: ListViewModel, navigateTo: (route: String) -> Unit, b
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.onPrimary)
             .clickable {
-                viewModel.listDetails(bookList)
+                listDetails(bookList)
                 navigateTo(ListNavigationItems.ListDetails.route)
             }
     ) {
