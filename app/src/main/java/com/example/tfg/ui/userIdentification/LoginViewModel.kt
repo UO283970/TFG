@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.security.TokenRepository
+import com.example.tfg.model.user.PassEncryption
 import com.example.tfg.repository.UserRepository
 import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.type.UserLoginErrors
@@ -66,9 +67,11 @@ class LoginViewModel @Inject constructor(
         val correctEmail = validateEmail()
         val correctUser = validatePasswordAndUsers()
 
+        val encryptedPass = PassEncryption.encrypt(formState.value.password)
+
         if (correctEmail && correctUser) {
             viewModelScope.launch {
-                var loginUser = userRepository.login(email = formState.value.email, password = formState.value.password)
+                var loginUser = userRepository.login(email = formState.value.email, password = encryptedPass)
                 if (loginUser != null) {
                     if (loginUser.userLoginErrors.isNotEmpty()) {
                         _formState.value = _formState.value.copy(userIsLoggedIn = false)
