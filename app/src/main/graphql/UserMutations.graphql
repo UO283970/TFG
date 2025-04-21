@@ -1,3 +1,9 @@
+mutation CheckUserEmailAndPass($email: String!, $password: String!, $repeatedPassword: String!){
+    checkUserEmailAndPass(email: $email, password: $password, repeatedPassword: $repeatedPassword){
+        userRegisterErrors
+    }
+}
+
 mutation CreateUser($email: String!, $password: String!, $repeatedPassword: String!, $userAlias: String!, $userName: String!, $profilePictureURL: String!){
     createUser(email: $email, password: $password, repeatedPassword: $repeatedPassword, userAlias: $userAlias, userName: $userName, profilePictureURL: $profilePictureURL){
         tokenId

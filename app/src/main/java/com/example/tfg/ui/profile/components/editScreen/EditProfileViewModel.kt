@@ -18,6 +18,7 @@ import com.graphQL.type.UserPrivacy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okio.FileNotFoundException
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -31,6 +32,7 @@ data class EditProfileMainState(
     var userImageUri: Uri,
     var switchState: Boolean,
     var profileEdited: Boolean = false,
+    var showDialog: Boolean = false,
     var checkGalleryPermission: Boolean = false
 
 )
@@ -71,7 +73,11 @@ class EditProfileViewModel @Inject constructor(
     }
 
     fun changePermission() {
-        profileEditState = profileEditState.copy(checkGalleryPermission = !profileEditState.checkGalleryPermission)
+        profileEditState = profileEditState.copy(checkGalleryPermission = true)
+    }
+
+    fun changeDialog() {
+        profileEditState = profileEditState.copy(showDialog = !profileEditState.showDialog)
     }
 
     fun changeUserAlias(userAlias: String) {
@@ -98,7 +104,7 @@ class EditProfileViewModel @Inject constructor(
                 }
 
                 val newUser = userRepository.updateUser(
-                    profileEditState.userAlias,
+                    profileEditState.userAlias.lowercase(Locale.getDefault()),
                     profileEditState.userName,
                     userImageBase64,
                     profileEditState.userDescription,

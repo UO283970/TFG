@@ -18,23 +18,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.ui.common.navHost.HomeRoutesItems
-import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.theme.TFGTheme
 import com.example.tfg.ui.userIdentification.components.LoginMainText
 import com.example.tfg.ui.userIdentification.components.PasswordRegisterTextField
 import com.example.tfg.ui.userIdentification.components.PasswordRepeatRegisterTextField
 import com.example.tfg.ui.userIdentification.components.TextFieldUserEmail
-import com.example.tfg.ui.userIdentification.components.TextFieldUserName
 
 @Composable
 fun RegisterScreen(
     navigateTo: (route: String) -> Unit,
-    navigateToWithoutSave: (route: String) -> Unit,
     registerViewModel: RegisterViewModel = hiltViewModel()
 ) {
-    LaunchedEffect(registerViewModel.formState.isUserRegistered) {
-        if (registerViewModel.formState.isUserRegistered) {
-            navigateToWithoutSave(Routes.Home.route)
+    LaunchedEffect(registerViewModel.formState.checkPreConditions) {
+        if (registerViewModel.formState.checkPreConditions) {
+            navigateTo(HomeRoutesItems.RegisterImageSelectorScreen.route)
+            registerViewModel.changePreconditions()
         }
     }
 
@@ -55,7 +53,6 @@ fun RegisterScreen(
                         Modifier.padding(start = 10.dp, end = 10.dp),
                         verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        TextFieldUserName(registerViewModel)
                         TextFieldUserEmail(registerViewModel)
                         PasswordRegisterTextField(registerViewModel)
                         PasswordRepeatRegisterTextField(registerViewModel)
@@ -63,7 +60,11 @@ fun RegisterScreen(
                             verticalArrangement = Arrangement.spacedBy(5.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            RegisterButton(registerViewModel)
+                            Button(onClick = {
+                                registerViewModel.checkEmailAndPass()
+                            }, modifier = Modifier.fillMaxWidth()) {
+                                Text(stringResource(R.string.register_button))
+                            }
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(2.dp),
                                 verticalAlignment = Alignment.CenterVertically
@@ -80,15 +81,6 @@ fun RegisterScreen(
 
             }
         }
-    }
-}
-
-@Composable
-fun RegisterButton(registerViewModel: RegisterViewModel) {
-    Button(onClick = {
-        registerViewModel.submit()
-    }, modifier = Modifier.fillMaxWidth()) {
-        Text(stringResource(R.string.register_button))
     }
 }
 

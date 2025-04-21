@@ -30,6 +30,7 @@ import com.example.tfg.ui.profile.components.statistics.reviews.OnlyReviews
 import com.example.tfg.ui.profile.othersProfile.OthersProfileScreen
 import com.example.tfg.ui.search.SearchScreen
 import com.example.tfg.ui.userIdentification.LoginScreen
+import com.example.tfg.ui.userIdentification.RegisterImageSelector
 import com.example.tfg.ui.userIdentification.RegisterScreen
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
@@ -48,6 +49,7 @@ sealed class HomeRoutesItems(val route: String) {
     object HomeNav : HomeRoutesItems("loginGraph")
     object LoginScreen : HomeRoutesItems("login")
     object RegisterScreen : HomeRoutesItems("register")
+    object RegisterImageSelectorScreen : HomeRoutesItems("registerImageSelector")
     object NotificationScreen : HomeRoutesItems("notifications")
     object FriendRequestsScreen : HomeRoutesItems("requests")
 }
@@ -116,7 +118,11 @@ private fun NavGraphBuilder.homeGraph(
         }
         composable(HomeRoutesItems.RegisterScreen.route) {
             bottomBarState.value = false
-            RegisterScreen({ navigateToRoute(it, navController) }, { navigateToRouteWithoutSave(it, navController) })
+            RegisterScreen({ navigateToRoute(it, navController) })
+        }
+        composable(HomeRoutesItems.RegisterImageSelectorScreen.route) {
+            bottomBarState.value = false
+            RegisterImageSelector({ navigateToRouteWithoutSave(it, navController) })
         }
         composable(Routes.Home.route) {
             bottomBarState.value = true

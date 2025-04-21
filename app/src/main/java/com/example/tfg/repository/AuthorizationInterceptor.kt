@@ -16,7 +16,7 @@ class AuthorizationInterceptor(private val  tokenProvider: suspend () -> String?
         val operationName = request.operation.name()
 
         val unauthenticatedOperations = listOf(
-            "Login", "CreateUser", "RefreshToken"
+            "Login", "CreateUser", "RefreshToken", "CheckUserEmailAndPass"
         )
 
         val token = runBlocking{

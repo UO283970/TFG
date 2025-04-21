@@ -31,7 +31,7 @@
     <string name="login_register">Crea tu cuenta</string>
     <string name="new_already_registered">¿Ya registrado?</string>
     <string name="login_here_button">Inicia sesión aquí</string>
-    <string name="register_user_name_placeholder">Nombre de usuario</string>
+    <string name="register_user_name_placeholder">Nombre del usuario</string>
     <string name="register_user_email_placeholder">Email</string>
     <string name="register_button">Registrarse</string>
     <string name="error_email_empty">El email no puede estar vacío</string>
@@ -120,7 +120,7 @@
     <string name="search_filters_filterFor_adventure">Aventura</string>
     <string name="error_user_login">El usuario y contraseña no coinciden</string>
     <string name="error_unknown_error">Se ha producido un error inesperado, pruebe otra vez</string>
-    <string name="error_user_alias_repeated">Este nombre de usuario ya existe</string>
+    <string name="error_user_alias_repeated">Este alias de usuario ya existe</string>
     <string name="error_email_used">Este email ya esta asociado a una cuenta</string>
     <string name="list_default_name_reading">Leyendo</string>
     <string name="list_default_name_dropped">Abandonados</string>
@@ -129,7 +129,7 @@
     <string name="list_default_name_plan_to_read">En plan para leer</string>
     <string name="list_creation_list_repeated_name_error">Nombre de lista repetido</string>
     <string name="list_creation_list_name_error">El nombre de la lista no esta permitido</string>
-    <string name="register_user_name_supporting">Nombre con el que se te identificara en la app</string>
+    <string name="register_user_alias_supporting">Nombre con el que se te identificara en la app</string>
     <string name="list_details_dropdown_menu_modify">Modificar lista</string>
     <string name="list_details_dropdown_menu_delete">Borrar</string>
     <string name="list_creation_modify_list">Modificar lista</string>
@@ -147,6 +147,10 @@
     <string name="book_details_review_screen_score">Puntuación: %s</string>
     <string name="search_filters_order_by_default">Por defecto</string>
     <string name="search_filters_search_for_isbn">ISBN</string>
+    <string name="register_user_alias_placeholder">Alias del usuario</string>
+    <string name="register_user_name_supporting">Nombre del usuario(opcional)</string>
+    <string name="login_register_image_selector">Complete su información</string>
+    <string name="login_pass_repeat_placeholder">Repetir contraseña</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

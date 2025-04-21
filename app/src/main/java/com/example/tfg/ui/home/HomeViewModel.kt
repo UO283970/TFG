@@ -35,13 +35,15 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val userLists = listRepository.getBasicListInfo(userId = "")
-            if(userLists != null){
-                listsState.setOwnList(ArrayList(userLists))
-            }
-            val defaultList = listRepository.getUserDefaultLists(userId = "")
-            if(defaultList != null){
-                listsState.setDefaultList(ArrayList(defaultList))
+            if( listsState.getDefaultLists().isEmpty()){
+                val userLists = listRepository.getBasicListInfo(userId = "")
+                if(userLists != null){
+                    listsState.setOwnList(ArrayList(userLists))
+                }
+                val defaultList = listRepository.getUserDefaultLists(userId = "")
+                if(defaultList != null){
+                    listsState.setDefaultList(ArrayList(defaultList))
+                }
             }
         }
     }

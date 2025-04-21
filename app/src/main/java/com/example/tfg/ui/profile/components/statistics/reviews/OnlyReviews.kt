@@ -25,7 +25,7 @@ fun OnlyReviews(
             topBar = {
                 TopDetailsListBar(
                     returnToLastScreen,
-                    tittle = stringResource(R.string.profile_rating_text)
+                    tittle = stringResource(R.string.profile_review_text)
                 )
             }
         ) { innerPadding ->

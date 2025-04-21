@@ -54,7 +54,7 @@ class OthersProfileViewModel @Inject constructor(
             if (expandedUser != null) {
                 _profileInfo.value = _profileInfo.value.copy(user = expandedUser)
                 _profileInfo.value = _profileInfo.value.copy(userInfoLoaded = true)
-                _profileInfo.value = _profileInfo.value.copy(isRefreshing = true)
+                _profileInfo.value = _profileInfo.value.copy(isRefreshing = false)
             }
         }
     }

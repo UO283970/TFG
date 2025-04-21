@@ -13,6 +13,7 @@ import com.example.tfg.repository.mappers.toUserModel
 import com.example.tfg.repository.mappers.userMinInfoFollowers
 import com.example.tfg.repository.mappers.userMinInfoFollowing
 import com.example.tfg.ui.common.StringResourcesProvider
+import com.graphQL.CheckUserEmailAndPassMutation
 import com.graphQL.CreateUserMutation
 import com.graphQL.CreateUserMutation.CreateUser
 import com.graphQL.DeleteNotificationMutation
@@ -35,6 +36,20 @@ import com.graphQL.type.UserPrivacy
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val apolloClient: ApolloClient, private val stringResourcesProvider: StringResourcesProvider) {
+
+    suspend fun checkUserEmailAndPass(
+        email: String,
+        password: String,
+        repeatedPassword: String
+    ): CheckUserEmailAndPassMutation.CheckUserEmailAndPass? {
+        return apolloClient.mutation(
+            CheckUserEmailAndPassMutation(
+                email = email,
+                password = password,
+                repeatedPassword = repeatedPassword
+            )
+        ).execute().data?.checkUserEmailAndPass
+    }
 
     suspend fun createUser(
         email: String,

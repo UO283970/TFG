@@ -22,6 +22,30 @@ import com.example.tfg.ui.common.ErrorText
 import com.example.tfg.ui.userIdentification.RegisterViewModel
 
 @Composable
+fun TextFieldUserAlias(registerViewModel: RegisterViewModel) {
+    Column {
+        OutlinedTextField(
+            value = registerViewModel.formState.userAlias,
+            onValueChange = { registerViewModel.userAliasChanged(it) },
+            singleLine = true,
+            label = { Text(stringResource(R.string.register_user_alias_placeholder)) },
+            trailingIcon = {
+                if (registerViewModel.formState.userAlias != "") {
+                    IconButton(onClick = { registerViewModel.formState.userAlias = "" }) {
+                        Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.text_field_delete))
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+            isError = registerViewModel.formState.userAliasError != null,
+            supportingText = { Text(stringResource(R.string.register_user_alias_supporting)) }
+        )
+        if (registerViewModel.formState.userAliasError != null)
+            ErrorText(registerViewModel.formState.userAliasError!!)
+    }
+}
+
+@Composable
 fun TextFieldUserName(registerViewModel: RegisterViewModel) {
     Column {
         OutlinedTextField(
@@ -43,7 +67,6 @@ fun TextFieldUserName(registerViewModel: RegisterViewModel) {
         if (registerViewModel.formState.userNameError != null)
             ErrorText(registerViewModel.formState.userNameError!!)
     }
-
 }
 
 @Composable
@@ -112,7 +135,7 @@ fun PasswordRepeatRegisterTextField(registerViewModel: RegisterViewModel) {
             value = registerViewModel.formState.passwordRepeat,
             onValueChange = { registerViewModel.passwordRepeatChanged(it) },
             singleLine = true,
-            label = { Text(stringResource(R.string.login_pass_placeholder)) },
+            label = { Text(stringResource(R.string.login_pass_repeat_placeholder)) },
             trailingIcon = {
                 Icon(
                     if (registerViewModel.formState.isVisiblePasswordRepeat) {
