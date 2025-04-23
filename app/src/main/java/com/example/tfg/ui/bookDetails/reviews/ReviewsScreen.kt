@@ -124,7 +124,7 @@ private fun ReviewText(activity: ReviewActivity) {
             Modifier
                 .padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 5.dp)
         ) {
-            Text(stringResource(R.string.book_details_review_screen_score, if (activity.rating == -1) "-" else activity.rating.toString()))
+            Text(stringResource(R.string.book_details_review_screen_score, if (activity.rating == 0) "-" else activity.rating.toString()))
             DescriptionText(activity.reviewText, 4)
         }
     }

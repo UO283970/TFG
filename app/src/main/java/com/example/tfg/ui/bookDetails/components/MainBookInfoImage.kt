@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.bumptech.glide.integration.compose.CrossFade
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -35,17 +36,12 @@ import com.skydoves.cloudy.cloudy
 @OptIn(ExperimentalGlideComposeApi::class)
 @SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
-fun MainBookInfoImage(coverImage: String, color: Color, textColor: Color) {
+fun MainBookInfoImage(coverImage: String, color: Color, textColor: Color, returnToLastScreen: () -> Unit) {
     val constraints = LocalConfiguration.current.screenHeightDp.dp
 
     Box(
         modifier = Modifier.height(constraints * 0.4f)
     ) {
-        Box(modifier = Modifier.background(color).clip(CircleShape)){
-            IconButton({}) {
-                Icon(Icons.AutoMirrored.Default.ArrowBack,null, tint = textColor)
-            }
-        }
         GlideImage(
             model = coverImage,
             contentDescription = stringResource(R.string.book_cover),
@@ -77,6 +73,11 @@ fun MainBookInfoImage(coverImage: String, color: Color, textColor: Color) {
                     .clip(RoundedCornerShape(16.dp)),
                 contentScale = ContentScale.Companion.FillBounds
             )
+        }
+        Box(modifier = Modifier.padding(top = 10.dp, start = 10.dp).clip(CircleShape).background(color).zIndex(2f)){
+            IconButton({returnToLastScreen()}) {
+                Icon(Icons.AutoMirrored.Default.ArrowBack,null, tint = textColor)
+            }
         }
     }
 }

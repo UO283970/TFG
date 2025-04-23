@@ -54,8 +54,8 @@ class ReviewCreationViewModel @Inject constructor(val activityRepository: Activi
                     )
                 )
                 bookState.bookForDetails.numberOfReviews++
-                if(bookState.bookForDetails.numberOfReviews > 4){
-                    bookState.bookForDetails.listOfUserProfilePicturesForReviews.add(mainUserState.getMainUser()?.profilePicture ?: "")
+                if(bookState.bookForDetails.numberOfReviews < 4){
+                    bookState.bookForDetails.listOfUserProfilePicturesForReviews.add(0,mainUserState.getMainUser()?.profilePicture ?: "")
                 }
                 creationState = creationState.copy(reviewCreated = true)
             }

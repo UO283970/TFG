@@ -212,7 +212,7 @@ private fun NavGraphBuilder.bookGraph(
     navigation(startDestination = BookNavigationItems.BookScreen.route, route = BookNavigationItems.BookStartGraph.route) {
         composable(BookNavigationItems.BookScreen.route){
             bottomBarState.value = false
-            BookDetailsScreen({ navigateToRoute(it, navController) })
+            BookDetailsScreen({ navigateToRoute(it, navController) }, {returnToLastScreen(navController)})
         }
         composable(BookNavigationItems.ReviewScreen.route){
             bottomBarState.value = false

@@ -11,39 +11,48 @@ import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.model.user.MainUserState
 import com.example.tfg.model.user.User
+import com.example.tfg.repository.ActivityRepository
 import com.example.tfg.repository.BookRepository
 import com.example.tfg.repository.ListRepository
 import com.example.tfg.repository.UserRepository
 import com.example.tfg.ui.common.StringResourcesProvider
+import com.graphQL.type.UserActivityType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class BookDetails(
-    var totalPages: String = "0",
-    var inListButtonString: String,
+    var userProfilesPictures: ArrayList<String>,
+    var ratingMenuOpen: Boolean = false,
     var addToListOpen: Boolean = false,
     var selectedBookList: String = "",
-    var ratingMenuOpen: Boolean = false,
     var bookUserRating: String = "-",
+    var inListButtonString: String,
+    var deleted: Boolean = false,
+    var totalPages: String = "0",
     var loadInfo: Boolean = true,
+    var refresh: Boolean = true,
+    var userScore: Int,
 )
 
 @HiltViewModel
 class BookDetailsViewModel @Inject constructor(
     val stringResourcesProvider: StringResourcesProvider,
-    val bookState: BookState,
     val listRepository: ListRepository,
-    val listsState: ListsState,
     val bookRepository: BookRepository,
     val userRepository: UserRepository,
-    val mainUserState: MainUserState
+    val activityRepository: ActivityRepository,
+    val mainUserState: MainUserState,
+    val listsState: ListsState,
+    val bookState: BookState
 ) : ViewModel() {
     var bookInfo by mutableStateOf(
         BookDetails(
             inListButtonString =
                 if (bookState.bookForDetails.readingState == "") stringResourcesProvider.getString(R.string.book_add_to_list)
-                else bookState.bookForDetails.readingState
+                else bookState.bookForDetails.readingState,
+            userScore = bookState.bookForDetails.userScore,
+            userProfilesPictures = bookState.bookForDetails.listOfUserProfilePicturesForReviews
         )
     )
 
@@ -73,6 +82,10 @@ class BookDetailsViewModel @Inject constructor(
         }
     }
 
+    fun changeUserScore(score: Int){
+        bookInfo = bookInfo.copy(userScore = score)
+    }
+
     fun openAddList() {
         bookInfo = bookInfo.copy(addToListOpen = !bookInfo.addToListOpen)
     }
@@ -83,6 +96,10 @@ class BookDetailsViewModel @Inject constructor(
 
     fun finishLoad() {
         bookInfo = bookInfo.copy(loadInfo = false)
+    }
+
+    fun changeDeleted(state: Boolean) {
+        bookInfo = bookInfo.copy(deleted = state)
     }
 
     fun changePagesRead(pages: String) {
@@ -116,6 +133,26 @@ class BookDetailsViewModel @Inject constructor(
             bookInfo = bookInfo.copy(selectedBookList = "")
             bookInfo = bookInfo.copy(totalPages = "0")
         }
+    }
+
+    fun saveRating(){
+        if(bookState.bookForDetails.userScore != bookInfo.userScore){
+            viewModelScope.launch {
+                val rating = activityRepository.addActivity("",bookInfo.userScore,bookState.bookForDetails.bookId, UserActivityType.RATING)
+                if(rating != null){
+                    if(bookState.bookForDetails.userScore == 0){
+                        bookState.bookForDetails.totalRatings++
+                    }
+                    if(bookInfo.deleted){
+                        bookState.bookForDetails.totalRatings--
+                    }
+                    bookState.bookForDetails.meanScore = (bookState.bookForDetails.meanScore - bookState.bookForDetails.userScore) + bookInfo.userScore
+                    bookState.bookForDetails.userScore = bookInfo.userScore
+                    bookInfo = bookInfo.copy(refresh = !bookInfo.refresh)
+                }
+            }
+        }
+        toggleRatingMenu()
     }
 
     fun onDoneChangePages() {

@@ -1,15 +1,18 @@
 package com.example.tfg.ui.bookDetails
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -21,6 +24,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -37,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -46,6 +51,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -63,13 +69,15 @@ import com.example.tfg.ui.common.navHost.BookNavigationItems
 import com.example.tfg.ui.theme.TFGTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookDetailsScreen(navigateTo: (route: String) -> Unit, viewModel: BookDetailsViewModel = hiltViewModel()) {
+fun BookDetailsScreen(navigateTo: (route: String) -> Unit, returnToLastScreen: () -> Unit, viewModel: BookDetailsViewModel = hiltViewModel()) {
     var focus = LocalFocusManager.current
     val context = LocalContext.current
     val isDarkMode = isSystemInDarkTheme()
@@ -126,7 +134,7 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, viewModel: BookDetail
                         .verticalScroll(rememberScrollState())
                         .imePadding()
                 ) {
-                    MainBookInfoImage(viewModel.bookState.bookForDetails.coverImage, color, textColor)
+                    MainBookInfoImage(viewModel.bookState.bookForDetails.coverImage, color, textColor, { returnToLastScreen })
                     Column(modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 5.dp)) {
                         BookTittleText(viewModel.bookState.bookForDetails.tittle)
                         BookAuthorText(viewModel.bookState.bookForDetails.author)
@@ -152,7 +160,8 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, viewModel: BookDetail
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(stringResource(R.string.book_details_user_mean_rating))
                                 Row {
-                                    Text(viewModel.bookState.bookForDetails.meanScore.toString())
+                                    val df = DecimalFormat("#.##", DecimalFormatSymbols(Locale.getDefault()))
+                                    Text(df.format(viewModel.bookState.bookForDetails.meanScore / viewModel.bookState.bookForDetails.totalRatings).toString())
                                     Icon(painterResource(R.drawable.full_star), null, modifier = Modifier.size(24.dp))
                                     Text(
                                         "(" + NumberFormat.getInstance(Locale.getDefault())
@@ -178,7 +187,7 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, viewModel: BookDetail
                                                     .clip(CircleShape)
                                                     .zIndex(count.toFloat())
                                             )
-                                            count--;
+                                            count--
                                         }
                                     }
                                 }
@@ -196,26 +205,57 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, viewModel: BookDetail
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .fillMaxHeight(0.2f)
+                                        .wrapContentHeight(),
+                                    colors = CardDefaults.cardColors(containerColor = color)
                                 ) {
-                                    Column(Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Center) {
+                                    Column(verticalArrangement = Arrangement.Center, modifier = Modifier.padding(10.dp)) {
+                                        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                                            Text("Puntuación:", fontSize = 24.sp)
+                                            Text(if (viewModel.bookInfo.userScore == 0) "-" else viewModel.bookInfo.userScore.toString(), fontSize = 28.sp)
+                                        }
                                         Row(
                                             horizontalArrangement = Arrangement.SpaceAround,
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .padding(start = 10.dp, end = 10.dp),
+                                                .padding(top = 10.dp, bottom = 10.dp),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
                                             for (i in 1..10) {
-                                                Icon(painterResource(R.drawable.empty_star), null, modifier = Modifier.size(24.dp))
+                                                val selected = i <= viewModel.bookInfo.userScore
+                                                val scale by animateFloatAsState(
+                                                    targetValue = 1f,
+                                                    animationSpec = tween(durationMillis = 200)
+                                                )
+
+                                                Crossfade(targetState = selected, label = "starToggle") { isSelected ->
+                                                    Icon(
+                                                        painter = painterResource(
+                                                            if (isSelected) R.drawable.full_star else R.drawable.empty_star
+                                                        ),
+                                                        contentDescription = null,
+                                                        modifier = Modifier
+                                                            .size(30.dp)
+                                                            .graphicsLayer(
+                                                                scaleX = scale,
+                                                                scaleY = scale
+                                                            )
+                                                            .clickable {
+                                                                viewModel.changeUserScore(i)
+                                                                viewModel.changeDeleted(false)
+                                                            }
+                                                    )
+                                                }
                                             }
 
                                         }
                                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                                            TextButton({}) {
+                                            TextButton({
+                                                viewModel.changeUserScore(0)
+                                                viewModel.changeDeleted(true)
+                                            }) {
                                                 Text("Borrar")
                                             }
-                                            TextButton({}) {
+                                            TextButton({ viewModel.saveRating() }) {
                                                 Text("Aceptar")
                                             }
                                         }
