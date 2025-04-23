@@ -30,7 +30,6 @@ fun AddToListAndProgressBookInfo(
         Button(
             {
                 focus.clearFocus(true)
-                viewModel.toggleDialog()
             },
             modifier = Modifier.padding(end = 10.dp).fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(color)

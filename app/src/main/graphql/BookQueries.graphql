@@ -25,3 +25,14 @@ query NextPageBooks($userQuery: String!, $page: Int!,$searchFor: String!,$subjec
         subjects
     }
 }
+
+query GetExtraInfoForBook($bookId: String!){
+    getExtraInfoForBook(bookId: $bookId){
+        meanScore
+        numberOfRatings
+        numberOfReviews
+        userProfilePictures
+        userScore
+        progress
+    }
+}

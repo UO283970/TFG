@@ -6,10 +6,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.model.book.BookState
+import com.example.tfg.model.user.MainUserState
+import com.example.tfg.model.user.userActivities.ReviewActivity
 import com.example.tfg.repository.ActivityRepository
 import com.graphQL.type.UserActivityType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 data class ReviewCreationState(
@@ -19,22 +22,41 @@ data class ReviewCreationState(
 )
 
 @HiltViewModel
-class ReviewCreationViewModel @Inject constructor(val activityRepository: ActivityRepository, val bookState: BookState): ViewModel() {
+class ReviewCreationViewModel @Inject constructor(val activityRepository: ActivityRepository, val bookState: BookState, val mainUserState: MainUserState) :
+    ViewModel() {
 
     var creationState by mutableStateOf(ReviewCreationState())
 
-    fun changeSwitch(){
+    fun changeSwitch() {
         creationState = creationState.copy(switchState = !creationState.switchState)
     }
 
-    fun changeReviewText(text: String){
+    fun changeReviewText(text: String) {
         creationState = creationState.copy(reviewText = text)
     }
 
-    fun saveReview(){
+    fun saveReview() {
         viewModelScope.launch {
-            val createReview = activityRepository.addActivity(creationState.reviewText,-1,bookState.bookForDetails.bookId, UserActivityType.REVIEW)
-            if(createReview != null && createReview){
+            val createReview = activityRepository.addActivity(
+                creationState.reviewText,
+                bookState.bookForDetails.userScore,
+                bookState.bookForDetails.bookId,
+                UserActivityType.REVIEW
+            )
+            if (createReview != null && createReview) {
+                bookState.bookForDetails.listOfReviews.add(
+                    ReviewActivity(
+                        user = mainUserState.getMainUser()!!,
+                        creationDate = LocalDate.now(),
+                        book = bookState.bookForDetails,
+                        reviewText = creationState.reviewText,
+                        rating = bookState.bookForDetails.userScore
+                    )
+                )
+                bookState.bookForDetails.numberOfReviews++
+                if(bookState.bookForDetails.numberOfReviews > 4){
+                    bookState.bookForDetails.listOfUserProfilePicturesForReviews.add(mainUserState.getMainUser()?.profilePicture ?: "")
+                }
                 creationState = creationState.copy(reviewCreated = true)
             }
         }

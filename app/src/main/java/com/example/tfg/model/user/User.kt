@@ -1,17 +1,13 @@
 package com.example.tfg.model.user
 
-import android.os.Parcelable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.user.userFollowStates.UserFollowStateEnum
 import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
-import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
-@Serializable
-@Parcelize
 class User(
     var userAlias: String,
     var profilePicture: String = "",
@@ -25,7 +21,7 @@ class User(
     var defaultList: List<DefaultList> = arrayListOf<DefaultList>(),
     var userList: List<BookListClass> = arrayListOf<BookListClass>(),
     var userId: String = ""
-) : Parcelable {
+){
 
     @Serializable
     data class UserButtonConfig(val buttonTittle: Int, @Contextual val buttonIcon: ImageVector)

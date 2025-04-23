@@ -22,6 +22,7 @@ import com.graphQL.GetAllUserInfoQuery
 import com.graphQL.GetAuthenticatedUserInfoQuery
 import com.graphQL.GetFollowersOfUserQuery
 import com.graphQL.GetFollowingListUserQuery
+import com.graphQL.GetMinUserInfoQuery
 import com.graphQL.GetUserFollowRequestQuery
 import com.graphQL.GetUserNotificationsQuery
 import com.graphQL.GetUserSearchInfoQuery
@@ -125,6 +126,12 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient,
         return apolloClient.query(
             RefreshTokenQuery(oldRefreshToken = oldRefreshToken)
         ).execute().data?.refreshToken
+    }
+
+    suspend fun getMinUserInfo(): GetMinUserInfoQuery.GetMinUserInfo? {
+        return apolloClient.query(
+            GetMinUserInfoQuery()
+        ).execute().data?.getMinUserInfo
     }
 
     suspend fun getUserSearchInfo(userQuery: String): List<User>? {

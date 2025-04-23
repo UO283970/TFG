@@ -43,6 +43,7 @@ class LoginViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            //_formState.value = _formState.value.copy(chargingInfo = false)
             checkUserConnected()
         }
     }

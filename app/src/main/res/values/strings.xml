@@ -140,6 +140,7 @@
     <string name="edit_change_profile_image">Cambiar foto</string>
     <string name="book_details_publish_year">Año de lanzamiento\n %s</string>
     <string name="book_details_pages">Páginas\n %s</string>
+    <string name="book_details_pages_with_progress">Páginas\n %d/%s</string>
     <string name="book_details_review_creation">Esribe tu reseña</string>
     <string name="book_details_review_creation_spoiler">Contiene spoilers</string>
     <string name="book_details_review_creation_spoiler_aclaration">Marca si la reseña contiene spoilers</string>
@@ -151,6 +152,13 @@
     <string name="register_user_name_supporting">Nombre del usuario(opcional)</string>
     <string name="login_register_image_selector">Complete su información</string>
     <string name="login_pass_repeat_placeholder">Repetir contraseña</string>
+    <string name="book_add_new_list_progress">Progreso</string>
+    <string name="book_add_new_list_dialog_title">Puntuación</string>
+    <string name="book_details_number_reviews">%d Reseñas</string>
+    <string name="book_details_no_reviews">Añade tu reseña</string>
+    <string name="book_details_user_rating">Tú puntuación</string>
+    <string name="book_details_user_mean_rating">Media</string>
+    <string name="book_details_user_no_rating">Añade tu puntuación</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

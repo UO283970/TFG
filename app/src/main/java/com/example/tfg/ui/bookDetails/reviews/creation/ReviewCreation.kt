@@ -20,15 +20,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
+import com.example.tfg.ui.common.navHost.BookNavigationItems
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
-fun ReviewCreation(returnToLastScreen: () -> Unit, reviewCreationViewModel: ReviewCreationViewModel = hiltViewModel()) {
+fun ReviewCreation(returnToLastScreen: () -> Unit, navigateToCleanStack: (route: String) -> Unit, reviewCreationViewModel: ReviewCreationViewModel = hiltViewModel()) {
 
     LaunchedEffect(reviewCreationViewModel.creationState.reviewCreated) {
         if(reviewCreationViewModel.creationState.reviewCreated){
-            returnToLastScreen()
+            navigateToCleanStack(BookNavigationItems.ReviewScreen.route)
         }
     }
 

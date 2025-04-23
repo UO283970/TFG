@@ -214,13 +214,13 @@ private fun NavGraphBuilder.bookGraph(
             bottomBarState.value = false
             BookDetailsScreen({ navigateToRoute(it, navController) })
         }
-        composable(BookNavigationItems.ReviewCreationScreen.route){
-            bottomBarState.value = false
-            ReviewCreation({returnToLastScreen(navController)})
-        }
         composable(BookNavigationItems.ReviewScreen.route){
             bottomBarState.value = false
-            ReviewsScreen({returnToLastScreen(navController)})
+            ReviewsScreen({returnToLastScreen(navController)},{ navigateToRoute(it, navController) })
+        }
+        composable(BookNavigationItems.ReviewCreationScreen.route){
+            bottomBarState.value = false
+            ReviewCreation({returnToLastScreen(navController)}, {navigateToRouteCleanRoute(it,navController)})
         }
     }
 }
@@ -237,6 +237,19 @@ private fun navigateToProfileWithUser(user: User, navController: NavHostControll
 
 private fun navigateToRoute(route: String, navController: NavHostController) {
     navController.navigate(route)
+}
+
+private fun navigateToRouteCleanRoute(route: String, navController: NavHostController) {
+    val previousRoute = navController.currentBackStackEntry?.destination?.route
+    if (previousRoute != null) {
+        navController.navigate(route){
+            popUpTo(previousRoute) {
+                inclusive = true
+            }
+        }
+    }else{
+        navController.navigate(route)
+    }
 }
 
 private fun navigateToRouteWithId(route: String, navController: NavHostController, id: String ) {

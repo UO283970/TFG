@@ -18,6 +18,15 @@ query RefreshToken($oldRefreshToken: String!){
     refreshToken(oldRefreshToken: $oldRefreshToken)
 }
 
+query GetMinUserInfo{
+    getMinUserInfo{
+        userId
+        userName
+        userAlias
+        profilePictureURL
+    }
+}
+
 query GetUserSearchInfo($userQuery: String!){
     getUserSearchInfo(userQuery: $userQuery){
         userId

@@ -1,6 +1,5 @@
 package com.example.tfg.ui.friends
 
-import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,10 +12,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 
-@Parcelize
 data class FriendsMainState(
     var userQuery: String = "",
     var queryResult: ArrayList<User> = arrayListOf(),
@@ -27,7 +24,7 @@ data class FriendsMainState(
     var userExpandedInfoLoaded: Boolean = false,
     var isRefreshing: Boolean = false,
 
-) : Parcelable
+)
 
 @HiltViewModel
 class FriendsViewModel @Inject constructor(

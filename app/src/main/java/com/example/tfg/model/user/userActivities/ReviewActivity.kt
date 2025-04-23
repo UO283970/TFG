@@ -22,4 +22,6 @@ data class ReviewActivity(
     override fun extraInfo(): String {
         return reviewText
     }
+
+
 }

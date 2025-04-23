@@ -69,7 +69,7 @@ private fun toBookList(userDefaultLists: List<UserList?>): List<BookListClass> {
 
     for (list in userDefaultLists) {
         if(list != null){
-            appBookListClass.add(BookListClass(list.listId, list.listName, list.listImage))
+            appBookListClass.add(BookListClass(list.listId, list.listName, list.listImage, numberOfBooks = list.numberOfBooks))
         }
     }
 

@@ -91,6 +91,7 @@ fun AddBookToListsBottomSheet(
         sheetState = sheetState
     ) {
         Column(Modifier.Companion.padding(start = 10.dp, end = 10.dp)) {
+            HorizontalDivider()
             for (list in state.value.checkboxDefaultList) {
                 Row(verticalAlignment = Alignment.Companion.CenterVertically) {
                     Text(

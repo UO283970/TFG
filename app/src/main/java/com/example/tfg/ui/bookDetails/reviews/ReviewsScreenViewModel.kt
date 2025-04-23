@@ -42,13 +42,13 @@ class ReviewsScreenViewModel @Inject constructor(
             reviewText = "Esto es una review de prueba buenos dias espero que el texto se lo suficientmente largo wowowowowowowowo oow ow o w o o Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tristique condimentum justo ac sodales. Vivamus a volutpat tellus. Proin sagittis sit amet leo id maximus.",
             rating = -1
         )
-        bookReviewState = bookReviewState.copy(listOfReviews = arrayListOf(review,review,review,review,review))
 
 
         viewModelScope.launch {
+            bookState.bookForDetails.listOfReviews = arrayListOf<ReviewActivity>()
             val reviews = activityRepository.getAllReviewsForBook(bookState.bookForDetails.bookId)
             if(reviews != null){
-                bookReviewState.listOfReviews.addAll(reviews)
+                bookState.bookForDetails.listOfReviews.addAll(reviews)
                 bookReviewState = bookReviewState.copy(loadInfo = true)
             }
         }

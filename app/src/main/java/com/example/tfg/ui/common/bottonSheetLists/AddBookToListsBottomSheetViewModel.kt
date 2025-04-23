@@ -18,6 +18,7 @@ data class SheetListsSate(
     val checkboxDefaultList: MutableMap<DefaultList, Boolean> = linkedMapOf<DefaultList, Boolean>(),
     val selectedDefaultList: DefaultList? = null,
     val selectedDefaultListId: String = "",
+    val startSelectedDefaultListId: String = "",
     val checkboxUserList: MutableMap<BookListClass, Boolean> = linkedMapOf<BookListClass, Boolean>(),
     val listOfSelectedUserLists: ArrayList<String> = arrayListOf<String>(),
     val listOfDeleteFromUserLists: ArrayList<String> = arrayListOf<String>(),
@@ -41,20 +42,14 @@ class AddBookToListsBottomSheetViewModel(
     }
 
     fun changeSelectedDefaultList(bookList: DefaultList, boolean: Boolean) {
-        for(list in _sheetListSate.value.checkboxDefaultList){
-            if(list.value){
-                _sheetListSate.value.checkboxDefaultList[list.key] = false
-                viewModelScope.launch {
-                    listsState.removeBookFromDefaultList(book, list.key, listsRepository)
-                }
-            }
+        if (boolean && _sheetListSate.value.selectedDefaultList != null) {
+            _sheetListSate.value.checkboxDefaultList.put(_sheetListSate.value.selectedDefaultList!!, false)
         }
 
+        _sheetListSate.value.checkboxDefaultList[bookList] = boolean
         if (boolean) {
             _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = bookList)
-            _sheetListSate.value.checkboxDefaultList[bookList] = true
-            listsState.addBookToDefaultList(book, bookList)
-        }else{
+        } else {
             _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = null)
         }
 
@@ -89,7 +84,18 @@ class AddBookToListsBottomSheetViewModel(
         viewModelScope.launch {
             if (_sheetListSate.value.selectedDefaultList != null) {
                 try {
-                    listsRepository.addBookToDefaultList(_sheetListSate.value.selectedDefaultList!!.listId, book.bookId)
+                    if (_sheetListSate.value.startSelectedDefaultListId != ""
+                        && _sheetListSate.value.selectedDefaultList!!.listId != _sheetListSate.value.startSelectedDefaultListId
+                    ) {
+                        try {
+                            listsRepository.removeBookFromDefaultList(_sheetListSate.value.startSelectedDefaultListId, book.bookId)
+                        } catch (e: AuthenticationException) {
+                            GlobalErrorHandler.handle(e)
+                        }
+                    }
+                    if (_sheetListSate.value.selectedDefaultList!!.listId != _sheetListSate.value.selectedDefaultListId){
+                        listsRepository.addBookToDefaultList(_sheetListSate.value.selectedDefaultList!!.listId, book.bookId)
+                    }
                 } catch (e: AuthenticationException) {
                     GlobalErrorHandler.handle(e)
                 }
@@ -125,9 +131,10 @@ class AddBookToListsBottomSheetViewModel(
                     LinkedHashMap()
                 )
 
-                _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = mapWithBookLocations.keys.find { it.listId == booksLocation})
-                _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultListId = booksLocation)
                 _sheetListSate.value = _sheetListSate.value.copy(checkboxDefaultList = mapWithBookLocations)
+                _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = mapWithBookLocations.keys.find { it.listId == booksLocation })
+                _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultListId = booksLocation)
+                _sheetListSate.value = _sheetListSate.value.copy(startSelectedDefaultListId = booksLocation)
             }
         }
     }

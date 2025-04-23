@@ -6,8 +6,8 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 object PassEncryption {
-    private const val SECRET_KEY = "1234567890123456" // Debe tener 16 caracteres para AES-128
-    private const val INIT_VECTOR = "RandomInitVector" // También 16 caracteres
+    private const val SECRET_KEY = "m4jhg0vkd5rjg6lr"
+    private const val INIT_VECTOR = "RandomInitVector"
 
     fun encrypt(value: String): String {
         val ivParameterSpec = IvParameterSpec(INIT_VECTOR.toByteArray(Charsets.UTF_8))

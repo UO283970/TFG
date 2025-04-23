@@ -77,7 +77,6 @@ fun NewBookSearchItem(
                 navigateTo(BookNavigationItems.BookScreen.route)
             }
     ) {
-        val signatureKey = remember { mutableStateOf(System.currentTimeMillis().toString()) }
         GlideImage(
             model = book.coverImage,
             contentDescription = stringResource(R.string.book_cover)+ " " + book.tittle,

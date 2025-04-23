@@ -4,6 +4,7 @@ import com.apollographql.apollo.ApolloClient
 import com.example.tfg.model.book.Book
 import com.example.tfg.repository.mappers.toAppBooksFromPages
 import com.example.tfg.ui.common.StringResourcesProvider
+import com.graphQL.GetExtraInfoForBookQuery
 import com.graphQL.NextPageBooksQuery
 import com.graphQL.SearchBooksQuery
 import com.graphQL.SearchBooksQuery.SearchBook
@@ -21,6 +22,11 @@ class BookRepository @Inject constructor(private val apolloClient: ApolloClient,
         var data = apolloClient.query(NextPageBooksQuery(userQuery = userQuery, page = page, searchFor = searchFor, subject = subject)).execute().data
 
         return data?.nextPageBooks.toAppBooksFromPages(stringResourcesProvider)
+    }
+
+    suspend fun getExtraInfoForBook(bookId: String): GetExtraInfoForBookQuery.GetExtraInfoForBook? {
+        var data = apolloClient.query(GetExtraInfoForBookQuery(bookId = bookId)).execute().data
+        return data?.getExtraInfoForBook
     }
 
 }
