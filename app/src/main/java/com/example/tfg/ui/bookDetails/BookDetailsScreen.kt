@@ -1,79 +1,51 @@
 package com.example.tfg.ui.bookDetails
 
-import androidx.compose.animation.Crossfade
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.Glide
 import com.example.tfg.R
 import com.example.tfg.model.booklist.DefaultList
+import com.example.tfg.ui.bookDetails.components.BookSubjectButton
+import com.example.tfg.ui.bookDetails.components.DateAndPagesRow
+import com.example.tfg.ui.bookDetails.components.DescriptionText
 import com.example.tfg.ui.bookDetails.components.MainBookInfoImage
+import com.example.tfg.ui.bookDetails.components.RatingAndReviewRow
 import com.example.tfg.ui.common.BookAuthorText
 import com.example.tfg.ui.common.BookTittleText
 import com.example.tfg.ui.common.ChargingProgress
 import com.example.tfg.ui.common.ObtainColorsOfImage
-import com.example.tfg.ui.common.UserPictureWithoutCache
+import com.example.tfg.ui.common.RatingDialog
 import com.example.tfg.ui.common.bottonSheetLists.AddBookToListsBottomSheet
-import com.example.tfg.ui.common.navHost.BookNavigationItems
 import com.example.tfg.ui.theme.TFGTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.text.NumberFormat
-import java.time.LocalDate
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -134,134 +106,28 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, returnToLastScreen: (
                         .verticalScroll(rememberScrollState())
                         .imePadding()
                 ) {
-                    MainBookInfoImage(viewModel.bookState.bookForDetails.coverImage, color, textColor, { returnToLastScreen })
+                    MainBookInfoImage(viewModel.bookState.bookForDetails.coverImage, color, textColor) { returnToLastScreen }
                     Column(modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 5.dp)) {
                         BookTittleText(viewModel.bookState.bookForDetails.tittle)
                         BookAuthorText(viewModel.bookState.bookForDetails.author)
                         BookSubjectButton(color, textColor, viewModel.bookState.bookForDetails.subjects)
-                        Row(
-                            modifier = Modifier
-                                .padding(bottom = 10.dp)
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceAround,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { viewModel.toggleRatingMenu() }) {
-                                Text(stringResource(R.string.book_details_user_rating))
-                                if (viewModel.bookState.bookForDetails.userScore == 0) {
-                                    Icon(painterResource(R.drawable.empty_star), null, modifier = Modifier.size(24.dp))
-                                } else {
-                                    Row {
-                                        Text(viewModel.bookState.bookForDetails.userScore.toString())
-                                        Icon(painterResource(R.drawable.full_star), null, modifier = Modifier.size(24.dp))
-                                    }
-                                }
-                            }
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(stringResource(R.string.book_details_user_mean_rating))
-                                Row {
-                                    val df = DecimalFormat("#.##", DecimalFormatSymbols(Locale.getDefault()))
-                                    Text(df.format(viewModel.bookState.bookForDetails.meanScore / viewModel.bookState.bookForDetails.totalRatings).toString())
-                                    Icon(painterResource(R.drawable.full_star), null, modifier = Modifier.size(24.dp))
-                                    Text(
-                                        "(" + NumberFormat.getInstance(Locale.getDefault())
-                                            .format(viewModel.bookState.bookForDetails.totalRatings) + ")"
-                                    )
-                                }
-                            }
-                            if (viewModel.bookState.bookForDetails.numberOfReviews != 0) {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable {
-                                    navigateTo(BookNavigationItems.ReviewScreen.route)
-                                }) {
-                                    Text(stringResource(R.string.book_details_number_reviews, viewModel.bookState.bookForDetails.numberOfReviews))
-                                    Row(
-                                        horizontalArrangement = Arrangement.spacedBy((-12.5).dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        var count = viewModel.bookState.bookForDetails.listOfUserProfilePicturesForReviews.size
-                                        for (user in viewModel.bookState.bookForDetails.listOfUserProfilePicturesForReviews) {
-                                            val signatureKey = remember { mutableStateOf(System.currentTimeMillis().toString()) }
-                                            UserPictureWithoutCache(
-                                                user, signatureKey, Modifier
-                                                    .size(25.dp)
-                                                    .clip(CircleShape)
-                                                    .zIndex(count.toFloat())
-                                            )
-                                            count--
-                                        }
-                                    }
-                                }
-                            } else {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable {
-                                    navigateTo(BookNavigationItems.ReviewCreationScreen.route)
-                                }) {
-                                    Text(stringResource(R.string.book_details_no_reviews))
-                                    Icon(Icons.Default.Add, null, modifier = Modifier.size(24.dp))
-                                }
-                            }
-                        }
+                        RatingAndReviewRow(
+                            viewModel,
+                            navigateTo,
+                            viewModel.bookState.bookForDetails.userScore,
+                            viewModel.bookState.bookForDetails.meanScore,
+                            viewModel.bookState.bookForDetails.totalRatings,
+                            viewModel.bookState.bookForDetails.listOfUserProfilePicturesForReviews,
+                            viewModel.bookState.bookForDetails.numberOfReviews
+                        )
                         if (viewModel.bookInfo.ratingMenuOpen) {
-                            Dialog({ viewModel.toggleRatingMenu() }) {
-                                Card(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .wrapContentHeight(),
-                                    colors = CardDefaults.cardColors(containerColor = color)
-                                ) {
-                                    Column(verticalArrangement = Arrangement.Center, modifier = Modifier.padding(10.dp)) {
-                                        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                                            Text("Puntuación:", fontSize = 24.sp)
-                                            Text(if (viewModel.bookInfo.userScore == 0) "-" else viewModel.bookInfo.userScore.toString(), fontSize = 28.sp)
-                                        }
-                                        Row(
-                                            horizontalArrangement = Arrangement.SpaceAround,
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(top = 10.dp, bottom = 10.dp),
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            for (i in 1..10) {
-                                                val selected = i <= viewModel.bookInfo.userScore
-                                                val scale by animateFloatAsState(
-                                                    targetValue = 1f,
-                                                    animationSpec = tween(durationMillis = 200)
-                                                )
-
-                                                Crossfade(targetState = selected, label = "starToggle") { isSelected ->
-                                                    Icon(
-                                                        painter = painterResource(
-                                                            if (isSelected) R.drawable.full_star else R.drawable.empty_star
-                                                        ),
-                                                        contentDescription = null,
-                                                        modifier = Modifier
-                                                            .size(30.dp)
-                                                            .graphicsLayer(
-                                                                scaleX = scale,
-                                                                scaleY = scale
-                                                            )
-                                                            .clickable {
-                                                                viewModel.changeUserScore(i)
-                                                                viewModel.changeDeleted(false)
-                                                            }
-                                                    )
-                                                }
-                                            }
-
-                                        }
-                                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                                            TextButton({
-                                                viewModel.changeUserScore(0)
-                                                viewModel.changeDeleted(true)
-                                            }) {
-                                                Text("Borrar")
-                                            }
-                                            TextButton({ viewModel.saveRating() }) {
-                                                Text("Aceptar")
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            RatingDialog(
+                                color,
+                                viewModel.bookState.bookForDetails.userScore,
+                                { viewModel.toggleRatingMenu() },
+                                { viewModel.saveRating() },
+                                { viewModel.changeUserScore(it) },
+                                { viewModel.changeDeleted(it) })
                         }
                         Button(
                             {
@@ -307,89 +173,5 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, returnToLastScreen: (
         }
     } else {
         ChargingProgress()
-    }
-}
-
-@Composable
-private fun DateAndPagesRow(date: LocalDate, pages: Int, progress: Int) {
-    Row {
-        if (date != LocalDate.MIN) {
-            Text(
-                stringResource(R.string.book_details_publish_year, date.year),
-                modifier = Modifier.weight(1f),
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 2
-            )
-        }
-        if (pages != 0) {
-            if (progress != -1) {
-                Text(
-                    stringResource(R.string.book_details_pages_with_progress, progress, pages),
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 2,
-                    textAlign = TextAlign.Center
-                )
-            } else {
-                Text(
-                    stringResource(R.string.book_details_pages, pages),
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 2,
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun DescriptionText(desc: String, maxLines: Int) {
-    var expandedState by remember { mutableStateOf(false) }
-    var showReadMoreButtonState by remember { mutableStateOf(false) }
-    val maxLines = if (expandedState) 200 else maxLines
-
-    Column(modifier = Modifier.padding(bottom = 5.dp)) {
-        Text(
-            text = desc,
-            fontWeight = FontWeight.SemiBold,
-            overflow = TextOverflow.Ellipsis,
-            maxLines = maxLines,
-            onTextLayout = { textLayoutResult: TextLayoutResult ->
-                if (textLayoutResult.lineCount > maxLines - 1) {
-                    if (textLayoutResult.isLineEllipsized(maxLines - 1)) showReadMoreButtonState = true
-                }
-            }
-        )
-        if (showReadMoreButtonState) {
-            Text(
-                text = if (expandedState) stringResource(R.string.read_less) else stringResource(R.string.read_more),
-                modifier = Modifier.clickable {
-                    expandedState = !expandedState
-                }
-            )
-        }
-    }
-}
-
-@Composable
-private fun BookSubjectButton(color: Color, textColor: Color, subjects: List<String>) {
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
-    ) {
-        items(subjects) {
-            Button(
-                {},
-                shape = (RoundedCornerShape(10.dp)),
-                colors = ButtonDefaults.buttonColors(
-                    disabledContainerColor = color
-                ),
-                enabled = false
-            ) {
-                Text(
-                    it,
-                    color = textColor
-                )
-            }
-        }
     }
 }

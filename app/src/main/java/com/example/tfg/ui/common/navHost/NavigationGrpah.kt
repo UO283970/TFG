@@ -241,13 +241,15 @@ private fun navigateToRoute(route: String, navController: NavHostController) {
 
 private fun navigateToRouteCleanRoute(route: String, navController: NavHostController) {
     val previousRoute = navController.currentBackStackEntry?.destination?.route
-    if (previousRoute != null) {
+    if(previousRoute == route){
+        navController.popBackStack()
+    }else if (previousRoute != null) {
         navController.navigate(route){
             popUpTo(previousRoute) {
                 inclusive = true
             }
         }
-    }else{
+    } else{
         navController.navigate(route)
     }
 }

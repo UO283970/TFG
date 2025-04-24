@@ -140,6 +140,12 @@ class BookDetailsViewModel @Inject constructor(
             viewModelScope.launch {
                 val rating = activityRepository.addActivity("",bookInfo.userScore,bookState.bookForDetails.bookId, UserActivityType.RATING)
                 if(rating != null){
+                    if(bookState.bookForDetails.readingState == ""){
+                        val readingList = stringResourcesProvider.getString(R.string.reading_list_name)
+                        bookInfo =
+                            bookInfo.copy(inListButtonString = readingList)
+                        listRepository.addBookToDefaultList("0", bookState.bookForDetails.bookId)
+                    }
                     if(bookState.bookForDetails.userScore == 0){
                         bookState.bookForDetails.totalRatings++
                     }

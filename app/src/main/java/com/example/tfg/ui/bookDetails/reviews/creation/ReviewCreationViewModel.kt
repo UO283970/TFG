@@ -18,14 +18,18 @@ import javax.inject.Inject
 data class ReviewCreationState(
     val switchState: Boolean = false,
     val reviewCreated: Boolean = false,
-    val reviewText: String = ""
+    val reviewText: String = "",
+    var ratingMenuOpen: Boolean = false,
+    var userScore: Int,
+    var deleted: Boolean = false,
+    var refresh: Boolean = true
 )
 
 @HiltViewModel
 class ReviewCreationViewModel @Inject constructor(val activityRepository: ActivityRepository, val bookState: BookState, val mainUserState: MainUserState) :
     ViewModel() {
 
-    var creationState by mutableStateOf(ReviewCreationState())
+    var creationState by mutableStateOf(ReviewCreationState(userScore = bookState.bookForDetails.userScore,))
 
     fun changeSwitch() {
         creationState = creationState.copy(switchState = !creationState.switchState)
@@ -33,6 +37,32 @@ class ReviewCreationViewModel @Inject constructor(val activityRepository: Activi
 
     fun changeReviewText(text: String) {
         creationState = creationState.copy(reviewText = text)
+    }
+
+    fun changeUserScore(score: Int){
+        creationState = creationState.copy(userScore = score)
+    }
+
+    fun changeDeleted(state: Boolean) {
+        creationState = creationState.copy(deleted = state)
+    }
+
+    fun toggleRatingMenu() {
+        creationState = creationState.copy(ratingMenuOpen = !creationState.ratingMenuOpen)
+    }
+
+
+    fun saveRating() {
+        if(bookState.bookForDetails.userScore == 0){
+            bookState.bookForDetails.totalRatings++
+        }
+        if(creationState.deleted){
+            bookState.bookForDetails.totalRatings--
+        }
+        bookState.bookForDetails.meanScore = (bookState.bookForDetails.meanScore - bookState.bookForDetails.userScore) + creationState.userScore
+        bookState.bookForDetails.userScore = creationState.userScore
+        creationState = creationState.copy(refresh = !creationState.refresh)
+        toggleRatingMenu()
     }
 
     fun saveReview() {
