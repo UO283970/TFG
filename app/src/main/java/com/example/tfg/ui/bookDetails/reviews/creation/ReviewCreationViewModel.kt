@@ -80,7 +80,8 @@ class ReviewCreationViewModel @Inject constructor(val activityRepository: Activi
                         creationDate = LocalDate.now(),
                         book = bookState.bookForDetails,
                         reviewText = creationState.reviewText,
-                        rating = bookState.bookForDetails.userScore
+                        rating = bookState.bookForDetails.userScore,
+                        timeStamp = ""
                     )
                 )
                 bookState.bookForDetails.numberOfReviews++

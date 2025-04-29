@@ -6,6 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tfg.model.book.Book
+import com.example.tfg.model.book.BookState
 import com.example.tfg.model.user.userActivities.Activity
 import com.example.tfg.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +22,8 @@ data class ReviewsScreenMainState(
 @HiltViewModel
 class ReviewsScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    val userRepository: UserRepository
+    val userRepository: UserRepository,
+    val bookState: BookState
 ): ViewModel(){
 
     val userId = savedStateHandle.get<String>("id")
@@ -39,6 +42,11 @@ class ReviewsScreenViewModel @Inject constructor(
                 profileReviewsInfo = profileReviewsInfo.copy(infoLoaded = true)
             }
         }
+    }
+
+
+    fun setBookDetails(book: Book) {
+        bookState.bookForDetails = book
     }
 }
 

@@ -167,7 +167,7 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient,
     suspend fun getUsersReviews(userId: String): List<ReviewActivity>? {
         return apolloClient.query(
             GetUsersReviewsQuery(userId = userId)
-        ).execute().data?.getUsersReviews.toAppReviews()
+        ).execute().data?.getUsersReviews.toAppReviews(stringResourcesProvider)
     }
 
     suspend fun getUserFollowRequest(): List<User>? {

@@ -19,7 +19,7 @@ import com.example.tfg.ui.common.navHost.HomeRoutesItems
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopNotifications(navigateTo: (String) -> Unit) {
+fun TopNotifications(navigateTo: (String) -> Unit, hasNotifications: Boolean) {
     TopAppBar(
         windowInsets = WindowInsets(0.dp),
         title = { Text(text = "") },
@@ -27,7 +27,11 @@ fun TopNotifications(navigateTo: (String) -> Unit) {
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
         actions = {
             IconButton(onClick = {navigateTo(HomeRoutesItems.NotificationScreen.route) }) {
-                Icon(painterResource(R.drawable.notification_icon), stringResource(R.string.notifications), modifier = Modifier.size(24.dp))
+                if(hasNotifications){
+                    Icon(painterResource(R.drawable.with_notifications_icon), stringResource(R.string.notifications), modifier = Modifier.size(24.dp))
+                }else{
+                    Icon(painterResource(R.drawable.notification_icon), stringResource(R.string.notifications), modifier = Modifier.size(24.dp))
+                }
             }
         }
     )

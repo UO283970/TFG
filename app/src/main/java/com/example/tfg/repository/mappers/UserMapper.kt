@@ -23,8 +23,10 @@ import com.graphQL.GetFollowingListUserQuery.GetFollowingListUser
 import com.graphQL.GetUserFollowRequestQuery.GetUserFollowRequest
 import com.graphQL.GetUserNotificationsQuery.GetUserNotification
 import com.graphQL.GetUserSearchInfoQuery.GetUserSearchInfo
+import com.graphQL.GetUsersReviewsQuery
 import com.graphQL.GetUsersReviewsQuery.GetUsersReview
 import com.graphQL.type.NotificationType
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 
@@ -192,7 +194,7 @@ fun List<GetFollowingListUser>?.userMinInfoFollowing(): List<User>? {
     return followerList
 }
 
-fun List<GetUsersReview>?.toAppReviews(): List<ReviewActivity>? {
+fun List<GetUsersReview>?.toAppReviews(stringResourcesProvider: StringResourcesProvider): List<ReviewActivity>? {
     var listOfAppActivities = arrayListOf<ReviewActivity>()
 
     if (this != null) {
@@ -201,15 +203,31 @@ fun List<GetUsersReview>?.toAppReviews(): List<ReviewActivity>? {
                 ReviewActivity(
                     user = User(activity.user.userAlias, profilePicture = activity.user.profilePictureURL, userId = activity.user.userId),
                     creationDate = LocalDateTime.parse(activity.localDateTime).toLocalDate(),
-                    book = Book("Palabras Rradiantes", "Brandon  Sanderson"),
+                    book = activity.book.toAppActivityBook(stringResourcesProvider),
                     reviewText = activity.activityText,
-                    rating = activity.score
+                    rating = activity.score,
+                    timeStamp = activity.timestamp
                 )
             )
         }
     }
 
     return listOfAppActivities
+}
+
+private fun GetUsersReviewsQuery.Book.toAppActivityBook(stringResourcesProvider: StringResourcesProvider): Book {
+    return Book(
+        this.title,
+        this.author,
+        this.coverImageURL,
+        pages = if(this.pages.isNotBlank()) Integer.valueOf(this.pages) else 0,
+        publicationDate =if(this.publishYear.isNotBlank()) LocalDate.ofYearDay(Integer.valueOf(this.publishYear), 12) else LocalDate.MIN,
+        bookId = this.bookId,
+        readingState = if(DefaultListNames.valueOf(this.readingState.toString()) != DefaultListNames.NOT_IN_LIST)
+            stringResourcesProvider.getString(DefaultListNames.valueOf(this.readingState.toString()).getDefaultListName())
+        else "",
+        subjects = this.subjects
+    )
 }
 
 fun List<GetUserFollowRequest>?.toAppFollowRequest(): List<User>? {

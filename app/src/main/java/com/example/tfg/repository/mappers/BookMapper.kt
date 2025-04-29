@@ -8,7 +8,7 @@ import com.graphQL.GetUserDefaultListQuery.ListOfBook
 import com.graphQL.NextPageBooksQuery.NextPageBook
 import java.time.LocalDate
 
-fun ListOfBook.toAppBook(): Book {
+fun ListOfBook.toAppBook(stringResourcesProvider: StringResourcesProvider): Book {
     var bookPages = 0
     if(this.pages != ""){
         bookPages = Integer.valueOf(this.pages)
@@ -18,11 +18,37 @@ fun ListOfBook.toAppBook(): Book {
         year = Integer.valueOf(this.publishYear)
     }
 
-    return Book(this.title, this.author, this.coverImageURL, LocalDate.ofYearDay(year, 12), bookPages)
+    return Book(
+        this.title,
+        this.author,
+        this.coverImageURL,
+        pages = if(this.pages.isNotBlank()) Integer.valueOf(this.pages) else 0,
+        publicationDate =if(this.publishYear.isNotBlank()) LocalDate.ofYearDay(Integer.valueOf(this.publishYear), 12) else LocalDate.MIN,
+        bookId = this.bookId,
+        readingState = if(DefaultListNames.valueOf(this.readingState.toString()) != DefaultListNames.NOT_IN_LIST)
+            stringResourcesProvider.getString(DefaultListNames.valueOf(this.readingState.toString()).getDefaultListName())
+        else "",
+        subjects = this.subjects,
+        details = this.description ?: "",
+        userScore = this.userScore
+    )
 }
 
-fun GetAllListInfoQuery.ListOfBook.toAppBook(): Book {
-    return Book(this.title, this.author, this.coverImageURL, LocalDate.ofYearDay(Integer.valueOf(this.publishYear), 12), Integer.valueOf(this.pages))
+fun GetAllListInfoQuery.ListOfBook.toAppBook(stringResourcesProvider: StringResourcesProvider): Book {
+    return Book(
+        this.title,
+        this.author,
+        this.coverImageURL,
+        pages = if(this.pages.isNotBlank()) Integer.valueOf(this.pages) else 0,
+        publicationDate =if(this.publishYear.isNotBlank()) LocalDate.ofYearDay(Integer.valueOf(this.publishYear), 12) else LocalDate.MIN,
+        bookId = this.bookId,
+        readingState = if(DefaultListNames.valueOf(this.readingState.toString()) != DefaultListNames.NOT_IN_LIST)
+            stringResourcesProvider.getString(DefaultListNames.valueOf(this.readingState.toString()).getDefaultListName())
+        else "",
+        subjects = this.subjects,
+        details = this.description ?: "",
+        userScore = this.userScore
+    )
 }
 
 fun List<NextPageBook>?.toAppBooksFromPages(stringResourcesProvider: StringResourcesProvider): List<Book>? {
@@ -48,6 +74,7 @@ private fun NextPageBook.toAppBookFromPages(stringResourcesProvider: StringResou
         readingState = if(DefaultListNames.valueOf(this.readingState.toString()) != DefaultListNames.NOT_IN_LIST)
             stringResourcesProvider.getString(DefaultListNames.valueOf(this.readingState.toString()).getDefaultListName())
         else "",
-        subjects = this.subjects
+        subjects = this.subjects,
+        details = this.description ?: ""
     )
 }

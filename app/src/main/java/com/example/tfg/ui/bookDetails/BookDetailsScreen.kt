@@ -49,7 +49,7 @@ import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookDetailsScreen(navigateTo: (route: String) -> Unit, returnToLastScreen: () -> Unit, viewModel: BookDetailsViewModel = hiltViewModel()) {
+fun BookDetailsScreen(navigateTo: (route: String) -> Unit, returnToLastScreen: () -> Unit,navigateToSearch: (author: String, searchFor: String) -> Unit, viewModel: BookDetailsViewModel = hiltViewModel()) {
     var focus = LocalFocusManager.current
     val context = LocalContext.current
     val isDarkMode = isSystemInDarkTheme()
@@ -109,7 +109,7 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, returnToLastScreen: (
                     MainBookInfoImage(viewModel.bookState.bookForDetails.coverImage, color, textColor) { returnToLastScreen }
                     Column(modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 5.dp)) {
                         BookTittleText(viewModel.bookState.bookForDetails.tittle)
-                        BookAuthorText(viewModel.bookState.bookForDetails.author)
+                        BookAuthorText(viewModel.bookState.bookForDetails.author, navigateToSearch)
                         BookSubjectButton(color, textColor, viewModel.bookState.bookForDetails.subjects)
                         RatingAndReviewRow(
                             viewModel,

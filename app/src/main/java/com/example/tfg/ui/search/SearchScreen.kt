@@ -51,7 +51,8 @@ import com.example.tfg.ui.theme.TFGTheme
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun SearchScreen(navigateTo: (route: String) -> Unit, viewModel: SearchViewModel = hiltViewModel()) {
+fun SearchScreen(navigateTo: (route: String) -> Unit,
+                 navigateToSearch: (author: String, searchFor: String) -> Unit, viewModel: SearchViewModel = hiltViewModel()) {
     val sheetState = rememberModalBottomSheetState()
     val listState = rememberLazyListState()
 
@@ -97,8 +98,10 @@ fun SearchScreen(navigateTo: (route: String) -> Unit, viewModel: SearchViewModel
                                         viewModel.stringResourcesProvider,
                                         viewModel.listsRepository,
                                         viewModel.listsState,
-                                        navigateTo
-                                    ) { viewModel.setBookForDetails(it) }
+                                        navigateTo,
+                                        { viewModel.setBookForDetails(it) },
+                                        navigateToSearch
+                                    )
                                 }
                             }
 

@@ -13,7 +13,8 @@ data class ReviewActivity(
     override val creationDate: LocalDate,
     override val book: Book,
     val reviewText: String,
-    override val rating: Int = -1
+    override val rating: Int = -1,
+    override val timeStamp: String
 ): Activity(){
     override fun infoForUI(): Int {
         return R.string.has_reviewed

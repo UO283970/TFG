@@ -63,8 +63,13 @@ fun RatingAndReviewRow(
             Text(stringResource(R.string.book_details_user_mean_rating))
             Row {
                 val df = DecimalFormat("#.##", DecimalFormatSymbols(Locale.getDefault()))
-                Text(df.format(meanScore / totalRatings).toString())
-                Icon(painterResource(R.drawable.full_star), null, modifier = Modifier.Companion.size(24.dp))
+                if(totalRatings != 0){
+                    Text(df.format(meanScore / totalRatings).toString())
+                    Icon(painterResource(R.drawable.full_star), null, modifier = Modifier.Companion.size(24.dp))
+                }else{
+                    Text("-")
+                    Icon(painterResource(R.drawable.empty_star), null, modifier = Modifier.Companion.size(24.dp))
+                }
                 Text(
                     "(" + NumberFormat.getInstance(Locale.getDefault())
                         .format(totalRatings) + ")"

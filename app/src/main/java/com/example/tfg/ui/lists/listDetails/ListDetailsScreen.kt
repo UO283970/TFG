@@ -105,7 +105,7 @@ fun ListDetailsScreen(returnToLastScreen: () -> Unit, navigateTo: (route: String
                             DescText(3, viewModel.listsState.getDetailList().getDescription())
                             HorizontalDivider(Modifier.padding(top = 5.dp))
                         }
-                        ListDetailsItemList(viewModel.listDetailsInfo.baseListOfBooks)
+                        ListDetailsItemList(viewModel.listDetailsInfo.baseListOfBooks,{viewModel.setBookForDetails(it)},navigateTo)
                     }
                 }
             }

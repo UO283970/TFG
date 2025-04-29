@@ -13,6 +13,7 @@ sealed class Activity {
     abstract val creationDate: LocalDate
     abstract val book: Book
     abstract val rating: Int
+    abstract val timeStamp: String
 
     abstract fun infoForUI(): Int
     abstract fun extraInfo(): String

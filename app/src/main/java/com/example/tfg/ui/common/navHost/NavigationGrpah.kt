@@ -4,9 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
 import com.example.tfg.R
 import com.example.tfg.model.user.User
 import com.example.tfg.repository.GlobalErrorHandler
@@ -29,6 +31,7 @@ import com.example.tfg.ui.profile.components.statistics.follows.FollowsScreen
 import com.example.tfg.ui.profile.components.statistics.reviews.OnlyReviews
 import com.example.tfg.ui.profile.othersProfile.OthersProfileScreen
 import com.example.tfg.ui.search.SearchScreen
+import com.example.tfg.ui.search.components.SearchForEnum
 import com.example.tfg.ui.userIdentification.LoginScreen
 import com.example.tfg.ui.userIdentification.RegisterImageSelector
 import com.example.tfg.ui.userIdentification.RegisterScreen
@@ -54,6 +57,11 @@ sealed class HomeRoutesItems(val route: String) {
     object FriendRequestsScreen : HomeRoutesItems("requests")
 }
 
+sealed class SearchRoutesItems(val route: String) {
+    object SearchMain : SearchRoutesItems("searchMain")
+    object SearchWithParameters : SearchRoutesItems("search?userQuery={userQuery}&searchFor={searchFor}")
+}
+
 sealed class ListNavigationItems(val route: String) {
     object ListsScreen : ListNavigationItems("listScreen/{userId}")
     object ListDetails : ListNavigationItems("listDetails/{bookList}")
@@ -70,6 +78,7 @@ sealed class ProfileNavigationItems(val route: String) {
     object EditProfile : ProfileNavigationItems("editProfile")
     object ProfileConfiguration : ProfileNavigationItems("configureProfile")
 }
+
 sealed class BookNavigationItems(val route: String) {
     object BookStartGraph : BookNavigationItems("books")
     object BookScreen : BookNavigationItems("bookScreen")
@@ -88,22 +97,27 @@ fun MainAppNavigation(
         }
     }
 
+    val navigateToSearchWithParamsSimplified: (String, String) -> Unit = { userQuery, searchFor ->
+        navigateToSearchWithParams(navController, userQuery, searchFor)
+    }
+
     NavHost(
         navController = navController,
         startDestination = HomeRoutesItems.HomeNav.route
     ) {
         homeGraph(navController, bottomBarState)
-        composable(Routes.SearchScreen.route) {
-            bottomBarState.value = true
-            SearchScreen({ navigateToRoute(it, navController) })
-        }
+        searchGraph(navController, bottomBarState,navigateToSearchWithParamsSimplified)
         composable(Routes.FriendsScreen.route) {
             bottomBarState.value = true
-            FriendsScreen({ user: User -> navigateToProfileWithUser(user, navController) })
+            FriendsScreen(
+                { user: User -> navigateToProfileWithUser(user, navController) },
+                { navigateToRoute(it, navController) },
+                navigateToSearchWithParamsSimplified
+            )
         }
         listsGraph(navController)
-        profileGraph(navController, bottomBarState)
-        bookGraph(navController, bottomBarState)
+        profileGraph(navController, bottomBarState, navigateToSearchWithParamsSimplified)
+        bookGraph(navController, bottomBarState,navigateToSearchWithParamsSimplified)
     }
 }
 
@@ -143,6 +157,34 @@ private fun NavGraphBuilder.homeGraph(
     }
 }
 
+private fun NavGraphBuilder.searchGraph(
+    navController: NavHostController,
+    bottomBarState: MutableState<Boolean>,
+    navigateToSearchWithParamsSimplified: (String, String) -> Unit
+) {
+    navigation(startDestination = SearchRoutesItems.SearchMain.route, route = Routes.SearchScreen.route) {
+        composable(route = SearchRoutesItems.SearchMain.route) {
+            bottomBarState.value = true
+            SearchScreen({ navigateToRoute(it, navController) },navigateToSearchWithParamsSimplified)
+        }
+        composable(
+            route = SearchRoutesItems.SearchWithParameters.route,
+            arguments = listOf(
+                navArgument("userQuery") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+                navArgument("searchFor") {
+                    type = NavType.StringType
+                    defaultValue = SearchForEnum.BOOKS.toString()
+                })
+        ) {
+            bottomBarState.value = true
+            SearchScreen({ navigateToRoute(it, navController) },navigateToSearchWithParamsSimplified)
+        }
+    }
+}
+
 private fun NavGraphBuilder.listsGraph(
     navController: NavHostController
 ) {
@@ -151,7 +193,7 @@ private fun NavGraphBuilder.listsGraph(
             ListScreen({ navigateToRoute(it, navController) })
         }
         composable(ListNavigationItems.ListDetails.route) {
-            ListDetailsScreen({ returnToLastScreen(navController) }, {navigateToRoute(it,navController)})
+            ListDetailsScreen({ returnToLastScreen(navController) }, { navigateToRoute(it, navController) })
         }
         composable(ListNavigationItems.ListModify.route) {
             ListModifyScreen({ returnToLastScreen(navController) })
@@ -164,63 +206,71 @@ private fun NavGraphBuilder.listsGraph(
 
 private fun NavGraphBuilder.profileGraph(
     navController: NavHostController,
-    bottomBarState: MutableState<Boolean>
+    bottomBarState: MutableState<Boolean>,
+    navigateToSearchWithParamsSimplified: (String, String) -> Unit
 ) {
     val navigateSimplified: (String, String) -> Unit = { route, id ->
         navigateToRouteWithId(route, navController, id)
     }
-
-
     navigation(startDestination = ProfileNavigationItems.ProfileScreen.route, route = Routes.Profile.route) {
         composable(ProfileNavigationItems.ProfileScreen.route) {
             bottomBarState.value = true
             ProfileScreen({ navigateToRoute(it, navController) }, navigateSimplified)
         }
-        composable(ProfileNavigationItems.OthersProfileScreen.route) {
+        composable(ProfileNavigationItems.UserFollows.route) {
             bottomBarState.value = false
-            OthersProfileScreen({ navigateToRoute(it, navController) }, { returnToLastScreen(navController) }, navigateSimplified)
+            FollowsScreen(
+                { returnToLastScreen(navController) },
+                { user: User -> navigateToProfileWithUser(user, navController) })
+        }
+        composable(ProfileNavigationItems.UserFollowers.route) {
+            bottomBarState.value = false
+            FollowersScreen(
+                { returnToLastScreen(navController) }, { navigateToRoute(it, navController) },
+                { user: User -> navigateToProfileWithUser(user, navController) })
         }
         composable(ProfileNavigationItems.UserReviews.route) {
-            OnlyReviews({ returnToLastScreen(navController) })
+            OnlyReviews(
+                { returnToLastScreen(navController) },
+                { user: User -> navigateToProfileWithUser(user, navController) },
+                { navigateToRoute(it, navController) },
+                navigateToSearchWithParamsSimplified
+            )
         }
         composable(ProfileNavigationItems.EditProfile.route) {
             bottomBarState.value = false
             EditScreen({ returnToLastScreen(navController) })
         }
-        composable(ProfileNavigationItems.UserFollowers.route) {
+        composable(ProfileNavigationItems.OthersProfileScreen.route) {
             bottomBarState.value = false
-            FollowersScreen({ returnToLastScreen(navController) },{navigateToRoute(it,navController)},
-                { user: User -> navigateToProfileWithUser(user, navController) })
-        }
-        composable(ProfileNavigationItems.UserFollows.route) {
-            bottomBarState.value = false
-            FollowsScreen({ returnToLastScreen(navController) },
-                { user: User -> navigateToProfileWithUser(user, navController) })
+            OthersProfileScreen({ navigateToRoute(it, navController) }, { returnToLastScreen(navController) }, navigateSimplified)
         }
         composable(ProfileNavigationItems.ProfileConfiguration.route) {
             bottomBarState.value = false
-            ConfigurationScreen({ returnToLastScreen(navController) },
-                { navigateToRoute(it, navController)})
+            ConfigurationScreen(
+                { returnToLastScreen(navController) },
+                { navigateToRoute(it, navController) })
         }
     }
 }
 
 private fun NavGraphBuilder.bookGraph(
     navController: NavHostController,
-    bottomBarState: MutableState<Boolean>
+    bottomBarState: MutableState<Boolean>,
+    navigateToSearchWithParamsSimplified: (String, String) -> Unit
 ) {
     navigation(startDestination = BookNavigationItems.BookScreen.route, route = BookNavigationItems.BookStartGraph.route) {
-        composable(BookNavigationItems.BookScreen.route){
+        composable(BookNavigationItems.BookScreen.route) {
             bottomBarState.value = false
-            BookDetailsScreen({ navigateToRoute(it, navController) }, {returnToLastScreen(navController)})
+            BookDetailsScreen({ navigateToRoute(it, navController) }, { returnToLastScreen(navController) }, navigateToSearchWithParamsSimplified)
         }
-        composable(BookNavigationItems.ReviewScreen.route){
+        composable(BookNavigationItems.ReviewScreen.route) {
             bottomBarState.value = false
-            ReviewsScreen({returnToLastScreen(navController)},{ navigateToRoute(it, navController) })
+            ReviewsScreen({ returnToLastScreen(navController) }, { navigateToRoute(it, navController) })
         }
-        composable(BookNavigationItems.ReviewCreationScreen.route){
+        composable(BookNavigationItems.ReviewCreationScreen.route) {
             bottomBarState.value = false
-            ReviewCreation({returnToLastScreen(navController)}, {navigateToRouteCleanRoute(it,navController)})
+            ReviewCreation({ returnToLastScreen(navController) }, { navigateToRouteCleanRoute(it, navController) })
         }
     }
 }
@@ -241,21 +291,28 @@ private fun navigateToRoute(route: String, navController: NavHostController) {
 
 private fun navigateToRouteCleanRoute(route: String, navController: NavHostController) {
     val previousRoute = navController.currentBackStackEntry?.destination?.route
-    if(previousRoute == route){
+    if (previousRoute == route) {
         navController.popBackStack()
-    }else if (previousRoute != null) {
-        navController.navigate(route){
+    } else if (previousRoute != null) {
+        navController.navigate(route) {
             popUpTo(previousRoute) {
                 inclusive = true
             }
         }
-    } else{
+    } else {
         navController.navigate(route)
     }
 }
 
-private fun navigateToRouteWithId(route: String, navController: NavHostController, id: String ) {
+private fun navigateToRouteWithId(route: String, navController: NavHostController, id: String) {
     navController.navigate(route.replace(oldValue = "{id}", newValue = id))
+}
+
+private fun navigateToSearchWithParams(navController: NavHostController, userQuery: String, searchFor: String) {
+    navController.navigate(
+        SearchRoutesItems.SearchWithParameters.route.replace(oldValue = "{userQuery}", newValue = userQuery)
+            .replace(oldValue = "{searchFor}", newValue = searchFor)
+    )
 }
 
 private fun navigateToRouteWithoutSave(route: String, navController: NavHostController) {

@@ -12,7 +12,8 @@ data class RatingActivity(
     @Serializable(LocalDateSerializer::class)
     override val creationDate: LocalDate,
     override val book: Book,
-    override val rating: Int
+    override val rating: Int,
+    override val timeStamp: String
 ): Activity(){
     override fun infoForUI(): Int {
         return R.string.rating

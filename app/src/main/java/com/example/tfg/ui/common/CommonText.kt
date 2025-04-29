@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
+import com.example.tfg.ui.search.components.SearchForEnum
 
 @Composable
 fun BigTittleText(text: String) {
@@ -91,13 +92,14 @@ fun ErrorText(errorText : String) {
 }
 
 @Composable
-fun BookAuthorText(author: String) {
+fun BookAuthorText(author: String, navigateToSearch: (author: String, searchFor: String) -> Unit) {
     Text(
         author,
         overflow = TextOverflow.Ellipsis,
         fontSize = 16.sp,
         textDecoration = TextDecoration.Companion.Underline,
         maxLines = 1,
+        modifier = Modifier.clickable{navigateToSearch(author, SearchForEnum.AUTHOR.toString())}
     )
 }
 

@@ -1,5 +1,5 @@
-query GetAllFollowedActivity{
-    getAllFollowedActivity{
+query GetAllFollowedActivity($timestamp: String!){
+    getAllFollowedActivity(timestamp: $timestamp){
         activityId
         activityText
         score
@@ -14,9 +14,15 @@ query GetAllFollowedActivity{
             title
             author
             coverImageURL
+            pages
+            publishYear
+            readingState
+            subjects
+            description
         }
         userActivityType
         localDateTime
+        timestamp
     }
 }
 
@@ -32,5 +38,6 @@ query GetAllReviewsForBook($bookId: String!){
             profilePictureURL
         }
         localDateTime
+        timestamp
     }
 }

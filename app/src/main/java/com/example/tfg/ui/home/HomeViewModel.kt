@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.tfg.model.book.Book
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.ListRepository
+import com.example.tfg.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,14 +15,16 @@ import javax.inject.Inject
 
 data class HomeMainState(
     var listOfBooks: ArrayList<Book>,
-    var listOfReadingBooks: ArrayList<Book>
+    var listOfReadingBooks: ArrayList<Book>,
+    var hasNotifications: Boolean = false
 )
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     val listRepository: ListRepository,
-    val listsState: ListsState
+    val listsState: ListsState,
+    val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _homeState = MutableStateFlow(
@@ -35,6 +38,12 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            val notificationList = userRepository.getUserNotifications(timeStamp = "");
+            if(notificationList != null && notificationList.isNotEmpty()){
+                _homeState.value = _homeState.value.copy(hasNotifications = true)
+            }else{
+                _homeState.value = _homeState.value.copy(hasNotifications = false)
+            }
             if( listsState.getDefaultLists().isEmpty()){
                 val userLists = listRepository.getBasicListInfo(userId = "")
                 if(userLists != null){

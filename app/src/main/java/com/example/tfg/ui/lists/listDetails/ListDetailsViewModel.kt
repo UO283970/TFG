@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.model.book.Book
+import com.example.tfg.model.book.BookState
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.booklist.BookListClass
 import com.example.tfg.model.booklist.ListsState
@@ -27,7 +28,7 @@ data class ListDetailsMainState(
 )
 
 @HiltViewModel
-class ListDetailsViewModel @Inject constructor(val listsState: ListsState, val listRepository: ListRepository) : ViewModel() {
+class ListDetailsViewModel @Inject constructor(val listsState: ListsState, val listRepository: ListRepository, val bookState: BookState) : ViewModel() {
 
     var listDetailsInfo by mutableStateOf(ListDetailsMainState())
 
@@ -59,6 +60,11 @@ class ListDetailsViewModel @Inject constructor(val listsState: ListsState, val l
 
     fun changeMenu(state: Boolean){
         listDetailsInfo = listDetailsInfo.copy(menuOpen = state)
+    }
+
+
+    fun setBookForDetails(book: Book){
+        bookState.bookForDetails = book
     }
 
     fun deleteList(){

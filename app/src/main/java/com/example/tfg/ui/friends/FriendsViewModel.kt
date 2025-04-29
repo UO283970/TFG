@@ -3,6 +3,8 @@ package com.example.tfg.ui.friends
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tfg.model.book.Book
+import com.example.tfg.model.book.BookState
 import com.example.tfg.model.user.User
 import com.example.tfg.model.user.userActivities.Activity
 import com.example.tfg.repository.ActivityRepository
@@ -30,19 +32,13 @@ data class FriendsMainState(
 class FriendsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val activityRepository: ActivityRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    val bookState: BookState
 ) : ViewModel() {
     private val _friendsInfo = MutableStateFlow(
         savedStateHandle.get<FriendsMainState>("friendsInfo") ?: FriendsMainState()
     )
     val friendsInfo: StateFlow<FriendsMainState> = _friendsInfo
-
-    init {
-        viewModelScope.launch {
-            getFollowedActivity()
-        }
-    }
-
 
     fun changeExpandedSearchBar(change: Boolean) {
         _friendsInfo.update {
@@ -84,14 +80,23 @@ class FriendsViewModel @Inject constructor(
         getFollowedActivity()
     }
 
-    private fun getFollowedActivity(){
+    fun getFollowedActivity(){
         viewModelScope.launch {
-            val activity = activityRepository.getAllFollowedActivity()
+            val timestamp =
+                if (_friendsInfo.value.followedActivity.isNotEmpty())
+                    _friendsInfo.value.followedActivity[_friendsInfo.value.followedActivity.size - 1].timeStamp
+                else ""
+
+            val activity = activityRepository.getAllFollowedActivity(timestamp = timestamp)
             if(activity != null){
-                _friendsInfo.value = _friendsInfo.value.copy(followedActivity = ArrayList(activity))
+                _friendsInfo.value.followedActivity.addAll(activity)
                 _friendsInfo.value = _friendsInfo.value.copy(isRefreshing = false)
                 _friendsInfo.value = _friendsInfo.value.copy(activityLoaded = true)
             }
         }
+    }
+
+    fun setBookForDetails(book: Book){
+        bookState.bookForDetails = book
     }
 }

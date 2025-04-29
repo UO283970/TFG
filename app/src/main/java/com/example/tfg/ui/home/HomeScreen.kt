@@ -29,7 +29,7 @@ fun HomeScreen(navigateTo: (route: String) -> Unit,viewModel: HomeViewModel = hi
 
     TFGTheme(dynamicColor = false) {
         Scaffold(contentWindowInsets = WindowInsets(0.dp),
-            topBar = { TopNotifications(navigateTo) }) { innerPadding ->
+            topBar = { TopNotifications(navigateTo, state.hasNotifications) }) { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 HorizontalDivider(thickness = 1.dp)
                 Column(Modifier.padding(start = 10.dp, end = 5.dp)) {

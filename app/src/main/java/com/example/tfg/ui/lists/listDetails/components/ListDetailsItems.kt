@@ -1,6 +1,7 @@
 package com.example.tfg.ui.lists.listDetails.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,25 +32,30 @@ import com.example.tfg.R
 import com.example.tfg.model.book.Book
 import com.example.tfg.ui.common.BigTittleText
 import com.example.tfg.ui.common.SmallTittleText
+import com.example.tfg.ui.common.navHost.BookNavigationItems
 
 @Composable
-fun ListDetailsItemList(books: List<Book>) {
+fun ListDetailsItemList(books: List<Book>, setDetailsBook: (book: Book) -> Unit, navigateTo: (route: String) -> Unit) {
     LazyColumn(
         Modifier
             .padding(top = 10.dp),
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
         items(books){
-            ListDetailsItem(it)
+            ListDetailsItem(it, setDetailsBook, navigateTo)
         }
     }
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ListDetailsItem(book: Book) {
+fun ListDetailsItem(book: Book, setDetailsBook: (book: Book) -> Unit, navigateTo: (route: String) -> Unit) {
     Box(
         modifier = Modifier
+            .clickable{
+                setDetailsBook(book)
+                navigateTo(BookNavigationItems.BookScreen.route)
+            }
             .clip(AlertDialogDefaults.shape)
             .fillMaxWidth()
             .background(color = MaterialTheme.colorScheme.onPrimary)

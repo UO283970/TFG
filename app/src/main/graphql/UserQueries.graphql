@@ -122,8 +122,14 @@ query GetUsersReviews($userId: String!){
             bookId
             title
             author
+            publishYear
+            pages
             coverImageURL
+            description
+            readingState
+            subjects
         }
+        timestamp
     }
 }
 

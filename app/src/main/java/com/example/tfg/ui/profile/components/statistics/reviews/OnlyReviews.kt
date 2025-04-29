@@ -11,13 +11,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
+import com.example.tfg.model.user.User
 import com.example.tfg.ui.common.FriendsItem
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
 fun OnlyReviews(
-    returnToLastScreen: () -> Unit, viewModel: ReviewsScreenViewModel = hiltViewModel()
+    returnToLastScreen: () -> Unit,
+    navigateToProfile: (user: User) -> Unit,
+    navigateTo: (route: String) -> Unit,
+    navigateToSearch: (author: String, searchFor: String) -> Unit,
+    viewModel: ReviewsScreenViewModel = hiltViewModel()
 ) {
     TFGTheme(dynamicColor = false)
     {
@@ -36,7 +41,7 @@ fun OnlyReviews(
                 HorizontalDivider()
                 LazyColumn {
                     items(viewModel.profileReviewsInfo.profileReviews) {
-                        FriendsItem(it)
+                        FriendsItem(it, navigateToProfile, { viewModel.setBookDetails(it) }, { navigateTo(it) }, navigateToSearch)
                     }
                 }
             }

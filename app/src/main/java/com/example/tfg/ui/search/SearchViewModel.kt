@@ -3,6 +3,7 @@ package com.example.tfg.ui.search
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.model.book.Book
@@ -21,12 +22,12 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 data class SearchMainState(
-    var userQuery: String = "",
+    var userQuery: String,
     var queryResult: ArrayList<Book> = arrayListOf<Book>(),
     var expandedSearchBar: Boolean = false,
     var isBottomSheetOpened: Boolean = false,
     var orderByButtonMap: MutableMap<OrderByEnum, Boolean> = linkedMapOf<OrderByEnum, Boolean>(),
-    var searchFor: SearchForEnum = SearchForEnum.BOOKS,
+    var searchFor: SearchForEnum,
     var subject: SubjectsEnum? = null,
     var forceRepaint: Boolean = false,
     var chargingInfo: Boolean = false,
@@ -42,12 +43,20 @@ class SearchViewModel @Inject constructor(
     val listsRepository: ListRepository,
     val listsState: ListsState,
     val bookState: BookState,
+    val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    var searchInfo by mutableStateOf(SearchMainState())
+    val userQuery = savedStateHandle.get<String?>("userQuery") ?: ""
+    val searchFor = savedStateHandle.get<String?>("searchFor") ?: SearchForEnum.BOOKS.toString()
+
+    var searchInfo by mutableStateOf(SearchMainState(userQuery, searchFor = SearchForEnum.valueOf(searchFor)))
+
     var defaultSearchResult = arrayListOf<Book>()
 
     init {
         getButtonToOrderByMap()
+        if(searchInfo.userQuery != ""){
+            getResultsFromQuery()
+        }
     }
 
     fun userQueryChange(userQuery: String) {
@@ -78,7 +87,9 @@ class SearchViewModel @Inject constructor(
 
     fun changeSelectedSearchFor(searchFor: SearchForEnum) {
         searchInfo = searchInfo.copy(searchFor = searchFor)
-        getResultsFromQuery()
+        if(searchInfo.userQuery != ""){
+            getResultsFromQuery()
+        }
     }
 
     fun changeSelectedSubject(subject: SubjectsEnum) {

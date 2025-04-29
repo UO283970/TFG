@@ -59,7 +59,7 @@
     <string name="home_notifications_friend_requests_icon">Icono de solicitudes de seguimiento</string>
     <string name="notifications_friend_requests">Solicitudes de seguimiento</string>
     <string name="notifications_friend_small_text">Acepta o deniega solicitudes</string>
-    <string name="notifications_follow_notification_text">Has comenzado a seguir a: %s</string>
+    <string name="notifications_follow_notification_text">Has comenzado ha seguir a: %s</string>
     <string name="notifications_followed_notification_text">%s Ha comenzado a seguirte</string>
     <string name="notifications_followed_notification_button_text">Seguir</string>
     <string name="notifications_image_text">Imagen de notificación</string>
@@ -121,14 +121,14 @@
     <string name="error_user_login">El usuario y contraseña no coinciden</string>
     <string name="error_unknown_error">Se ha producido un error inesperado, pruebe otra vez</string>
     <string name="error_user_alias_repeated">Este alias de usuario ya existe</string>
-    <string name="error_email_used">Este email ya esta asociado a una cuenta</string>
+    <string name="error_email_used">Este email ya está asociado a una cuenta</string>
     <string name="list_default_name_reading">Leyendo</string>
     <string name="list_default_name_dropped">Abandonados</string>
     <string name="list_default_name_waiting">En espera</string>
     <string name="list_default_name_read">Leídos</string>
     <string name="list_default_name_plan_to_read">En plan para leer</string>
     <string name="list_creation_list_repeated_name_error">Nombre de lista repetido</string>
-    <string name="list_creation_list_name_error">El nombre de la lista no esta permitido</string>
+    <string name="list_creation_list_name_error">El nombre de la lista no está permitido</string>
     <string name="register_user_alias_supporting">Nombre con el que se te identificara en la app</string>
     <string name="list_details_dropdown_menu_modify">Modificar lista</string>
     <string name="list_details_dropdown_menu_delete">Borrar</string>
@@ -159,6 +159,7 @@
     <string name="book_details_user_rating">Tú puntuación</string>
     <string name="book_details_user_mean_rating">Media</string>
     <string name="book_details_user_no_rating">Añade tu puntuación</string>
+    <string name="friends_start_message">No hay actividad de tus seguidos todavia.\nY si todavia no sigues a nadie, buscalos y descubre su actividad</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

@@ -50,7 +50,8 @@ fun NewBookSearchItem(
     listRepository: ListRepository,
     listsState: ListsState,
     navigateTo: (route: String) -> Unit,
-    setDetailsBook: (book: Book) -> Unit
+    setDetailsBook: (book: Book) -> Unit,
+    navigateToSearch: (author: String, searchFor: String) -> Unit
 ) {
     val constraints = LocalWindowInfo.current.containerSize.height.dp
     var bookState by remember { mutableStateOf(book.readingState) }
@@ -100,7 +101,7 @@ fun NewBookSearchItem(
                     Icon(Icons.Default.Add, null)
                 }
             }
-            BookAuthorText(book.author)
+            BookAuthorText(book.author,navigateToSearch)
             Row(verticalAlignment = Alignment.Bottom) {
                 if (bookState != "") {
                     Text(bookState, modifier = Modifier.weight(1f))

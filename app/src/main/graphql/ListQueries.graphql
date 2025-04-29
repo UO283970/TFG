@@ -17,10 +17,13 @@ query GetAllListInfo($listId: String!){
             bookId
             title
             author
-            coverImageURL
-            pages
             publishYear
+            pages
+            coverImageURL
+            description
+            readingState
             subjects
+            userScore
         }
         listUserId
     }
@@ -35,10 +38,13 @@ query GetUserDefaultList($userId: String!, $listId: String!){
             bookId
             title
             author
-            coverImageURL
-            pages
             publishYear
+            pages
+            coverImageURL
+            description
+            readingState
             subjects
+            userScore
         }
         listUserId
     }

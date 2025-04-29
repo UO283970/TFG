@@ -37,7 +37,7 @@ fun GetUserDefaultList?.toDefaultList(stringResourcesProvider: StringResourcesPr
         return DefaultList(
             this.listId,
             stringResourcesProvider.getString(DefaultListNames.valueOf(this.listName).getDefaultListName()),
-            books = this.listOfBooks.toAppListBookFromDefault(),
+            books = this.listOfBooks.toAppListBookFromDefault(stringResourcesProvider),
             listDescription = this.description
         )
     }
@@ -46,11 +46,11 @@ fun GetUserDefaultList?.toDefaultList(stringResourcesProvider: StringResourcesPr
 }
 
 
-fun List<ListOfBook>.toAppListBookFromDefault(): ArrayList<Book> {
+fun List<ListOfBook>.toAppListBookFromDefault(stringResourcesProvider: StringResourcesProvider): ArrayList<Book> {
     var listOfBooksApp = arrayListOf<Book>()
 
     for(book in this){
-        listOfBooksApp.add(book.toAppBook())
+        listOfBooksApp.add(book.toAppBook(stringResourcesProvider))
     }
 
     return listOfBooksApp
@@ -77,12 +77,12 @@ fun List<GetBasicListInfoList>?.toAppLists(userId: String): List<BookListClass>?
     return appDefaultBookListClasses
 }
 
-fun GetAllListInfo?.toBookList(): BookListClass? {
+fun GetAllListInfo?.toBookList(stringResourcesProvider: StringResourcesProvider): BookListClass? {
     if(this != null){
         return BookListClass(
             this.listId,
             this.listName,
-            books = this.listOfBooks.toAppListBook(),
+            books = this.listOfBooks.toAppListBook(stringResourcesProvider),
             listDescription = this.description
         )
     }
@@ -90,11 +90,11 @@ fun GetAllListInfo?.toBookList(): BookListClass? {
     return null
 }
 
-private fun List<GetAllListInfoQuery.ListOfBook>.toAppListBook(): ArrayList<Book> {
+private fun List<GetAllListInfoQuery.ListOfBook>.toAppListBook(stringResourcesProvider: StringResourcesProvider): ArrayList<Book> {
     var listOfBooksApp = arrayListOf<Book>()
 
     for(book in this){
-        listOfBooksApp.add(book.toAppBook())
+        listOfBooksApp.add(book.toAppBook(stringResourcesProvider))
     }
 
     return listOfBooksApp
