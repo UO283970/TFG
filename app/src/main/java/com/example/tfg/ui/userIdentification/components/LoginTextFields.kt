@@ -79,5 +79,6 @@ fun PasswordTextField(viewModel: LoginViewModel, state: LoginMainState) {
         )
         if(state.passwordError != null)
             ErrorText(state.passwordError!!)
+
     }
 }

@@ -160,6 +160,11 @@
     <string name="book_details_user_mean_rating">Media</string>
     <string name="book_details_user_no_rating">Añade tu puntuación</string>
     <string name="friends_start_message">No hay actividad de tus seguidos todavia.\nY si todavia no sigues a nadie, buscalos y descubre su actividad</string>
+    <string name="login_forget_pass">¿Olvidaste tu contraseña?</string>
+    <string name="login_forget_pass_email_send">Se ha enviado un email</string>
+    <string name="login_forget_pass_title_screen">Reseteo de contraseña</string>
+    <string name="login_forget_pass_send_email">Enviar email</string>
+    <string name="error_email_not_exits">Ese email no esta asociado a ninguna cuenta</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

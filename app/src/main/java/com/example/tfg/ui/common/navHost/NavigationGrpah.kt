@@ -32,6 +32,7 @@ import com.example.tfg.ui.profile.components.statistics.reviews.OnlyReviews
 import com.example.tfg.ui.profile.othersProfile.OthersProfileScreen
 import com.example.tfg.ui.search.SearchScreen
 import com.example.tfg.ui.search.components.SearchForEnum
+import com.example.tfg.ui.userIdentification.ForgetPassScreen
 import com.example.tfg.ui.userIdentification.LoginScreen
 import com.example.tfg.ui.userIdentification.RegisterImageSelector
 import com.example.tfg.ui.userIdentification.RegisterScreen
@@ -51,6 +52,7 @@ object Routes {
 sealed class HomeRoutesItems(val route: String) {
     object HomeNav : HomeRoutesItems("loginGraph")
     object LoginScreen : HomeRoutesItems("login")
+    object PasswordReset : HomeRoutesItems("passwordReset")
     object RegisterScreen : HomeRoutesItems("register")
     object RegisterImageSelectorScreen : HomeRoutesItems("registerImageSelector")
     object NotificationScreen : HomeRoutesItems("notifications")
@@ -129,6 +131,10 @@ private fun NavGraphBuilder.homeGraph(
         composable(HomeRoutesItems.LoginScreen.route) {
             bottomBarState.value = false
             LoginScreen({ navigateToRoute(it, navController) }, { navigateToRouteWithoutSave(it, navController) })
+        }
+        composable(HomeRoutesItems.PasswordReset.route) {
+            bottomBarState.value = false
+            ForgetPassScreen()
         }
         composable(HomeRoutesItems.RegisterScreen.route) {
             bottomBarState.value = false

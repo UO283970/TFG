@@ -43,8 +43,6 @@ fun ConfigurationScreen(
         }) { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 Column {
-                    ConfigurationRow({ navigateTo("") }, stringResource(R.string.profile_configuration_security), R.drawable.security_icon)
-                    ConfigurationRow({ navigateTo("") }, stringResource(R.string.profile_configuration_notifications), R.drawable.notification_icon)
                     ConfigurationRow({viewModel.deleteAccount()}, stringResource(R.string.profile_configuration_delete_account), R.drawable.delete_icon)
                     ConfigurationRow({viewModel.logout()}, stringResource(R.string.profile_configuration_logout), R.drawable.logout_icon)
                 }

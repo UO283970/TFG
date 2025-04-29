@@ -21,11 +21,14 @@ import javax.inject.Inject
 data class LoginMainState(
     var email: String = "",
     var emailError: String? = null,
+    var emailPassReset: String = "",
+    var emailPassResetError: String? = null,
     var password: String = "",
     var passwordError: String? = null,
     var isVisiblePassword: Boolean = false,
     var userIsLoggedIn: Boolean = false,
     var chargingInfo: Boolean = true,
+    var showToast: Boolean = false,
 ) : Parcelable
 
 @HiltViewModel
@@ -55,8 +58,8 @@ class LoginViewModel @Inject constructor(
                 _formState.value = _formState.value.copy(userIsLoggedIn = true)
             } else {
                 var newToken = userRepository.refreshToken(tokenRepository.getRefreshToken().toString())
-                if (newToken != null){
-                    tokenRepository.saveTokens(newToken,tokenRepository.getRefreshToken().toString())
+                if (newToken != null) {
+                    tokenRepository.saveTokens(newToken, tokenRepository.getRefreshToken().toString())
                     _formState.value = _formState.value.copy(userIsLoggedIn = true)
                 }
             }
@@ -81,7 +84,7 @@ class LoginViewModel @Inject constructor(
                         }
                     } else {
                         _formState.value = _formState.value.copy(userIsLoggedIn = true)
-                        tokenRepository.saveTokens(loginUser.tokenId,loginUser.refreshToken)
+                        tokenRepository.saveTokens(loginUser.tokenId, loginUser.refreshToken)
                     }
                 } else {
                     _formState.value = _formState.value.copy(userIsLoggedIn = false)
@@ -112,6 +115,19 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun sendResetEmail() {
+        if (validateEmailForReset() && !_formState.value.showToast) {
+            viewModelScope.launch {
+                val emailSend = userRepository.resetPassword(_formState.value.emailPassReset)
+                if(emailSend != null && emailSend){
+                    _formState.value = _formState.value.copy(showToast = true)
+                }else{
+                    _formState.value = _formState.value.copy(emailPassResetError = stringResourcesProvider.getString(R.string.error_email_not_exits))
+                }
+            }
+        }
+    }
+
     fun visiblePassword(isVisiblePassword: Boolean) {
         _formState.value = _formState.value.copy(isVisiblePassword = isVisiblePassword)
     }
@@ -122,6 +138,10 @@ class LoginViewModel @Inject constructor(
 
     fun emailChanged(email: String) {
         _formState.value = _formState.value.copy(email = email)
+    }
+
+    fun emailPassResetChanged(email: String) {
+        _formState.value = _formState.value.copy(emailPassReset = email)
     }
 
     private fun validatePasswordAndUsers(): Boolean {
@@ -148,6 +168,23 @@ class LoginViewModel @Inject constructor(
 
 
         _formState.value = _formState.value.copy(emailError = null)
+        return true
+    }
+
+    private fun validateEmailForReset(): Boolean {
+
+        if (_formState.value.emailPassReset.isBlank()) {
+            _formState.value = _formState.value.copy(emailPassResetError = stringResourcesProvider.getString(R.string.error_email_empty))
+            return false
+        }
+
+        if (!Regex("[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+").matches(_formState.value.emailPassReset)) {
+            _formState.value = _formState.value.copy(emailPassResetError = stringResourcesProvider.getString(R.string.error_email_not_email))
+            return false
+        }
+
+
+        _formState.value = _formState.value.copy(emailPassResetError = null)
         return true
     }
 
