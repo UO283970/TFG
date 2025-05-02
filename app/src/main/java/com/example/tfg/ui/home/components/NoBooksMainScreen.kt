@@ -29,7 +29,7 @@ import com.example.tfg.ui.common.navHost.Routes
 @Composable
 fun NoBooksMainScreen(modifier: Modifier, navigateTo: (String) -> Unit) {
     Column(modifier) {
-        TittleBigText(stringResource(id = R.string.home_reading_books))
+        TittleBigText(stringResource(id = R.string.home_no_reading_books))
         Column(
             Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center,

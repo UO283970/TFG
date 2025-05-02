@@ -3,7 +3,7 @@
     <string name="book_cover">Portada del libro </string>
     <string name="notifications">Notificaciones</string>
     <string name="home_recommended_books">Libros Recomendados</string>
-    <string name="home_reading_books">Continuar Leyendo</string>
+    <string name="home_no_reading_books">Continuar Leyendo</string>
     <string name="home_imageDescNoBooks">Imagen sin libros inicio</string>
     <string name="home_no_books">No estas leyendo ningún libro ahora mismo \n ¡Añade algún libro a tu lista!</string>
     <string name="home_search_books">Buscar Libros</string>
@@ -165,6 +165,12 @@
     <string name="login_forget_pass_title_screen">Reseteo de contraseña</string>
     <string name="login_forget_pass_send_email">Enviar email</string>
     <string name="error_email_not_exits">Ese email no esta asociado a ninguna cuenta</string>
+    <string name="accept_operation_dialog">Aceptar</string>
+    <string name="dismiss_operation_dialog">Cancelar</string>
+    <string name="delete_from_friends">¿Eliminar de tus seguidores?</string>
+    <string name="cancel_follow">¿Dejar de seguir?</string>
+    <string name="home_reading_books">Libros que estas leyendo</string>
+    <string name="home_top_bar_title">Bookverse</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

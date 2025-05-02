@@ -22,7 +22,7 @@ import com.example.tfg.ui.common.navHost.HomeRoutesItems
 fun TopNotifications(navigateTo: (String) -> Unit, hasNotifications: Boolean) {
     TopAppBar(
         windowInsets = WindowInsets(0.dp),
-        title = { Text(text = "") },
+        title = { Text(text = stringResource(R.string.home_top_bar_title)) },
         expandedHeight = 50.dp,
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
         actions = {

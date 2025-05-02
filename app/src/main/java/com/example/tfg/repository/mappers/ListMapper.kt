@@ -10,6 +10,7 @@ import com.graphQL.GetAllListInfoQuery.GetAllListInfo
 import com.graphQL.GetBasicListInfoListQuery.GetBasicListInfoList
 import com.graphQL.GetUserDefaultListQuery.GetUserDefaultList
 import com.graphQL.GetUserDefaultListQuery.ListOfBook
+import com.graphQL.GetUserDefaultListsListQuery
 import com.graphQL.GetUserDefaultListsListQuery.GetUserDefaultListsList
 
 fun List<GetUserDefaultListsList>?.toDefaultAppLists(userId: String, stringResourcesProvider: StringResourcesProvider): List<DefaultList>? {
@@ -23,13 +24,24 @@ fun List<GetUserDefaultListsList>?.toDefaultAppLists(userId: String, stringResou
                     stringResourcesProvider.getString(DefaultListNames.valueOf(list.listName).getDefaultListName()),
                     list.listImage,
                     numberOfBooks = list.numberOfBooks,
-                    userId = userId
+                    userId = userId,
+                    books = list.listOfBooks.toMainScreenBook()
                 )
             )
         }
     }
 
     return appDefaultBookLists
+}
+
+private fun List<GetUserDefaultListsListQuery.ListOfBook>.toMainScreenBook(): ArrayList<Book> {
+    var listOfBookHome = arrayListOf<Book>()
+
+    for (book in this){
+        listOfBookHome.add(Book(coverImage = book.coverImageURL))
+    }
+
+    return listOfBookHome
 }
 
 fun GetUserDefaultList?.toDefaultList(stringResourcesProvider: StringResourcesProvider): DefaultList? {

@@ -28,6 +28,7 @@ import com.example.tfg.model.user.User
 import com.example.tfg.ui.common.UserPictureWithoutCache
 import com.example.tfg.ui.friends.components.UserRowText
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
+import com.example.tfg.ui.profile.components.statistics.followers.AcceptOperationDialog
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
@@ -49,8 +50,10 @@ fun FollowsScreen(
             LazyColumn(
                 Modifier.padding(innerPadding)
             ) {
-                items(viewModel.followsInfo.followsList) {
+                item {
                     HorizontalDivider()
+                }
+                items(viewModel.followsInfo.followsList) {
                     Row (modifier = Modifier.padding(start = 10.dp, top = 10.dp)){
                         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
                             navigateToProfile(it)
@@ -64,8 +67,14 @@ fun FollowsScreen(
                                 }
                             }
                         }
-                        IconButton({viewModel.deleteFollow(it)}) {
+                        IconButton({viewModel.changeOpenDialog()}) {
                             Icon(Icons.Default.Clear,null)
+                        }
+                        if (viewModel.followsInfo.deleteDialog) {
+                            AcceptOperationDialog(
+                                stringResource(R.string.cancel_follow),
+                                { viewModel.changeOpenDialog() },
+                                { viewModel.deleteFollow(it) })
                         }
                     }
                 }

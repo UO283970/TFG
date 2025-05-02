@@ -3,20 +3,20 @@ package com.example.tfg.ui.home
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tfg.model.book.Book
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.ListRepository
 import com.example.tfg.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class HomeMainState(
-    var listOfBooks: ArrayList<Book>,
-    var listOfReadingBooks: ArrayList<Book>,
-    var hasNotifications: Boolean = false
+    var hasNotifications: Boolean = false,
+    var loadingInfo: Boolean = false,
+    var animate: Boolean = false
 )
 
 @HiltViewModel
@@ -28,10 +28,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _homeState = MutableStateFlow(
-        savedStateHandle.get<HomeMainState>("homeInfo") ?: HomeMainState(
-            getListOfRecommendedBooks(),
-            getReadingBooks()
-        )
+        savedStateHandle.get<HomeMainState>("homeInfo") ?: HomeMainState()
     )
 
     var homeState: StateFlow<HomeMainState> = _homeState
@@ -54,26 +51,14 @@ class HomeViewModel @Inject constructor(
                     listsState.setDefaultList(ArrayList(defaultList))
                 }
             }
+            _homeState.value = _homeState.value.copy(loadingInfo = true)
+            delay(1000)
+            _homeState.value = _homeState.value.copy(animate = true)
         }
     }
 
-    private fun getListOfRecommendedBooks(): ArrayList<Book> {
-        val items = arrayListOf<Book>(
-            Book("Words Of Radiance", "Brandon Sanderson"),
-            Book("Words Of Radiance", "Brandon Sanderson"),
-            Book("Words Of Radiance", "Brandon Sanderson"),
-            Book("Words Of Radiance", "Brandon Sanderson")
-        )
-
-        //viewModelScope.launch {  }
-        //TODO : Obtener unos libros recomendados
-
-        return items
-    }
-
-    private fun getReadingBooks(): ArrayList<Book> {
-        //TODO : Obtener libros que se están leyendo, es decir, libros en la lista leyendo
-        return arrayListOf()
+    fun goToReading(){
+        listsState.setDetailsList(listsState.getDefaultLists()[0])
     }
 
 }

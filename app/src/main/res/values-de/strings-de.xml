@@ -1,0 +1,195 @@
+<resources>
+    <string name="app_name">TFG</string>
+    <string name="book_cover">Buchumschlag</string>
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="home_recommended_books">Empfohlene Bücher</string>
+    <string name="home_no_reading_books">Weiterlesen</string>
+    <string name="home_imageDescNoBooks">Bild ohne Bücher Startseite</string>
+    <string name="home_no_books">Du liest gerade kein Buch\nFüge ein Buch zu deiner Liste hinzu!</string>
+    <string name="home_search_books">Bücher suchen</string>
+    <string name="search_placeholder_input">Suche dein Buch</string>
+    <string name="search_filters_search_by_gender">Nach Genre suchen:</string>
+    <string name="search_filters_orderBy">Sortieren nach:</string>
+    <string name="friends_search_placeholder_input">Benutzer suchen</string>
+    <string name="back_arrow">Zurück-Pfeil</string>
+    <string name="read_less">Weniger lesen</string>
+    <string name="read_more">Mehr lesen</string>
+    <string name="profile_edit_button">Bearbeiten</string>
+    <string name="profile_rating_text">Bewertungen</string>
+    <string name="profile_review_text">Rezensionen</string>
+    <string name="profile_following_text">Gefolgt</string>
+    <string name="profile_followers_text">Follower</string>
+    <string name="profile_default_lists">Standardlisten</string>
+    <string name="profile_own_lists">Meine Listen</string>
+    <string name="login_user_placeholder">E-Mail oder Benutzername</string>
+    <string name="text_field_delete">Alles löschen</string>
+    <string name="login_pass_placeholder">Passwort</string>
+    <string name="login_welcome">Willkommen</string>
+    <string name="login_button">Anmelden</string>
+    <string name="new_user_question">Neuer Benutzer?</string>
+    <string name="regiter_here_button">Hier registrieren</string>
+    <string name="login_register">Konto erstellen</string>
+    <string name="new_already_registered">Bereits registriert?</string>
+    <string name="login_here_button">Hier anmelden</string>
+    <string name="register_user_name_placeholder">Benutzername</string>
+    <string name="register_user_email_placeholder">E-Mail</string>
+    <string name="register_button">Registrieren</string>
+    <string name="error_email_empty">E-Mail darf nicht leer sein</string>
+    <string name="error_email_not_email">Diese E-Mail ist ungültig</string>
+    <string name="error_password_empty">Passwort darf nicht leer sein</string>
+    <string name="error_user_alias_empty">Benutzeralias darf nicht leer sein</string>
+    <string name="error_passwordRepeat">Passwörter stimmen nicht überein</string>
+    <string name="error_password_length">Passwort muss länger als %d Zeichen sein</string>
+    <string name="error_password_rules">Das Passwort muss Groß- und Kleinbuchstaben, Zahlen und ein Sonderzeichen enthalten</string>
+    <string name="search_start_message">Finde Bücher, die dir gefallen\nDein Lieblingsgenre oder Autor</string>
+    <string name="book_image">Buchumschlag</string>
+    <string name="user_follow_follow">Gefolgt</string>
+    <string name="user_follow_not_follow">Folgen</string>
+    <string name="user_follow_requested">Angefragt</string>
+    <string name="user_follow_own">Bearbeiten</string>
+    <string name="list_search_placeholder_input">Liste suchen</string>
+    <string name="settings_button">Einstellungen</string>
+    <string name="profile_edit_desc_characters">von %d Zeichen</string>
+    <string name="profile_edit_privacy">Privates Profil</string>
+    <string name="save_button">Speichern</string>
+    <string name="edit_user_name_placeholder">Name</string>
+    <string name="edit_user_alias_placeholder">Benutzername</string>
+    <string name="edit_user_description_placeholder">Beschreibung</string>
+    <string name="home_notifications">Benachrichtigungen</string>
+    <string name="home_notifications_friend_requests_icon">Symbol für Folgeanfragen</string>
+    <string name="notifications_friend_requests">Folgeanfragen</string>
+    <string name="notifications_friend_small_text">Anfragen annehmen oder ablehnen</string>
+    <string name="notifications_follow_notification_text">Du folgst jetzt: %s</string>
+    <string name="notifications_followed_notification_text">%s folgt dir jetzt</string>
+    <string name="notifications_followed_notification_button_text">Folgen</string>
+    <string name="notifications_image_text">Benachrichtigungsbild</string>
+    <string name="notifications_delete_button">Benachrichtigung löschen</string>
+    <string name="home_notifications_friend_requests">Folgeanfragen</string>
+    <string name="accept_button">Akzeptieren</string>
+    <string name="view_more_icon">Symbol „Mehr anzeigen“</string>
+    <string name="view_more_text">Mehr anzeigen</string>
+    <string name="list_privacy_public">Öffentlich</string>
+    <string name="list_privacy_private">Privat</string>
+    <string name="list_privacy_only_friends">Nur Follower</string>
+    <string name="list_creation_new_list">Neue Liste</string>
+    <string name="list_creation_list_name">Listenname</string>
+    <string name="list_creation_list_description">Listenbeschreibung</string>
+    <string name="list_creation_list_privacy">Privatsphäre:</string>
+    <string name="list_creation_dropdown_menu_down_arrow">Pfeil für Dropdown-Menü zur Privatsphärenauswahl</string>
+    <string name="list_creation_list_description_char_count">%d von %d Zeichen</string>
+    <string name="list_creation_list_empty_name_error">Listenname darf nicht leer sein</string>
+    <string name="profile_configuration">Einstellungen</string>
+    <string name="profile_configuration_security">Sicherheit</string>
+    <string name="profile_configuration_go_to">Pfeilsymbol zum Fortfahren</string>
+    <string name="profile_configuration_notifications">Benachrichtigungen verwalten</string>
+    <string name="profile_configuration_delete_account">Konto löschen</string>
+    <string name="profile_configuration_logout">Abmelden</string>
+    <string name="user_profile_image">Benutzerprofilbild</string>
+    <string name="has_reviewed">rezensiert</string>
+    <string name="list_text_books">Bücher</string>
+    <string name="book_add_to_list">Zur Liste hinzufügen</string>
+    <string name="book_pages">Seiten:</string>
+    <string name="book_add_new_list">Neue Liste erstellen</string>
+    <string name="read_list_name">Gelesen</string>
+    <string name="reading_list_name">Lese ich gerade</string>
+    <string name="book_add_new_list_my_lists">Meine Listen</string>
+    <string name="book_user_rating">Bewertung: </string>
+    <string name="book_total_rating">/10</string>
+    <string name="search_filters_order_by_tittle">Titel</string>
+    <string name="search_filters_search_for">Suchen nach:</string>
+    <string name="search_filters_order_by_rating">Bewertungen</string>
+    <string name="search_filters_order_by_author">Autor</string>
+    <string name="search_filters_order_by_date">Datum</string>
+    <string name="search_filters_order_by_pages">Seiten</string>
+    <string name="search_filters_search_for_title">Titel</string>
+    <string name="search_filters_search_for_author">Autor</string>
+    <string name="search_filters_search_for_lists">Listen</string>
+    <string name="search_filters_filterFor_fantasy">Fantasie</string>
+    <string name="search_filters_filterFor_romance">Romanze</string>
+    <string name="search_filters_filterFor_mystery">Krimi</string>
+    <string name="search_filters_filterFor_horror">Horror</string>
+    <string name="search_filters_filterFor_science_fiction">Science-Fiction</string>
+    <string name="search_filters_filterFor_film">Film</string>
+    <string name="search_filters_filterFor_art">Kunst</string>
+    <string name="search_filters_filterFor_magic">Magie</string>
+    <string name="search_filters_filterFor_humor">Humor</string>
+    <string name="search_filters_filterFor_thriller">Thriller</string>
+    <string name="search_filters_filterFor_biography">Biografie</string>
+    <string name="search_filters_filter_language">Nach Sprache filtern</string>
+    <string name="rating">bewertete</string>
+    <string name="search_filters_filterFor_adventure">Abenteuer</string>
+    <string name="error_user_login">Benutzername und Passwort stimmen nicht überein</string>
+    <string name="error_unknown_error">Ein unerwarteter Fehler ist aufgetreten, bitte versuche es erneut</string>
+    <string name="error_user_alias_repeated">Dieser Benutzeralias ist bereits vergeben</string>
+    <string name="error_email_used">Diese E-Mail ist bereits mit einem Konto verbunden</string>
+    <string name="list_default_name_reading">Lese ich gerade</string>
+    <string name="list_default_name_dropped">Abgebrochen</string>
+    <string name="list_default_name_waiting">Wartend</string>
+    <string name="list_default_name_read">Gelesen</string>
+    <string name="list_default_name_plan_to_read">Geplant zu lesen</string>
+    <string name="list_creation_list_repeated_name_error">Listenname bereits vergeben</string>
+    <string name="list_creation_list_name_error">Listenname ist nicht erlaubt</string>
+    <string name="register_user_alias_supporting">Name, mit dem du in der App identifiziert wirst</string>
+    <string name="list_details_dropdown_menu_modify">Liste bearbeiten</string>
+    <string name="list_details_dropdown_menu_delete">Löschen</string>
+    <string name="list_creation_modify_list">Liste bearbeiten</string>
+    <string name="edit_profile">Profil bearbeiten</string>
+    <string name="snackBar_text">Du musst der Galerie in den Einstellungen Zugriff gewähren</string>
+    <string name="snackBar_actionLabel">Einstellungen</string>
+    <string name="profile_picture">Profilbild</string>
+    <string name="edit_change_profile_image">Foto ändern</string>
+    <string name="book_details_publish_year">Erscheinungsjahr\n %s</string>
+    <string name="book_details_pages">Seiten\n %s</string>
+    <string name="book_details_pages_with_progress">Seiten\n %d/%s</string>
+    <string name="book_details_review_creation">Schreibe deine Rezension</string>
+    <string name="book_details_review_creation_spoiler">Spoiler enthalten</string>
+    <string name="book_details_review_creation_spoiler_aclaration">Markiere, wenn die Rezension Spoiler enthält</string>
+    <string name="book_details_review_screen">Rezensionen</string>
+    <string name="book_details_review_screen_score">Punktzahl: %s</string>
+    <string name="search_filters_order_by_default">Standard</string>
+    <string name="search_filters_search_for_isbn">ISBN</string>
+    <string name="register_user_alias_placeholder">Benutzeralias</string>
+    <string name="register_user_name_supporting">Benutzername (optional)</string>
+    <string name="login_register_image_selector">Vervollständige deine Informationen</string>
+    <string name="login_pass_repeat_placeholder">Passwort wiederholen</string>
+    <string name="book_add_new_list_progress">Fortschritt</string>
+    <string name="book_add_new_list_dialog_title">Bewertung</string>
+    <string name="book_details_number_reviews">%d Rezensionen</string>
+    <string name="book_details_no_reviews">Füge deine Rezension hinzu</string>
+    <string name="book_details_user_rating">Deine Bewertung</string>
+    <string name="book_details_user_mean_rating">Durchschnitt</string>
+    <string name="book_details_user_no_rating">Füge deine Bewertung hinzu</string>
+    <string name="friends_start_message">Noch keine Aktivität deiner Follower\nFalls du niemandem folgst, suche und entdecke ihre Aktivität</string>
+    <string name="login_forget_pass">Passwort vergessen?</string>
+    <string name="login_forget_pass_email_send">Eine E-Mail wurde gesendet</string>
+    <string name="login_forget_pass_title_screen">Passwort zurücksetzen</string>
+    <string name="login_forget_pass_send_email">E-Mail senden</string>
+    <string name="error_email_not_exits">Diese E-Mail ist mit keinem Konto verbunden</string>
+    <string name="accept_operation_dialog">Akzeptieren</string>
+    <string name="dismiss_operation_dialog">Abbrechen</string>
+    <string name="delete_from_friends">Von deinen Followern entfernen?</string>
+    <string name="cancel_follow">Nicht mehr folgen?</string>
+    <string name="home_reading_books">Bücher, die du gerade liest</string>
+    <string name="home_top_bar_title">Bookverse</string>
+
+    <string-array name="search_filters_filter_by_language_list">
+        <item>Tschechisch</item>
+        <item>Bulgarisch</item>
+        <item>Italienisch</item>
+        <item>Japanisch</item>
+        <item>Deutsch</item>
+        <item>Russisch</item>
+        <item>Portugiesisch</item>
+        <item>Polnisch</item>
+        <item>Türkisch</item>
+        <item>Koreanisch</item>
+        <item>Spanisch</item>
+        <item>Französisch</item>
+        <item>Englisch</item>
+    </string-array>
+
+    <string-array name="list_of_lists_tabs">
+        <item>Meine Listen</item>
+        <item>Standardlisten</item>
+    </string-array>
+</resources>

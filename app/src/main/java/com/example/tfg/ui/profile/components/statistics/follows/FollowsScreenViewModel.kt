@@ -21,7 +21,8 @@ import javax.inject.Inject
 data class FollowsScreenMainState(
     var followsList: ArrayList<User> = arrayListOf<User>(),
     var infoLoaded: Boolean = false,
-    var refreshInfo: Boolean = false
+    var refreshInfo: Boolean = false,
+    var deleteDialog: Boolean = false
 )
 
 @HiltViewModel
@@ -48,6 +49,10 @@ class FollowsScreenViewModel @Inject constructor(
                 followsInfo = followsInfo.copy(infoLoaded = true)
             }
         }
+    }
+
+    fun changeOpenDialog(){
+        followsInfo = followsInfo.copy(deleteDialog = !followsInfo.deleteDialog)
     }
 
     fun deleteFollow(user: User) {
