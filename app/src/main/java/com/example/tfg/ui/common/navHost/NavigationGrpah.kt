@@ -145,8 +145,8 @@ private fun NavGraphBuilder.homeGraph(
             RegisterImageSelector({ navigateToRouteWithoutSave(it, navController) })
         }
         composable(Routes.Home.route) {
-            bottomBarState.value = true
             HomeScreen({ navigateToRoute(it, navController) })
+            bottomBarState.value = true
         }
 
         composable(HomeRoutesItems.NotificationScreen.route) {

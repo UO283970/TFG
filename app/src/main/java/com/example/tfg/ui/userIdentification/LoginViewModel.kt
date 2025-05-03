@@ -28,7 +28,8 @@ data class LoginMainState(
     var isVisiblePassword: Boolean = false,
     var userIsLoggedIn: Boolean = false,
     var chargingInfo: Boolean = true,
-    var showToast: Boolean = false,
+    var showToast: Boolean = false
+
 ) : Parcelable
 
 @HiltViewModel
@@ -36,7 +37,7 @@ class LoginViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider,
     savedStateHandle: SavedStateHandle,
     private val userRepository: UserRepository,
-    private val tokenRepository: TokenRepository
+    private val tokenRepository: TokenRepository,
 ) : ViewModel() {
 
     private val _formState = MutableStateFlow(
@@ -46,8 +47,9 @@ class LoginViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            //_formState.value = _formState.value.copy(chargingInfo = false)
-            checkUserConnected()
+            _formState.value = _formState.value.copy(chargingInfo = false)
+            //checkUserConnected()
+
         }
     }
 

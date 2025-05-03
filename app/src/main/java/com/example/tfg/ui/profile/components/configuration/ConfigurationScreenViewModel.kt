@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ConfigurationState(
-    var toLogin: Boolean = false
+    var toLogin: Boolean = false,
+    var deleteDialog: Boolean = false
 )
 
 @HiltViewModel
@@ -28,6 +29,10 @@ class ConfigurationScreenViewModel @Inject constructor(val userRepository: UserR
                 confState = confState.copy(toLogin = true)
             }
         }
+    }
+
+    fun toggleDeleteDialog(){
+        confState = confState.copy(deleteDialog = !confState.deleteDialog)
     }
 
     fun deleteAccount(){

@@ -49,7 +49,7 @@ fun HomeScreen(navigateTo: (route: String) -> Unit, viewModel: HomeViewModel = h
                 Column(Modifier.padding(innerPadding)) {
                     HorizontalDivider(thickness = 1.dp)
                     Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
-                        if (viewModel.listsState.getDefaultLists().isEmpty()) {
+                        if (viewModel.listsState.getDefaultLists()[0].books.isEmpty()) {
                             NoBooksMainScreen(
                                 Modifier
                                     .weight(1f)

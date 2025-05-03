@@ -67,11 +67,15 @@ class FriendsViewModel @Inject constructor(
     }
 
     fun searchUsers() {
-        viewModelScope.launch {
-            val result = userRepository.getUserSearchInfo(_friendsInfo.value.userQuery)
-            if(result != null){
-                _friendsInfo.value = _friendsInfo.value.copy(queryResult = ArrayList(result))
+        if(_friendsInfo.value.userQuery != ""){
+            viewModelScope.launch {
+                val result = userRepository.getUserSearchInfo(_friendsInfo.value.userQuery)
+                if(result != null){
+                    _friendsInfo.value = _friendsInfo.value.copy(queryResult = ArrayList(result))
+                }
             }
+        }else{
+            _friendsInfo.value = _friendsInfo.value.copy(queryResult = arrayListOf())
         }
     }
 

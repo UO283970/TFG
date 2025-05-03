@@ -18,6 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +40,8 @@ fun RatingDialog(
     changeUserScore: (newScore: Int) -> Unit,
     changeDeleted: (state: Boolean) -> Unit
 ) {
+    var score by remember { mutableIntStateOf(userScore) }
+
     Dialog({ toggleRatingMenu() }) {
         Card(
             modifier = Modifier.Companion
@@ -47,7 +52,7 @@ fun RatingDialog(
             Column(verticalArrangement = Arrangement.Center, modifier = Modifier.Companion.padding(10.dp)) {
                 Column(modifier = Modifier.Companion.fillMaxWidth(), horizontalAlignment = Alignment.Companion.CenterHorizontally) {
                     Text("Puntuación:", fontSize = 24.sp)
-                    Text(if (userScore == 0) "-" else userScore.toString(), fontSize = 28.sp)
+                    Text(if (score == 0) "-" else score.toString(), fontSize = 28.sp)
                 }
                 Row(
                     horizontalArrangement = Arrangement.SpaceAround,
@@ -57,7 +62,7 @@ fun RatingDialog(
                     verticalAlignment = Alignment.Companion.CenterVertically
                 ) {
                     for (i in 1..10) {
-                        val selected = i <= userScore
+                        val selected = i <= score
                         val scale by animateFloatAsState(
                             targetValue = 1f,
                             animationSpec = tween(durationMillis = 200)
@@ -76,6 +81,7 @@ fun RatingDialog(
                                         scaleY = scale
                                     )
                                     .clickable {
+                                        score = i
                                         changeUserScore(i)
                                         changeDeleted(false)
                                     }
@@ -86,6 +92,7 @@ fun RatingDialog(
                 }
                 Row(modifier = Modifier.Companion.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     TextButton({
+                        score = 0
                         changeUserScore(0)
                         changeDeleted(true)
                     }) {

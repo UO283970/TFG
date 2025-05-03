@@ -24,7 +24,8 @@ data class SheetListsSate(
     val listOfDeleteFromUserLists: ArrayList<String> = arrayListOf<String>(),
     val listOfCanDeleteIds: ArrayList<String> = arrayListOf<String>(),
     val userQuery: String = "",
-    var updateView: Boolean = false
+    var updateView: Boolean = false,
+    var showToast: Boolean = false
 )
 
 class AddBookToListsBottomSheetViewModel(
@@ -39,6 +40,10 @@ class AddBookToListsBottomSheetViewModel(
     init {
         generateDefaultLists()
         generateUsrLists()
+    }
+
+    fun toggleToast(){
+        _sheetListSate.value = _sheetListSate.value.copy(showToast = !_sheetListSate.value.showToast)
     }
 
     fun changeSelectedDefaultList(bookList: DefaultList, boolean: Boolean) {

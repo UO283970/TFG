@@ -24,6 +24,7 @@ data class ListDetailsMainState(
     var baseListOfBooks: List<Book> = arrayListOf<Book>(),
     var menuOpen: Boolean = false,
     var isDeleted: Boolean = false,
+    var deleteDialog: Boolean = false,
 
 )
 
@@ -60,6 +61,11 @@ class ListDetailsViewModel @Inject constructor(val listsState: ListsState, val l
 
     fun changeMenu(state: Boolean){
         listDetailsInfo = listDetailsInfo.copy(menuOpen = state)
+    }
+
+
+    fun toggleDeleteDialog(){
+        listDetailsInfo = listDetailsInfo.copy(deleteDialog = listDetailsInfo.deleteDialog)
     }
 
 

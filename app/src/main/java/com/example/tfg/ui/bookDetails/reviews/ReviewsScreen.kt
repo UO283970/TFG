@@ -15,6 +15,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,6 +41,7 @@ import com.example.tfg.ui.common.ChargingProgress
 import com.example.tfg.ui.common.UserPictureWithoutCache
 import com.example.tfg.ui.common.navHost.BookNavigationItems
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
+import com.example.tfg.ui.profile.components.statistics.followers.AcceptOperationDialog
 import com.example.tfg.ui.theme.TFGTheme
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -78,9 +81,21 @@ fun ReviewsScreen(returnToLastScreen: () -> Unit, navigateTo: (route: String) ->
                                     }
                                     if (reviewsScreenViewModel.mainUserState.getMainUser()?.userId == it.user.userId) {
                                         Row(Modifier.weight(1f), horizontalArrangement = Arrangement.End) {
-                                            IconButton({}) {
+                                            IconButton({ reviewsScreenViewModel.toggleMenu() }) {
                                                 Icon(Icons.Default.MoreVert, null)
                                             }
+                                            DropdownMenu(
+                                                expanded = reviewsScreenViewModel.bookReviewState.menuOpen,
+                                                onDismissRequest = { reviewsScreenViewModel.toggleMenu() }) {
+                                                DropdownMenuItem({ Text(stringResource(R.string.delete_review_menu_item)) },
+                                                    { reviewsScreenViewModel.toggleDeleteDialogOpen() })
+                                            }
+                                            var actualReview = it
+                                            AcceptOperationDialog(
+                                                stringResource(R.string.delete_review_dialog),
+                                                close = { reviewsScreenViewModel.toggleDeleteDialogOpen() },
+                                                accept = {reviewsScreenViewModel.deleteReview(actualReview)}
+                                            )
                                         }
                                     }
                                 }
@@ -96,7 +111,8 @@ fun ReviewsScreen(returnToLastScreen: () -> Unit, navigateTo: (route: String) ->
                         verticalArrangement = Arrangement.Bottom
                     ) {
                         if (reviewsScreenViewModel.bookState.bookForDetails.listOfReviews
-                            .find { it.user.userId == reviewsScreenViewModel.mainUserState.getMainUser()?.userId } == null) {
+                                .find { it.user.userId == reviewsScreenViewModel.mainUserState.getMainUser()?.userId } == null
+                        ) {
                             FloatingActionButton(
                                 onClick = { navigateTo(BookNavigationItems.ReviewCreationScreen.route) },
                                 modifier = Modifier.clip(CircleShape)

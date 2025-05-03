@@ -1,5 +1,6 @@
 package com.example.tfg.ui.common.bottonSheetLists
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -160,8 +162,12 @@ fun AddBookToListsBottomSheet(
                                     midState = !midState
                                     animationState = true
                                     viewModel.changeUserListState(list.key, list.value)
+                                    viewModel.toggleToast()
                                 },
                         )
+                        if(state.value.showToast){
+                            Toast.makeText(LocalContext.current, stringResource(R.string.book_add_new_list_toast), Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }

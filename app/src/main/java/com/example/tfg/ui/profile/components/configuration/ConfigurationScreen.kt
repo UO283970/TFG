@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.ui.common.navHost.HomeRoutesItems
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
+import com.example.tfg.ui.profile.components.statistics.followers.AcceptOperationDialog
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
@@ -43,10 +44,16 @@ fun ConfigurationScreen(
         }) { innerPadding ->
             Column(Modifier.padding(innerPadding)) {
                 Column {
-                    ConfigurationRow({viewModel.deleteAccount()}, stringResource(R.string.profile_configuration_delete_account), R.drawable.delete_icon)
+                    ConfigurationRow({viewModel.toggleDeleteDialog()}, stringResource(R.string.profile_configuration_delete_account), R.drawable.delete_icon)
                     ConfigurationRow({viewModel.logout()}, stringResource(R.string.profile_configuration_logout), R.drawable.logout_icon)
                 }
-
+                if(viewModel.confState.deleteDialog){
+                    AcceptOperationDialog(
+                        stringResource(R.string.profile_configuration_delete_account_dialog),
+                        close = {viewModel.toggleDeleteDialog()},
+                        accept = { viewModel.deleteAccount() }
+                    )
+                }
             }
         }
     }

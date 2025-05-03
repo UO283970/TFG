@@ -171,6 +171,11 @@
     <string name="cancel_follow">Se désabonner ?</string>
     <string name="home_reading_books">Livres que vous lisez</string>
     <string name="home_top_bar_title">Bookverse</string>
+    <string name="profile_configuration_delete_account_dialog">Êtes-vous sûr de vouloir supprimer toutes les informations de votre compte ?</string>
+    <string name="delete_list_dialog">Êtes-vous sûr de vouloir supprimer la liste ?</string>
+    <string name="delete_review_menu_item">Supprimer</string>
+    <string name="delete_review_dialog">Êtes-vous sûr de vouloir supprimer l\'évaluation ?</string>
+    <string name="book_add_new_list_toast">Livre ajouté à la liste</string>
 
     <string-array name="search_filters_filter_by_language_list">
         <item>Tchèque</item>

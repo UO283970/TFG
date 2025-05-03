@@ -9,7 +9,6 @@ import com.example.tfg.ui.NavigationBar
 import com.example.tfg.ui.common.StringResourcesProvider
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
-import java.util.Locale
 import javax.inject.Inject
 
 
@@ -20,8 +19,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        resources.configuration.setLocale(Locale.getDefault())
 
         setContent {
             NavigationBar(navController = rememberNavController())

@@ -32,6 +32,7 @@ import com.example.tfg.ui.common.DescText
 import com.example.tfg.ui.common.navHost.ListNavigationItems
 import com.example.tfg.ui.lists.listDetails.components.ListDetailsItemList
 import com.example.tfg.ui.lists.listDetails.components.SearchBarListDetailsScreen
+import com.example.tfg.ui.profile.components.statistics.followers.AcceptOperationDialog
 import com.example.tfg.ui.theme.TFGTheme
 import com.example.tfg.ui.theme.myAppMainFont
 
@@ -86,10 +87,15 @@ fun ListDetailsScreen(returnToLastScreen: () -> Unit, navigateTo: (route: String
                                     DropdownMenuItem(
                                         { Text(stringResource(R.string.list_details_dropdown_menu_delete)) },
                                         {
-                                            viewModel.deleteList()
+                                            viewModel.toggleDeleteDialog()
                                         }
                                     )
                                 }
+                                AcceptOperationDialog(
+                                    stringResource(R.string.delete_list_dialog),
+                                    close = { viewModel.toggleDeleteDialog() },
+                                    accept = {viewModel.deleteList()}
+                                )
                             }
                         }
                         ,

@@ -55,9 +55,11 @@ fun LoginScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        Column ( horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy((-20).dp)){
-                            Image(painterResource(R.drawable.main_app_icon),null, modifier = Modifier.fillMaxSize(0.15f))
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy((-20).dp)
+                        ) {
+                            Image(painterResource(R.drawable.main_app_icon), null, modifier = Modifier.fillMaxSize(0.15f))
                             LoginMainText(stringResource(R.string.login_welcome))
                         }
                         Column(
@@ -66,8 +68,8 @@ fun LoginScreen(
                         ) {
                             TextFieldUserEmail(loginViewModel, state)
                             PasswordTextField(loginViewModel, state)
-                            Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End){
-                                Text(stringResource(R.string.login_forget_pass), modifier = Modifier.clickable{
+                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                                Text(stringResource(R.string.login_forget_pass), modifier = Modifier.clickable {
                                     navigateTo(HomeRoutesItems.PasswordReset.route)
                                 })
                             }

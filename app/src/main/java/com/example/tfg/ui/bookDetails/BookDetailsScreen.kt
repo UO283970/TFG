@@ -106,7 +106,7 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, returnToLastScreen: (
                         .verticalScroll(rememberScrollState())
                         .imePadding()
                 ) {
-                    MainBookInfoImage(viewModel.bookState.bookForDetails.coverImage, color, textColor) { returnToLastScreen }
+                    MainBookInfoImage(viewModel.bookState.bookForDetails.coverImage, color, textColor) { returnToLastScreen() }
                     Column(modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 5.dp)) {
                         BookTittleText(viewModel.bookState.bookForDetails.tittle)
                         BookAuthorText(viewModel.bookState.bookForDetails.author, navigateToSearch)
