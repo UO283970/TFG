@@ -10,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
-import com.example.tfg.ui.common.ChargingProgress
+import com.example.tfg.ui.common.LoadingProgress
 import com.example.tfg.ui.home.notifications.components.FriendRequestAccessRow
 import com.example.tfg.ui.home.notifications.components.NotificationRowItem
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
@@ -42,7 +42,7 @@ fun NotificationScreen(
             }
         }
     }else{
-        ChargingProgress()
+        LoadingProgress()
     }
 }
 

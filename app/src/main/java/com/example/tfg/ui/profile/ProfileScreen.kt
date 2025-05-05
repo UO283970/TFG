@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
-import com.example.tfg.ui.common.ChargingProgress
 import com.example.tfg.ui.common.DescText
+import com.example.tfg.ui.common.LoadingProgress
 import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 import com.example.tfg.ui.profile.components.EditButton
 import com.example.tfg.ui.profile.components.MainUserProfileInfo
@@ -90,6 +90,6 @@ fun ProfileScreen(
             }
         }
     } else {
-        ChargingProgress()
+        LoadingProgress()
     }
 }

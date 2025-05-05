@@ -1,4 +1,4 @@
-package com.example.tfg.ui.userIdentification
+package com.example.tfg.ui.userIdentification.register
 
 import android.Manifest
 import android.net.Uri

@@ -19,8 +19,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.ui.common.ErrorText
-import com.example.tfg.ui.userIdentification.LoginMainState
-import com.example.tfg.ui.userIdentification.LoginViewModel
+import com.example.tfg.ui.userIdentification.login.LoginMainState
+import com.example.tfg.ui.userIdentification.login.LoginViewModel
 
 @Composable
 fun TextFieldUserEmail(viewModel: LoginViewModel, state: LoginMainState){

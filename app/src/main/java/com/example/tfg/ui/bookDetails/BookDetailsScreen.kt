@@ -39,7 +39,7 @@ import com.example.tfg.ui.bookDetails.components.MainBookInfoImage
 import com.example.tfg.ui.bookDetails.components.RatingAndReviewRow
 import com.example.tfg.ui.common.BookAuthorText
 import com.example.tfg.ui.common.BookTittleText
-import com.example.tfg.ui.common.ChargingProgress
+import com.example.tfg.ui.common.LoadingProgress
 import com.example.tfg.ui.common.ObtainColorsOfImage
 import com.example.tfg.ui.common.RatingDialog
 import com.example.tfg.ui.common.bottonSheetLists.AddBookToListsBottomSheet
@@ -172,6 +172,6 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, returnToLastScreen: (
             }
         }
     } else {
-        ChargingProgress()
+        LoadingProgress()
     }
 }

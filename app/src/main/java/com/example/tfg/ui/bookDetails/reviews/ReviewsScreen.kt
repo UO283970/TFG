@@ -37,7 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.model.user.userActivities.ReviewActivity
 import com.example.tfg.ui.bookDetails.components.DescriptionText
-import com.example.tfg.ui.common.ChargingProgress
+import com.example.tfg.ui.common.LoadingProgress
 import com.example.tfg.ui.common.UserPictureWithoutCache
 import com.example.tfg.ui.common.navHost.BookNavigationItems
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
@@ -125,7 +125,7 @@ fun ReviewsScreen(returnToLastScreen: () -> Unit, navigateTo: (route: String) ->
             }
         }
     } else {
-        ChargingProgress()
+        LoadingProgress()
     }
 }
 

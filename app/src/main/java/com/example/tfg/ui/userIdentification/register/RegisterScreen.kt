@@ -1,4 +1,4 @@
-package com.example.tfg.ui.userIdentification
+package com.example.tfg.ui.userIdentification.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

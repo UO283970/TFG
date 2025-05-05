@@ -87,7 +87,7 @@ fun ListDetailsItem(book: Book, setDetailsBook: (book: Book) -> Unit, navigateTo
                             .background(color = MaterialTheme.colorScheme.onPrimary),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = if (book.userScore == -1) "-" else book.userScore.toString())
+                        Text(text = if (book.userScore == 0) "-" else book.userScore.toString())
                     }
                 }
 

@@ -19,7 +19,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.ui.common.ErrorText
-import com.example.tfg.ui.userIdentification.RegisterViewModel
+import com.example.tfg.ui.userIdentification.register.RegisterViewModel
 
 @Composable
 fun TextFieldUserAlias(registerViewModel: RegisterViewModel) {

@@ -41,7 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
-import com.example.tfg.ui.common.ChargingProgress
+import com.example.tfg.ui.common.LoadingProgress
 import com.example.tfg.ui.search.components.NewBookSearchItem
 import com.example.tfg.ui.search.components.OrderByEnum
 import com.example.tfg.ui.search.components.SearchBarSearchScreen
@@ -86,7 +86,7 @@ fun SearchScreen(navigateTo: (route: String) -> Unit,
                     }
                 } else {
                     if (viewModel.searchInfo.chargingInfo) {
-                        ChargingProgress()
+                        LoadingProgress()
                     } else {
                         Box {
                             LazyColumn(

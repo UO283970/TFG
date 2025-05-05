@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
-import com.example.tfg.ui.common.ChargingProgress
 import com.example.tfg.ui.common.DescText
+import com.example.tfg.ui.common.LoadingProgress
 import com.example.tfg.ui.common.navHost.ListNavigationItems
 import com.example.tfg.ui.lists.listDetails.components.ListDetailsItemList
 import com.example.tfg.ui.lists.listDetails.components.SearchBarListDetailsScreen
@@ -91,11 +91,13 @@ fun ListDetailsScreen(returnToLastScreen: () -> Unit, navigateTo: (route: String
                                         }
                                     )
                                 }
-                                AcceptOperationDialog(
-                                    stringResource(R.string.delete_list_dialog),
-                                    close = { viewModel.toggleDeleteDialog() },
-                                    accept = {viewModel.deleteList()}
-                                )
+                                if(viewModel.listDetailsInfo.deleteDialog){
+                                    AcceptOperationDialog(
+                                        stringResource(R.string.delete_list_dialog),
+                                        close = { viewModel.toggleDeleteDialog() },
+                                        accept = {viewModel.deleteList()}
+                                    )
+                                }
                             }
                         }
                         ,
@@ -117,7 +119,7 @@ fun ListDetailsScreen(returnToLastScreen: () -> Unit, navigateTo: (route: String
             }
         }
     } else {
-        ChargingProgress()
+        LoadingProgress()
     }
 
 }

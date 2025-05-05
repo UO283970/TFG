@@ -124,11 +124,8 @@ class BookDetailsViewModel @Inject constructor(
             bookInfo = bookInfo.copy(inListButtonString = bookList.listName)
             if (bookList.listName == stringResourcesProvider.getString(R.string.read_list_name)) {
                 bookInfo = bookInfo.copy(totalPages = bookState.bookForDetails.pages.toString())
-                bookState.bookForDetails.userProgression = bookState.bookForDetails.pages
             }
-            bookState.bookForDetails.userProgression = if (bookState.bookForDetails.userProgression == -1) 0 else bookState.bookForDetails.userProgression
         } else {
-            bookState.bookForDetails.userProgression = -1
             bookInfo = bookInfo.copy(inListButtonString = stringResourcesProvider.getString(R.string.book_add_to_list))
             bookInfo = bookInfo.copy(selectedBookList = "")
             bookInfo = bookInfo.copy(totalPages = "0")

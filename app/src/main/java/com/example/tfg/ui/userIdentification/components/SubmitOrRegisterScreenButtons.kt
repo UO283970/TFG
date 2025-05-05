@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tfg.R
 import com.example.tfg.ui.common.navHost.HomeRoutesItems
-import com.example.tfg.ui.userIdentification.LoginViewModel
+import com.example.tfg.ui.userIdentification.login.LoginViewModel
 
 @Composable
 fun SubmitOrRegisterScreenButtons(

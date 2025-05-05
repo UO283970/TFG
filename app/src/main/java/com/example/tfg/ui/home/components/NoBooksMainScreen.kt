@@ -36,7 +36,7 @@ fun NoBooksMainScreen(modifier: Modifier, navigateTo: (String) -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painterResource(R.drawable.prueba),
+                painterResource(R.drawable.no_books_main_screen),
                 contentDescription = stringResource(id = R.string.home_imageDescNoBooks),
                 modifier = Modifier
                     .padding(top = 5.dp).weight(1f)
@@ -49,7 +49,7 @@ fun NoBooksMainScreen(modifier: Modifier, navigateTo: (String) -> Unit) {
                 fontWeight = FontWeight.Bold
             )
             OutlinedButton(onClick = {
-                navigateTo(Routes.ListsScreen.route)
+                navigateTo(Routes.SearchScreen.route)
             }) {
                 Icon(Icons.Outlined.Search, contentDescription = "", tint = MaterialTheme.colorScheme.onBackground)
                 Text(

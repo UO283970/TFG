@@ -1,4 +1,4 @@
-package com.example.tfg.ui.userIdentification
+package com.example.tfg.ui.userIdentification.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
-import com.example.tfg.ui.common.ChargingProgress
+import com.example.tfg.ui.common.LoadingProgress
 import com.example.tfg.ui.common.navHost.HomeRoutesItems
 import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.theme.TFGTheme
@@ -80,7 +80,7 @@ fun LoginScreen(
             }
         }
     } else {
-        ChargingProgress()
+        LoadingProgress()
     }
 }
 

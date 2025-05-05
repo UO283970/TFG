@@ -17,8 +17,8 @@ import com.example.tfg.ui.bookDetails.reviews.ReviewsScreen
 import com.example.tfg.ui.bookDetails.reviews.creation.ReviewCreation
 import com.example.tfg.ui.friends.FriendsScreen
 import com.example.tfg.ui.home.HomeScreen
-import com.example.tfg.ui.home.notifications.FriendsRequestScreen
 import com.example.tfg.ui.home.notifications.NotificationScreen
+import com.example.tfg.ui.home.notifications.friendRequest.FriendsRequestScreen
 import com.example.tfg.ui.lists.ListScreen
 import com.example.tfg.ui.lists.listCreation.NewListCreationScreen
 import com.example.tfg.ui.lists.listDetails.ListDetailsScreen
@@ -32,10 +32,10 @@ import com.example.tfg.ui.profile.components.statistics.reviews.OnlyReviews
 import com.example.tfg.ui.profile.othersProfile.OthersProfileScreen
 import com.example.tfg.ui.search.SearchScreen
 import com.example.tfg.ui.search.components.SearchForEnum
-import com.example.tfg.ui.userIdentification.ForgetPassScreen
-import com.example.tfg.ui.userIdentification.LoginScreen
-import com.example.tfg.ui.userIdentification.RegisterImageSelector
-import com.example.tfg.ui.userIdentification.RegisterScreen
+import com.example.tfg.ui.userIdentification.components.ForgetPassScreen
+import com.example.tfg.ui.userIdentification.login.LoginScreen
+import com.example.tfg.ui.userIdentification.register.RegisterImageSelector
+import com.example.tfg.ui.userIdentification.register.RegisterScreen
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 

@@ -1,4 +1,4 @@
-package com.example.tfg.ui.userIdentification
+package com.example.tfg.ui.userIdentification.register
 
 import android.content.ContentResolver
 import android.net.Uri
@@ -11,7 +11,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.tfg.R
 import com.example.tfg.model.AppConstants
 import com.example.tfg.model.security.TokenRepository
-import com.example.tfg.model.user.PassEncryption
 import com.example.tfg.model.user.UserRegistrationState
 import com.example.tfg.repository.UserRepository
 import com.example.tfg.ui.common.StringResourcesProvider
@@ -99,13 +98,10 @@ class RegisterViewModel @Inject constructor(
         val correctPassword: Boolean = validatePassword()
         val correctRepeatPassword: Boolean = validateRepeatPassword()
 
-        val encryptedPass = PassEncryption.encrypt(formState.password)
-        val encryptedRepeatedPass = PassEncryption.encrypt(formState.passwordRepeat)
-
         if (correctEmail && correctPassword && correctRepeatPassword) {
             viewModelScope.launch {
 
-                val registeredUser = mainRepository.checkUserEmailAndPass(formState.email, encryptedPass, encryptedRepeatedPass)
+                val registeredUser = mainRepository.checkUserEmailAndPass(formState.email, formState.password, formState.passwordRepeat)
                 if (registeredUser != null) {
                     if (registeredUser.userRegisterErrors.isNotEmpty()) {
                         formState = formState.copy(checkPreConditions = false)
@@ -130,9 +126,6 @@ class RegisterViewModel @Inject constructor(
         val correctPassword: Boolean = validatePassword()
         val correctRepeatPassword: Boolean = validateRepeatPassword()
 
-        val encryptedPass = PassEncryption.encrypt(userRegistrationState.password)
-        val encryptedRepeatedPass = PassEncryption.encrypt(userRegistrationState.passwordRepeat)
-
         if (correctEmail && correctUser && correctPassword && correctRepeatPassword) {
             viewModelScope.launch {
                 var userImageBase64 = try {
@@ -144,7 +137,7 @@ class RegisterViewModel @Inject constructor(
                     ""
                 }
 
-                val registeredUser = mainRepository.createUser( userRegistrationState.email ,encryptedPass , encryptedRepeatedPass, formState.userAlias, formState.userName, userImageBase64)
+                val registeredUser = mainRepository.createUser( userRegistrationState.email ,userRegistrationState.password , userRegistrationState.passwordRepeat, formState.userAlias, formState.userName, userImageBase64)
                 if (registeredUser != null) {
                     if (registeredUser.userRegisterErrors.isNotEmpty()) {
                         formState = formState.copy(isUserRegistered = false)

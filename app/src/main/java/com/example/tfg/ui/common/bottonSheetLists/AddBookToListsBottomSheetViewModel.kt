@@ -49,13 +49,20 @@ class AddBookToListsBottomSheetViewModel(
     fun changeSelectedDefaultList(bookList: DefaultList, boolean: Boolean) {
         if (boolean && _sheetListSate.value.selectedDefaultList != null) {
             _sheetListSate.value.checkboxDefaultList.put(_sheetListSate.value.selectedDefaultList!!, false)
+            viewModelScope.launch {
+                listsState.removeBookFromDefaultList(book, _sheetListSate.value.selectedDefaultList!!, listsRepository)
+            }
         }
 
         _sheetListSate.value.checkboxDefaultList[bookList] = boolean
         if (boolean) {
             _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = bookList)
+            listsState.addBookToDefaultList(book, bookList)
         } else {
             _sheetListSate.value = _sheetListSate.value.copy(selectedDefaultList = null)
+            viewModelScope.launch {
+                listsState.removeBookFromDefaultList(book, bookList, listsRepository)
+            }
         }
 
         _sheetListSate.value = _sheetListSate.value.copy(updateView = !_sheetListSate.value.updateView)

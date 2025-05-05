@@ -1,4 +1,4 @@
-package com.example.tfg.ui.home.notifications
+package com.example.tfg.ui.home.notifications.friendRequest
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

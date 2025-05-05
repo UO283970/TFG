@@ -65,7 +65,7 @@ class ListDetailsViewModel @Inject constructor(val listsState: ListsState, val l
 
 
     fun toggleDeleteDialog(){
-        listDetailsInfo = listDetailsInfo.copy(deleteDialog = listDetailsInfo.deleteDialog)
+        listDetailsInfo = listDetailsInfo.copy(deleteDialog = !listDetailsInfo.deleteDialog)
     }
 
 

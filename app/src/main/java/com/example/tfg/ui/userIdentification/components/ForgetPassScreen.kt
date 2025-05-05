@@ -1,4 +1,4 @@
-package com.example.tfg.ui.userIdentification
+package com.example.tfg.ui.userIdentification.components
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.ui.common.ErrorText
 import com.example.tfg.ui.theme.TFGTheme
-import com.example.tfg.ui.userIdentification.components.LoginMainText
+import com.example.tfg.ui.userIdentification.login.LoginViewModel
 
 @Composable
 fun ForgetPassScreen(loginViewModel: LoginViewModel = hiltViewModel()) {

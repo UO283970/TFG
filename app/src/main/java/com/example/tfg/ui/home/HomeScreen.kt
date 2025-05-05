@@ -30,7 +30,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.example.tfg.R
 import com.example.tfg.model.book.Book
-import com.example.tfg.ui.common.ChargingProgress
+import com.example.tfg.ui.common.LoadingProgress
 import com.example.tfg.ui.common.TittleBigText
 import com.example.tfg.ui.common.navHost.ListNavigationItems
 import com.example.tfg.ui.home.components.NoBooksMainScreen
@@ -72,7 +72,7 @@ fun HomeScreen(navigateTo: (route: String) -> Unit, viewModel: HomeViewModel = h
             }
         }
     } else {
-        ChargingProgress()
+        LoadingProgress()
     }
 }
 
