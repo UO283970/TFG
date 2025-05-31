@@ -13,12 +13,12 @@ enum class OrderByEnum {
             return R.string.search_filters_order_by_default
         }
     },
-    TITTLE{
+    TITLE{
         override fun order(listToFilter: List<Book>, descending: Boolean): List<Book> {
             return if(descending){
-                listToFilter.sortedByDescending { it.tittle }
+                listToFilter.sortedByDescending { it.title }
             }else{
-                listToFilter.sortedBy { it.tittle }
+                listToFilter.sortedBy { it.title }
             }
         }
 

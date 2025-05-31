@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tfg.model.book.Book
 import com.example.tfg.model.book.BookState
-import com.example.tfg.model.booklist.DefaultListNames
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.BookRepository
 import com.example.tfg.repository.ListRepository
@@ -18,7 +17,6 @@ import com.example.tfg.ui.search.components.SearchForEnum
 import com.example.tfg.ui.search.components.SubjectsEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 data class SearchMainState(
@@ -116,23 +114,7 @@ class SearchViewModel @Inject constructor(
             var searchFor = if(searchInfo.userQuery == "") "" else searchInfo.searchFor.searchForToQuery()
             var booksFromQuery = bookRepository.searchBooks(searchInfo.userQuery,searchFor,subject)
             if (booksFromQuery != null) {
-                for (book in booksFromQuery) {
-                    resultFromQuery.add(
-                        Book(
-                            book.title,
-                            book.author,
-                            book.coverImageURL,
-                            pages = if(book.pages.isNotBlank()) Integer.valueOf(book.pages) else 0,
-                            publicationDate =if(book.publishYear.isNotBlank()) LocalDate.ofYearDay(Integer.valueOf(book.publishYear), 12) else LocalDate.MIN,
-                            bookId = book.bookId,
-                            readingState = if(DefaultListNames.valueOf(book.readingState.toString()) != DefaultListNames.NOT_IN_LIST)
-                                stringResourcesProvider.getString(DefaultListNames.valueOf(book.readingState.toString()).getDefaultListName())
-                            else "",
-                            subjects = book.subjects,
-                            details = book.description ?: ""
-                        )
-                    )
-                }
+                resultFromQuery.addAll(booksFromQuery)
             }
             searchInfo = searchInfo.copy(queryResult = resultFromQuery)
             defaultSearchResult = resultFromQuery

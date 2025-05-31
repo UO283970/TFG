@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TFG</string>
+    <string name="app_name">Bookvers</string>
     <string name="book_cover">Couverture du livre</string>
     <string name="notifications">Notifications</string>
     <string name="home_recommended_books">Livres recommandés</string>
@@ -118,7 +118,7 @@
     <string name="search_filters_filter_language">Filtrer par langue</string>
     <string name="rating">noté</string>
     <string name="search_filters_filterFor_adventure">Aventure</string>
-    <string name="error_user_login">Nom d\'utilisateur et mot de passe incorrects</string>
+    <string name="error_user_login">Le nom d\'utilisateur et le mot de passe ne sont pas corrects</string>
     <string name="error_unknown_error">Une erreur inattendue s\'est produite, veuillez réessayer</string>
     <string name="error_user_alias_repeated">Ce pseudo est déjà utilisé</string>
     <string name="error_email_used">Cet e-mail est déjà associé à un compte</string>
@@ -170,12 +170,15 @@
     <string name="delete_from_friends">Retirer des abonnés ?</string>
     <string name="cancel_follow">Se désabonner ?</string>
     <string name="home_reading_books">Livres que vous lisez</string>
-    <string name="home_top_bar_title">Bookverse</string>
+    <string name="home_top_bar_title">Bookvers</string>
     <string name="profile_configuration_delete_account_dialog">Êtes-vous sûr de vouloir supprimer toutes les informations de votre compte ?</string>
     <string name="delete_list_dialog">Êtes-vous sûr de vouloir supprimer la liste ?</string>
     <string name="delete_review_menu_item">Supprimer</string>
     <string name="delete_review_dialog">Êtes-vous sûr de vouloir supprimer l\'évaluation ?</string>
     <string name="book_add_new_list_toast">Livre ajouté à la liste</string>
+    <string name="book_details_review_creation_text_placeholder">Texte de l\'évaluation</string>
+    <string name="book_details_review_creation_text_error">Le champ du texte de l\'évaluation ne peut pas être vide</string>
+    <string name="profile_private_text">Profil privé</string>
 
     <string-array name="search_filters_filter_by_language_list">
         <item>Tchèque</item>

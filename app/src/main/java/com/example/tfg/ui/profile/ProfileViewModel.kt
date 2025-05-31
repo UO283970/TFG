@@ -44,10 +44,8 @@ class ProfileViewModel @Inject constructor(
                         val userObtained = connectedUser
                         _profileInfo.value = _profileInfo.value.copy(infoLoaded = true)
                         _profileInfo.value.mainUserState.setMainUser(userObtained)
-                        if(listsState.getDefaultLists().isEmpty()){
-                            listsState.setDefaultList(ArrayList(mainUserState.getMainUser()!!.defaultList))
-                            listsState.setOwnList(ArrayList(mainUserState.getMainUser()!!.userList))
-                        }
+                        listsState.setDefaultList(ArrayList(mainUserState.getMainUser()!!.defaultList))
+                        listsState.setOwnList(ArrayList(mainUserState.getMainUser()!!.userList))
                     }
                 } catch (e: AuthenticationException) {
                     GlobalErrorHandler.handle(e)

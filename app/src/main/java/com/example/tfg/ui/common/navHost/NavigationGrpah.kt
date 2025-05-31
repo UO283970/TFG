@@ -18,7 +18,7 @@ import com.example.tfg.ui.bookDetails.reviews.creation.ReviewCreation
 import com.example.tfg.ui.friends.FriendsScreen
 import com.example.tfg.ui.home.HomeScreen
 import com.example.tfg.ui.home.notifications.NotificationScreen
-import com.example.tfg.ui.home.notifications.friendRequest.FriendsRequestScreen
+import com.example.tfg.ui.home.notifications.followRequest.FollowRequestScreen
 import com.example.tfg.ui.lists.ListScreen
 import com.example.tfg.ui.lists.listCreation.NewListCreationScreen
 import com.example.tfg.ui.lists.listDetails.ListDetailsScreen
@@ -155,7 +155,7 @@ private fun NavGraphBuilder.homeGraph(
         }
         composable(HomeRoutesItems.FriendRequestsScreen.route) {
             bottomBarState.value = false
-            FriendsRequestScreen(
+            FollowRequestScreen(
                 { returnToLastScreen(navController) },
                 { user: User -> navigateToProfileWithUser(user, navController) })
         }

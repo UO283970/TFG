@@ -69,7 +69,7 @@ fun ListDetailsItem(book: Book, setDetailsBook: (book: Book) -> Unit, navigateTo
                 Box(contentAlignment = Alignment.TopEnd) {
                     GlideImage(
                         model = book.coverImage,
-                        contentDescription = stringResource(R.string.book_cover)+ " " + book.tittle,
+                        contentDescription = stringResource(R.string.book_cover)+ " " + book.title,
                         loading = placeholder(R.drawable.no_cover_image_book),
                         failure = placeholder(R.drawable.no_cover_image_book),
                         transition = CrossFade,
@@ -95,7 +95,7 @@ fun ListDetailsItem(book: Book, setDetailsBook: (book: Book) -> Unit, navigateTo
                     Modifier.padding(start = 10.dp, end = 5.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    BigTittleText(book.tittle)
+                    BigTittleText(book.title)
                     Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
                         SmallTittleText(book.publicationDate.year.toString())
                         SmallTittleText(if (book.pages != 0) book.pages.toString() + "pg" else "-pg")

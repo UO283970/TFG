@@ -42,7 +42,7 @@ import com.example.tfg.ui.common.BookTittleText
 import com.example.tfg.ui.common.LoadingProgress
 import com.example.tfg.ui.common.ObtainColorsOfImage
 import com.example.tfg.ui.common.RatingDialog
-import com.example.tfg.ui.common.bottonSheetLists.AddBookToListsBottomSheet
+import com.example.tfg.ui.common.bottomSheetLists.AddBookToListsBottomSheet
 import com.example.tfg.ui.theme.TFGTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -108,7 +108,7 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, returnToLastScreen: (
                 ) {
                     MainBookInfoImage(viewModel.bookState.bookForDetails.coverImage, color, textColor) { returnToLastScreen() }
                     Column(modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 5.dp)) {
-                        BookTittleText(viewModel.bookState.bookForDetails.tittle)
+                        BookTittleText(viewModel.bookState.bookForDetails.title)
                         BookAuthorText(viewModel.bookState.bookForDetails.author, navigateToSearch)
                         BookSubjectButton(color, textColor, viewModel.bookState.bookForDetails.subjects)
                         RatingAndReviewRow(

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TFG</string>
+    <string name="app_name">Bookvers</string>
     <string name="book_cover">Book cover</string>
     <string name="notifications">Notifications</string>
     <string name="home_recommended_books">Recommended Books</string>
@@ -118,7 +118,7 @@
     <string name="search_filters_filter_language">Filter by language</string>
     <string name="rating">rated</string>
     <string name="search_filters_filterFor_adventure">Adventure</string>
-    <string name="error_user_login">Username and password do not match</string>
+    <string name="error_user_login">The username and password are not correct</string>
     <string name="error_unknown_error">An unexpected error occurred, please try again</string>
     <string name="error_user_alias_repeated">This username already exists</string>
     <string name="error_email_used">This email is already associated with an account</string>
@@ -170,12 +170,15 @@
     <string name="delete_from_friends">Remove from your followers?</string>
     <string name="cancel_follow">Unfollow?</string>
     <string name="home_reading_books">Books you are reading</string>
-    <string name="home_top_bar_title">Bookverse</string>
+    <string name="home_top_bar_title">Bookvers</string>
     <string name="profile_configuration_delete_account_dialog">Are you sure you want to delete all your account information?</string>
     <string name="delete_list_dialog">Are you sure you want to delete the list?</string>
     <string name="delete_review_menu_item">Delete</string>
     <string name="delete_review_dialog">Are you sure you want to delete the review?</string>
     <string name="book_add_new_list_toast">Book added to the list</string>
+    <string name="book_details_review_creation_text_placeholder">Review text</string>
+    <string name="book_details_review_creation_text_error">The review text field can´t be empty</string>
+    <string name="profile_private_text">Private profile</string>
 
     <string-array name="search_filters_filter_by_language_list">
         <item>Czech</item>

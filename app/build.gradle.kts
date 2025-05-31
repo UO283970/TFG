@@ -56,7 +56,7 @@ apollo {
     service("service") {
         packageName.set("com.graphQL")
         introspection {
-            endpointUrl.set("http://10.0.2.2:8080/graphql")
+            endpointUrl.set("http://bookvers.duckdns.org:8080/graphql")
             schemaFile.set(file("src/main/graphql/schema.graphqls"))
         }
     }
@@ -92,4 +92,7 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences-rxjava2:1.1.4")
     implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.4")
     implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
+    testImplementation ("io.mockk:mockk:1.14.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation(kotlin("test"))
 }

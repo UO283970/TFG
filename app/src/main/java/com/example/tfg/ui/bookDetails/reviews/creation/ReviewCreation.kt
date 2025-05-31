@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
+import com.example.tfg.ui.common.ErrorText
 import com.example.tfg.ui.common.RatingDialog
 import com.example.tfg.ui.common.navHost.BookNavigationItems
 import com.example.tfg.ui.lists.listDetails.components.TopDetailsListBar
@@ -57,10 +58,14 @@ fun ReviewCreation(
                 OutlinedTextField(
                     value = reviewCreationViewModel.creationState.reviewText,
                     onValueChange = { reviewCreationViewModel.changeReviewText(it) },
+                    label = { Text(stringResource(R.string.book_details_review_creation_text_placeholder)) },
                     modifier = Modifier
                         .fillMaxHeight(0.4f)
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    isError = reviewCreationViewModel.creationState.reviewTextError != null,
                 )
+                if(reviewCreationViewModel.creationState.reviewTextError != null)
+                    ErrorText(reviewCreationViewModel.creationState.reviewTextError!!)
                 Row (modifier = Modifier.clickable{reviewCreationViewModel.toggleRatingMenu()}){
                     Text(stringResource(R.string.book_details_user_rating))
                     if (reviewCreationViewModel.bookState.bookForDetails.userScore == 0) {

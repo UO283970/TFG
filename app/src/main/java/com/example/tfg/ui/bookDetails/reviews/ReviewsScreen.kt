@@ -81,22 +81,26 @@ fun ReviewsScreen(returnToLastScreen: () -> Unit, navigateTo: (route: String) ->
                                     }
                                     if (reviewsScreenViewModel.mainUserState.getMainUser()?.userId == it.user.userId) {
                                         Row(Modifier.weight(1f), horizontalArrangement = Arrangement.End) {
-                                            IconButton({ reviewsScreenViewModel.toggleMenu() }) {
-                                                Icon(Icons.Default.MoreVert, null)
+                                            Column {
+                                                IconButton({ reviewsScreenViewModel.toggleMenu() }) {
+                                                    Icon(Icons.Default.MoreVert, null)
+                                                }
+                                                DropdownMenu(
+                                                    expanded = reviewsScreenViewModel.bookReviewState.menuOpen,
+                                                    onDismissRequest = { reviewsScreenViewModel.toggleMenu() }) {
+                                                    DropdownMenuItem({ Text(stringResource(R.string.delete_review_menu_item)) },
+                                                        { reviewsScreenViewModel.toggleDeleteDialogOpen() })
+                                                }
                                             }
-                                            DropdownMenu(
-                                                expanded = reviewsScreenViewModel.bookReviewState.menuOpen,
-                                                onDismissRequest = { reviewsScreenViewModel.toggleMenu() }) {
-                                                DropdownMenuItem({ Text(stringResource(R.string.delete_review_menu_item)) },
-                                                    { reviewsScreenViewModel.toggleDeleteDialogOpen() })
-                                            }
-                                            var actualReview = it
-                                            AcceptOperationDialog(
-                                                stringResource(R.string.delete_review_dialog),
-                                                close = { reviewsScreenViewModel.toggleDeleteDialogOpen() },
-                                                accept = {reviewsScreenViewModel.deleteReview(actualReview)}
-                                            )
                                         }
+                                    }
+                                    var actualReview = it
+                                    if(reviewsScreenViewModel.bookReviewState.deleteDialogOpen){
+                                        AcceptOperationDialog(
+                                            stringResource(R.string.delete_review_dialog),
+                                            close = { reviewsScreenViewModel.toggleDeleteDialogOpen() },
+                                            accept = {reviewsScreenViewModel.deleteReview(actualReview)}
+                                        )
                                     }
                                 }
                                 ReviewText(it)

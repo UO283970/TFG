@@ -61,7 +61,7 @@ fun FriendsItem(
                     maxLines = 1
                 )
                 Text(
-                    stringResource(review.infoForUI()) + " " + review.book.tittle,
+                    stringResource(review.infoForUI()) + " " + review.book.title,
                     overflow = TextOverflow.Companion.Ellipsis,
                     modifier = Modifier.weight(1f),
                     maxLines = 1
@@ -89,7 +89,7 @@ fun FriendsItem(
                     contentScale = ContentScale.Companion.FillBounds
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.Companion.padding(top = 5.dp)) {
-                    BookTittleText(review.book.tittle)
+                    BookTittleText(review.book.title)
                     BookAuthorText(review.book.author,navigateToSearch)
                     Text(review.rating.toString())
                 }

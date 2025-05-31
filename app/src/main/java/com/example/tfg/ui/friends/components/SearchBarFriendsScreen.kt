@@ -87,14 +87,14 @@ fun SearchBarFriendsScreen(
 @Composable
 fun FriendsRow(user: User, viewModel: FriendsViewModel, navigateToProfile: (user: User) -> Unit, state: FriendsMainState) {
     LaunchedEffect(state.userExpandedInfoLoaded) {
-        if(state.userExpandedInfoLoaded){
-            navigateToProfile(user)
+        if(state.userExpandedInfoLoaded && user.userId == state.userSelected?.userId){
+            state.userSelected?.let { navigateToProfile(it) }
             viewModel.changeExpandedInfoLoaded()
         }
     }
 
     Row(Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp).clickable {
-        viewModel.saveState()
+        viewModel.saveState(user)
     }) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(5.dp),

@@ -26,7 +26,7 @@ data class ListDetailsMainState(
     var isDeleted: Boolean = false,
     var deleteDialog: Boolean = false,
 
-)
+    )
 
 @HiltViewModel
 class ListDetailsViewModel @Inject constructor(val listsState: ListsState, val listRepository: ListRepository, val bookState: BookState) : ViewModel() {
@@ -45,43 +45,43 @@ class ListDetailsViewModel @Inject constructor(val listsState: ListsState, val l
         }
     }
 
-    fun searchInList(){
+    fun searchInList() {
         listDetailsInfo = listDetailsInfo.copy(detailsLoaded = false)
-        if(!listDetailsInfo.userQuery.isBlank()){
+        if (!listDetailsInfo.userQuery.isBlank()) {
             listDetailsInfo.baseListOfBooks = listDetailsInfo.bookList?.getListOfBooks()?.filter { it ->
-                var tittleForSearch = it.tittle.trim().lowercase()
+                var tittleForSearch = it.title.trim().lowercase()
                 tittleForSearch == listDetailsInfo.userQuery.trim().lowercase() || tittleForSearch.contains(listDetailsInfo.userQuery.trim().lowercase())
             }!!
-        }else{
+        } else {
             listDetailsInfo.baseListOfBooks = listDetailsInfo.bookList?.getListOfBooks()!!
         }
 
         listDetailsInfo = listDetailsInfo.copy(detailsLoaded = true)
     }
 
-    fun changeMenu(state: Boolean){
+    fun changeMenu(state: Boolean) {
         listDetailsInfo = listDetailsInfo.copy(menuOpen = state)
     }
 
 
-    fun toggleDeleteDialog(){
+    fun toggleDeleteDialog() {
         listDetailsInfo = listDetailsInfo.copy(deleteDialog = !listDetailsInfo.deleteDialog)
     }
 
 
-    fun setBookForDetails(book: Book){
+    fun setBookForDetails(book: Book) {
         bookState.bookForDetails = book
     }
 
-    fun deleteList(){
+    fun deleteList() {
         viewModelScope.launch {
-            try{
+            try {
                 val deleted = listRepository.deleteList(listDetailsInfo.bookList?.getId() ?: "")
-                if(deleted != null && deleted){
+                if (deleted != null && deleted) {
                     listDetailsInfo = listDetailsInfo.copy(isDeleted = true)
                     listsState.deleteList(listDetailsInfo.bookList as BookListClass)
                 }
-            }catch(e: AuthenticationException){
+            } catch (e: AuthenticationException) {
                 GlobalErrorHandler.handle(e)
             }
         }

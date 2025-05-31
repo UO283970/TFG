@@ -25,6 +25,7 @@ data class FriendsMainState(
     var userExpandedInfo: User? = null,
     var userExpandedInfoLoaded: Boolean = false,
     var isRefreshing: Boolean = false,
+    var userSelected: User? = null
 
 )
 
@@ -58,7 +59,8 @@ class FriendsViewModel @Inject constructor(
         _friendsInfo.value = _friendsInfo.value.copy(userQuery = userQuery)
     }
 
-    fun saveState() {
+    fun saveState(user: User) {
+        _friendsInfo.value = _friendsInfo.value.copy(userSelected = user)
         _friendsInfo.value = _friendsInfo.value.copy(userExpandedInfoLoaded = true)
     }
 
@@ -81,10 +83,26 @@ class FriendsViewModel @Inject constructor(
 
     fun refreshActivities(){
         _friendsInfo.value = _friendsInfo.value.copy(isRefreshing = true)
-        getFollowedActivity()
+        getFollowedActivityRefresh()
     }
 
     fun getFollowedActivity(){
+        viewModelScope.launch {
+            val timestamp =
+                if (_friendsInfo.value.followedActivity.isNotEmpty())
+                    _friendsInfo.value.followedActivity[_friendsInfo.value.followedActivity.size - 1].timeStamp
+                else ""
+
+            val activity = activityRepository.getAllFollowedActivity(timestamp = timestamp)
+            if(activity != null){
+                _friendsInfo.value.followedActivity = ArrayList(activity)
+                _friendsInfo.value = _friendsInfo.value.copy(isRefreshing = false)
+                _friendsInfo.value = _friendsInfo.value.copy(activityLoaded = true)
+            }
+        }
+    }
+
+    fun getFollowedActivityRefresh(){
         viewModelScope.launch {
             val timestamp =
                 if (_friendsInfo.value.followedActivity.isNotEmpty())

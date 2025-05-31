@@ -39,7 +39,7 @@ import com.example.tfg.repository.ListRepository
 import com.example.tfg.ui.common.BookAuthorText
 import com.example.tfg.ui.common.BookTittleText
 import com.example.tfg.ui.common.StringResourcesProvider
-import com.example.tfg.ui.common.bottonSheetLists.AddBookToListsBottomSheet
+import com.example.tfg.ui.common.bottomSheetLists.AddBookToListsBottomSheet
 import com.example.tfg.ui.common.navHost.BookNavigationItems
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
@@ -80,7 +80,7 @@ fun NewBookSearchItem(
     ) {
         GlideImage(
             model = book.coverImage,
-            contentDescription = stringResource(R.string.book_cover)+ " " + book.tittle,
+            contentDescription = stringResource(R.string.book_cover)+ " " + book.title,
             loading = placeholder(R.drawable.no_cover_image_book),
             failure = placeholder(R.drawable.no_cover_image_book),
             transition = CrossFade,
@@ -95,7 +95,7 @@ fun NewBookSearchItem(
         Column(modifier = Modifier.padding(start = 10.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Row(modifier = Modifier.weight(1f)) {
-                    BookTittleText(book.tittle)
+                    BookTittleText(book.title)
                 }
                 IconButton({ isBottomSheetOpen = true }) {
                     Icon(Icons.Default.Add, null)

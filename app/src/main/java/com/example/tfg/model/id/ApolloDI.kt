@@ -19,7 +19,7 @@ class ApolloDI {
     @Singleton
     @Provides
     fun provideApolloClient(okHttpClient: OkHttpClient, tokenRepository: TokenRepository): ApolloClient{
-        return ApolloClient.Builder().serverUrl("http://10.0.2.2:8080/graphql").addInterceptor(AuthorizationInterceptor {
+        return ApolloClient.Builder().serverUrl("http://bookvers.duckdns.org:8080/graphql").addInterceptor(AuthorizationInterceptor {
             tokenRepository.getAccessToken()
         }).addInterceptor(ErrorInterceptor()).okHttpClient(okHttpClient).build()
     }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TFG</string>
+    <string name="app_name">Bookvers</string>
     <string name="book_cover">Buchumschlag</string>
     <string name="notifications">Benachrichtigungen</string>
     <string name="home_recommended_books">Empfohlene Bücher</string>
@@ -118,7 +118,7 @@
     <string name="search_filters_filter_language">Nach Sprache filtern</string>
     <string name="rating">bewertete</string>
     <string name="search_filters_filterFor_adventure">Abenteuer</string>
-    <string name="error_user_login">Benutzername und Passwort stimmen nicht überein</string>
+    <string name="error_user_login">Benutzername und Passwort sind nicht korrekt</string>
     <string name="error_unknown_error">Ein unerwarteter Fehler ist aufgetreten, bitte versuche es erneut</string>
     <string name="error_user_alias_repeated">Dieser Benutzeralias ist bereits vergeben</string>
     <string name="error_email_used">Diese E-Mail ist bereits mit einem Konto verbunden</string>
@@ -170,12 +170,15 @@
     <string name="delete_from_friends">Von deinen Followern entfernen?</string>
     <string name="cancel_follow">Nicht mehr folgen?</string>
     <string name="home_reading_books">Bücher, die du gerade liest</string>
-    <string name="home_top_bar_title">Bookverse</string>
+    <string name="home_top_bar_title">Bookvers</string>
     <string name="profile_configuration_delete_account_dialog">Sind Sie sicher, dass Sie alle Kontoinformationen löschen möchten?</string>
     <string name="delete_list_dialog">Sind Sie sicher, dass Sie die Liste löschen möchten?</string>
     <string name="delete_review_menu_item">Löschen</string>
     <string name="delete_review_dialog">Sind Sie sicher, dass Sie die Rezension löschen möchten?</string>
     <string name="book_add_new_list_toast">Buch zur Liste hinzugefügt</string>
+    <string name="book_details_review_creation_text_placeholder">Bewertungstext</string>
+    <string name="book_details_review_creation_text_error">Das Bewertungsfeld darf nicht leer sein</string>
+    <string name="profile_private_text">Privates Profil</string>
 
     <string-array name="search_filters_filter_by_language_list">
         <item>Tschechisch</item>

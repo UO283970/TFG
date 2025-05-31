@@ -102,23 +102,6 @@ class BookDetailsViewModel @Inject constructor(
         bookInfo = bookInfo.copy(deleted = state)
     }
 
-    fun changePagesRead(pages: String) {
-        val pattern =
-            Regex("(" + bookState.bookForDetails.pages + ")" + "|(0)|" + "[1-9]{1," + bookState.bookForDetails.pages.toString().length + "}")
-        if (pages == "") {
-            bookInfo = bookInfo.copy(totalPages = "")
-            return
-        }
-        if (pages.matches(pattern) && (pages.toInt()) <= bookState.bookForDetails.pages) {
-            bookInfo = bookInfo.copy(totalPages = pages)
-            if (pages.toInt() != 0 && bookInfo.selectedBookList == "") {
-                val readingList = stringResourcesProvider.getString(R.string.reading_list_name)
-                bookInfo =
-                    bookInfo.copy(inListButtonString = readingList)
-            }
-        }
-    }
-
     fun saveChanges(bookList: DefaultList, state: Boolean) {
         if (state) {
             bookInfo = bookInfo.copy(inListButtonString = bookList.listName)
@@ -128,7 +111,6 @@ class BookDetailsViewModel @Inject constructor(
         } else {
             bookInfo = bookInfo.copy(inListButtonString = stringResourcesProvider.getString(R.string.book_add_to_list))
             bookInfo = bookInfo.copy(selectedBookList = "")
-            bookInfo = bookInfo.copy(totalPages = "0")
         }
     }
 
@@ -148,6 +130,9 @@ class BookDetailsViewModel @Inject constructor(
                     }
                     if(bookInfo.deleted){
                         bookState.bookForDetails.totalRatings--
+                        bookState.bookForDetails.userScore = 0
+                        bookInfo =
+                            bookInfo.copy(userScore = 0)
                     }
                     bookState.bookForDetails.meanScore = (bookState.bookForDetails.meanScore - bookState.bookForDetails.userScore) + bookInfo.userScore
                     bookState.bookForDetails.userScore = bookInfo.userScore
@@ -158,9 +143,4 @@ class BookDetailsViewModel @Inject constructor(
         toggleRatingMenu()
     }
 
-    fun onDoneChangePages() {
-        if (bookInfo.totalPages == "") {
-            bookInfo = bookInfo.copy(totalPages = "0")
-        }
-    }
 }

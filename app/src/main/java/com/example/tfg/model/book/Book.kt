@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDate
 
 class Book(
-    val tittle: String = "",
+    val title: String = "",
     val author: String = "",
     val coverImage: String = "",
     @Serializable(LocalDateSerializer::class) val publicationDate: LocalDate = LocalDate.MIN,
@@ -21,5 +21,5 @@ class Book(
     var numberOfReviews: Int = 0,
     var totalRatings: Int = 0,
     var listOfUserProfilePicturesForReviews: ArrayList<String> = arrayListOf<String>(),
-   var listOfReviews: ArrayList<ReviewActivity> = arrayListOf<ReviewActivity>()
+    var listOfReviews: ArrayList<ReviewActivity> = arrayListOf<ReviewActivity>()
 )

@@ -44,10 +44,10 @@ class ListsState {
     fun addBookToUserList(book : Book, bookListClass: BookListClass){
         var list = this.ownLists.find { it.listId == bookListClass.listId }
         list?.getListOfBooks()?.add(book)
-        list?.numberOfBooks++
-        if(list?.numberOfBooks != 0){
-            list?.listImage = list.getListOfBooks()[0].coverImage.toString()
+        if(list?.numberOfBooks == 0){
+            list.listImage = list.getListOfBooks()[0].coverImage.toString()
         }
+        list?.numberOfBooks++
     }
 
     suspend fun removeBookFromUserList(book : Book, bookListClass: BookListClass, listRepository: ListRepository){
@@ -64,11 +64,11 @@ class ListsState {
     fun addBookToDefaultList(book : Book, defaultList: DefaultList){
         var list = this.defaultLists.find { it.listId == defaultList.listId }
         list?.getListOfBooks()?.add(book)
+        if(list?.numberOfBooks == 0){
+            list.listImage = list.getListOfBooks()[0].coverImage.toString()
+        }
         list?.numberOfBooks++
         book.readingState = list?.listName.toString()
-        if(list?.numberOfBooks != 0){
-            list?.listImage = list.getListOfBooks()[0].coverImage.toString()
-        }
     }
 
     suspend fun removeBookFromDefaultList(book : Book, defaultList: DefaultList, listRepository: ListRepository){
@@ -76,7 +76,7 @@ class ListsState {
         list?.getListOfBooks()?.remove(book)
         list?.numberOfBooks--
         book.readingState = ""
-        if(list?.numberOfBooks == 0 || list?.getListOfBooks()?.isEmpty() == true){
+        if(list?.numberOfBooks == 0){
             list.listImage = ""
         }else{
             list?.listImage = listRepository.getImageForDefaultList(defaultList.listId)!!

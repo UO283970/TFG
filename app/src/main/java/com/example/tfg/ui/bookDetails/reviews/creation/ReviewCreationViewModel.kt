@@ -5,10 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tfg.R
 import com.example.tfg.model.book.BookState
 import com.example.tfg.model.user.MainUserState
 import com.example.tfg.model.user.userActivities.ReviewActivity
 import com.example.tfg.repository.ActivityRepository
+import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.type.UserActivityType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,6 +21,7 @@ data class ReviewCreationState(
     val switchState: Boolean = false,
     val reviewCreated: Boolean = false,
     val reviewText: String = "",
+    val reviewTextError: String? = null,
     var ratingMenuOpen: Boolean = false,
     var userScore: Int,
     var deleted: Boolean = false,
@@ -26,10 +29,15 @@ data class ReviewCreationState(
 )
 
 @HiltViewModel
-class ReviewCreationViewModel @Inject constructor(val activityRepository: ActivityRepository, val bookState: BookState, val mainUserState: MainUserState) :
+class ReviewCreationViewModel @Inject constructor(
+    val activityRepository: ActivityRepository,
+    val bookState: BookState,
+    val mainUserState: MainUserState,
+    val stringResourcesProvider: StringResourcesProvider
+) :
     ViewModel() {
 
-    var creationState by mutableStateOf(ReviewCreationState(userScore = bookState.bookForDetails.userScore,))
+    var creationState by mutableStateOf(ReviewCreationState(userScore = bookState.bookForDetails.userScore))
 
     fun changeSwitch() {
         creationState = creationState.copy(switchState = !creationState.switchState)
@@ -39,7 +47,7 @@ class ReviewCreationViewModel @Inject constructor(val activityRepository: Activi
         creationState = creationState.copy(reviewText = text)
     }
 
-    fun changeUserScore(score: Int){
+    fun changeUserScore(score: Int) {
         creationState = creationState.copy(userScore = score)
     }
 
@@ -53,10 +61,10 @@ class ReviewCreationViewModel @Inject constructor(val activityRepository: Activi
 
 
     fun saveRating() {
-        if(bookState.bookForDetails.userScore == 0){
+        if (bookState.bookForDetails.userScore == 0) {
             bookState.bookForDetails.totalRatings++
         }
-        if(creationState.deleted){
+        if (creationState.deleted) {
             bookState.bookForDetails.totalRatings--
         }
         bookState.bookForDetails.meanScore = (bookState.bookForDetails.meanScore - bookState.bookForDetails.userScore) + creationState.userScore
@@ -66,30 +74,34 @@ class ReviewCreationViewModel @Inject constructor(val activityRepository: Activi
     }
 
     fun saveReview() {
-        viewModelScope.launch {
-            val createReview = activityRepository.addActivity(
-                creationState.reviewText,
-                bookState.bookForDetails.userScore,
-                bookState.bookForDetails.bookId,
-                UserActivityType.REVIEW
-            )
-            if (createReview != null && createReview) {
-                bookState.bookForDetails.listOfReviews.add(
-                    ReviewActivity(
-                        user = mainUserState.getMainUser()!!,
-                        creationDate = LocalDate.now(),
-                        book = bookState.bookForDetails,
-                        reviewText = creationState.reviewText,
-                        rating = bookState.bookForDetails.userScore,
-                        timeStamp = ""
-                    )
+        if (creationState.reviewText.isNotEmpty()) {
+            viewModelScope.launch {
+                val createReview = activityRepository.addActivity(
+                    creationState.reviewText,
+                    bookState.bookForDetails.userScore,
+                    bookState.bookForDetails.bookId,
+                    UserActivityType.REVIEW
                 )
-                bookState.bookForDetails.numberOfReviews++
-                if(bookState.bookForDetails.numberOfReviews < 4){
-                    bookState.bookForDetails.listOfUserProfilePicturesForReviews.add(0,mainUserState.getMainUser()?.profilePicture ?: "")
+                if (createReview != null && createReview) {
+                    bookState.bookForDetails.listOfReviews.add(
+                        ReviewActivity(
+                            user = mainUserState.getMainUser()!!,
+                            creationDate = LocalDate.now(),
+                            book = bookState.bookForDetails,
+                            reviewText = creationState.reviewText,
+                            rating = bookState.bookForDetails.userScore,
+                            timeStamp = ""
+                        )
+                    )
+                    bookState.bookForDetails.numberOfReviews++
+                    if (bookState.bookForDetails.numberOfReviews < 4) {
+                        bookState.bookForDetails.listOfUserProfilePicturesForReviews.add(0, mainUserState.getMainUser()?.profilePicture ?: "")
+                    }
+                    creationState = creationState.copy(reviewCreated = true)
                 }
-                creationState = creationState.copy(reviewCreated = true)
             }
+        } else {
+            creationState = creationState.copy(reviewTextError = stringResourcesProvider.getString(R.string.book_details_review_creation_text_error))
         }
     }
 }

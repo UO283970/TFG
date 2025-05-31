@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TFG</string>
+    <string name="app_name">Bookvers</string>
     <string name="book_cover">Portada del libro </string>
     <string name="notifications">Notificaciones</string>
     <string name="home_recommended_books">Libros Recomendados</string>
@@ -118,7 +118,7 @@
     <string name="search_filters_filter_language">Filtrar por lenguaje</string>
     <string name="rating">valoro</string>
     <string name="search_filters_filterFor_adventure">Aventura</string>
-    <string name="error_user_login">El usuario y contraseña no coinciden</string>
+    <string name="error_user_login">El usuario y contraseña no son correctos</string>
     <string name="error_unknown_error">Se ha producido un error inesperado, pruebe otra vez</string>
     <string name="error_user_alias_repeated">Este alias de usuario ya existe</string>
     <string name="error_email_used">Este email ya está asociado a una cuenta</string>
@@ -170,12 +170,15 @@
     <string name="delete_from_friends">¿Eliminar de tus seguidores?</string>
     <string name="cancel_follow">¿Dejar de seguir?</string>
     <string name="home_reading_books">Libros que estas leyendo</string>
-    <string name="home_top_bar_title">Bookverse</string>
+    <string name="home_top_bar_title">Bookvers</string>
     <string name="profile_configuration_delete_account_dialog">¿Esta seguro de que quiere eliminar toda la información de su cuenta?</string>
     <string name="delete_list_dialog">¿Esta seguro de eliminar la lista?</string>
     <string name="delete_review_menu_item">Eliminar</string>
-    <string name="delete_review_dialog">¿esta seguro de que quiere eliminar la reseña?</string>
+    <string name="delete_review_dialog">¿Esta seguro de que quiere eliminar la reseña?</string>
     <string name="book_add_new_list_toast">Libro añadido a la lista</string>
+    <string name="book_details_review_creation_text_placeholder">Texto de la reseña</string>
+    <string name="book_details_review_creation_text_error">El campo del texto de la reseña no puede estar vacío</string>
+    <string name="profile_private_text">Perfil privado</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

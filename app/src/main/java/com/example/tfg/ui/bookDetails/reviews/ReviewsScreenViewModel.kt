@@ -39,11 +39,12 @@ class ReviewsScreenViewModel @Inject constructor(
     }
 
     fun toggleDeleteDialogOpen() {
-        bookReviewState = bookReviewState.copy(menuOpen = !bookReviewState.deleteDialogOpen)
+        bookReviewState = bookReviewState.copy(deleteDialogOpen = !bookReviewState.deleteDialogOpen)
     }
 
     fun deleteReview(reviewActivity: ReviewActivity) {
         viewModelScope.launch {
+            bookReviewState = bookReviewState.copy(loadInfo = false)
             val reviews =
                 activityRepository.deleteActivity(mainUserState.getMainUser()?.userId + "|" + bookState.bookForDetails.bookId + "|" + UserActivityType.REVIEW.toString())
             if (reviews != null) {

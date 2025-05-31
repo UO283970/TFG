@@ -27,7 +27,7 @@ fun ActivityAndBookInfo(activity: Activity) {
             fontSize = 16.sp
         )
         Text(
-            text = activity.book.tittle,
+            text = activity.book.title,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
             fontWeight = FontWeight.SemiBold,

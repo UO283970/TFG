@@ -87,8 +87,10 @@ fun FollowersScreen(
                             if (user.followState != UserFollowStateEnum.OWN) {
                                 ProfileButton(it.followState, navigateTo, { viewModel.changeToNotFollowing(user) }, { viewModel.followUser(user) })
                             }
-                            IconButton({ viewModel.changeOpenDialog() }) {
-                                Icon(Icons.Default.Clear, null)
+                            if(viewModel.mainUserState.getMainUser()?.userId == viewModel.userId){
+                                IconButton({ viewModel.changeOpenDialog() }) {
+                                    Icon(Icons.Default.Clear, null)
+                                }
                             }
                             if (viewModel.followersInfo.deleteDialog) {
                                 AcceptOperationDialog(
