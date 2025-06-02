@@ -56,7 +56,7 @@ apollo {
     service("service") {
         packageName.set("com.graphQL")
         introspection {
-            endpointUrl.set("http://bookvers.duckdns.org/graphql")
+            endpointUrl.set("http://bookvers.duckdns.org:8080/graphql")
             schemaFile.set(file("src/main/graphql/schema.graphqls"))
         }
     }
