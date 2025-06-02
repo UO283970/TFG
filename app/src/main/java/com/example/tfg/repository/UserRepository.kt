@@ -16,6 +16,7 @@ import com.example.tfg.ui.common.StringResourcesProvider
 import com.graphQL.CheckUserEmailAndPassMutation
 import com.graphQL.CreateUserMutation
 import com.graphQL.CreateUserMutation.CreateUser
+import com.graphQL.DeleteAllNotificationMutation
 import com.graphQL.DeleteNotificationMutation
 import com.graphQL.DeleteUserMutation
 import com.graphQL.GetAllUserInfoQuery
@@ -95,6 +96,12 @@ class UserRepository @Inject constructor(private val apolloClient: ApolloClient,
         return apolloClient.mutation(
             DeleteNotificationMutation(notificationId)
         ).execute().data?.deleteNotification
+    }
+
+    suspend fun deleteAllNotification(): Boolean? {
+        return apolloClient.mutation(
+            DeleteAllNotificationMutation()
+        ).execute().data?.deleteAllNotification
     }
 
     suspend fun login(email: String, password: String): Login? {

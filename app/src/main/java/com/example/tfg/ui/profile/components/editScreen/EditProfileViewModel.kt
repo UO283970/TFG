@@ -40,7 +40,7 @@ data class EditProfileMainState(
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
     private val stringResourcesProvider: StringResourcesProvider,
-    private val mainUserState: MainUserState,
+    val mainUserState: MainUserState,
     private val userRepository: UserRepository,
     private val contentResolver: ContentResolver
 ) : ViewModel() {
@@ -57,11 +57,13 @@ class EditProfileViewModel @Inject constructor(
     )
 
     fun changeUserName(userName: String) {
-        profileEditState = profileEditState.copy(userName = userName)
+        if (profileEditState.userName.length < AppConstants.USER_NAME_MAX_CHARACTERS) {
+            profileEditState = profileEditState.copy(userName = userName)
+        }
     }
 
     fun changeUserDescription(userDescription: String) {
-        if (profileEditState.userDescription.length <= AppConstants.DESC_MAX_CHARACTERS) {
+        if (profileEditState.userDescription.length < AppConstants.DESC_MAX_CHARACTERS) {
             profileEditState = profileEditState.copy(
                 userDescription = userDescription
             )
@@ -81,7 +83,9 @@ class EditProfileViewModel @Inject constructor(
     }
 
     fun changeUserAlias(userAlias: String) {
-        profileEditState = profileEditState.copy(userAlias = userAlias)
+        if (profileEditState.userAlias.length < AppConstants.USER_ALIAS_MAX_CHARACTERS) {
+            profileEditState = profileEditState.copy(userAlias = userAlias)
+        }
     }
 
     fun setImageUri(imageUri: Uri) {
@@ -134,6 +138,28 @@ class EditProfileViewModel @Inject constructor(
         if (profileEditState.userAlias.isBlank()) {
             profileEditState =
                 profileEditState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_empty))
+            return false
+        }
+
+        if (profileEditState.userAlias.length < 3 || profileEditState.userAlias.length > 20 ) {
+            profileEditState =
+                profileEditState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_length))
+            return false
+        }
+
+        val hasInvalidSpecialChars = Regex("[^a-zA-Z0-9_.]").containsMatchIn(profileEditState.userAlias)
+
+        if (hasInvalidSpecialChars) {
+            profileEditState =
+                profileEditState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_especial_chars))
+            return false
+        }
+
+        val startsOrEndsWithDotOrUnderscore = Regex("^[._]|[._]$").containsMatchIn(profileEditState.userAlias)
+
+        if (startsOrEndsWithDotOrUnderscore) {
+            profileEditState =
+                profileEditState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_especial_chars_star_end))
             return false
         }
 

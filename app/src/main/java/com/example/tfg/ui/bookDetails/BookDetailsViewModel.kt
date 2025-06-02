@@ -130,7 +130,6 @@ class BookDetailsViewModel @Inject constructor(
                     }
                     if(bookInfo.deleted){
                         bookState.bookForDetails.totalRatings--
-                        bookState.bookForDetails.userScore = 0
                         bookInfo =
                             bookInfo.copy(userScore = 0)
                     }

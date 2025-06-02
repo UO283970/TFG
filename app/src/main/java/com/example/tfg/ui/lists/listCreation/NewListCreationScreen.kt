@@ -61,7 +61,7 @@ fun NewListCreationScreen(
                     .then(Modifier.padding(start = 10.dp, end = 10.dp))
             ) {
                 ListNameTextField(viewModel.listCreationState.listName, { viewModel.changeListName(it) }, viewModel.listCreationState.listNameError)
-                ListDescriptionTextField(Modifier.weight(0.5f), viewModel.listCreationState.listDescription, { viewModel.changeListDesc(it) })
+                ListDescriptionTextField(Modifier.weight(0.5f), viewModel.listCreationState.listDescription, { viewModel.changeListDesc(it) }, viewModel.listCreationState.listDescError)
                 DropDownMenu(
                     viewModel.listCreationState.dropDawnExpanded,
                     { viewModel.changeDropDownState(it) },
@@ -154,14 +154,15 @@ fun ListNameTextField(listName: String, changeListName: (newName: String) -> Uni
 }
 
 @Composable
-fun ListDescriptionTextField(modifier: Modifier, listDescription: String, changeListDesc: (newDesc: String) -> Unit) {
+fun ListDescriptionTextField(modifier: Modifier, listDescription: String, changeListDesc: (newDesc: String) -> Unit, listDescError: String?) {
     OutlinedTextField(
         value = listDescription,
         onValueChange = { changeListDesc(it) },
         label = { Text(stringResource(R.string.list_creation_list_description)) },
         modifier = Modifier
             .fillMaxWidth()
-            .then(modifier)
+            .then(modifier),
+        isError = listDescError != null
     )
     Text(
         text = stringResource(
@@ -169,7 +170,9 @@ fun ListDescriptionTextField(modifier: Modifier, listDescription: String, change
             listDescription.length,
             AppConstants.LIST_DESC_MAX_CHARACTERS
         ),
-        style = MaterialTheme.typography.bodySmall
+        style = MaterialTheme.typography.bodySmall,
     )
+    if (listDescError != null)
+        ErrorText(listDescError)
 }
 

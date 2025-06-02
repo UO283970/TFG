@@ -76,7 +76,7 @@ fun SearchScreen(navigateTo: (route: String) -> Unit,
                 SearchBarSearchScreen(viewModel) {
                     viewModel.toggleButtonSheet()
                 }
-                if (viewModel.searchInfo.queryResult.isEmpty() && !viewModel.searchInfo.chargingInfo) {
+                if (viewModel.searchInfo.userQuery.isEmpty() && !viewModel.searchInfo.chargingInfo) {
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -88,23 +88,33 @@ fun SearchScreen(navigateTo: (route: String) -> Unit,
                     if (viewModel.searchInfo.chargingInfo) {
                         LoadingProgress()
                     } else {
-                        Box {
-                            LazyColumn(
-                                Modifier.padding(start = 10.dp, end = 10.dp), state = listState
+                        if(viewModel.searchInfo.queryResult.isEmpty()){
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.fillMaxSize()
                             ) {
-                                items(viewModel.searchInfo.queryResult) {
-                                    NewBookSearchItem(
-                                        it,
-                                        viewModel.stringResourcesProvider,
-                                        viewModel.listsRepository,
-                                        viewModel.listsState,
-                                        navigateTo,
-                                        { viewModel.setBookForDetails(it) },
-                                        navigateToSearch
-                                    )
-                                }
+                                Text(stringResource(R.string.search_no_result), textAlign = TextAlign.Center)
                             }
+                        }else{
+                            Box {
+                                LazyColumn(
+                                    Modifier.padding(start = 10.dp, end = 10.dp), state = listState
+                                ) {
+                                    items(viewModel.searchInfo.queryResult) {
+                                        NewBookSearchItem(
+                                            it,
+                                            viewModel.stringResourcesProvider,
+                                            viewModel.listsRepository,
+                                            viewModel.listsState,
+                                            navigateTo,
+                                            { viewModel.setBookForDetails(it) },
+                                            navigateToSearch
+                                        )
+                                    }
+                                }
 
+                            }
                         }
                     }
                 }

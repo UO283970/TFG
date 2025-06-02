@@ -9,6 +9,7 @@ import com.example.tfg.model.book.Book
 import com.example.tfg.model.book.BookState
 import com.example.tfg.model.booklist.BookList
 import com.example.tfg.model.booklist.BookListClass
+import com.example.tfg.model.booklist.DefaultList
 import com.example.tfg.model.booklist.ListsState
 import com.example.tfg.repository.GlobalErrorHandler
 import com.example.tfg.repository.ListRepository
@@ -25,6 +26,7 @@ data class ListDetailsMainState(
     var menuOpen: Boolean = false,
     var isDeleted: Boolean = false,
     var deleteDialog: Boolean = false,
+    var reload: Boolean = false,
 
     )
 
@@ -35,14 +37,6 @@ class ListDetailsViewModel @Inject constructor(val listsState: ListsState, val l
 
     fun userQueryChange(query: String) {
         listDetailsInfo = listDetailsInfo.copy(userQuery = query)
-    }
-
-    init {
-        viewModelScope.launch {
-            listDetailsInfo = listDetailsInfo.copy(bookList = listsState.getDetailList().getAllListInfo(listRepository))
-            listDetailsInfo = listDetailsInfo.copy(detailsLoaded = true)
-            listDetailsInfo = listDetailsInfo.copy(baseListOfBooks = listDetailsInfo.bookList?.getListOfBooks() ?: arrayListOf())
-        }
     }
 
     fun searchInList() {
@@ -59,6 +53,25 @@ class ListDetailsViewModel @Inject constructor(val listsState: ListsState, val l
         listDetailsInfo = listDetailsInfo.copy(detailsLoaded = true)
     }
 
+    fun loadInfo(){
+        viewModelScope.launch {
+            var bookList = listsState.getDetailList().getAllListInfo(listRepository)
+            listDetailsInfo = listDetailsInfo.copy(
+                bookList = bookList,
+                detailsLoaded = true,
+                baseListOfBooks = bookList?.getListOfBooks() ?: arrayListOf()
+            )
+            var defaultList = listsState.getDefaultLists().indexOfFirst { it.getId() == bookList?.getId() }
+            var ownList = listsState.getOwnLists().indexOfFirst { it.getId() == bookList?.getId() }
+
+            if(defaultList != -1 && bookList is DefaultList){
+                listsState.getDefaultLists()[defaultList] = bookList
+            }else{
+                listsState.getOwnLists()[ownList] = bookList as BookListClass
+            }
+        }
+    }
+
     fun changeMenu(state: Boolean) {
         listDetailsInfo = listDetailsInfo.copy(menuOpen = state)
     }
@@ -71,6 +84,7 @@ class ListDetailsViewModel @Inject constructor(val listsState: ListsState, val l
 
     fun setBookForDetails(book: Book) {
         bookState.bookForDetails = book
+        listDetailsInfo = listDetailsInfo.copy(reload = true)
     }
 
     fun deleteList() {

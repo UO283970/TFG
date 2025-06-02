@@ -19,10 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.tfg.model.user.User
+import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
 import com.example.tfg.ui.common.UserPictureWithoutCache
 
 @Composable
-fun MainUserProfileInfo(user: User?, navigateToRouteWithId: (String, String) -> Unit) {
+fun MainUserProfileInfo(user: User?, navigateToRouteWithId: (String, String) -> Unit, mainUser: User?) {
     Row {
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -32,7 +33,7 @@ fun MainUserProfileInfo(user: User?, navigateToRouteWithId: (String, String) -> 
                 .weight(1f)
         ) {
             ProfileImage(user?.profilePicture!!)
-            UserNameAndDate(user, navigateToRouteWithId)
+            UserNameAndDate(user, navigateToRouteWithId,mainUser)
         }
     }
 }
@@ -46,7 +47,7 @@ fun ProfileImage(profilePicture: String) {
 }
 
 @Composable
-fun UserNameAndDate(user: User?,  navigateToRouteWithId: (String, String) -> Unit) {
+fun UserNameAndDate(user: User?, navigateToRouteWithId: (String, String) -> Unit, mainUser: User?) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         modifier = Modifier.fillMaxWidth()
@@ -60,7 +61,8 @@ fun UserNameAndDate(user: User?,  navigateToRouteWithId: (String, String) -> Uni
                 overflow = TextOverflow.Ellipsis
             )
         }
-        Statistics(user?.followers ?: 0, user?.following ?: 0, user?.numReviews ?: 0,navigateToRouteWithId, user?.userId ?: "")
+        Statistics(user?.followers ?: 0, user?.following ?: 0, user?.numReviews ?: 0,navigateToRouteWithId, user?.userId ?: "",
+            user?.privacy ?: UserPrivacyLevel.PRIVATE, mainUser?.userId ?: "")
     }
 }
 

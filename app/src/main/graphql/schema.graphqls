@@ -22,7 +22,6 @@ type Query{
     getUserDefaultListsList(userId: String!): [BookList!]!
     getDefaultListsWithBook(bookId: String!): String!
     getListsWithBook(bookId: String!): [String!]!
-    searchLists(userQuery: String!): [BookList!]!
     getImageForDefaultList(listId: String!): String!
     getImageForList(listId: String!): String!
 
@@ -44,6 +43,7 @@ type Mutation{
     updateUser(userAlias: String!, userName: String!, profilePictureURL: String!, description: String!, privacyLevel: UserPrivacy!): String!
     deleteUser: Boolean!
     deleteNotification(notificationId: String!): Boolean!
+    deleteAllNotification: Boolean!
 
     #Follow mutations
     followUser(friendId: String!): UserFollowState!
@@ -64,7 +64,6 @@ type Mutation{
     #User activity mutations
     addActivity(activityText : String!, score: Int!, bookId: String, userActivityType: UserActivityType): Boolean!
     deleteActivity(activityId: String!): Boolean!
-    updateActivity(activityId: String!, activityText : String!, score: Int!): Boolean!
 }
 
 type UserLogin{
@@ -101,6 +100,7 @@ enum UserRegisterErrors{
 type User{
     userId: String!
     userName: String!
+    userEmail: String!
     userAlias: String!
     profilePictureURL: String!
     description: String!

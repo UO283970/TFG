@@ -41,7 +41,8 @@ fun GetAuthenticatedUserInfoQuery.GetAuthenticatedUserInfo.toUserModel(stringRes
         followers = this.followedUsersCount,
         defaultList = toBookListFromDefault(this.userDefaultLists, stringResourcesProvider),
         userList = toBookList(this.userLists),
-        privacy = UserPrivacyLevel.valueOf(this.userPrivacy.toString())
+        privacy = UserPrivacyLevel.valueOf(this.userPrivacy.toString()),
+        email = this.userEmail
     )
 }
 

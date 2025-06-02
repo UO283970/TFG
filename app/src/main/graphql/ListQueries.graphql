@@ -77,13 +77,3 @@ query GetImageForDefaultList($listId: String!){
 query GetImageForList($listId: String!){
     getImageForList(listId: $listId)
 }
-
-query SearchLists($userQuery: String!){
-    searchLists(userQuery: $userQuery){
-        listId
-        listName
-        numberOfBooks
-        listImage
-        listUserId
-    }
-}

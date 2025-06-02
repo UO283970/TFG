@@ -31,7 +31,7 @@ fun TextFieldUserAlias(registerViewModel: RegisterViewModel) {
             label = { Text(stringResource(R.string.register_user_alias_placeholder)) },
             trailingIcon = {
                 if (registerViewModel.formState.userAlias != "") {
-                    IconButton(onClick = { registerViewModel.formState.userAlias = "" }) {
+                    IconButton(onClick = {registerViewModel.userAliasChanged("") }) {
                         Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.text_field_delete))
                     }
                 }
@@ -55,7 +55,7 @@ fun TextFieldUserName(registerViewModel: RegisterViewModel) {
             label = { Text(stringResource(R.string.register_user_name_placeholder)) },
             trailingIcon = {
                 if (registerViewModel.formState.userName != "") {
-                    IconButton(onClick = { registerViewModel.formState.userName = "" }) {
+                    IconButton(onClick = { registerViewModel.userNameChanged("")}) {
                         Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.text_field_delete))
                     }
                 }

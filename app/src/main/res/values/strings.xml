@@ -21,7 +21,7 @@
     <string name="profile_followers_text">Followers</string>
     <string name="profile_default_lists">Default lists</string>
     <string name="profile_own_lists">My lists</string>
-    <string name="login_user_placeholder">Email or username</string>
+    <string name="login_user_placeholder">User email </string>
     <string name="text_field_delete">Button to delete all</string>
     <string name="login_pass_placeholder">Password</string>
     <string name="login_welcome">Welcome</string>
@@ -52,8 +52,8 @@
     <string name="profile_edit_desc_characters">of %d characters</string>
     <string name="profile_edit_privacy">Private profile</string>
     <string name="save_button">Save</string>
-    <string name="edit_user_name_placeholder">Name</string>
-    <string name="edit_user_alias_placeholder">Username</string>
+    <string name="edit_user_name_placeholder">User name</string>
+    <string name="edit_user_alias_placeholder">User alias</string>
     <string name="edit_user_description_placeholder">Description</string>
     <string name="home_notifications">Notifications</string>
     <string name="home_notifications_friend_requests_icon">Follow request icon</string>
@@ -179,6 +179,15 @@
     <string name="book_details_review_creation_text_placeholder">Review text</string>
     <string name="book_details_review_creation_text_error">The review text field can´t be empty</string>
     <string name="profile_private_text">Private profile</string>
+    <string name="edit_email_placeholder">User email</string>
+    <string name="profile_edit_name_characters">de %d caracteres</string>
+    <string name="error_user_alias_no_white_space">El alias no puede contener espacios en blanco</string>
+    <string name="error_user_alias_length">El alias de usuario tiene que tener como minimo 3 caracteres</string>
+    <string name="error_user_alias_especial_chars">No se pueden usar caracteres especiales en el alias de usuario</string>
+    <string name="error_user_alias_especial_chars_star_end">El alias de usuario no puede empezar por \".\" ni \"_\"</string>
+    <string name="search_no_result">No se han encontrado libros</string>
+    <string name="home_notifications_delete_all">Borrar todas</string>
+    <string name="list_creation_list_error_desc">La longitud de la descripción no puede ser mayor a 150</string>
 
     <string-array name="search_filters_filter_by_language_list">
         <item>Czech</item>

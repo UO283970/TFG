@@ -76,7 +76,7 @@ fun ProfileScreen(
                     ) {
 
                         Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
-                            MainUserProfileInfo(viewModel.mainUserState.getMainUser(), navigateToRouteWithId)
+                            MainUserProfileInfo(viewModel.mainUserState.getMainUser(), navigateToRouteWithId, viewModel.mainUserState.getMainUser())
                             if (viewModel.mainUserState.getMainUser()?.description?.trim() != "") {
                                 DescText(3, viewModel.mainUserState.getMainUser()?.description?.trim() ?: "")
                             }

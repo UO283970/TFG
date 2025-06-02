@@ -3,8 +3,6 @@ package com.example.tfg.model.notifications
 import com.example.tfg.R
 import com.example.tfg.model.user.User
 import com.example.tfg.ui.common.navHost.ProfileNavigationItems
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 
 class FollowNotification(
     val user: User,notificationId: String,timeStamp: String, notificationType: NotificationTypes
@@ -23,11 +21,9 @@ class FollowNotification(
     }
 
     override fun getRowOnClickRoute(): String {
-        val gson: Gson = GsonBuilder().create()
-        val user = gson.toJson(user)
-        return ProfileNavigationItems.ProfileScreen.route.replace(
-            oldValue = "{user}",
-            newValue = user
+        return ProfileNavigationItems.OthersProfileScreen.route.replace(
+            oldValue = "{userId}",
+            newValue = user.userId
         )
     }
 

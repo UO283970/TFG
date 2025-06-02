@@ -242,6 +242,28 @@ class RegisterViewModel @Inject constructor(
             return false
         }
 
+        if (formState.userAlias.length < 3 || formState.userAlias.length > 20 ) {
+            formState =
+                formState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_length))
+            return false
+        }
+
+        val hasInvalidSpecialChars = Regex("[^a-zA-Z0-9_.]").containsMatchIn(formState.userAlias)
+
+        if (hasInvalidSpecialChars) {
+            formState =
+                formState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_especial_chars))
+            return false
+        }
+
+        val startsOrEndsWithDotOrUnderscore = Regex("^[._]|[._]$").containsMatchIn(formState.userAlias)
+
+        if (startsOrEndsWithDotOrUnderscore) {
+            formState =
+                formState.copy(userNameError = stringResourcesProvider.getString(R.string.error_user_alias_especial_chars_star_end))
+            return false
+        }
+
         formState = formState.copy(userAliasError = null)
         return true
     }

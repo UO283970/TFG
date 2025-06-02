@@ -47,6 +47,10 @@ fun ListDetailsScreen(returnToLastScreen: () -> Unit, navigateTo: (route: String
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.loadInfo()
+    }
+
     if (viewModel.listDetailsInfo.detailsLoaded) {
         TFGTheme(dynamicColor = false)
         {

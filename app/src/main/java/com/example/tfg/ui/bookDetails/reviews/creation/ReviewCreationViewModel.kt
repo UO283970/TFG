@@ -94,6 +94,7 @@ class ReviewCreationViewModel @Inject constructor(
                         )
                     )
                     bookState.bookForDetails.numberOfReviews++
+                    mainUserState.getMainUser()?.numReviews++
                     if (bookState.bookForDetails.numberOfReviews < 4) {
                         bookState.bookForDetails.listOfUserProfilePicturesForReviews.add(0, mainUserState.getMainUser()?.profilePicture ?: "")
                     }

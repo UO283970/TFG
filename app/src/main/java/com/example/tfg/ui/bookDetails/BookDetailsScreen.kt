@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,7 +50,12 @@ import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookDetailsScreen(navigateTo: (route: String) -> Unit, returnToLastScreen: () -> Unit,navigateToSearch: (author: String, searchFor: String) -> Unit, viewModel: BookDetailsViewModel = hiltViewModel()) {
+fun BookDetailsScreen(
+    navigateTo: (route: String) -> Unit,
+    returnToLastScreen: () -> Unit,
+    navigateToSearch: (author: String, searchFor: String) -> Unit,
+    viewModel: BookDetailsViewModel = hiltViewModel()
+) {
     var focus = LocalFocusManager.current
     val context = LocalContext.current
     val isDarkMode = isSystemInDarkTheme()
@@ -141,6 +147,8 @@ fun BookDetailsScreen(navigateTo: (route: String) -> Unit, returnToLastScreen: (
                         ) {
                             if (viewModel.bookInfo.inListButtonString == stringResource(R.string.book_add_to_list)) {
                                 Icon(Icons.Default.Add, null, tint = textColor)
+                            }else{
+                                Icon(Icons.Default.KeyboardArrowDown, null, tint = textColor)
                             }
                             Text(viewModel.bookInfo.inListButtonString, color = textColor)
                         }

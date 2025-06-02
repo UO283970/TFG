@@ -1,15 +1,11 @@
 package com.example.tfg.ui.userIdentification.login
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
 import com.example.tfg.ui.common.LoadingProgress
-import com.example.tfg.ui.common.navHost.HomeRoutesItems
 import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.theme.TFGTheme
 import com.example.tfg.ui.userIdentification.components.LoginMainText
@@ -68,11 +63,6 @@ fun LoginScreen(
                         ) {
                             TextFieldUserEmail(loginViewModel, state)
                             PasswordTextField(loginViewModel, state)
-                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                                Text(stringResource(R.string.login_forget_pass), modifier = Modifier.clickable {
-                                    navigateTo(HomeRoutesItems.PasswordReset.route)
-                                })
-                            }
                             SubmitOrRegisterScreenButtons(loginViewModel, navigateTo)
                         }
                     }

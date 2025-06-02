@@ -21,7 +21,7 @@
     <string name="profile_followers_text">Seguidores</string>
     <string name="profile_default_lists">Listas por defecto</string>
     <string name="profile_own_lists">Mis listas</string>
-    <string name="login_user_placeholder">Email o nombre de usuario</string>
+    <string name="login_user_placeholder">Email de usuario</string>
     <string name="text_field_delete">Botón para borrar todo</string>
     <string name="login_pass_placeholder">Contraseña</string>
     <string name="login_welcome">Bienvenido/a</string>
@@ -41,7 +41,7 @@
     <string name="error_passwordRepeat">Las contraseñas no coinciden</string>
     <string name="error_password_length">La contraseña tiene que tener mas de %d caracteres</string>
     <string name="error_password_rules">La contraseña debe contener letras mayúsculas, minúsculas, números y un caracter especial</string>
-    <string name="search_start_message">Busca los libros más te gustan\nTu género favorito o tu autor preferido</string>
+    <string name="search_start_message">Busca los libros que más te gustan,\nTu género favorito o tu autor preferido</string>
     <string name="book_image">Portada del libro</string>
     <string name="user_follow_follow">Seguido</string>
     <string name="user_follow_not_follow">Seguir</string>
@@ -52,8 +52,8 @@
     <string name="profile_edit_desc_characters">de %d caracteres</string>
     <string name="profile_edit_privacy">Perfil privado</string>
     <string name="save_button">Guardar</string>
-    <string name="edit_user_name_placeholder">Nombre</string>
-    <string name="edit_user_alias_placeholder">Nombre de usuario</string>
+    <string name="edit_user_name_placeholder">Nombre de usuario</string>
+    <string name="edit_user_alias_placeholder">Alias de usuario</string>
     <string name="edit_user_description_placeholder">Descripción</string>
     <string name="home_notifications">Notificaciones</string>
     <string name="home_notifications_friend_requests_icon">Icono de solicitudes de seguimiento</string>
@@ -141,7 +141,7 @@
     <string name="book_details_publish_year">Año de lanzamiento\n %s</string>
     <string name="book_details_pages">Páginas\n %s</string>
     <string name="book_details_pages_with_progress">Páginas\n %d/%s</string>
-    <string name="book_details_review_creation">Esribe tu reseña</string>
+    <string name="book_details_review_creation">Escribe tu reseña</string>
     <string name="book_details_review_creation_spoiler">Contiene spoilers</string>
     <string name="book_details_review_creation_spoiler_aclaration">Marca si la reseña contiene spoilers</string>
     <string name="book_details_review_screen">Reseñas</string>
@@ -149,14 +149,14 @@
     <string name="search_filters_order_by_default">Por defecto</string>
     <string name="search_filters_search_for_isbn">ISBN</string>
     <string name="register_user_alias_placeholder">Alias del usuario</string>
-    <string name="register_user_name_supporting">Nombre del usuario(opcional)</string>
+    <string name="register_user_name_supporting">Nombre del usuario (opcional)</string>
     <string name="login_register_image_selector">Complete su información</string>
     <string name="login_pass_repeat_placeholder">Repetir contraseña</string>
     <string name="book_add_new_list_progress">Progreso</string>
     <string name="book_add_new_list_dialog_title">Puntuación</string>
     <string name="book_details_number_reviews">%d Reseñas</string>
     <string name="book_details_no_reviews">Añade tu reseña</string>
-    <string name="book_details_user_rating">Tú puntuación</string>
+    <string name="book_details_user_rating">Tú puntuación: </string>
     <string name="book_details_user_mean_rating">Media</string>
     <string name="book_details_user_no_rating">Añade tu puntuación</string>
     <string name="friends_start_message">No hay actividad de tus seguidos todavia.\nY si todavia no sigues a nadie, buscalos y descubre su actividad</string>
@@ -179,6 +179,15 @@
     <string name="book_details_review_creation_text_placeholder">Texto de la reseña</string>
     <string name="book_details_review_creation_text_error">El campo del texto de la reseña no puede estar vacío</string>
     <string name="profile_private_text">Perfil privado</string>
+    <string name="edit_email_placeholder">Email de usuario</string>
+    <string name="profile_edit_name_characters">de %d caracteres</string>
+    <string name="error_user_alias_no_white_space">El alias no puede contener espacios en blanco</string>
+    <string name="error_user_alias_length">El alias de usuario tiene que tener como minimo 3 caracteres</string>
+    <string name="error_user_alias_especial_chars">No se pueden usar caracteres especiales en el alias de usuario</string>
+    <string name="error_user_alias_especial_chars_star_end">El alias de usuario no puede empezar por \".\" ni \"_\"</string>
+    <string name="search_no_result">No se han encontrado libros</string>
+    <string name="home_notifications_delete_all">Borrar todas</string>
+    <string name="list_creation_list_error_desc">La longitud de la descripción no puede ser mayor a 150</string>
     <string-array name="search_filters_filter_by_language_list">
         <item>Checo</item>
         <item>Búlgaro</item>

@@ -62,4 +62,15 @@ class NotificationsViewModel @Inject constructor(val userRepository: UserReposit
         getUserNotifications()
     }
 
+    fun deleteAllNotifications(){
+        viewModelScope.launch {
+            val notificationList = userRepository.deleteAllNotification();
+            if (notificationList != null) {
+                notificationsMainState.notificationList.clear()
+                notificationsMainState =
+                    notificationsMainState.copy(changeNotifications = !notificationsMainState.changeNotifications)
+            }
+        }
+    }
+
 }

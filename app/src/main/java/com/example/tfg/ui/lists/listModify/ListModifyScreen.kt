@@ -49,7 +49,12 @@ fun ListModifyScreen(
                     .then(Modifier.padding(start = 10.dp, end = 10.dp))
             ) {
                 ListNameTextField(viewModel.listCreationState.listName, { viewModel.changeListName(it) }, viewModel.listCreationState.listNameError)
-                ListDescriptionTextField(Modifier.weight(0.5f), viewModel.listCreationState.listDescription) { viewModel.changeListDesc(it) }
+                ListDescriptionTextField(
+                    Modifier.weight(0.5f),
+                    viewModel.listCreationState.listDescription,
+                    { viewModel.changeListDesc(it) },
+                    viewModel.listCreationState.listDescError
+                )
                 DropDownMenu(
                     viewModel.listCreationState.dropDawnExpanded,
                     { viewModel.changeDropDownState(it) },

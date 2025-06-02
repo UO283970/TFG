@@ -75,12 +75,12 @@ fun ReviewsScreen(returnToLastScreen: () -> Unit, navigateTo: (route: String) ->
                                             .size(50.dp)
                                             .clip(CircleShape)
                                     )
-                                    Column {
+                                    Column(modifier = Modifier.weight(1f)){
                                         Text(it.user.userAlias, overflow = TextOverflow.Ellipsis)
                                         Text(it.creationDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.getDefault())))
                                     }
                                     if (reviewsScreenViewModel.mainUserState.getMainUser()?.userId == it.user.userId) {
-                                        Row(Modifier.weight(1f), horizontalArrangement = Arrangement.End) {
+                                        Row(horizontalArrangement = Arrangement.End) {
                                             Column {
                                                 IconButton({ reviewsScreenViewModel.toggleMenu() }) {
                                                     Icon(Icons.Default.MoreVert, null)

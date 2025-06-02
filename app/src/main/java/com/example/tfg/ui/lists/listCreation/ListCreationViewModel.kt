@@ -22,6 +22,7 @@ data class ListCreationMainState(
     var listName: String = "",
     var listNameError: String? = null,
     var listDescription: String = "",
+    var listDescError: String? = null,
     var listPrivacy: ListPrivacy = ListPrivacy.PUBLIC,
     var dropDawnExpanded: Boolean = false,
     var listCreated: Boolean = false
@@ -42,7 +43,7 @@ class ListCreationViewModel @Inject constructor(
     }
 
     fun changeListDesc(listDescription: String) {
-        if (listCreationState.listDescription.length < AppConstants.LIST_DESC_MAX_CHARACTERS)
+        if (listCreationState.listDescription.length <= AppConstants.LIST_DESC_MAX_CHARACTERS - 1)
             listCreationState = listCreationState.copy(listDescription = listDescription)
     }
 
@@ -82,6 +83,12 @@ class ListCreationViewModel @Inject constructor(
         if (listsState.getOwnLists().stream().anyMatch { bookList -> bookList.getName() == listCreationState.listName }) {
             listCreationState =
                 listCreationState.copy(listNameError = stringResourcesProvider.getString(R.string.list_creation_list_repeated_name_error))
+            return false
+        }
+
+        if (listCreationState.listDescription.length > AppConstants.LIST_DESC_MAX_CHARACTERS) {
+            listCreationState =
+                listCreationState.copy(listDescError = stringResourcesProvider.getString(R.string.list_creation_list_error_desc))
             return false
         }
 

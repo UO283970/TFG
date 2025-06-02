@@ -20,7 +20,8 @@ class User(
     var following: Int = 0,
     var defaultList: List<DefaultList> = arrayListOf<DefaultList>(),
     var userList: List<BookListClass> = arrayListOf<BookListClass>(),
-    var userId: String = ""
+    var userId: String = "",
+    var email: String = ""
 ){
 
     @Serializable

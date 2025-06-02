@@ -15,6 +15,19 @@ import com.example.tfg.R
 import com.example.tfg.model.AppConstants
 
 @Composable
+fun EditProfileEmailTextField(editProfileViewModel: EditProfileViewModel) {
+    OutlinedTextField(
+        value = editProfileViewModel.mainUserState.getMainUser()?.email ?: "",
+        onValueChange = { },
+        enabled = false,
+        singleLine = true,
+        label = { Text(stringResource(R.string.edit_email_placeholder)) },
+        modifier = Modifier.fillMaxWidth()
+    )
+
+}
+
+@Composable
 fun EditProfileUserNameTextField(editProfileViewModel: EditProfileViewModel) {
     OutlinedTextField(
         value = editProfileViewModel.profileEditState.userName,
@@ -36,14 +49,15 @@ fun EditProfileUserNameTextField(editProfileViewModel: EditProfileViewModel) {
             }
         },
         modifier = Modifier.fillMaxWidth(),
-        isError = editProfileViewModel.profileEditState.userNameError != null,
     )
-    if (editProfileViewModel.profileEditState.userNameError != null)
-        Text(
-            text = editProfileViewModel.profileEditState.userNameError!!,
-            color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.bodySmall
-        )
+    Text(
+        text = editProfileViewModel.profileEditState.userName.length.toString() + " " + stringResource(
+            R.string.profile_edit_name_characters,
+            AppConstants.USER_NAME_MAX_CHARACTERS
+        ),
+        style = MaterialTheme.typography.bodySmall
+    )
+
 }
 
 @Composable
@@ -67,8 +81,22 @@ fun EditProfileUserAliasTextField(editProfileViewModel: EditProfileViewModel) {
                 }
             }
         },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        isError = editProfileViewModel.profileEditState.userNameError != null
     )
+    Text(
+        text = editProfileViewModel.profileEditState.userAlias.length.toString() + " " + stringResource(
+            R.string.profile_edit_name_characters,
+            AppConstants.USER_ALIAS_MAX_CHARACTERS
+        ),
+        style = MaterialTheme.typography.bodySmall
+    )
+    if (editProfileViewModel.profileEditState.userNameError != null)
+        Text(
+            text = editProfileViewModel.profileEditState.userNameError!!,
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall
+        )
 }
 
 @Composable

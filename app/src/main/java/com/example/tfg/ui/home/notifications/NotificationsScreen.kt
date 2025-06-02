@@ -1,9 +1,14 @@
 package com.example.tfg.ui.home.notifications
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -37,6 +42,11 @@ fun NotificationScreen(
                 ) {
                     FriendRequestAccessRow(notificationsViewModel, navigateTo)
                     HorizontalDivider(modifier = Modifier.padding(top = 5.dp))
+                    Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End){
+                        TextButton({ notificationsViewModel.deleteAllNotifications()}) {
+                            Text(stringResource(id = R.string.home_notifications_delete_all))
+                        }
+                    }
                     NotificationRowItem(notificationsViewModel, navigateTo)
                 }
             }

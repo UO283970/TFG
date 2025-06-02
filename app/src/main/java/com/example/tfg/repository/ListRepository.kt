@@ -22,8 +22,6 @@ import com.graphQL.GetUserDefaultListQuery
 import com.graphQL.GetUserDefaultListsListQuery
 import com.graphQL.RemoveBookFromDefaultListMutation
 import com.graphQL.RemoveBookFromListMutation
-import com.graphQL.SearchListsQuery
-import com.graphQL.SearchListsQuery.SearchList
 import com.graphQL.UpdateListMutation
 import com.graphQL.type.BookListPrivacy
 import com.graphQL.type.ReadingState
@@ -120,10 +118,6 @@ class ListRepository @Inject constructor(private val apolloClient: ApolloClient,
 
     suspend fun getImageForList(listId: String): String? {
         return apolloClient.query(GetImageForListQuery(listId = listId)).execute().data?.getImageForList
-    }
-
-    suspend fun searchLists(userQuery: String): List<SearchList>? {
-        return apolloClient.query(SearchListsQuery(userQuery = userQuery)).execute().data?.searchLists
     }
 
 }

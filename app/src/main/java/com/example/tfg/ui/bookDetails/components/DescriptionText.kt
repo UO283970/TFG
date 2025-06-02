@@ -15,6 +15,7 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.text.HtmlCompat
 import com.example.tfg.R
 
 @Composable
@@ -23,9 +24,14 @@ fun DescriptionText(desc: String, maxLines: Int) {
     var showReadMoreButtonState by remember { mutableStateOf(false) }
     val maxLines = if (expandedState) 200 else maxLines
 
+    fun htmlToPlainText(html: String): String {
+        val spanned = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        return spanned.toString()
+    }
+
     Column(modifier = Modifier.Companion.padding(bottom = 5.dp)) {
         Text(
-            text = desc,
+            text = htmlToPlainText(desc),
             fontWeight = FontWeight.Companion.SemiBold,
             overflow = TextOverflow.Companion.Ellipsis,
             maxLines = maxLines,

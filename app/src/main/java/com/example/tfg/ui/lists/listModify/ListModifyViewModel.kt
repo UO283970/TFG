@@ -21,6 +21,7 @@ data class ListModifyMainState(
     var listName: String,
     var listNameError: String? = null,
     var listDescription: String,
+    var listDescError: String? = null,
     var listPrivacy: ListPrivacy,
     var dropDawnExpanded: Boolean = false,
     var listModify: Boolean = false
@@ -88,6 +89,12 @@ class ListModifyViewModel @Inject constructor(
         ) {
             listCreationState =
                 listCreationState.copy(listNameError = stringResourcesProvider.getString(R.string.list_creation_list_repeated_name_error))
+            return false
+        }
+
+        if (listCreationState.listDescription.length > AppConstants.LIST_DESC_MAX_CHARACTERS) {
+            listCreationState =
+                listCreationState.copy(listDescError = stringResourcesProvider.getString(R.string.list_creation_list_error_desc))
             return false
         }
 

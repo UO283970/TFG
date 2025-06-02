@@ -17,10 +17,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tfg.R
+import com.example.tfg.model.user.userPrivacy.UserPrivacyLevel
 import com.example.tfg.ui.common.navHost.ProfileNavigationItems
 
 @Composable
-fun Statistics(followers: Int,following: Int,numReviews: Int, navigateToRouteWithId: (String, String) -> Unit, userId: String) {
+fun Statistics(
+    followers: Int,
+    following: Int,
+    numReviews: Int,
+    navigateToRouteWithId: (String, String) -> Unit,
+    userId: String,
+    privacy: UserPrivacyLevel,
+    connectedUserId: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -28,16 +37,22 @@ fun Statistics(followers: Int,following: Int,numReviews: Int, navigateToRouteWit
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         StatisticTexts(stringResource(R.string.profile_review_text), numReviews) {
-            navigateToRouteWithId(ProfileNavigationItems.UserReviews.route, userId)
+            if(connectedUserId == userId || privacy == UserPrivacyLevel.PUBLIC){
+                navigateToRouteWithId(ProfileNavigationItems.UserReviews.route, userId)
+            }
         }
         Spacer(modifier = Modifier.weight(1.0f))
         StatisticTexts(stringResource(R.string.profile_followers_text), followers) {
-            navigateToRouteWithId(ProfileNavigationItems.UserFollowers.route, userId)
+            if(connectedUserId == userId || privacy == UserPrivacyLevel.PUBLIC){
+                navigateToRouteWithId(ProfileNavigationItems.UserFollowers.route, userId)
+            }
         }
 
         Spacer(modifier = Modifier.weight(1.0f))
         StatisticTexts(stringResource(R.string.profile_following_text), following) {
-            navigateToRouteWithId(ProfileNavigationItems.UserFollows.route, userId)
+            if(connectedUserId == userId || privacy == UserPrivacyLevel.PUBLIC){
+                navigateToRouteWithId(ProfileNavigationItems.UserFollows.route, userId)
+            }
         }
         Spacer(modifier = Modifier.weight(1.0f))
     }

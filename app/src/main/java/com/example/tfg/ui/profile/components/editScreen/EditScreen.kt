@@ -141,8 +141,9 @@ fun EditScreen(
                         {editProfileViewModel.changePermission()}
                     )
                     Column(modifier = Modifier.padding(start = 5.dp)) {
-                        EditProfileUserNameTextField(editProfileViewModel)
+                        EditProfileEmailTextField(editProfileViewModel)
                         EditProfileUserAliasTextField(editProfileViewModel)
+                        EditProfileUserNameTextField(editProfileViewModel)
                         EditProfileUserDescriptionTextField(editProfileViewModel, Modifier.weight(1f))
                         ProfileEditSwitch(editProfileViewModel)
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {

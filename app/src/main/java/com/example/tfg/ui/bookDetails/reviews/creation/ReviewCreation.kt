@@ -43,11 +43,19 @@ fun ReviewCreation(
         }
     }
 
+    fun returnToLastScreenConditions() {
+        if(!reviewCreationViewModel.bookState.bookForDetails.listOfReviews.isEmpty()){
+            navigateToCleanStack(BookNavigationItems.ReviewScreen.route)
+        }else{
+            navigateToCleanStack(BookNavigationItems.BookScreen.route)
+        }
+    }
+
     TFGTheme(dynamicColor = false) {
         Scaffold(
             topBar = {
                 TopDetailsListBar(
-                    returnToLastScreen = returnToLastScreen,
+                    returnToLastScreen = { returnToLastScreenConditions() },
                     tittle = stringResource(R.string.book_details_review_creation)
                 )
             }

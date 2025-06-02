@@ -43,6 +43,7 @@ query GetUserSearchInfo($userQuery: String!){
 query GetAuthenticatedUserInfo{
     getAuthenticatedUserInfo{
         userName
+        userEmail
         userAlias
         profilePictureURL
         description

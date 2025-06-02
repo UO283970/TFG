@@ -23,3 +23,7 @@ mutation DeleteUser{
 mutation DeleteNotification($notificationId: String!){
     deleteNotification(notificationId: $notificationId)
 }
+
+mutation DeleteAllNotification{
+    deleteAllNotification
+}

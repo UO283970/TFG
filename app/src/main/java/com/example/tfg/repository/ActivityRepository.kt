@@ -10,7 +10,6 @@ import com.graphQL.AddActivityMutation
 import com.graphQL.DeleteActivityMutation
 import com.graphQL.GetAllFollowedActivityQuery
 import com.graphQL.GetAllReviewsForBookQuery
-import com.graphQL.UpdateActivityMutation
 import com.graphQL.type.UserActivityType
 import javax.inject.Inject
 
@@ -24,11 +23,6 @@ class ActivityRepository @Inject constructor(private val apolloClient: ApolloCli
     suspend fun deleteActivity(activityId: String): Boolean? {
         return apolloClient.mutation(DeleteActivityMutation(activityId = activityId))
             .execute().data?.deleteActivity
-    }
-
-    suspend fun updateActivity(activityId: String, activityText : String, score: Int): Boolean? {
-        return apolloClient.mutation(UpdateActivityMutation(activityId = activityId, activityText = activityText, score = score))
-            .execute().data?.updateActivity
     }
 
     suspend fun getAllFollowedActivity(timestamp: String): List<Activity>? {

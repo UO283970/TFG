@@ -2,6 +2,7 @@ package com.example.tfg.ui.profile.othersProfile
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -60,17 +61,17 @@ fun OthersProfileScreen(
                                 .verticalScroll(rememberScrollState())
                         ) {
                             Column(Modifier.padding(start = 10.dp, end = 5.dp)) {
-                                MainUserProfileInfo(state.user, navigateToRouteWithId)
+                                MainUserProfileInfo(state.user, navigateToRouteWithId, viewModel.mainUserState.getMainUser())
                                 if (state.user.description.trim() != "") {
                                     DescText(3, state.user.description.trim())
                                 }
                                 ProfileButton(state.user.followState, navigateTo, { viewModel.changeToNotFollowing() }, { viewModel.followUser() })
-                                if(state.user.defaultList.isEmpty()){
+                                if(!state.user.defaultList.isEmpty()){
                                     ProfileLists(state.user.defaultList, state.user.userList, navigateTo) { viewModel.listDetails(it) }
                                 }else{
                                     Column(verticalArrangement = Arrangement.Center,
-                                        horizontalAlignment = Alignment.CenterHorizontally) {
-                                        Icon(painterResource(R.drawable.private_icon),null)
+                                        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
+                                        Icon(painterResource(R.drawable.private_icon),null, modifier = Modifier.fillMaxSize(0.5f))
                                         Text(stringResource(R.string.profile_private_text))
                                     }
                                 }
