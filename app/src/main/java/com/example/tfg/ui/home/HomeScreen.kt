@@ -38,10 +38,11 @@ import com.example.tfg.ui.home.components.TopNotifications
 import com.example.tfg.ui.theme.TFGTheme
 
 @Composable
-fun HomeScreen(navigateTo: (route: String) -> Unit, viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(navigateTo: (route: String) -> Unit, bottomBarState: () -> Unit, viewModel: HomeViewModel = hiltViewModel()) {
     val state by viewModel.homeState.collectAsState()
 
     if (state.loadingInfo) {
+        bottomBarState()
         TFGTheme(dynamicColor = false) {
             Scaffold(
                 contentWindowInsets = WindowInsets(0.dp),
