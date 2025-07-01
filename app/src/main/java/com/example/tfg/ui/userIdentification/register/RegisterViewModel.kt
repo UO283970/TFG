@@ -39,7 +39,8 @@ data class RegisterMainState(
     var isUserRegistered: Boolean = false,
     var showDialog: Boolean = false,
     var checkGalleryPermission: Boolean = false,
-    var userImageUri: Uri = "".toUri()
+    var userImageUri: Uri = "".toUri(),
+    var buttonPressed: Boolean = false
 )
 
 @HiltViewModel
@@ -90,6 +91,8 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun checkEmailAndPass(){
+        formState = formState.copy(buttonPressed = true)
+
         userRegistrationState.email = formState.email
         userRegistrationState.password = formState.password
         userRegistrationState.passwordRepeat = formState.passwordRepeat
@@ -115,12 +118,17 @@ class RegisterViewModel @Inject constructor(
                     formState = formState.copy(checkPreConditions = false)
                     handleError(UserRegisterErrors.UNKNOWN__)
                 }
+                formState = formState.copy(buttonPressed = false)
             }
+        }else{
+            formState = formState.copy(buttonPressed = false)
         }
     }
 
     @OptIn(ExperimentalEncodingApi::class)
     fun submit() {
+        formState = formState.copy(buttonPressed = true)
+
         val correctEmail: Boolean = validateEmailRegister()
         val correctUser: Boolean = validateUsers()
         val correctPassword: Boolean = validatePassword()
@@ -152,7 +160,10 @@ class RegisterViewModel @Inject constructor(
                     formState = formState.copy(isUserRegistered = false)
                     handleError(UserRegisterErrors.UNKNOWN__)
                 }
+                formState = formState.copy(buttonPressed = false)
             }
+        }else{
+            formState = formState.copy(buttonPressed = false)
         }
     }
 

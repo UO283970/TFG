@@ -27,6 +27,7 @@ data class LoginMainState(
     var isVisiblePassword: Boolean = false,
     var userIsLoggedIn: Boolean = false,
     var chargingInfo: Boolean = true,
+    var buttonPressed: Boolean = false,
     var showToast: Boolean = false
 
 ) : Parcelable
@@ -46,7 +47,6 @@ class LoginViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            //_formState.value = _formState.value.copy(chargingInfo = false)
             checkUserConnected()
 
         }
@@ -69,6 +69,8 @@ class LoginViewModel @Inject constructor(
     }
 
     fun submit() {
+        _formState.value = _formState.value.copy(buttonPressed = true)
+
         val correctEmail = validateEmail()
         val correctUser = validatePasswordAndUsers()
 
@@ -89,7 +91,10 @@ class LoginViewModel @Inject constructor(
                     _formState.value = _formState.value.copy(userIsLoggedIn = false)
                     handleError(UserLoginErrors.USER_NOT_FOUND)
                 }
+                _formState.value = _formState.value.copy(buttonPressed = false)
             }
+        }else{
+            _formState.value = _formState.value.copy(buttonPressed = false)
         }
     }
 

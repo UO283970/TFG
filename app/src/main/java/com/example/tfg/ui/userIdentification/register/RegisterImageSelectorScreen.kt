@@ -5,7 +5,10 @@ import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -21,11 +24,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.tfg.R
+import com.example.tfg.ui.common.LoadingProgress
 import com.example.tfg.ui.common.navHost.Routes
 import com.example.tfg.ui.profile.components.editScreen.ChangeProfileImage
 import com.example.tfg.ui.theme.TFGTheme
@@ -81,34 +87,49 @@ fun RegisterImageSelector(navigateToWithoutSave: (route: String) -> Unit, regist
 
 
     TFGTheme(dynamicColor = false) {
-        Scaffold { innerPadding ->
-            Column(
-                Modifier.padding(innerPadding).then(Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp)),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                LoginMainText(stringResource(R.string.login_register_image_selector))
-                Column (Modifier.padding(top = 20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally) {
-                    ChangeProfileImage(
-                        imageUri,
-                        signatureKey,
-                        permissionState,
-                        galleryLauncher,
-                        scope,
-                        snackBarHostState,
-                        snackBarString,
-                        actionLabel,
-                        context,
-                        { registerViewModel.changeDialog() },
-                        { registerViewModel.changePermission() }
-                    )
-                    TextFieldUserAlias(registerViewModel)
-                    TextFieldUserName(registerViewModel)
-                    Button(onClick = {
-                        registerViewModel.submit()
-                    }, modifier = Modifier.fillMaxWidth()) {
-                        Text(stringResource(R.string.register_button))
+        Box(modifier = Modifier.fillMaxSize()){
+            Scaffold { innerPadding ->
+                Column(
+                    Modifier.padding(innerPadding).then(Modifier.padding(start = 10.dp, end = 10.dp, top = 10.dp)),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    LoginMainText(stringResource(R.string.login_register_image_selector))
+                    Column (Modifier.padding(top = 20.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                        ChangeProfileImage(
+                            imageUri,
+                            signatureKey,
+                            permissionState,
+                            galleryLauncher,
+                            scope,
+                            snackBarHostState,
+                            snackBarString,
+                            actionLabel,
+                            context,
+                            { registerViewModel.changeDialog() },
+                            { registerViewModel.changePermission() }
+                        )
+                        TextFieldUserAlias(registerViewModel)
+                        TextFieldUserName(registerViewModel)
+                        Button(onClick = {
+                            registerViewModel.submit()
+                        }, modifier = Modifier.fillMaxWidth()) {
+                            Text(stringResource(R.string.register_button))
+                        }
                     }
+                }
+            }
+
+
+            if (registerViewModel.formState.buttonPressed) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.3f))
+                        .zIndex(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LoadingProgress()
                 }
             }
         }
