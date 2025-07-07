@@ -8,7 +8,6 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.example.tfg.ui.NavigationBar
 import com.example.tfg.ui.common.StringResourcesProvider
@@ -24,8 +23,6 @@ class MainActivity : ComponentActivity() {
 
     fun hideSystemUI() {
         actionBar?.hide()
-
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
